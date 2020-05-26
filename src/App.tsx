@@ -1,26 +1,34 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  Redirect,
+  Route,
+  BrowserRouter as Router,
+  Switch,
+} from "react-router-dom";
 
-function App() {
+// import { auth } from "./services/firebase";
+
+import {Login as LoginPage} from "./pages/Login"
+import {Register as RegisterPage} from "./pages/Register"
+import {PasswordReset as PasswordResetPage} from "./pages/PasswordReset"
+import {Units} from './pages/Units'
+
+const App: React.FC = () => {
+
+  const user = null;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    user ? 
+    <Units/> : 
+    <Router>
+      {/* <Navbar /> */}
+      <Switch>
+        <Route path="/login" component={LoginPage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/passwordreset" component={PasswordResetPage} />
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;
