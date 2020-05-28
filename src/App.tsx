@@ -4,6 +4,7 @@ import { Login as LoginPage } from "pages/Login";
 import { Register as RegisterPage } from "pages/Register";
 import { Welcome as WelcomePage } from "pages/Welcome";
 import { PasswordReset as PasswordResetPage } from "pages/PasswordReset";
+import {Quiz} from 'pages/Quiz'
 
 import {auth} from 'services/firebase'
 
@@ -34,6 +35,7 @@ const App: React.FC = () => {
   return user ? (
     <Router>
       <WelcomePage path="/" default/>
+      <Quiz path="/quiz"/>
     </Router>
   ) : (
     <Router>
