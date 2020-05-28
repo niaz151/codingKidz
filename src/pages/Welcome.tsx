@@ -2,7 +2,7 @@ import React from "react";
 
 import { RouteComponentProps, useNavigate } from "@reach/router";
 
-import { signOut } from "ducks/api";
+import { signOut } from "services/api";
 
 interface Props extends RouteComponentProps {}
 
@@ -13,14 +13,14 @@ export const Welcome: React.FC<Props> = () => {
     await signOut().then(() => console.log("signed out"));
   };
   
-  const goToQuiz = async () => {
-    navigate('/quiz')
+  const goToUnits = async () => {
+    navigate('/units')
   }
 
   return (
     <div>
       <p>You logged in!</p>
-      <button onClick={goToQuiz}>Continue to quiz</button>
+      <button onClick={goToUnits}>View Units</button>
       <button onClick={handleSignOut}>Logout</button>
     </div>
   );

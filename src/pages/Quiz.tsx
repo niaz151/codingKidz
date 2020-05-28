@@ -8,9 +8,11 @@ import { Question } from "models/Question";
 import { LivesContainer } from "components/LivesContainer";
 import { MultipleChoice } from "components/MultipleChoice";
 
-interface Props extends RouteComponentProps {}
+interface Props extends RouteComponentProps {
+  unit?: string
+}
 
-export const Quiz: React.FC<Props> = () => {
+export const Quiz: React.FC<Props> = (props) => {
   const [questions, setQuestions] = React.useState<Question[] | null>(null);
   const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState<number>(3);
@@ -25,7 +27,7 @@ export const Quiz: React.FC<Props> = () => {
     let tempQuestions: Question[] = [];
     await db
       .collection("units")
-      .doc("unit_1")
+      .doc(props.unit)
       .collection("questions")
       .get()
       .then((collectionSnapshot) => {
@@ -74,7 +76,7 @@ export const Quiz: React.FC<Props> = () => {
         <button onClick={resetQuiz}>Restart Quiz</button>
         <button
           onClick={() => {
-            navigate("/welcome");
+            navigate("/units");
           }}
         >
           Return to Unit List

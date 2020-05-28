@@ -4,12 +4,14 @@ import { Login as LoginPage } from "pages/Login";
 import { Register as RegisterPage } from "pages/Register";
 import { Welcome as WelcomePage } from "pages/Welcome";
 import { PasswordReset as PasswordResetPage } from "pages/PasswordReset";
-import {Quiz} from 'pages/Quiz'
+import { Units } from "pages/Units";
+import { Quiz } from "pages/Quiz";
 
-import {auth} from 'services/firebase'
+import { auth } from "services/firebase";
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<firebase.User>()
+  const [user, setUser] = useState<firebase.User>();
+  const [loadingUser, setLoadingUser] = useState(true);
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Loaded App");
@@ -17,32 +19,40 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    auth.onAuthStateChanged(async userAuth => {
-      if(userAuth) {
+    auth.onAuthStateChanged(async (userAuth) => {
+      // setLoadingUser(true)
+      if (userAuth) {
         if (process.env.NODE_ENV !== "production") {
           console.log("user logged in");
         }
-        setUser(userAuth)
+        setUser(userAuth);
+        setLoadingUser(false);
       } else {
         if (process.env.NODE_ENV !== "production") {
           console.log("user logged out");
         }
-        setUser(undefined)
+        setUser(undefined);
+        setLoadingUser(false);
       }
     });
-  }, [])
+  }, []);
 
-  return user ? (
-    <Router>
-      <WelcomePage path="/" default/>
-      <Quiz path="/quiz"/>
-    </Router>
+  return !loadingUser ? (
+    user ? (
+      <Router>
+        <WelcomePage path="/" default />
+        <Units path="/units" />
+        <Quiz path="/quiz/:unit" />
+      </Router>
+    ) : (
+      <Router>
+        <LoginPage path="/login" default />
+        <RegisterPage path="/register" />
+        <PasswordResetPage path="/passwordreset" />
+      </Router>
+    )
   ) : (
-    <Router>
-      <LoginPage path="/login" default/>
-      <RegisterPage path="/register" />
-      <PasswordResetPage path="/passwordreset" />
-    </Router>
+    <p>Checking Login...</p>
   );
 };
 

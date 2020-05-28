@@ -1,6 +1,6 @@
 import { RouteComponentProps, useNavigate } from "@reach/router";
 import React, { useEffect, useState } from "react";
-import { register } from "ducks/api";
+import { register } from "services/api";
 
 interface Props extends RouteComponentProps {}
 
