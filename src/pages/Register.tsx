@@ -1,57 +1,80 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { RouteComponentProps, useNavigate } from "@reach/router";
+import React, { useEffect, useState } from "react";
+import { register } from "ducks/api";
 
-import { Link } from "react-router-dom";
+interface Props extends RouteComponentProps {}
 
-import { register } from "./registerSlice";
-
-export const Register = () => {
+export const Register: React.FC<Props> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Loaded Register");
+    }
+  }, []);
 
   const handleSubmit = (event: React.MouseEvent) => {
     event.preventDefault();
-    dispatch(login(email, password));
+    if (password === confirmPassword) {
+      register(email, password).then(
+        () => {
+          console.log("registered, going back to login...");
+          navigate("/");
+        },
+        (error) => {
+          alert(error);
+        }
+      );
+    } else {
+      alert("Passwords must match!");
+      setPassword("");
+      setConfirmPassword("");
+    }
+  };
+
+  const goToLogin = () => {
+    navigate("/login");
   };
 
   return (
     <form className="">
       <h3>Register:</h3>
-        <label>
-          Email:
-          <input
-            type="text"
-            value={email}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setEmail(event.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setPassword(event.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Confirm Password:
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setConfirmPassword(event.target.value);
-            }}
-          />
-        </label>
-        <button onClick={handleSubmit}>Login</button>
-        <Link to="/login">Login</Link>
+      <label>
+        Email:
+        <input
+          type="text"
+          value={email}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setEmail(event.target.value);
+          }}
+        />
+      </label>
+      <label>
+        Password:
+        <input
+          type="password"
+          value={password}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setPassword(event.target.value);
+          }}
+        />
+      </label>
+      <label>
+        Confirm Password:
+        <input
+          type="password"
+          value={confirmPassword}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+            setConfirmPassword(event.target.value);
+          }}
+        />
+      </label>
+      <button onClick={handleSubmit}>Register</button>
+      <button onClick={goToLogin}>Back to Login</button>
     </form>
   );
 };

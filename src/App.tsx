@@ -1,32 +1,45 @@
-import React from "react";
-import {
-  Redirect,
-  Route,
-  BrowserRouter as Router,
-  Switch,
-} from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Router } from "@reach/router";
+import { Login as LoginPage } from "pages/Login";
+import { Register as RegisterPage } from "pages/Register";
+import { Welcome as WelcomePage } from "pages/Welcome";
+import { PasswordReset as PasswordResetPage } from "pages/PasswordReset";
 
-// import { auth } from "./services/firebase";
-
-import {Login as LoginPage} from "./pages/Login"
-import {Register as RegisterPage} from "./pages/Register"
-import {PasswordReset as PasswordResetPage} from "./pages/PasswordReset"
-import {Units} from './pages/Units'
+import {auth} from 'services/firebase'
 
 const App: React.FC = () => {
+  const [user, setUser] = useState<firebase.User>()
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Loaded App");
+    }
+  }, []);
 
-  const user = null;
+  useEffect(() => {
+    auth.onAuthStateChanged(async userAuth => {
+      if(userAuth) {
+        if (process.env.NODE_ENV !== "production") {
+          console.log("user logged in");
+        }
+        setUser(userAuth)
+      } else {
+        if (process.env.NODE_ENV !== "production") {
+          console.log("user logged out");
+        }
+        setUser(undefined)
+      }
+    });
+  }, [])
 
-  return (
-    user ? 
-    <Units/> : 
+  return user ? (
     <Router>
-      {/* <Navbar /> */}
-      <Switch>
-        <Route path="/login" component={LoginPage} />
-        <Route path="/register" component={RegisterPage} />
-        <Route path="/passwordreset" component={PasswordResetPage} />
-      </Switch>
+      <WelcomePage path="/" default/>
+    </Router>
+  ) : (
+    <Router>
+      <LoginPage path="/login" default/>
+      <RegisterPage path="/register" />
+      <PasswordResetPage path="/passwordreset" />
     </Router>
   );
 };

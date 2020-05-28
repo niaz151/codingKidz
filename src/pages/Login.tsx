@@ -1,23 +1,43 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { RouteComponentProps, useNavigate } from "@reach/router";
+import { signIn } from "ducks/api";
 
-import { Link } from "react-router-dom";
+interface Props extends RouteComponentProps {}
 
-import { login } from "./loginSlice";
-
-export const Login = () => {
+export const Login: React.FC<Props> = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      console.log("Loaded Login");
+    }
+  }, []);
 
   const handleSubmit = (event: React.MouseEvent) => {
     event.preventDefault();
-    dispatch(login(email, password));
+    signIn(email, password).then(
+      () => {
+        console.log("signed in, should auto redirect");
+      },
+      (error) => {
+        alert(error);
+      }
+    );
+  };
+
+  const goToRegister = () => {
+    navigate("/register");
+  };
+
+  const goToPasswordReset = () => {
+    navigate("/passwordreset");
   };
 
   return (
-    <div>
+    <form className="">
       <h3>Login:</h3>
       <div>
         <label>
@@ -41,8 +61,9 @@ export const Login = () => {
           />
         </label>
         <button onClick={handleSubmit}>Login</button>
-        <Link to="/register">Register</Link>
+        <button onClick={goToPasswordReset}>Reset Password</button>
+        <button onClick={goToRegister}>Sign Up</button>
       </div>
-    </div>
+    </form>
   );
 };
