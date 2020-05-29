@@ -13,34 +13,39 @@ interface Props extends RouteComponentProps {
 }
 
 export const Quiz: React.FC<Props> = (props) => {
+  const {unit} = props;
   const [questions, setQuestions] = React.useState<Question[] | null>(null);
   const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState<number>(3);
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetchQuestions();
-  }, []);
+    const fetchQuestions = async () => {
+      let question: Question;
+      let tempQuestions: Question[] = [];
+      await db
+        .collection("units")
+        .doc(unit)
+        .collection("questions")
+        .get()
+        .then((collectionSnapshot) => {
+          collectionSnapshot.forEach((ss) => {
+            question = ss.data() as Question;
+            question.id = ss.id;
+            tempQuestions.push(question);
+          });
+        })
+        .then(() => {
+          setQuestions(tempQuestions);
+        }).catch(error => {
+          console.log(error)
+        })
+    };
 
-  const fetchQuestions = async () => {
-    let question: Question;
-    let tempQuestions: Question[] = [];
-    await db
-      .collection("units")
-      .doc(props.unit)
-      .collection("questions")
-      .get()
-      .then((collectionSnapshot) => {
-        collectionSnapshot.forEach((ss) => {
-          question = ss.data() as Question;
-          question.id = ss.id;
-          tempQuestions.push(question);
-        });
-      })
-      .then(() => {
-        setQuestions(tempQuestions);
-      });
-  };
+    fetchQuestions();
+  }, [unit]);
+
+  
 
   const handleResult = (result: boolean) => {
     // if the user gets it wrong, take a life

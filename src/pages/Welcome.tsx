@@ -7,15 +7,16 @@ import { signOut } from "services/api";
 interface Props extends RouteComponentProps {}
 
 export const Welcome: React.FC<Props> = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleSignOut = async () => {
     await signOut().then(() => console.log("signed out"));
   };
-  
+
   const goToUnits = async () => {
-    navigate('/units')
-  }
+    navigate("/units");
+  };
+
 
   return (
     <div>

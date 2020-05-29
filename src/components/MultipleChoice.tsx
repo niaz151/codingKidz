@@ -18,8 +18,8 @@ export const MultipleChoice: React.FC<Props> = (props) => {
       <h3>{question.question}</h3>
 
       {/* diplay answer buttons */}
-      {answers.map(answer => {
-        return <button onClick={() => checkAnswer(answer)}>{answer}</button>
+      {answers.map((answer) => {
+        return <button onClick={() => checkAnswer(answer)}>{answer}</button>;
       })}
     </>
   );
@@ -32,6 +32,7 @@ export const MultipleChoice: React.FC<Props> = (props) => {
     }
   }
 
+  // Fischer-Yates Shuffle
   function shuffle(array: any[]) {
     var i = 0,
       j = 0,
