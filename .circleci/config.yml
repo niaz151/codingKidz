@@ -10,10 +10,10 @@ jobs:
       - add_ssh_keys
       - run:
           name: Install node modules
-          command: cd quizapp && yarn install
+          command: yarn install
       - run:
           name: Build for production
-          command: cd quizapp && yarn build
+          command: yarn build
       - run:
           name: fix host authenticity for production server
           command: ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
@@ -24,7 +24,7 @@ jobs:
           name: rsyncing build to production
           command: |
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              cd quizapp/build && rsync . -avc -e ssh $SSH_USERNAME@$SSH_HOST:/var/www/quizapp
+              cd build && rsync . -avc -e ssh $SSH_USERNAME@$SSH_HOST:/var/www/quizapp
             else
               echo "not master branch, dry run only"
             fi
