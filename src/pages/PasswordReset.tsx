@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { resetPassword } from "services/api";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { ErrorMessage } from "@hookform/error-message";
 

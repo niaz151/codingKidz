@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { db } from "services/firebase";
 import { Unit } from "models/Unit";
 import { Link } from "react-router-dom";
 

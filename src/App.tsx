@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { Login } from "pages/Login";
 import { Register } from "pages/Register";
@@ -11,9 +11,11 @@ import { Navbar } from "components/Navbar";
 import { PrivateRoute } from "components/PrivateRoute";
 
 import { auth } from "services/firebase";
+import {useForcedUpdate} from 'services/customHooks'
 
 const App: React.FC = () => {
-  const [loadingUser, setLoadingUser] = useState(true);
+  const forceUpdate = useForcedUpdate();
+
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Loaded App");
@@ -22,19 +24,25 @@ const App: React.FC = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (userAuth) => {
-      setLoadingUser(true);
       if (userAuth) {
         if (process.env.NODE_ENV !== "production") {
           console.log("user logged in");
         }
-        setLoadingUser(false);
+        forceUpdate();
       } else {
         if (process.env.NODE_ENV !== "production") {
           console.log("user logged out");
         }
-        setLoadingUser(false);
+        forceUpdate();
       }
     });
+  /*
+    NOTE
+    by including forceUpdate as a dependency it runs infinitely instead of just on auth changes
+    I think it still works because react-router-dom probably triggers re-renders when going 
+    to a new path, updating the navbar as well
+  */
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
