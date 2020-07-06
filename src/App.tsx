@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Router } from "@reach/router";
-import { Login as LoginPage } from "pages/Login";
-import { Register as RegisterPage } from "pages/Register";
-import { Welcome as WelcomePage } from "pages/Welcome";
-import { PasswordReset as PasswordResetPage } from "pages/PasswordReset";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { Login } from "pages/Login";
+import { Register } from "pages/Register";
+import { Welcome } from "pages/Welcome";
+import { PasswordReset } from "pages/PasswordReset";
 import { Units } from "pages/Units";
 import { Quiz } from "pages/Quiz";
+
+import { Navbar } from "components/Navbar";
+import { PrivateRoute } from "components/PrivateRoute";
 
 import { auth } from "services/firebase";
 
 const App: React.FC = () => {
-  const [user, setUser] = useState<firebase.User>();
   const [loadingUser, setLoadingUser] = useState(true);
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
@@ -20,40 +22,36 @@ const App: React.FC = () => {
 
   useEffect(() => {
     auth.onAuthStateChanged(async (userAuth) => {
-      // setLoadingUser(true)
+      setLoadingUser(true);
       if (userAuth) {
         if (process.env.NODE_ENV !== "production") {
           console.log("user logged in");
         }
-        setUser(userAuth);
         setLoadingUser(false);
       } else {
         if (process.env.NODE_ENV !== "production") {
           console.log("user logged out");
         }
-        setUser(undefined);
         setLoadingUser(false);
       }
     });
   }, []);
 
-  return !loadingUser ? (
-    user ? (
-      <Router>
-        <WelcomePage path="/" default />
-        <Units path="/units" />
-        <Quiz path="/quiz/:unit" />
-      </Router>
-    ) : (
-      <Router>
-        <LoginPage path="/login" default />
-        <RegisterPage path="/register" />
-        <PasswordResetPage path="/passwordreset" />
-      </Router>
-    )
-  ) : (
-    <p>Checking Login...</p>
+  return (
+    <>
+      <Navbar />
+      <Switch>
+        <Route exact path="/" component={Welcome}/>
+        <Route exact path="/login" component={Login}/>
+        <Route exact path="/register" component={Register}/>
+        <Route exact path="/passwordreset" component={PasswordReset}/>
+        <PrivateRoute exact path="/units" component={Units}/>
+        <PrivateRoute exact path="/quiz/:unit" component={Quiz}/>
+        <Route path="*">
+          <Redirect to="/" />
+        </Route>
+      </Switch>
+    </>
   );
 };
-
 export default App;

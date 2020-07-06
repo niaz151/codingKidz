@@ -1,61 +1,53 @@
 import React, { useEffect, useState } from "react";
-import { RouteComponentProps, useNavigate } from "@reach/router";
 import { resetPassword } from "services/api";
+import { Link, Redirect } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
-interface Props extends RouteComponentProps {}
+type Inputs = {
+  email: string;
+};
 
-export const PasswordReset: React.FC<Props> = () => {
-  const [email, setEmail] = useState("");
+export const PasswordReset: React.FC = () => {
   const [sent, setSent] = useState(false);
-
-  const navigate = useNavigate();
+  const { register, handleSubmit, errors } = useForm<Inputs>();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
-      console.log("Loaded Login");
+      console.log("Loaded Password Reset");
     }
   }, []);
 
-  const handleSubmit = (event: React.MouseEvent) => {
-    event.preventDefault();
-    resetPassword(email).then(
+  const onSubmit = handleSubmit((data) => {
+    resetPassword(data.email).then(
       () => {
-        setSent(true)
+        setSent(true);
       },
       (error) => {
-        alert(error);
+        setSent(false);
       }
+    );
+  });
+
+  const PasswordResetForm = () => {
+    return (
+      <>
+        <form onSubmit={onSubmit}>
+          <h3>Reset Password:</h3>
+          <label>Email:</label>
+          <input
+            name="email"
+            placeholder="Enter Email..."
+            ref={register({ required: "Email is required" })}
+          />
+          <ErrorMessage errors={errors} name="email" />
+          <input type="submit" value="resetPassword" />
+        </form>
+        <Link to="/login">Go to Login</Link>
+        <Link to="/register">Go to Register</Link>
+      </>
     );
   };
 
-  const goToLogin = () => {
-    navigate("/login");
-  };
-
-  return (
-    <>
-      {!sent ? (
-        <form className="">
-          <h3>Reset Password:</h3>
-          <div>
-            <label>
-              Email:
-              <input
-                type="text"
-                value={email}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                  setEmail(event.target.value);
-                }}
-              />
-            </label>
-            <button onClick={handleSubmit}>Send Reset Email</button>
-          </div>
-        </form>
-      ) : (
-        <p>Check your email!</p>
-      )}
-
-      <button onClick={goToLogin}>Back to Login</button>
-    </>
-  );
+  return sent ? <p>Check your email!</p> : <PasswordResetForm />;
 };

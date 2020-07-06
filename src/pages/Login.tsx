@@ -1,69 +1,57 @@
 import React, { useEffect, useState } from "react";
-import { RouteComponentProps, useNavigate } from "@reach/router";
-import { signIn } from "services/api";
+import { Link, Redirect } from "react-router-dom";
+import { signIn, getUser } from "services/api";
+import { useForm } from "react-hook-form";
+import {ErrorMessage} from '@hookform/error-message'
 
-interface Props extends RouteComponentProps {}
+type Inputs = {
+  email: string;
+  password: string;
+};
 
-export const Login: React.FC<Props> = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const navigate = useNavigate();
+export const Login: React.FC = () => {
+  const [loginSucceeded, setLoginSucceeded] = useState(false);
+  const { register, handleSubmit, errors } = useForm<Inputs>();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Loaded Login");
     }
+
+    if(getUser()) {
+      setLoginSucceeded(true)
+    }
   }, []);
 
-  const handleSubmit = (event: React.MouseEvent) => {
-    event.preventDefault();
-    signIn(email, password).then(
+  const onSubmit = handleSubmit((data) => {
+    signIn(data.email, data.password).then(
       () => {
-        console.log("signed in, should auto redirect");
+        setLoginSucceeded(true)
       },
       (error) => {
-        alert(error);
+        setLoginSucceeded(false)
       }
+    );
+  });
+
+  const LoginForm = () => {
+    return (
+      <>
+      <form onSubmit={onSubmit}>
+        <h3>Login:</h3>
+        <label>Email:</label>
+        <input name="email" placeholder="Enter email..." ref={register({required: "Email is required"})}/>
+        <ErrorMessage errors={errors} name="email"/>
+        <label>Password:</label>
+        <input name="password" type="password" placeholder="Enter password..." ref={register({required: "Password is required"})}/>
+        <ErrorMessage errors={errors} name="password"/>
+        <input type="submit" value="Login"/>
+      </form>
+      <Link to="/passwordreset">Reset Password</Link>
+      <Link to="/register">Register</Link>
+      </>
     );
   };
 
-  const goToRegister = () => {
-    navigate("/register");
-  };
-
-  const goToPasswordReset = () => {
-    navigate("/passwordreset");
-  };
-
-  return (
-    <form className="">
-      <h3>Login:</h3>
-      <div>
-        <label>
-          Email:
-          <input
-            type="text"
-            value={email}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setEmail(event.target.value);
-            }}
-          />
-        </label>
-        <label>
-          Password:
-          <input
-            type="password"
-            value={password}
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-              setPassword(event.target.value);
-            }}
-          />
-        </label>
-        <button onClick={handleSubmit}>Login</button>
-        <button onClick={goToPasswordReset}>Reset Password</button>
-        <button onClick={goToRegister}>Sign Up</button>
-      </div>
-    </form>
-  );
+  return loginSucceeded ? <Redirect to="/" /> : <LoginForm/>
 };

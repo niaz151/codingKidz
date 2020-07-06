@@ -16,11 +16,16 @@ firebase.initializeApp(config);
 firebase
   .firestore()
   .enablePersistence()
+  .then(() => {
+    console.log("firebase persistence enabled");
+  })
   .catch(function (err) {
     if (err.code === "failed-precondition") {
       console.log("multiple tabs open, no persistence");
     } else if (err.code === "unimplemented") {
       console.log("current browser does not support persistence");
+    } else {
+      console.log("other firebase persistence error");
     }
   });
 

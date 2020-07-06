@@ -1,80 +1,60 @@
-import { RouteComponentProps, useNavigate } from "@reach/router";
 import React, { useEffect, useState } from "react";
-import { register } from "services/api";
+import { Link, Redirect } from "react-router-dom";
+import { signIn, getUser } from "services/api";
+import { useForm } from "react-hook-form";
+import {ErrorMessage} from '@hookform/error-message'
 
-interface Props extends RouteComponentProps {}
+type Inputs = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
 
-export const Register: React.FC<Props> = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-
-  const navigate = useNavigate();
+export const Register: React.FC = () => {
+  const [registerSucceeded, setRegisterSucceeded] = useState(false);
+  const { register, handleSubmit, errors } = useForm<Inputs>();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Loaded Register");
     }
+
+    if(getUser()) {
+      setRegisterSucceeded(true)
+    }
   }, []);
 
-  const handleSubmit = (event: React.MouseEvent) => {
-    event.preventDefault();
-    if (password === confirmPassword) {
-      register(email, password).then(
-        () => {
-          console.log("registered, going back to login...");
-          navigate("/");
-        },
-        (error) => {
-          alert(error);
-        }
-      );
-    } else {
-      alert("Passwords must match!");
-      setPassword("");
-      setConfirmPassword("");
-    }
+  const onSubmit = handleSubmit((data) => {
+    signIn(data.email, data.password).then(
+      () => {
+        setRegisterSucceeded(true)
+      },
+      (error) => {
+        setRegisterSucceeded(false)
+      }
+    );
+  });
+
+  const RegisterForm = () => {
+    return (
+      <>
+      <form onSubmit={onSubmit}>
+        <h3>Register:</h3>
+        <label>Email:</label>
+        <input name="email" placeholder="Enter email..." ref={register({required: "Email is required"})}/>
+        <ErrorMessage errors={errors} name="email"/>
+        <label>Password:</label>
+        <input name="password" type="password" placeholder="Enter password..." ref={register({required: "Password is required"})}/>
+        <ErrorMessage errors={errors} name="password"/>
+        <input name="confirmPassword" type="password" placeholder="Enter password again..." ref={register({required: "Confirm Password is required"})}/>
+        <ErrorMessage errors={errors} name="password"/>
+        <input type="submit" value="Register"/>
+      </form>
+      <Link to="/passwordreset">Reset Password</Link>
+      <Link to="/login">Back to Login</Link>
+      </>
+    );
   };
 
-  const goToLogin = () => {
-    navigate("/login");
-  };
-
-  return (
-    <form className="">
-      <h3>Register:</h3>
-      <label>
-        Email:
-        <input
-          type="text"
-          value={email}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setEmail(event.target.value);
-          }}
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setPassword(event.target.value);
-          }}
-        />
-      </label>
-      <label>
-        Confirm Password:
-        <input
-          type="password"
-          value={confirmPassword}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-            setConfirmPassword(event.target.value);
-          }}
-        />
-      </label>
-      <button onClick={handleSubmit}>Register</button>
-      <button onClick={goToLogin}>Back to Login</button>
-    </form>
-  );
+  return registerSucceeded ? <Redirect to="/" /> : <RegisterForm/>
 };

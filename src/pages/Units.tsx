@@ -1,48 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { RouteComponentProps, useNavigate } from "@reach/router";
 import { db } from "services/firebase";
 import { Unit } from "models/Unit";
+import { Link } from "react-router-dom";
 
-interface Props extends RouteComponentProps {}
+import {fetchUnits} from 'services/api'
 
-export const Units: React.FC<Props> = () => {
+export const Units: React.FC = () => {
   const [units, setUnits] = useState<Unit[]>();
 
-  const navigate = useNavigate();
-
   useEffect(() => {
-    fetchUnits();
+    fetchUnits().then((units) => {
+      setUnits(units)
+    });
   }, []);
 
-  const goToUnitQuiz = (unit: string) => {
-    navigate(`/quiz/${unit}`)
-  }
-
-  const fetchUnits = async () => {
-    let tempUnit: Unit;
-    let tempUnits: Unit[] = [];
-    await db
-      .collection("units")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((res) => {
-          tempUnit = res.data() as Unit
-          tempUnit.id = res.id
-          tempUnits.push(tempUnit);
-        });
-      })
-      .then(() => {
-        setUnits(tempUnits);
-      });
-  };
-
-  return units ?  (
+  return units ? (
     <ul>
       {units.map((unit) => {
-        return <button onClick={() => goToUnitQuiz(unit.id)}>{unit.topic}</button>;
+        return <Link to={{ pathname: `/quiz/${unit.id}` }}>{unit.topic}</Link>;
       })}
     </ul>
   ) : (
     <p>Loading Units...</p>
-  )
+  );
 };

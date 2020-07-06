@@ -1,28 +1,10 @@
 import React from "react";
 
-import { RouteComponentProps, useNavigate } from "@reach/router";
+import { getUser } from "services/api";
 
-import { signOut } from "services/api";
+export const Welcome: React.FC = () => {
 
-interface Props extends RouteComponentProps {}
+  const user = getUser();
 
-export const Welcome: React.FC<Props> = () => {
-  const navigate = useNavigate();
-
-  const handleSignOut = async () => {
-    await signOut().then(() => console.log("signed out"));
-  };
-
-  const goToUnits = async () => {
-    navigate("/units");
-  };
-
-
-  return (
-    <div>
-      <p>You logged in!</p>
-      <button onClick={goToUnits}>View Units</button>
-      <button onClick={handleSignOut}>Logout</button>
-    </div>
-  );
+return user ? <p>Welcome {user.email}</p> : <p>Click above to login!</p>
 };

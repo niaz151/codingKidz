@@ -1,51 +1,28 @@
 import React, { useEffect } from "react";
 
-import { RouteComponentProps, useNavigate } from "@reach/router";
+import {useParams, Link} from 'react-router-dom'
 
-import { db } from "services/firebase";
+import { fetchQuestionsByUnit } from "services/api";
 
 import { Question } from "models/Question";
 import { LivesContainer } from "components/LivesContainer";
 import { MultipleChoice } from "components/MultipleChoice";
 
-interface Props extends RouteComponentProps {
-  unit?: string
-}
-
-export const Quiz: React.FC<Props> = (props) => {
-  const {unit} = props;
-  const [questions, setQuestions] = React.useState<Question[] | null>(null);
+export const Quiz: React.FC = () => {
+  const { unit } = useParams();
+  const [questions, setQuestions] = React.useState<Question[]>();
   const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
-  const [lives, setLives] = React.useState<number>(3);
-  const navigate = useNavigate();
+  const [lives, setLives] = React.useState(3);
 
   useEffect(() => {
-    const fetchQuestions = async () => {
-      let question: Question;
-      let tempQuestions: Question[] = [];
-      await db
-        .collection("units")
-        .doc(unit)
-        .collection("questions")
-        .get()
-        .then((collectionSnapshot) => {
-          collectionSnapshot.forEach((ss) => {
-            question = ss.data() as Question;
-            question.id = ss.id;
-            tempQuestions.push(question);
-          });
-        })
-        .then(() => {
-          setQuestions(tempQuestions);
-        }).catch(error => {
-          console.log(error)
-        })
-    };
+    if (!unit) {
+      throw new Error("Quiz Requires a unit!")
+    }
 
-    fetchQuestions();
+    fetchQuestionsByUnit(unit).then((questions) => {
+      setQuestions(questions);
+    });
   }, [unit]);
-
-  
 
   const handleResult = (result: boolean) => {
     // if the user gets it wrong, take a life
@@ -79,13 +56,7 @@ export const Quiz: React.FC<Props> = (props) => {
         )}
 
         <button onClick={resetQuiz}>Restart Quiz</button>
-        <button
-          onClick={() => {
-            navigate("/units");
-          }}
-        >
-          Return to Unit List
-        </button>
+        <Link to="/units">Return to Unit List</Link>
       </>
     );
   };
