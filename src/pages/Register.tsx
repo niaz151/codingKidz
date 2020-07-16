@@ -1,60 +1,113 @@
 import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { signIn, getUser } from "services/api";
-import { useForm } from "react-hook-form";
-import {ErrorMessage} from '@hookform/error-message'
-
-type Inputs = {
-  email: string;
-  password: string;
-  confirmPassword: string;
-};
+import { Form, Input, Button } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { register, getUser } from "services/api";
+import { Store } from "antd/lib/form/interface";
 
 export const Register: React.FC = () => {
   const [registerSucceeded, setRegisterSucceeded] = useState(false);
-  const { register, handleSubmit, errors } = useForm<Inputs>();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Loaded Register");
     }
 
-    if(getUser()) {
-      setRegisterSucceeded(true)
+    if (getUser()) {
+      setRegisterSucceeded(true);
     }
   }, []);
 
-  const onSubmit = handleSubmit((data) => {
-    signIn(data.email, data.password).then(
+  const onFinish = (values: Store) => {
+    register(values.email, values.password).then(
       () => {
-        setRegisterSucceeded(true)
+        setRegisterSucceeded(true);
       },
       (error) => {
-        setRegisterSucceeded(false)
+        setRegisterSucceeded(false);
+        alert(error);
       }
     );
-  });
+  };
 
   const RegisterForm = () => {
     return (
       <>
-      <form onSubmit={onSubmit}>
-        <h3>Register:</h3>
-        <label>Email:</label>
-        <input name="email" placeholder="Enter email..." ref={register({required: "Email is required"})}/>
-        <ErrorMessage errors={errors} name="email"/>
-        <label>Password:</label>
-        <input name="password" type="password" placeholder="Enter password..." ref={register({required: "Password is required"})}/>
-        <ErrorMessage errors={errors} name="password"/>
-        <input name="confirmPassword" type="password" placeholder="Enter password again..." ref={register({required: "Confirm Password is required"})}/>
-        <ErrorMessage errors={errors} name="password"/>
-        <input type="submit" value="Register"/>
-      </form>
-      <Link to="/passwordreset">Reset Password</Link>
-      <Link to="/login">Back to Login</Link>
+        <Form name="register" className="register-form" onFinish={onFinish}>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not a valid E-mail!",
+              },
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              type="email"
+              placeholder="Email"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item
+            name="confirmPassword"
+            label="Confirm Password"
+            dependencies={["password"]}
+            hasFeedback
+            rules={[
+              {
+                required: true,
+                message: "Please confirm your password!",
+              },
+              ({ getFieldValue }) => ({
+                validator(rule, value) {
+                  if (!value || getFieldValue("password") === value) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(
+                    "The two passwords that you entered do not match!"
+                  );
+                },
+              }),
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              placeholder="Confirm Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Register
+            </Button>
+          </Form.Item>
+        </Form>
+        <Link to="/passwordreset">Reset Password</Link>
+        <Link to="/login">Back to Login</Link>
       </>
     );
   };
 
-  return registerSucceeded ? <Redirect to="/" /> : <RegisterForm/>
+  return registerSucceeded ? <Redirect to="/" /> : <RegisterForm />;
 };

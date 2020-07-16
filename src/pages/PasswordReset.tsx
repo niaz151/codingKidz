@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { resetPassword } from "services/api";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { ErrorMessage } from "@hookform/error-message";
-
-type Inputs = {
-  email: string;
-};
+import { Form, Input, Button } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+import { Store } from "antd/lib/form/interface";
 
 export const PasswordReset: React.FC = () => {
   const [sent, setSent] = useState(false);
-  const { register, handleSubmit, errors } = useForm<Inputs>();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
@@ -18,31 +14,52 @@ export const PasswordReset: React.FC = () => {
     }
   }, []);
 
-  const onSubmit = handleSubmit((data) => {
-    resetPassword(data.email).then(
+  const onFinish = (values: Store) => {
+    resetPassword(values.email).then(
       () => {
         setSent(true);
       },
       (error) => {
         setSent(false);
+        alert(error);
       }
     );
-  });
+  };
 
   const PasswordResetForm = () => {
     return (
       <>
-        <form onSubmit={onSubmit}>
-          <h3>Reset Password:</h3>
-          <label>Email:</label>
-          <input
+        <Form
+          name="resetPassword"
+          className="reset-password-form"
+          onFinish={onFinish}
+        >
+          <Form.Item
             name="email"
-            placeholder="Enter Email..."
-            ref={register({ required: "Email is required" })}
-          />
-          <ErrorMessage errors={errors} name="email" />
-          <input type="submit" value="resetPassword" />
-        </form>
+            label="Email"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not a valid E-mail!",
+              },
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon"/>}
+              type="email"
+              placeholder="Email"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Reset Password
+            </Button>
+          </Form.Item>
+        </Form>
         <Link to="/login">Go to Login</Link>
         <Link to="/register">Go to Register</Link>
       </>

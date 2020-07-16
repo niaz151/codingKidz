@@ -2,7 +2,7 @@ import { auth, db } from "services/firebase";
 import { Question } from "models/Question";
 import { Unit } from "models/Unit";
 
-export const signIn = async (email: string, password: string) => {
+export const login = async (email: string, password: string) => {
   return await auth.signInWithEmailAndPassword(email, password);
 };
 

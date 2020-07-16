@@ -1,57 +1,89 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { signIn, getUser } from "services/api";
-import { useForm } from "react-hook-form";
-import {ErrorMessage} from '@hookform/error-message'
 
-type Inputs = {
-  email: string;
-  password: string;
-};
+import { Form, Input, Button } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
+import { Link, Redirect } from "react-router-dom";
+import { login, getUser } from "services/api";
+import { Store } from "antd/lib/form/interface";
 
 export const Login: React.FC = () => {
   const [loginSucceeded, setLoginSucceeded] = useState(false);
-  const { register, handleSubmit, errors } = useForm<Inputs>();
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
       console.log("Loaded Login");
     }
 
-    if(getUser()) {
-      setLoginSucceeded(true)
+    if (getUser()) {
+      setLoginSucceeded(true);
     }
   }, []);
 
-  const onSubmit = handleSubmit((data) => {
-    signIn(data.email, data.password).then(
+  const onFinish = (values: Store) => {
+    console.log(values)
+    login(values.email, values.password).then(
       () => {
         setLoginSucceeded(true)
-      },
+      }, 
       (error) => {
         setLoginSucceeded(false)
+        alert(error)
       }
-    );
-  });
+    )
+  };
 
   const LoginForm = () => {
     return (
       <>
-      <form onSubmit={onSubmit}>
-        <h3>Login:</h3>
-        <label>Email:</label>
-        <input name="email" placeholder="Enter email..." ref={register({required: "Email is required"})}/>
-        <ErrorMessage errors={errors} name="email"/>
-        <label>Password:</label>
-        <input name="password" type="password" placeholder="Enter password..." ref={register({required: "Password is required"})}/>
-        <ErrorMessage errors={errors} name="password"/>
-        <input type="submit" value="Login"/>
-      </form>
-      <Link to="/passwordreset">Reset Password</Link>
-      <Link to="/register">Register</Link>
+        <Form name="login" className="login-form" onFinish={onFinish}>
+          <Form.Item
+            name="email"
+            label="Email"
+            rules={[
+              {
+                type: "email",
+                message: "The input is not valid E-mail!",
+              },
+              { required: true, message: "Please input your email!" },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              type="email"
+              placeholder="Email"
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            label="Password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              placeholder="Password"
+            />
+          </Form.Item>
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log In
+            </Button>
+          </Form.Item>
+        </Form>
+        <Link to="/passwordreset">Reset Password</Link>
+        <Link to="/register">Register</Link>
       </>
     );
   };
 
-  return loginSucceeded ? <Redirect to="/" /> : <LoginForm/>
+  return loginSucceeded ? <Redirect to="/" /> : <LoginForm />;
 };
