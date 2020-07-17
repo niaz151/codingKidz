@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { resetPassword } from "services/api";
 import { Link } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
 
@@ -54,14 +54,17 @@ export const PasswordReset: React.FC = () => {
               placeholder="Email"
             />
           </Form.Item>
+          <Space direction="vertical">
           <Form.Item>
             <Button type="primary" htmlType="submit">
               Reset Password
             </Button>
           </Form.Item>
+          <Link to="/login"><Button>Go to Login</Button></Link>
+        <Link to="/register"><Button>Go to Register</Button></Link>
+        </Space>
         </Form>
-        <Link to="/login">Go to Login</Link>
-        <Link to="/register">Go to Register</Link>
+        
       </>
     );
   };

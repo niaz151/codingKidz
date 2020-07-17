@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import { Link, Redirect } from "react-router-dom";
@@ -21,16 +21,16 @@ export const Login: React.FC = () => {
   }, []);
 
   const onFinish = (values: Store) => {
-    console.log(values)
+    console.log(values);
     login(values.email, values.password).then(
       () => {
-        setLoginSucceeded(true)
-      }, 
+        setLoginSucceeded(true);
+      },
       (error) => {
-        setLoginSucceeded(false)
-        alert(error)
+        setLoginSucceeded(false);
+        alert(error);
       }
-    )
+    );
   };
 
   const LoginForm = () => {
@@ -69,18 +69,24 @@ export const Login: React.FC = () => {
               placeholder="Password"
             />
           </Form.Item>
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
-              Log In
-            </Button>
-          </Form.Item>
+          <Space direction="vertical">
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+              >
+                Log In
+              </Button>
+            </Form.Item>
+            <Link to="/passwordreset">
+              <Button>Reset Password</Button>
+            </Link>
+            <Link to="/register">
+              <Button>Register</Button>
+            </Link>
+          </Space>
         </Form>
-        <Link to="/passwordreset">Reset Password</Link>
-        <Link to="/register">Register</Link>
       </>
     );
   };

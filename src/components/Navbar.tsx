@@ -1,14 +1,9 @@
 import React from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { signOut, getUser } from "services/api";
+import { Space } from "antd";
 
-// interface Props {
-//   user?: firebase.User
-// }
-
-// export const Navbar: React.FC<Props> = (props) => {
 export const Navbar: React.FC = () => {
-  // const {user} = props;
   const user = getUser();
 
   const handleSignOut = async () => {
@@ -20,12 +15,15 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      <NavLink to="/">Home</NavLink> •<NavLink to="/units">Units</NavLink> •
-      {user ? (
-        <button onClick={handleSignOut}>Logout</button>
-      ) : (
-        <NavLink to="/login">Login</NavLink>
-      )}
+      <Space align="center" size="middle">
+        <NavLink to="/">Home</NavLink>
+        <NavLink to="/units">Units</NavLink>
+        {user ? (
+          <button onClick={handleSignOut}>Logout</button>
+        ) : (
+          <NavLink to="/login">Login</NavLink>
+        )}
+      </Space>
     </>
   );
 };

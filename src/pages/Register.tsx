@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { register, getUser } from "services/api";
 import { Store } from "antd/lib/form/interface";
@@ -97,14 +97,20 @@ export const Register: React.FC = () => {
               placeholder="Confirm Password"
             />
           </Form.Item>
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
-              Register
-            </Button>
-          </Form.Item>
+          <Space direction="vertical">
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Register
+              </Button>
+            </Form.Item>
+            <Link to="/passwordreset">
+              <Button>Reset Password</Button>
+            </Link>
+            <Link to="/login">
+              <Button>Back to Login</Button>
+            </Link>
+          </Space>
         </Form>
-        <Link to="/passwordreset">Reset Password</Link>
-        <Link to="/login">Back to Login</Link>
       </>
     );
   };
