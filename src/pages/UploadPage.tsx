@@ -15,9 +15,21 @@ export const UploadPage: React.FC = () => {
 
     }, []);
 
-    const onCheck = () => {
-        console.log('onCheck hit');
+    const editQuestion = async () => {
+        console.log('editQuestion hit');
+
+        await db
+            .collection("units")
+            .doc("unit_test")
+            .collection("questions")
+            .doc("0")
+            .set({
+                question: "edited"
+            })
+            .then((ref) => { console.log(ref) });
+
     }
+
 
 
     const fetchUnits = async () => {
@@ -56,7 +68,7 @@ export const UploadPage: React.FC = () => {
                             <Input />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" onClick={onCheck}>
+                            <Button type="primary" onClick={editQuestion}>
                                 Change
                             </Button>
                         </Form.Item>
