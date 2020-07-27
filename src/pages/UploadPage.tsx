@@ -12,7 +12,7 @@ import { FaPencilAlt } from 'react-icons/fa';
 
 export const UploadPage: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>();
-    const { unit } = useParams();
+
 
 
     useEffect(() => {
@@ -40,54 +40,29 @@ export const UploadPage: React.FC = () => {
                 setQuestions(tempQuestions);
             });
     };
-    const editQuestion = () => {
-        return (
-            <Form
-                name="editquestion"
-                className="edit-question-form">
 
-                <Form.Item
-                    name="question"
-                    label="Question"
-                    rules={[
-                        {
-                            required: true,
-                            message: "Please input a question",
-                        },
-                    ]}
-                >
-
-                    <Input
-                        type="text"
-                        placeholder="Text"
-                    />
-                </Form.Item>
-
-            </Form>
-        )
-    }
-
-
-    // let data = "unit_3"
-
-    // const pushUnit = async () => {
-    //     await db
-    //         .collection("units")
-    //         .add({ data })
-    // }
 
     return questions ? (
         <ul>
-            {questions.map((questions) => {
-                return <p>{questions.question}
-                    <button onClick={editQuestion}>
-                        <FaPencilAlt />
-                    </button>
-                </p>
-            })}
+            {questions.map((question) => {
+                return (
+                    <Form
+                    name="question"
+                    initialValues={{
+                        question: question.correct_answer
 
+                    }}
+                >
+                    <Form.Item label="question" name="question">
+                        <Input />
+                    </Form.Item>
+                </Form>
+                );
+            })}
         </ul>
     ) : (
             <p>Loading...</p>
         )
-}
+
+
+};
