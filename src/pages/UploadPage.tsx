@@ -5,20 +5,19 @@ import { Form, Input, Button, Space } from "antd";
 import { db } from "../services/firebase";
 import { Question } from "../models/Question";
 
-import { FaPencilAlt } from 'react-icons/fa';
-
-
 
 
 export const UploadPage: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>();
 
-
-
     useEffect(() => {
         fetchUnits()
 
     }, []);
+
+    const onCheck = () => {
+        console.log('onCheck hit');
+    }
 
 
     const fetchUnits = async () => {
@@ -47,16 +46,21 @@ export const UploadPage: React.FC = () => {
             {questions.map((question) => {
                 return (
                     <Form
-                    name="question"
-                    initialValues={{
-                        question: question.correct_answer
+                        name="question"
+                        initialValues={{
+                            question: question.question
 
-                    }}
-                >
-                    <Form.Item label="question" name="question">
-                        <Input />
-                    </Form.Item>
-                </Form>
+                        }}
+                    >
+                        <Form.Item label="question" name="question">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" onClick={onCheck}>
+                                Change
+                            </Button>
+                        </Form.Item>
+                    </Form>
                 );
             })}
         </ul>
