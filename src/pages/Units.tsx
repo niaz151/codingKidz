@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Unit } from "models/Unit";
-import {Link, Redirect } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import { fetchUnits } from 'services/api'
 
 import { FaPencilAlt } from 'react-icons/fa';
 
+
+
 export const Units: React.FC = () => {
   const [units, setUnits] = useState<Unit[]>();
-  
 
   const isAdmin = true;
 
-  const logClick = () => {
-    console.log('edit icon clicked');
-  }
+
 
   useEffect(() => {
     fetchUnits().then((units) => {
@@ -32,10 +31,8 @@ export const Units: React.FC = () => {
             {unit.topic}
           </Link>
 
-          <Link to={{ pathname: `/upload/${unit.id}`}}>
-          <button onClick={logClick}>
+          <Link to={{ pathname: `/upload/${unit.id}` }}>
             <FaPencilAlt />
-          </button>
           </Link>
         </p>;
       })}

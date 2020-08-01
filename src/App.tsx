@@ -54,7 +54,7 @@ const App: React.FC = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/passwordreset" component={PasswordReset} />
-        <Route exact path="/upload/:editunit" component={UploadPage}/>
+        <Route exact path="/upload/:unit" component={UploadPage}/>
         <PrivateRoute exact path="/units" component={Units} />
         <PrivateRoute exact path="/quiz/:unit" component={Quiz} />
         <Route path="*">

@@ -5,53 +5,46 @@ import { Form, Input, Button, Space } from "antd";
 import { db } from "../services/firebase";
 import { Question } from "../models/Question";
 
+import { fetchUnits, fetchQuestionsByUnit } from '../services/api';
+import { Store } from "antd/lib/form/interface";
+
 
 
 export const UploadPage: React.FC = () => {
     const [questions, setQuestions] = useState<Question[]>();
+    const { unit } = useParams();
+
 
     useEffect(() => {
-        fetchUnits()
+        if (!unit) {
+            throw new Error("Enter a valid unit.")
+        }
+
+        fetchQuestionsByUnit(unit).then((questions) => {
+            setQuestions(questions)
+        })
 
     }, []);
 
-    const editQuestion = async () => {
+    const editQuestion = async (values: Store) => {
         console.log('editQuestion hit');
 
         await db
             .collection("units")
-            .doc("unit_test")
+            .doc(unit)
             .collection("questions")
-            .doc("0")
+            .doc(values.questionID)
             .set({
-                question: "edited"
+                question: values.question,
+                correct_answer: values.correct_answer,
+                wrong_answers: values.wrong_answers
             })
-            .then((ref) => { console.log(ref) });
+            .then((ref) => {
+                alert("Updated");
+                console.log(ref)
+            });
 
     }
-
-
-
-    const fetchUnits = async () => {
-        let tempQuestion: Question;
-        let tempQuestions: Question[] = [];
-        await db
-            .collection("units")
-            .doc("unit_test")
-            .collection("questions")
-            .get()
-            .then((querySnapshot) => {
-                querySnapshot.forEach((res) => {
-                    tempQuestion = res.data() as Question
-                    tempQuestion.id = res.id
-                    tempQuestions.push(tempQuestion);
-                });
-            })
-            .then(() => {
-                setQuestions(tempQuestions);
-            });
-    };
-
 
     return questions ? (
         <ul>
@@ -60,18 +53,32 @@ export const UploadPage: React.FC = () => {
                     <Form
                         name="question"
                         initialValues={{
-                            question: question.question
-
+                            questionID: question.id,
+                            question: question.question,
+                            correct_answer: question.correct_answer,
+                            wrong_answers: question.wrong_answers,
                         }}
+                        onFinish={editQuestion}
                     >
+                        <Form.Item label="questionID" name="questionID">
+                            <Input />
+                        </Form.Item>
                         <Form.Item label="question" name="question">
                             <Input />
                         </Form.Item>
+                        <Form.Item label="correct_answer" name="correct_answer">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="wrong_answers" name="wrong_answers">
+                            <Input />
+                        </Form.Item>
+
                         <Form.Item>
-                            <Button type="primary" onClick={editQuestion}>
+                            <Button type="primary" htmlType="submit">
                                 Change
                             </Button>
                         </Form.Item>
+
                     </Form>
                 );
             })}
