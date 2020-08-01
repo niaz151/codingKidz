@@ -46,10 +46,57 @@ export const UploadPage: React.FC = () => {
 
     }
 
+    const addQuestion = async (values: Store) => {
+        console.log('addQuestion hit');
+
+        await db
+            .collection("units")
+            .doc(unit)
+            .collection("questions")
+            .add({
+                question: values.question,
+                correct_answer: values.correct_answer,
+                wrong_answers: [values.wrong_answer0, values.wrong_answer1, values.wrong_answer2]
+            })
+            .then((ref) => {
+                alert("Question added.");
+                window.location.reload();
+                console.log(ref)
+            });
+    }
+
     return questions ? (
         <ul>
+            <Form
+                name="addquestion"
+                onFinish={addQuestion}
+            >
+                <Form.Item label="question" name="question">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="correct_answer" name="correct_answer">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="wrong_answer0" name="wrong_answer0">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="wrong_answer1" name="wrong_answer1">
+                    <Input />
+                </Form.Item>
+                <Form.Item label="wrong_answer2" name="wrong_answer2">
+                    <Input />
+                </Form.Item>
+                <Form.Item>
+                    <Button type="primary" htmlType="submit">
+                        Add question
+                            </Button>
+                </Form.Item>
+
+            </Form>
+            <p>----------------------------------</p>
             {questions.map((question) => {
                 return (
+
                     <Form
                         name="question"
                         initialValues={{
