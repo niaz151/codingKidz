@@ -37,7 +37,7 @@ export const UploadPage: React.FC = () => {
             .set({
                 question: values.question,
                 correct_answer: values.correct_answer,
-                wrong_answers: values.wrong_answers
+                wrong_answers: [values.wrong_answer0, values.wrong_answer1, values.wrong_answer2]
             })
             .then((ref) => {
                 alert("Updated");
@@ -56,11 +56,15 @@ export const UploadPage: React.FC = () => {
                             questionID: question.id,
                             question: question.question,
                             correct_answer: question.correct_answer,
-                            wrong_answers: question.wrong_answers,
+                            wrong_answer0: question.wrong_answers[0],
+                            wrong_answer1: question.wrong_answers[1],
+                            wrong_answer2: question.wrong_answers[2],
                         }}
                         onFinish={editQuestion}
                     >
+
                         <Form.Item label="questionID" name="questionID">
+                            {/* space is needed for the horizontal length of input box to match parent */}
                             <Input />
                         </Form.Item>
                         <Form.Item label="question" name="question">
@@ -69,7 +73,13 @@ export const UploadPage: React.FC = () => {
                         <Form.Item label="correct_answer" name="correct_answer">
                             <Input />
                         </Form.Item>
-                        <Form.Item label="wrong_answers" name="wrong_answers">
+                        <Form.Item label="wrong_answer0" name="wrong_answer0">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="wrong_answer1" name="wrong_answer1">
+                            <Input />
+                        </Form.Item>
+                        <Form.Item label="wrong_answer2" name="wrong_answer2">
                             <Input />
                         </Form.Item>
 
