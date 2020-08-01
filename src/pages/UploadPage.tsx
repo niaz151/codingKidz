@@ -60,6 +60,7 @@ export const UploadPage: React.FC = () => {
             })
             .then((ref) => {
                 alert("Question added.");
+                // refreshes page after question added
                 window.location.reload();
                 console.log(ref)
             });
