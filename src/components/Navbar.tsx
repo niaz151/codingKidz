@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink, Redirect } from "react-router-dom";
 import { signOut, getUser } from "services/api";
-import { Space } from "antd";
+import { Space, Button } from "antd";
 
 export const Navbar: React.FC = () => {
   const user = getUser();
@@ -16,12 +16,12 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <Space align="center" size="middle">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/units">Units</NavLink>
+        <NavLink to="/"><Button>Home</Button></NavLink>
+        <NavLink to="/units"><Button>Units</Button></NavLink>
         {user ? (
-          <button onClick={handleSignOut}>Logout</button>
+          <Button onClick={handleSignOut}>Logout</Button>
         ) : (
-          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/login"><Button>Login</Button></NavLink>
         )}
       </Space>
     </>

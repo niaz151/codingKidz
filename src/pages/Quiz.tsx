@@ -7,6 +7,7 @@ import { fetchQuestionsByUnit } from "services/api";
 import { Question } from "models/Question";
 import { LivesContainer } from "components/LivesContainer";
 import { MultipleChoice } from "components/MultipleChoice";
+import { Button } from "antd";
 
 export const Quiz: React.FC = () => {
   const { unit } = useParams();
@@ -55,7 +56,7 @@ export const Quiz: React.FC = () => {
           <h2>You're out of lives</h2>
         )}
 
-        <button onClick={resetQuiz}>Restart Quiz</button>
+        <Button onClick={resetQuiz}>Restart Quiz</Button>
         <Link to="/units">Return to Unit List</Link>
       </>
     );

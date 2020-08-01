@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { Form, Input, Button, Space } from "antd";
+import { Form, Input, Select, Button, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { register, getUser } from "services/api";
 import { Store } from "antd/lib/form/interface";
 
 export const Register: React.FC = () => {
+  const { Option } = Select;
+
   const [registerSucceeded, setRegisterSucceeded] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("Loaded Register");
-    }
-
     if (getUser()) {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Found user, redirecting away...");
+      }
       setRegisterSucceeded(true);
     }
   }, []);
 
   const onFinish = (values: Store) => {
-    register(values.email, values.password).then(
+    register(values.email, values.password, values.role).then(
       () => {
         setRegisterSucceeded(true);
       },
@@ -34,6 +35,12 @@ export const Register: React.FC = () => {
     return (
       <>
         <Form name="register" className="register-form" onFinish={onFinish}>
+          <Form.Item name="role" label="Role">
+            <Select>
+              <Option value="student">Student</Option>
+              <Option value="teacher">Teacher</Option>
+            </Select>
+          </Form.Item>
           <Form.Item
             name="email"
             label="Email"

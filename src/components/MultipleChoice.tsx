@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Question } from "models/Question";
+import { Button } from "antd";
 
 interface Props {
   question: Question;
@@ -19,7 +20,7 @@ export const MultipleChoice: React.FC<Props> = (props) => {
 
       {/* diplay answer buttons */}
       {answers.map((answer) => {
-        return <button onClick={() => checkAnswer(answer)}>{answer}</button>;
+        return <Button onClick={() => checkAnswer(answer)}>{answer}</Button>;
       })}
     </>
   );
