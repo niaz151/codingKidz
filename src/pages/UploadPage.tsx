@@ -20,7 +20,7 @@ export const UploadPage: React.FC = () => {
             setQuestions(questions)
         })
 
-    }, []);
+    }, [unit]);
 
     const editQuestion = async (values: Store) => {
         console.log('editQuestion hit');
