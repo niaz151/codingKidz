@@ -7,12 +7,14 @@ import { Welcome } from "pages/Welcome";
 import { PasswordReset } from "pages/PasswordReset";
 import { Units } from "pages/Units";
 import { Quiz } from "pages/Quiz";
+import { UploadPage } from "pages/UploadPage";
 
 import { Navbar } from "components/Navbar";
 import { PrivateRoute } from "components/PrivateRoute";
 
 import { auth } from "services/firebase";
 import { useForcedUpdate } from "services/customHooks";
+
 
 const App: React.FC = () => {
   const forceUpdate = useForcedUpdate();
@@ -52,6 +54,7 @@ const App: React.FC = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/passwordreset" component={PasswordReset} />
+        <Route exact path="/upload/:unit" component={UploadPage}/>
         <PrivateRoute exact path="/units" component={Units} />
         <PrivateRoute exact path="/quiz/:unit" component={Quiz} />
         <Route path="*">

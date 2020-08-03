@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { useParams} from "react-router-dom";
+
+import { useParams } from "react-router-dom";
+
 import { Form, Input, Button } from "antd";
 
 import { db } from "../services/firebase";
@@ -16,15 +18,14 @@ export const UploadPage: React.FC = () => {
 
 
     useEffect(() => {
-        if (!unit) {
-            throw new Error("Enter a valid unit.")
-        }
 
         fetchQuestionsByUnit(unit).then((questions) => {
             setQuestions(questions)
         })
 
-    }, []);
+
+    }, [unit]);
+
 
     const editQuestion = async (values: Store) => {
         console.log('editQuestion hit');
