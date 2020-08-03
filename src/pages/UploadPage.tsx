@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, Redirect } from "react-router-dom";
-import { Form, Input, Button, Space } from "antd";
+import { Form, Input, Button, Space, Divider } from "antd";
 
 import { db } from "../services/firebase";
 import { Question } from "../models/Question";
@@ -41,6 +41,8 @@ export const UploadPage: React.FC = () => {
             })
             .then((ref) => {
                 alert("Updated");
+                // refreshes page after question updated
+                window.location.reload();
                 console.log(ref)
             });
 
@@ -63,6 +65,23 @@ export const UploadPage: React.FC = () => {
                 // refreshes page after question added
                 window.location.reload();
                 console.log(ref)
+            });
+    }
+    const deleteQues = async (values: Store) => {
+        await db
+            .collection("units")
+            .doc(unit)
+            .collection("questions")
+            //coming in empty
+            .doc(values.questionID)
+            .delete()
+            .then((ref) => {
+                alert("Question deleted.");
+                // refreshes page after question deleted
+                window.location.reload();
+                console.log(ref)
+            }).catch(function (error) {
+                console.error("Error removing document: ", error);
             });
     }
 
@@ -100,6 +119,7 @@ export const UploadPage: React.FC = () => {
 
                     <Form
                         name="question"
+                        onFinish={editQuestion}
                         initialValues={{
                             questionID: question.id,
                             question: question.question,
@@ -108,7 +128,7 @@ export const UploadPage: React.FC = () => {
                             wrong_answer1: question.wrong_answers[1],
                             wrong_answer2: question.wrong_answers[2],
                         }}
-                        onFinish={editQuestion}
+
                     >
 
                         <Form.Item label="questionID" name="questionID">
@@ -135,8 +155,10 @@ export const UploadPage: React.FC = () => {
                             <Button type="primary" htmlType="submit">
                                 Change
                             </Button>
+                            <Button type="dashed" danger onClick={deleteQues}>
+                                Delete question
+                            </Button>
                         </Form.Item>
-
                     </Form>
                 );
             })}
