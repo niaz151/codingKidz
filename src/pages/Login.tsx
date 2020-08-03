@@ -11,17 +11,16 @@ export const Login: React.FC = () => {
   const [loginSucceeded, setLoginSucceeded] = useState(false);
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("Loaded Login");
-    }
 
     if (getUser()) {
+      if (process.env.NODE_ENV !== "production") {
+        console.log("Found user, redirecting away...");
+      }
       setLoginSucceeded(true);
     }
   }, []);
 
   const onFinish = (values: Store) => {
-    console.log(values);
     login(values.email, values.password).then(
       () => {
         setLoginSucceeded(true);

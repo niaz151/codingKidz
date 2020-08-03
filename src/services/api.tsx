@@ -6,8 +6,20 @@ export const login = async (email: string, password: string) => {
   return await auth.signInWithEmailAndPassword(email, password);
 };
 
-export const register = async (email: string, password: string) => {
-  return await auth.createUserWithEmailAndPassword(email, password);
+export const register = async (
+  email: string,
+  password: string,
+  role: string
+) => {
+  return await auth
+    .createUserWithEmailAndPassword(email, password)
+    .then(async (newUser) => {
+      if (newUser.user) {
+        await setRole(newUser.user.uid, role);
+      } else {
+        throw new Error("Can't find new user");
+      }
+    });
 };
 
 export const signOut = async () => {
@@ -24,6 +36,24 @@ export const isLoggedIn = () => {
 
 export const getUser = () => {
   return auth.currentUser;
+};
+
+export const getRole = async () => {
+  const user = getUser();
+
+  return user ? await db
+    .collection("users")
+    .doc(user.uid)
+    .get()
+    .then((documentSnapshot) => {
+      const r = documentSnapshot.data()?.role as string;
+      console.log("role in api:", r);
+      return r;
+    }) : "no user to get the role of dummy"
+};
+
+export const setRole = async (uid: string, role: string) => {
+  await db.collection("users").doc(uid).set({ role: role });
 };
 
 export const fetchQuestionsByUnit = async (unit: string) => {
