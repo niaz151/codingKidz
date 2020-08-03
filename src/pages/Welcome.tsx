@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { getUser } from "services/api";
+import { getUser, getRole } from "services/api";
 
 export const Welcome: React.FC = () => {
-
+  const [role, setRole] = useState<string>();
   const user = getUser();
 
-return user ? <p>Welcome {user.email}</p> : <p>Click above to login!</p>
+  if (user) {
+    getRole().then((r) => {
+      setRole(r);
+    });
+  }
+
+  return user ? (
+    <>
+      <p>Welcome {user.email}</p>
+      {role ? <p>You are a {role}</p> : <p>Loading role...</p>}
+    </>
+  ) : (
+    <p>Click above to login!</p>
+  );
 };

@@ -29,9 +29,9 @@ const App: React.FC = () => {
     auth.onAuthStateChanged(async (userAuth) => {
       if (process.env.NODE_ENV !== "production") {
         if (userAuth) {
-          console.log("user logged in");
+          console.log("detected user log in");
         } else {
-          console.log("user logged out");
+          console.log("detected user log out");
         }
       }
 
