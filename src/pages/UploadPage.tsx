@@ -67,13 +67,13 @@ export const UploadPage: React.FC = () => {
                 console.log(ref)
             });
     }
-    const deleteQues = async (values: Store) => {
+    const deleteQues = async (questionID: string) => {
         await db
             .collection("units")
             .doc(unit)
             .collection("questions")
             //coming in empty
-            .doc(values.questionID)
+            .doc(questionID)
             .delete()
             .then((ref) => {
                 alert("Question deleted.");
@@ -155,7 +155,7 @@ export const UploadPage: React.FC = () => {
                             <Button type="primary" htmlType="submit">
                                 Change
                             </Button>
-                            <Button type="dashed" danger onClick={deleteQues}>
+                            <Button type="dashed" danger onClick={() => deleteQues(question.id)}>
                                 Delete question
                             </Button>
                         </Form.Item>
