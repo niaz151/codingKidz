@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useParams, Link, Redirect } from "react-router-dom";
-import { Form, Input, Button, Space, Divider } from "antd";
+import { useParams} from "react-router-dom";
+import { Form, Input, Button} from "antd";
 
 import { db } from "../services/firebase";
 import { Question } from "../models/Question";
 
-import { fetchUnits, fetchQuestionsByUnit } from '../services/api';
+import { fetchQuestionsByUnit } from '../services/api';
 import { Store } from "antd/lib/form/interface";
 
 
@@ -72,7 +72,6 @@ export const UploadPage: React.FC = () => {
             .collection("units")
             .doc(unit)
             .collection("questions")
-            //coming in empty
             .doc(questionID)
             .delete()
             .then((ref) => {
