@@ -2,56 +2,48 @@ import React, { useEffect, useState } from "react";
 import { Unit } from "models/Unit";
 import { Link } from "react-router-dom";
 
-import { fetchUnits } from 'services/api'
+import { fetchUnits, getUser, getRole } from "services/api";
 
-import { FaPencilAlt } from 'react-icons/fa';
-
-
+import { FaPencilAlt } from "react-icons/fa";
+import { Button } from "antd";
 
 export const Units: React.FC = () => {
   const [units, setUnits] = useState<Unit[]>();
 
-  const isAdmin = true;
+  const [role, setRole] = useState<string>();
+  const user = getUser();
 
-
+  if (user) {
+    getRole().then((r) => {
+      setRole(r);
+    });
+  }
 
   useEffect(() => {
     fetchUnits().then((units) => {
-      setUnits(units)
+      setUnits(units);
     });
   }, []);
 
-  return units && isAdmin ? (
+  return units ? (
     <ul>
-      <p>Add unit</p>
+      <Button>Add unit</Button>
 
       {units.map((unit) => {
-        return <p>
-          <Link to={{ pathname: `/quiz/${unit.id}` }}>
-            {unit.topic}
-          </Link>
+        return (
+          <li>
+            <Link to={{ pathname: `/quiz/${unit.id}` }}>{unit.topic}</Link>
 
-          <Link to={{ pathname: `/upload/${unit.id}` }}>
-            <FaPencilAlt />
-          </Link>
-        </p>;
+            {role === "teacher" ? (
+              <Link to={{ pathname: `/upload/${unit.id}` }}>
+                <FaPencilAlt />
+              </Link>
+            ) : null}
+          </li>
+        );
       })}
-
-    </ul>
-  ) : units ? (
-    <ul>
-      {units.map((unit) => {
-        return <p>
-
-          <Link to={{ pathname: `/quiz/${unit.id}` }}>
-            {unit.topic}
-          </Link>
-
-        </p>;
-      })}
-
     </ul>
   ) : (
-        <p>Loading Units...</p >
-      );
+    <p>Loading Units...</p>
+  );
 };
