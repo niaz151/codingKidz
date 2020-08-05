@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import {useParams, Link} from 'react-router-dom'
+import { useParams, Link } from "react-router-dom";
 
 import { fetchQuestionsByUnit } from "services/api";
 
@@ -9,15 +9,19 @@ import { LivesContainer } from "components/LivesContainer";
 import { MultipleChoice } from "components/MultipleChoice";
 import { Button } from "antd";
 
+interface RouteParams {
+  unit: string;
+}
+
 export const Quiz: React.FC = () => {
-  const { unit } = useParams();
+  const { unit } = useParams<RouteParams>();
   const [questions, setQuestions] = React.useState<Question[]>();
   const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState(3);
 
   useEffect(() => {
     if (!unit) {
-      throw new Error("Quiz Requires a unit!")
+      throw new Error("Quiz Requires a unit!");
     }
 
     fetchQuestionsByUnit(unit).then((questions) => {
