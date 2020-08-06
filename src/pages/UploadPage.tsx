@@ -4,10 +4,14 @@ import { useParams } from "react-router-dom";
 
 import { Form, Input, Button } from "antd";
 
-import { db } from "../services/firebase";
 import { Question } from "../models/Question";
 
-import { fetchQuestionsByUnit } from "../services/api";
+import {
+  fetchQuestionsByUnit,
+  editQuestion,
+  addQuestion,
+  deleteQuestion,
+} from "../services/api";
 import { Store } from "antd/lib/form/interface";
 
 interface RouteParams {
@@ -24,75 +28,59 @@ export const UploadPage: React.FC = () => {
     });
   }, [unit]);
 
-  const editQuestion = async (id: string, values: Store) => {
+  const handleEditQuestion = async (id: string, values: Store) => {
     console.log("editQuestion hit");
 
-    await db
-      .collection("units")
-      .doc(unit)
-      .collection("questions")
-      .doc(id)
-      .set({
-        question: values.question,
-        correct_answer: values.correct_answer,
-        wrong_answers: [
-          values.wrong_answer0,
-          values.wrong_answer1,
-          values.wrong_answer2,
-        ],
-      })
-      .then((ref) => {
-        alert("Updated");
-        // refreshes page after question updated
-        window.location.reload();
-        console.log(ref);
-      });
+    const editedQuestion: Question = {
+      id: id,
+      question: values.question,
+      correct_answer: values.correct_answer,
+      wrong_answers: [
+        values.wrong_answer0,
+        values.wrong_answer1,
+        values.wrong_answer2,
+      ],
+    };
+
+    await editQuestion(unit, editedQuestion).then(() => {
+      // alert("Updated");
+      // refreshes page after question updated
+      window.location.reload();
+    });
   };
 
-  const addQuestion = async (values: Store) => {
+  const handleAddQuestion = async (values: Store) => {
     console.log("addQuestion hit");
 
-    await db
-      .collection("units")
-      .doc(unit)
-      .collection("questions")
-      .add({
-        question: values.question,
-        correct_answer: values.correct_answer,
-        wrong_answers: [
-          values.wrong_answer0,
-          values.wrong_answer1,
-          values.wrong_answer2,
-        ],
-      })
-      .then((ref) => {
-        alert("Question added.");
-        // refreshes page after question added
-        window.location.reload();
-        console.log(ref);
-      });
+    const newQuestion: Question = {
+      id: "", // will not pass this later, firebase will auto gen
+      question: values.question,
+      correct_answer: values.correct_answer,
+      wrong_answers: [
+        values.wrong_answer0,
+        values.wrong_answer1,
+        values.wrong_answer2,
+      ],
+    };
+
+    await addQuestion(unit, newQuestion).then(() => {
+      // alert("Question added.");
+      // refreshes page after question added
+      window.location.reload();
+    });
   };
-  const deleteQuestion = async (id: string) => {
-    await db
-      .collection("units")
-      .doc(unit)
-      .collection("questions")
-      .doc(id)
-      .delete()
-      .then((ref) => {
-        alert("Question deleted.");
-        // refreshes page after question deleted
-        window.location.reload();
-        console.log(ref);
-      })
-      .catch(function (error) {
-        console.error("Error removing document: ", error);
-      });
+
+  const handleDeleteQuestion = async (id: string) => {
+    await deleteQuestion(unit, id).then(() => {
+      // alert("Question deleted.");
+      // refreshes page after question deleted
+      window.location.reload();
+    });
   };
 
   return questions ? (
     <ul>
-      <Form name="addquestion" onFinish={addQuestion}>
+      <Form name="addquestion" onFinish={handleAddQuestion}>
         <Form.Item label="question" name="question">
           <Input />
         </Form.Item>
@@ -120,7 +108,7 @@ export const UploadPage: React.FC = () => {
           <Form
             name="question"
             onFinish={(values) => {
-              editQuestion(question.id, values);
+              handleEditQuestion(question.id, values);
             }}
             initialValues={{
               question: question.question,
@@ -153,7 +141,7 @@ export const UploadPage: React.FC = () => {
               <Button
                 type="dashed"
                 danger
-                onClick={() => deleteQuestion(question.id)}
+                onClick={() => handleDeleteQuestion(question.id)}
               >
                 Delete question
               </Button>

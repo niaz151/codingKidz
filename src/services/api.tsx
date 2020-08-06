@@ -41,15 +41,17 @@ export const getUser = () => {
 export const getRole = async () => {
   const user = getUser();
 
-  return user ? await db
-    .collection("users")
-    .doc(user.uid)
-    .get()
-    .then((documentSnapshot) => {
-      const r = documentSnapshot.data()?.role as string;
-      console.log("role in api:", r);
-      return r;
-    }) : "no user to get the role of dummy"
+  return user
+    ? await db
+        .collection("users")
+        .doc(user.uid)
+        .get()
+        .then((documentSnapshot) => {
+          const r = documentSnapshot.data()?.role as string;
+          console.log("role in api:", r);
+          return r;
+        })
+    : "no user to get the role of dummy";
 };
 
 export const setRole = async (uid: string, role: string) => {
@@ -97,5 +99,48 @@ export const fetchUnits = async () => {
       }
 
       return tempUnits;
+    });
+};
+
+export const editQuestion = async (unit: string, editedQuestion: Question) => {
+  return await db
+    .collection("units")
+    .doc(unit)
+    .collection("questions")
+    .doc(editedQuestion.id)
+    .set({
+      question: editedQuestion.question,
+      correct_answer: editedQuestion.correct_answer,
+      wrong_answers: editedQuestion.wrong_answers,
+    })
+    .catch((error) => {
+      console.error("Error editing document: ", error);
+    });
+};
+
+export const addQuestion = async (unit: string, newQuestion: Question) => {
+  return await db
+    .collection("units")
+    .doc(unit)
+    .collection("questions")
+    .add({
+      question: newQuestion.question,
+      correct_answer: newQuestion.correct_answer,
+      wrong_answers: newQuestion.wrong_answers,
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
+};
+
+export const deleteQuestion = async (unit: string, id: string) => {
+  return await db
+    .collection("units")
+    .doc(unit)
+    .collection("questions")
+    .doc(id)
+    .delete()
+    .catch((error) => {
+      console.error("Error removing document: ", error);
     });
 };
