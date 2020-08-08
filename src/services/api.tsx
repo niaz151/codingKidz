@@ -1,6 +1,6 @@
-import { auth, db } from "services/firebase";
 import { Question } from "models/Question";
 import { Unit } from "models/Unit";
+import { auth, db } from "services/firebase";
 
 export const login = async (email: string, password: string) => {
   return await auth.signInWithEmailAndPassword(email, password);
@@ -47,9 +47,13 @@ export const getRole = async () => {
         .doc(user.uid)
         .get()
         .then((documentSnapshot) => {
-          const r = documentSnapshot.data()?.role as string;
-          console.log("role in api:", r);
-          return r;
+          const r: string = documentSnapshot.data()?.role;
+          if(r) {
+            console.log("role in api:", r);
+            return r
+          } else {
+            console.error("error reading role in api")
+          }
         })
     : "no user to get the role of dummy";
 };
@@ -144,3 +148,26 @@ export const deleteQuestion = async (unit: string, id: string) => {
       console.error("Error removing document: ", error);
     });
 };
+
+export const markQuizCompleted = async(unit: string) => {
+  const id = getUser()?.uid;
+
+
+  // workaround to set the key of firebase object to the unit variable
+  var record: {[k: string]: boolean} = {}
+  record[unit] = true;
+
+  if(id) {
+    return await db
+    .collection("users")
+    .doc(id)
+    .collection("data")
+    .doc("completedUnits")
+    .set(record).catch((error) => {
+      console.error("Error marking quiz finished: ", error)
+    })
+  } else {
+    console.error("Error fetching user while marking quiz finished");
+  }
+  
+}

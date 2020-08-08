@@ -20,12 +20,6 @@ const App: React.FC = () => {
   const forceUpdate = useForcedUpdate();
 
   useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      console.log("Loaded App");
-    }
-  }, []);
-
-  useEffect(() => {
     auth.onAuthStateChanged(async (userAuth) => {
       if (process.env.NODE_ENV !== "production") {
         if (userAuth) {

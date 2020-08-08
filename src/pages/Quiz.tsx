@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { useParams, Link } from "react-router-dom";
 
-import { fetchQuestionsByUnit } from "services/api";
+import { fetchQuestionsByUnit, markQuizCompleted } from "services/api";
 
 import { Question } from "models/Question";
 import { LivesContainer } from "components/LivesContainer";
@@ -16,7 +16,7 @@ interface RouteParams {
 export const Quiz: React.FC = () => {
   const { unit } = useParams<RouteParams>();
   const [questions, setQuestions] = React.useState<Question[]>();
-  const [currentQuestionIndex, setQuestionIndex] = React.useState<number>(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState(3);
 
   useEffect(() => {
@@ -29,14 +29,14 @@ export const Quiz: React.FC = () => {
     });
   }, [unit]);
 
-  const handleResult = (result: boolean) => {
+  const handleAnswerSelection = (result: boolean) => {
     // if the user gets it wrong, take a life
     if (!result) {
       setLives(lives - 1);
     }
 
     // continue in any case
-    setQuestionIndex(currentQuestionIndex + 1);
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
   };
 
   const renderQuestion = () => {
@@ -44,7 +44,7 @@ export const Quiz: React.FC = () => {
       <MultipleChoice
         key={questions[currentQuestionIndex].id}
         question={questions[currentQuestionIndex]}
-        handleResult={handleResult}
+        handleResult={handleAnswerSelection}
       />
     ) : (
       quizEnded(true)
@@ -67,7 +67,7 @@ export const Quiz: React.FC = () => {
   };
 
   const resetQuiz = () => {
-    setQuestionIndex(0);
+    setCurrentQuestionIndex(0);
     setLives(3);
   };
 

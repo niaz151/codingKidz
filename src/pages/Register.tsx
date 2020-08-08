@@ -32,11 +32,15 @@ export const Register: React.FC = () => {
   };
 
   const RegisterForm = () => {
-  
     return (
       <>
         <Form name="register" className="register-form" onFinish={onFinish}>
-          <Form.Item name="role" label="Role">
+          <Form.Item
+            name="role"
+            label="Role"
+            hasFeedback
+            rules={[{ required: true, message: "Please select a role!" }]}
+          >
             <Select>
               <Option value="student">Student</Option>
               <Option value="teacher">Teacher</Option>
