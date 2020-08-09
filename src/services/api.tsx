@@ -133,6 +133,17 @@ export const addQuestion = async (unit: string, newQuestion: Question) => {
     });
 };
 
+export const pushCollection = async(unit: Unit) =>{
+    return await db
+    .collection("units")
+    .doc(unit.id)
+    .set({
+      Topic: unit.topic,
+      unit_number: unit.unit_number
+    })
+    
+};
+
 export const deleteQuestion = async (unit: string, id: string) => {
   return await db
     .collection("units")
@@ -163,5 +174,8 @@ export const markQuizCompleted = async(unit: string) => {
   } else {
     console.error("Error fetching user while marking quiz finished");
   }
+
+
+  
   
 }
