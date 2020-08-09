@@ -11,10 +11,10 @@ import { UploadPage } from "pages/UploadPage";
 
 import { Navbar } from "components/Navbar";
 import { PrivateRoute } from "components/PrivateRoute";
+import { PublicRoute } from "components/PublicRoute";
 
 import { auth } from "services/firebase";
 import { useForcedUpdate } from "services/customHooks";
-
 
 const App: React.FC = () => {
   const forceUpdate = useForcedUpdate();
@@ -44,11 +44,11 @@ const App: React.FC = () => {
     <>
       <Navbar />
       <Switch>
+        <PublicRoute exact path="/login" component={Login} />
+        <PublicRoute exact path="/register" component={Register} />
         <Route exact path="/" component={Welcome} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/register" component={Register} />
         <Route exact path="/passwordreset" component={PasswordReset} />
-        <Route exact path="/upload/:unit" component={UploadPage}/>
+        <Route exact path="/upload/:unit" component={UploadPage} />
         <PrivateRoute exact path="/units" component={Units} />
         <PrivateRoute exact path="/quiz/:unit" component={Quiz} />
         <Route path="*">

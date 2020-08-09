@@ -19,7 +19,7 @@ export const register = async (
       } else {
         throw new Error("Can't find new user");
       }
-    });
+    })
 };
 
 export const signOut = async () => {
@@ -28,10 +28,6 @@ export const signOut = async () => {
 
 export const resetPassword = async (email: string) => {
   return await auth.sendPasswordResetEmail(email);
-};
-
-export const isLoggedIn = () => {
-  return auth.currentUser ? true : false;
 };
 
 export const getUser = () => {
@@ -152,9 +148,7 @@ export const deleteQuestion = async (unit: string, id: string) => {
 export const markQuizCompleted = async(unit: string) => {
   const id = getUser()?.uid;
 
-
-  // workaround to set the key of firebase object to the unit variable
-  var record: {[k: string]: boolean} = {}
+  var record: {[unit: string]: boolean} = {}
   record[unit] = true;
 
   if(id) {

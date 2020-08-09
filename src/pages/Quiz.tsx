@@ -25,7 +25,11 @@ export const Quiz: React.FC = () => {
     }
 
     fetchQuestionsByUnit(unit).then((questions) => {
-      setQuestions(questions);
+      var temp = questions.sort(() => Math.random() - 0.5)
+      if(questions.length > 20) {
+        temp = temp.slice(0, 19+1)
+      }
+      setQuestions(temp);
     });
   }, [unit]);
 
@@ -52,9 +56,12 @@ export const Quiz: React.FC = () => {
   };
 
   const quizEnded = (passed: boolean) => {
+    markQuizCompleted(unit)
+
     return (
       <>
         {passed ? (
+          
           <h2>Good job you passed the quiz!</h2>
         ) : (
           <h2>You're out of lives</h2>

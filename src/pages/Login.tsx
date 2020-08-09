@@ -1,38 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { Form, Input, Button, Space } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-import { Link, Redirect } from "react-router-dom";
-import { login, getUser } from "services/api";
+import { Link } from "react-router-dom";
+import { login } from "services/api";
 import { Store } from "antd/lib/form/interface";
 
 export const Login: React.FC = () => {
-  const [loginSucceeded, setLoginSucceeded] = useState(false);
-
-  useEffect(() => {
-
-    if (getUser()) {
-      if (process.env.NODE_ENV !== "production") {
-        console.log("Found user, redirecting away...");
-      }
-      setLoginSucceeded(true);
-    }
-  }, []);
 
   const onFinish = (values: Store) => {
     login(values.email, values.password).then(
       () => {
-        setLoginSucceeded(true);
+        console.log("successfully registered")
       },
       (error) => {
-        setLoginSucceeded(false);
         alert(error);
       }
     );
   };
 
-  const LoginForm = () => {
     return (
       <>
         <Form name="login" className="login-form" onFinish={onFinish}>
@@ -89,6 +76,3 @@ export const Login: React.FC = () => {
       </>
     );
   };
-
-  return loginSucceeded ? <Redirect to="/" /> : <LoginForm />;
-};
