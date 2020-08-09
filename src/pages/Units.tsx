@@ -36,10 +36,11 @@ export const Units: React.FC = () => {
     console.log("push collection hit")
 
     const newUnit: Unit = {
-      id: values.id,
-      topic: values.topic,
-      unit_number: values.unitnumber
-
+      id: values.unitid,
+      unit_number: values.unitnumber,
+      // topic is what is displayed on the list of units not id
+      topic: values.topic
+      
     }
 
     pushCollection(newUnit);
@@ -51,7 +52,7 @@ export const Units: React.FC = () => {
       <Collapse accordion>
         <Panel header="Add new Unit" key="1">
           <Form name="addunit" onFinish={handlePushCollection}>
-          <Form.Item name="id" label="id">
+          <Form.Item name="unitid" label="unitid">
               <Input />
             </Form.Item>
             <Form.Item name="unitnumber" label="unitnumber">

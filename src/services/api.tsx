@@ -91,6 +91,7 @@ export const fetchUnits = async () => {
       querySnapshot.forEach((res) => {
         tempUnit = res.data() as Unit;
         tempUnit.id = res.id;
+        console.log(res.data())
         tempUnits.push(tempUnit);
       });
 
@@ -138,7 +139,8 @@ export const pushCollection = async(unit: Unit) =>{
     .collection("units")
     .doc(unit.id)
     .set({
-      Topic: unit.topic,
+      // topic is what is displayed on the list of units not id
+      topic: unit.topic,
       unit_number: unit.unit_number
     })
     
