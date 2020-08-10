@@ -134,7 +134,7 @@ export const addQuestion = async (unit: string, newQuestion: Question) => {
     });
 };
 
-export const pushCollection = async(unit: Unit) =>{
+export const pushUnit = async(unit: Unit) =>{
     return await db
     .collection("units")
     .doc(unit.id)
@@ -144,6 +144,16 @@ export const pushCollection = async(unit: Unit) =>{
       unit_number: unit.unit_number
     })
     
+};
+
+export const deleteUnit = async(unitID: string) =>{
+  return await db
+  .collection("units")
+  .doc(unitID)
+  .delete()
+  .catch((error) =>{
+    console.error("Error deleting document" + error);
+  })
 };
 
 export const deleteQuestion = async (unit: string, id: string) => {

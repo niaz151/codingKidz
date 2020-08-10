@@ -5,9 +5,10 @@ import { Link } from "react-router-dom";
 import { fetchUnits, getUser, getRole } from "services/api";
 
 import { FaPencilAlt } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
 import { Form, Button, Modal, Collapse, Input } from "antd";
 import { Store } from "antd/lib/form/interface";
-import { pushCollection } from "../services/api";
+import { pushUnit, deleteUnit } from "../services/api";
 
 
 export const Units: React.FC = () => {
@@ -15,10 +16,6 @@ export const Units: React.FC = () => {
   const [role, setRole] = useState<string>();
   const user = getUser();
   const { Panel } = Collapse;
-
-  const text = 'Add Unit';
-
-
 
   if (user) {
     getRole().then((r) => {
@@ -40,10 +37,17 @@ export const Units: React.FC = () => {
       unit_number: values.unitnumber,
       // topic is what is displayed on the list of units not id
       topic: values.topic
-      
+
     }
 
-    pushCollection(newUnit);
+    pushUnit(newUnit);
+    window.location.reload();
+  }
+
+  const handleDeleteUnit = (unitID: string) => {
+    console.log("delete unit hit")
+
+    deleteUnit(unitID);
     window.location.reload();
   }
 
@@ -52,7 +56,7 @@ export const Units: React.FC = () => {
       <Collapse accordion>
         <Panel header="Add new Unit" key="1">
           <Form name="addunit" onFinish={handlePushCollection}>
-          <Form.Item name="unitid" label="unitid">
+            <Form.Item name="unitid" label="unitid">
               <Input />
             </Form.Item>
             <Form.Item name="unitnumber" label="unitnumber">
@@ -78,9 +82,12 @@ export const Units: React.FC = () => {
               <Link to={{ pathname: `/quiz/${unit.id}` }}>{unit.topic}</Link>
 
               {role === "teacher" ? (
-                <Link to={{ pathname: `/upload/${unit.id}` }}>
-                  <FaPencilAlt />
-                </Link>
+                <>
+                  <Link to={{ pathname: `/upload/${unit.id}` }}>
+                    <FaPencilAlt />
+                  </Link>
+                  <Button onClick={() => handleDeleteUnit(unit.id)}><MdDelete /></Button>
+                </>
               ) : null}
             </li>
           );
