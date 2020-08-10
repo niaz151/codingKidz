@@ -16,13 +16,13 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <Space align="center" size="middle">
-        <NavLink to="/"><Button>Home</Button></NavLink>
-        <NavLink to="/units"><Button>Units</Button></NavLink>
+        <NavLink to="/"><Button style={{ marginLeft: 16, marginTop: 16 }}>Home</Button></NavLink>
+        <NavLink to="/units"><Button style={{ marginTop: 16 }}>Units</Button></NavLink>
         {user ? (
-          <Button onClick={handleSignOut}>Logout</Button>
+          <Button onClick={handleSignOut} style={{ marginTop: 16 }}>Logout</Button>
         ) : (
-          <NavLink to="/login"><Button>Login</Button></NavLink>
-        )}
+            <NavLink to="/login"><Button style={{ marginTop: 16 }}>Login</Button></NavLink>
+          )}
       </Space>
     </>
   );

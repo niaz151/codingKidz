@@ -7,6 +7,16 @@ import { Link } from "react-router-dom";
 import { login } from "services/api";
 import { Store } from "antd/lib/form/interface";
 
+export const formItemLayout = {
+  labelCol: { span: 24 },
+  wrapperCol: { span: 10 },
+  
+};
+export const formTailLayout = {
+  labelCol: { span: 4 },
+  wrapperCol: { span: 8, offset: 4 },
+};
+
 export const Login: React.FC = () => {
 
   const onFinish = (values: Store) => {
@@ -20,59 +30,62 @@ export const Login: React.FC = () => {
     );
   };
 
-    return (
-      <>
-        <Form name="login" className="login-form" onFinish={onFinish}>
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                type: "email",
-                message: "The input is not valid E-mail!",
-              },
-              { required: true, message: "Please input your email!" },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              type="email"
-              placeholder="Email"
-            />
-          </Form.Item>
-          <Form.Item
-            name="password"
-            label="Password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-          >
-            <Input.Password
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              placeholder="Password"
-            />
-          </Form.Item>
-          <Space direction="vertical">
-            <Form.Item>
-              <Button
-                type="primary"
-                htmlType="submit"
-                className="login-form-button"
-              >
-                Log In
+  return (
+    <>
+      <Form name="login" className="login-form" onFinish={onFinish} style={{ marginTop: 16, marginLeft: 520}}>
+        <Form.Item
+          name="email"
+          label="Email"
+          rules={[
+            {
+              type: "email",
+              message: "The input is not valid E-mail!",
+            },
+            { required: true, message: "Please input your email!" },
+          ]}
+          {...formItemLayout}
+        >
+          <Input
+            prefix={<UserOutlined className="site-form-item-icon" />}
+            type="email"
+            placeholder="Email"
+          />
+        </Form.Item>
+        <Form.Item
+          name="password"
+          label="Password"
+          rules={[
+            {
+              required: true,
+              message: "Please input your password!",
+            },
+          ]}
+          {...formItemLayout}
+        >
+          <Input.Password
+            prefix={<LockOutlined className="site-form-item-icon" />}
+            placeholder="Password"
+          />
+        </Form.Item>
+        <Space direction="vertical">
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+              
+            >
+              Log In
               </Button>
-            </Form.Item>
-            <Link to="/passwordreset">
-              <Button>Reset Password</Button>
-            </Link>
-            <Link to="/register">
-              <Button>Register</Button>
-            </Link>
-          </Space>
-        </Form>
-      </>
-    );
-  };
+          </Form.Item>
+          <Link to="/passwordreset">
+            <Button >Reset Password</Button>
+          </Link>
+          <Link to="/register">
+            <Button >Register</Button>
+          </Link>
+        </Space>
+      </Form>
+    </>
+  );
+};

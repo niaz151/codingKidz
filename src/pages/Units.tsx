@@ -56,13 +56,13 @@ export const Units: React.FC = () => {
       <Collapse accordion>
         <Panel header="Add new Unit" key="1">
           <Form name="addunit" onFinish={handlePushCollection}>
-            <Form.Item name="unitid" label="unitid">
+            <Form.Item name="unitid" label="Unit Name">
               <Input />
             </Form.Item>
-            <Form.Item name="unitnumber" label="unitnumber">
+            <Form.Item name="unitnumber" label="Unit Number">
               <Input />
             </Form.Item>
-            <Form.Item name="topic" label="topic">
+            <Form.Item name="topic" label="Topic">
               <Input />
             </Form.Item>
             <Form.Item>
