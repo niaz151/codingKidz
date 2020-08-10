@@ -6,7 +6,7 @@ import { fetchUnits, getUser, getRole } from "services/api";
 
 import { FaPencilAlt } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { Form, Button, Modal, Collapse, Input } from "antd";
+import { Form, Button, Collapse, Input } from "antd";
 import { Store } from "antd/lib/form/interface";
 import { pushUnit, deleteUnit } from "../services/api";
 
