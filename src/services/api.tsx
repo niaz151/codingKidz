@@ -91,6 +91,7 @@ export const fetchUnits = async () => {
       querySnapshot.forEach((res) => {
         tempUnit = res.data() as Unit;
         tempUnit.id = res.id;
+        console.log(res.data())
         tempUnits.push(tempUnit);
       });
 
@@ -133,6 +134,28 @@ export const addQuestion = async (unit: string, newQuestion: Question) => {
     });
 };
 
+export const pushUnit = async(unit: Unit) =>{
+    return await db
+    .collection("units")
+    .doc(unit.id)
+    .set({
+      // topic is what is displayed on the list of units not id
+      topic: unit.topic,
+      unit_number: unit.unit_number
+    })
+    
+};
+
+export const deleteUnit = async(unitID: string) =>{
+  return await db
+  .collection("units")
+  .doc(unitID)
+  .delete()
+  .catch((error) =>{
+    console.error("Error deleting document" + error);
+  })
+};
+
 export const deleteQuestion = async (unit: string, id: string) => {
   return await db
     .collection("units")
@@ -163,5 +186,8 @@ export const markQuizCompleted = async(unit: string) => {
   } else {
     console.error("Error fetching user while marking quiz finished");
   }
+
+
+  
   
 }

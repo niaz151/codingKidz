@@ -17,16 +17,18 @@ const Navbar: React.FC = () => {
     <>
       <Space align="center" size="middle">
         <NavLink to="/">
-          <Button>Home</Button>
+          <Button style={{ marginLeft: 16, marginTop: 16 }}>Home</Button>
         </NavLink>
         <NavLink to="/units">
-          <Button>Units</Button>
+          <Button style={{ marginTop: 16 }}>Units</Button>
         </NavLink>
         {user ? (
-          <Button onClick={handleSignOut}>Logout</Button>
+          <Button onClick={handleSignOut} style={{ marginTop: 16 }}>
+            Logout
+          </Button>
         ) : (
           <NavLink to="/login">
-            <Button>Login</Button>
+            <Button style={{ marginTop: 16 }}>Login</Button>
           </NavLink>
         )}
       </Space>

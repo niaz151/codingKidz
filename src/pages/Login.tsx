@@ -7,6 +7,11 @@ import { Link } from "react-router-dom";
 import { login } from "services/api";
 import { Store } from "antd/lib/form/interface";
 
+const formItemLayout = {
+  labelCol: { span: 24 },
+  wrapperCol: { span: 10 },
+};
+
 const Login: React.FC = () => {
   const onFinish = (values: Store) => {
     login(values.email, values.password).then(
@@ -21,7 +26,12 @@ const Login: React.FC = () => {
 
   return (
     <>
-      <Form name="login" className="login-form" onFinish={onFinish}>
+      <Form
+        name="login"
+        className="login-form"
+        onFinish={onFinish}
+        style={{ marginTop: 16, marginLeft: 520 }}
+      >
         <Form.Item
           name="email"
           label="Email"
@@ -32,6 +42,7 @@ const Login: React.FC = () => {
             },
             { required: true, message: "Please input your email!" },
           ]}
+          {...formItemLayout}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
@@ -48,6 +59,7 @@ const Login: React.FC = () => {
               message: "Please input your password!",
             },
           ]}
+          {...formItemLayout}
         >
           <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}

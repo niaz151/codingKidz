@@ -80,20 +80,38 @@ const UploadPage: React.FC = () => {
 
   return questions ? (
     <ul>
+      <br></br>
+      <p>Number of questions: {questions.length}</p>
       <Form name="addquestion" onFinish={handleAddQuestion}>
-        <Form.Item label="question" name="question">
+        <Form.Item label="Question" name="question" style={{ width: 600 }}>
           <Input />
         </Form.Item>
-        <Form.Item label="correct_answer" name="correct_answer">
+        <Form.Item
+          label="Correct answer"
+          name="correct_answer"
+          style={{ width: 300 }}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="wrong_answer0" name="wrong_answer0">
+        <Form.Item
+          label="Wrong answer 1"
+          name="wrong_answer0"
+          style={{ width: 300 }}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="wrong_answer1" name="wrong_answer1">
+        <Form.Item
+          label="Wrong answer 2"
+          name="wrong_answer1"
+          style={{ width: 300 }}
+        >
           <Input />
         </Form.Item>
-        <Form.Item label="wrong_answer2" name="wrong_answer2">
+        <Form.Item
+          label="Wrong answer 3"
+          name="wrong_answer2"
+          style={{ width: 300 }}
+        >
           <Input />
         </Form.Item>
         <Form.Item>
@@ -118,19 +136,35 @@ const UploadPage: React.FC = () => {
               wrong_answer2: question.wrong_answers[2],
             }}
           >
-            <Form.Item label="question" name="question">
+            <Form.Item label="Question" name="question" style={{ width: 600 }}>
               <Input />
             </Form.Item>
-            <Form.Item label="correct_answer" name="correct_answer">
+            <Form.Item
+              label="Correct answer"
+              name="correct_answer"
+              style={{ width: 300 }}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label="wrong_answer0" name="wrong_answer0">
+            <Form.Item
+              label="Wrong answer 1"
+              name="wrong_answer0"
+              style={{ width: 300 }}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label="wrong_answer1" name="wrong_answer1">
+            <Form.Item
+              label="Wrong answer 2"
+              name="wrong_answer1"
+              style={{ width: 300 }}
+            >
               <Input />
             </Form.Item>
-            <Form.Item label="wrong_answer2" name="wrong_answer2">
+            <Form.Item
+              label="Wrong answer 3"
+              name="wrong_answer2"
+              style={{ width: 300 }}
+            >
               <Input />
             </Form.Item>
 
