@@ -9,7 +9,7 @@ export const LivesContainer: React.FC<Props> = (props) => {
   let lives = props.lives;
 
   return (
-    <div>
+    <div style={{marginTop: 16 }}>
       {lives >= 1 ? <Heart size={50} /> : <EmptyHeart size={50} />}
       {lives >= 2 ? <Heart size={50} /> : <EmptyHeart size={50} />}
       {lives === 3 ? <Heart size={50} /> : <EmptyHeart size={50} />}

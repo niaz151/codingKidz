@@ -52,8 +52,8 @@ export const Units: React.FC = () => {
   }
 
   return units ? (
-    <ul>
-      <Collapse accordion>
+    <>
+      <Collapse accordion style={{ width: 260, marginTop: 16, marginBottom: 16}}>
         <Panel header="Add new Unit" key="1">
           <Form name="addunit" onFinish={handlePushCollection}>
             <Form.Item name="unitid" label="Unit Name">
@@ -73,27 +73,28 @@ export const Units: React.FC = () => {
           </Form>
         </Panel>
       </Collapse >
+      <br></br>
+      <ul>
+        {
+          units.map((unit) => {
+            return (
+              <li style={{marginLeft: 600}}>
+                <Link to={{ pathname: `/quiz/${unit.id}` }}>{unit.topic}</Link>
 
-
-      {
-        units.map((unit) => {
-          return (
-            <li>
-              <Link to={{ pathname: `/quiz/${unit.id}` }}>{unit.topic}</Link>
-
-              {role === "teacher" ? (
-                <>
-                  <Link to={{ pathname: `/upload/${unit.id}` }}>
-                    <FaPencilAlt />
-                  </Link>
-                  <Button onClick={() => handleDeleteUnit(unit.id)}><MdDelete /></Button>
-                </>
-              ) : null}
-            </li>
-          );
-        })
-      }
-    </ul >
+                {role === "teacher" ? (
+                  <>
+                    <Link to={{ pathname: `/upload/${unit.id}` }}>
+                      <FaPencilAlt />
+                    </Link>
+                    <Button onClick={() => handleDeleteUnit(unit.id)}><MdDelete /></Button>
+                  </>
+                ) : null}
+              </li>
+            );
+          })
+        }
+      </ul >
+    </>
   ) : (
       <p>Loading Units...</p>
     );
