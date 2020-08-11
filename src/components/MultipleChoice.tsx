@@ -26,11 +26,13 @@ export const MultipleChoice: React.FC<Props> = (props) => {
   return (
     <>
       {/* display question */}
-      <h3>{question.question}</h3>
+      <h3 style={{marginLeft: 600, marginBottom: 16}}>{question.question}</h3>
 
       {/* diplay answer buttons */}
       {answers.map((answer) => {
-        return <Button onClick={() => checkAnswer(answer)}>{answer}</Button>;
+        return <p style={{marginLeft: 600}}>
+          <Button onClick={() => checkAnswer(answer)}>{answer}</Button>
+          </p>;
       })}
     </>
   );
