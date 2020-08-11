@@ -1,17 +1,18 @@
 import React, { useEffect } from "react";
 import "./App.css";
 import { Switch, Route, Redirect } from "react-router-dom";
-import { Login } from "pages/Login";
-import { Register } from "pages/Register";
-import { Welcome } from "pages/Welcome";
-import { PasswordReset } from "pages/PasswordReset";
-import { Units } from "pages/Units";
-import { Quiz } from "pages/Quiz";
-import { UploadPage } from "pages/UploadPage";
 
-import { Navbar } from "components/Navbar";
-import { PrivateRoute } from "components/PrivateRoute";
-import { PublicRoute } from "components/PublicRoute";
+import {
+  Login,
+  Register,
+  Welcome,
+  PasswordReset,
+  Units,
+  Quiz,
+  UploadPage,
+} from "pages";
+
+import { Navbar, PrivateRoute, PublicRoute } from "components";
 
 import { auth } from "services/firebase";
 import { useForcedUpdate } from "services/customHooks";

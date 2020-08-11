@@ -18,7 +18,7 @@ interface RouteParams {
   unit: string;
 }
 
-export const UploadPage: React.FC = () => {
+const UploadPage: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>();
   const { unit } = useParams<RouteParams>();
 
@@ -154,3 +154,5 @@ export const UploadPage: React.FC = () => {
     <p>Loading...</p>
   );
 };
+
+export default UploadPage;

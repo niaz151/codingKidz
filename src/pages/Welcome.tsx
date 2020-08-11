@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { getUser, getRole } from "services/api";
 
-export const Welcome: React.FC = () => {
+const Welcome: React.FC = () => {
   const [role, setRole] = useState<string>();
   const user = getUser();
 
@@ -21,3 +21,5 @@ export const Welcome: React.FC = () => {
     <p>Click above to login!</p>
   );
 };
+
+export default Welcome;

@@ -4,7 +4,9 @@ import { Route, Redirect, RouteProps } from "react-router-dom";
 
 interface Props extends RouteProps {}
 
-export const PrivateRoute: React.FC<Props> = (props) => {
+const PrivateRoute: React.FC<Props> = (props) => {
   const user = getUser();
   return user ? <Route {...props} /> : <Redirect to="/login" />;
 };
+
+export default PrivateRoute;

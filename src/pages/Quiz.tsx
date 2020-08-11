@@ -5,18 +5,19 @@ import { useParams, Link } from "react-router-dom";
 import { fetchQuestionsByUnit, markQuizCompleted } from "services/api";
 
 import { Question } from "models/Question";
-import { LivesContainer } from "components/LivesContainer";
-import { MultipleChoice } from "components/MultipleChoice";
+import { LivesContainer, MultipleChoice } from "components";
 import { Button } from "antd";
 
 interface RouteParams {
   unit: string;
 }
 
-export const Quiz: React.FC = () => {
+const Quiz: React.FC = () => {
   const { unit } = useParams<RouteParams>();
   const [questions, setQuestions] = React.useState<Question[]>();
-  const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState<number>(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = React.useState<
+    number
+  >(0);
   const [lives, setLives] = React.useState(3);
 
   useEffect(() => {
@@ -25,9 +26,9 @@ export const Quiz: React.FC = () => {
     }
 
     fetchQuestionsByUnit(unit).then((questions) => {
-      var temp = questions.sort(() => Math.random() - 0.5)
-      if(questions.length > 20) {
-        temp = temp.slice(0, 19+1)
+      var temp = questions.sort(() => Math.random() - 0.5);
+      if (questions.length > 20) {
+        temp = temp.slice(0, 19 + 1);
       }
       setQuestions(temp);
     });
@@ -56,12 +57,11 @@ export const Quiz: React.FC = () => {
   };
 
   const quizEnded = (passed: boolean) => {
-    markQuizCompleted(unit)
+    markQuizCompleted(unit);
 
     return (
       <>
         {passed ? (
-          
           <h2>Good job you passed the quiz!</h2>
         ) : (
           <h2>You're out of lives</h2>
@@ -87,3 +87,5 @@ export const Quiz: React.FC = () => {
     quizEnded(false)
   );
 };
+
+export default Quiz;

@@ -5,7 +5,7 @@ interface Props {
   lives: number;
 }
 
-export const LivesContainer: React.FC<Props> = (props) => {
+const LivesContainer: React.FC<Props> = (props) => {
   let lives = props.lives;
 
   return (
@@ -16,3 +16,5 @@ export const LivesContainer: React.FC<Props> = (props) => {
     </div>
   );
 };
+
+export default LivesContainer;

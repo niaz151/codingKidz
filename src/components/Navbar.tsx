@@ -3,7 +3,7 @@ import { NavLink, Redirect } from "react-router-dom";
 import { signOut, getUser } from "services/api";
 import { Space, Button } from "antd";
 
-export const Navbar: React.FC = () => {
+const Navbar: React.FC = () => {
   const user = getUser();
 
   const handleSignOut = async () => {
@@ -16,14 +16,22 @@ export const Navbar: React.FC = () => {
   return (
     <>
       <Space align="center" size="middle">
-        <NavLink to="/"><Button>Home</Button></NavLink>
-        <NavLink to="/units"><Button>Units</Button></NavLink>
+        <NavLink to="/">
+          <Button>Home</Button>
+        </NavLink>
+        <NavLink to="/units">
+          <Button>Units</Button>
+        </NavLink>
         {user ? (
           <Button onClick={handleSignOut}>Logout</Button>
         ) : (
-          <NavLink to="/login"><Button>Login</Button></NavLink>
+          <NavLink to="/login">
+            <Button>Login</Button>
+          </NavLink>
         )}
       </Space>
     </>
   );
 };
+
+export default Navbar;

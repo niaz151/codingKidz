@@ -7,7 +7,7 @@ interface Props {
   handleResult: (result: boolean) => void;
 }
 
-export const MultipleChoice: React.FC<Props> = (props) => {
+const MultipleChoice: React.FC<Props> = (props) => {
   const question: Question = props.question;
   const [answers] = React.useState<string[]>(
     question.wrong_answers
@@ -35,3 +35,5 @@ export const MultipleChoice: React.FC<Props> = (props) => {
     </>
   );
 };
+
+export default MultipleChoice;

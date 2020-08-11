@@ -7,7 +7,7 @@ import { fetchUnits, getUser, getRole } from "services/api";
 import { FaPencilAlt } from "react-icons/fa";
 import { Button } from "antd";
 
-export const Units: React.FC = () => {
+const Units: React.FC = () => {
   const [units, setUnits] = useState<Unit[]>();
 
   const [role, setRole] = useState<string>();
@@ -47,3 +47,5 @@ export const Units: React.FC = () => {
     <p>Loading Units...</p>
   );
 };
+
+export default Units;
