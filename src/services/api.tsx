@@ -1,5 +1,4 @@
-import { Question } from "models/Question";
-import { Unit } from "models/Unit";
+import { Question, Unit } from "models";
 import { auth, db } from "services/firebase";
 
 export const login = async (email: string, password: string) => {
@@ -19,7 +18,7 @@ export const register = async (
       } else {
         throw new Error("Can't find new user");
       }
-    })
+    });
 };
 
 export const signOut = async () => {
@@ -44,11 +43,10 @@ export const getRole = async () => {
         .get()
         .then((documentSnapshot) => {
           const r: string = documentSnapshot.data()?.role;
-          if(r) {
-            console.log("role in api:", r);
-            return r
+          if (r) {
+            return r;
           } else {
-            console.error("error reading role in api")
+            console.error("error reading role in api");
           }
         })
     : "no user to get the role of dummy";
@@ -91,7 +89,6 @@ export const fetchUnits = async () => {
       querySnapshot.forEach((res) => {
         tempUnit = res.data() as Unit;
         tempUnit.id = res.id;
-        console.log(res.data())
         tempUnits.push(tempUnit);
       });
 
@@ -134,26 +131,22 @@ export const addQuestion = async (unit: string, newQuestion: Question) => {
     });
 };
 
-export const pushUnit = async(unit: Unit) =>{
-    return await db
-    .collection("units")
-    .doc(unit.id)
-    .set({
-      // topic is what is displayed on the list of units not id
-      topic: unit.topic,
-      unit_number: unit.unit_number
-    })
-    
+export const pushUnit = async (unit: Unit) => {
+  return await db.collection("units").doc(unit.id).set({
+    // topic is what is displayed on the list of units not id
+    topic: unit.topic,
+    unit_number: unit.unit_number,
+  });
 };
 
-export const deleteUnit = async(unitID: string) =>{
+export const deleteUnit = async (unitID: string) => {
   return await db
-  .collection("units")
-  .doc(unitID)
-  .delete()
-  .catch((error) =>{
-    console.error("Error deleting document" + error);
-  })
+    .collection("units")
+    .doc(unitID)
+    .delete()
+    .catch((error) => {
+      console.error("Error deleting document" + error);
+    });
 };
 
 export const deleteQuestion = async (unit: string, id: string) => {
@@ -168,26 +161,44 @@ export const deleteQuestion = async (unit: string, id: string) => {
     });
 };
 
-export const markQuizCompleted = async(unit: string) => {
+export const markQuizCompleted = async (unitID: string) => {
   const id = getUser()?.uid;
 
-  var record: {[unit: string]: boolean} = {}
-  record[unit] = true;
+  var record: { [unit: string]: boolean } = {};
+  record[unitID] = true;
 
-  if(id) {
-    return await db
+  const completedRef = db
+    .collection("users")
+    .doc(id)
+    .collection("data")
+    .doc("completedUnits");
+
+  const currentCompleted = (await completedRef.get()).data() as [];
+
+  if (id) {
+    return await completedRef
+      .set({ ...currentCompleted, ...record })
+      .catch((error) => {
+        console.error("Error marking quiz finished: ", error);
+      });
+  } else {
+    console.error("Error fetching user while marking quiz finished");
+  }
+};
+
+export const getCompletedQuizzes = async () => {
+  const id = getUser()?.uid;
+
+  return await db
     .collection("users")
     .doc(id)
     .collection("data")
     .doc("completedUnits")
-    .set(record).catch((error) => {
-      console.error("Error marking quiz finished: ", error)
-    })
-  } else {
-    console.error("Error fetching user while marking quiz finished");
-  }
-
-
-  
-  
-}
+    .get()
+    .then((documentSnapshot) => {
+      // let data: { [unit: string]: boolean }[];
+      let data: Record<string, boolean>
+      data = documentSnapshot.data() as Record<string, boolean>;
+      return data;
+    });
+};

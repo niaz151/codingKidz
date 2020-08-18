@@ -51,7 +51,7 @@ const App: React.FC = () => {
         <Route exact path="/passwordreset" component={PasswordReset} />
         <Route exact path="/upload/:unit" component={UploadPage} />
         <PrivateRoute exact path="/units" component={Units} />
-        <PrivateRoute exact path="/quiz/:unit" component={Quiz} />
+        <PrivateRoute exact path="/quiz/:unitID" component={Quiz} />
         <Route path="*">
           <Redirect to="/" />
         </Route>

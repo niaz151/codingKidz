@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Question } from "models/Question";
+import { Question } from "models";
 import { Button } from "antd";
 
 interface Props {

@@ -4,3 +4,9 @@ export interface Question {
   correct_answer: string;
   wrong_answers: string[];
 }
+
+export interface Unit {
+  id: string;
+  topic: string;
+  unit_number: number;
+}

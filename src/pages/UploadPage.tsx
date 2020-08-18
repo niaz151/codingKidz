@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 
 import { Form, Input, Button } from "antd";
 
-import { Question } from "../models/Question";
+import { Question } from "models";
 
 import {
   fetchQuestionsByUnit,
