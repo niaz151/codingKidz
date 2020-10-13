@@ -1,5 +1,5 @@
 import React from "react";
-import { BsHeartFill as Heart, BsHeart as EmptyHeart } from "react-icons/bs";
+import {HeartOutlined as EmptyHeart, HeartFilled as Heart} from "@ant-design/icons"
 
 interface Props {
   lives: number;

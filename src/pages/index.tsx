@@ -4,4 +4,4 @@ export { default as PasswordReset } from "./PasswordReset";
 export { default as Welcome } from "./Welcome";
 export { default as Units } from "./Units";
 export { default as Quiz } from "./Quiz";
-export { default as UploadPage } from "./UploadPage";
+export { default as EditTopic } from "./EditTopic";

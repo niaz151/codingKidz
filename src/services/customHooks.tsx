@@ -1,7 +1,6 @@
-import {useState} from 'react'
+import {useReducer} from 'react'
 
 export const useForcedUpdate = () => {
-  const [, updateState] = useState();
-  return () => updateState({})
+  const [, forceUpdate] = useReducer(x => x + 1, 0);
+  return () => forceUpdate();
 }
-

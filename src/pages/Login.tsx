@@ -7,16 +7,12 @@ import { Link } from "react-router-dom";
 import { login } from "services/api";
 import { Store } from "antd/lib/form/interface";
 
-const formItemLayout = {
-  labelCol: { span: 24 },
-  wrapperCol: { span: 10 },
-};
-
 const Login: React.FC = () => {
   const onFinish = (values: Store) => {
     login(values.email, values.password).then(
       () => {
-        console.log("successfully registered");
+        console.log("successfully logged in");
+        window.location.reload();
       },
       (error) => {
         alert(error);
@@ -42,7 +38,6 @@ const Login: React.FC = () => {
             },
             { required: true, message: "Please input your email!" },
           ]}
-          {...formItemLayout}
         >
           <Input
             prefix={<UserOutlined className="site-form-item-icon" />}
@@ -59,7 +54,6 @@ const Login: React.FC = () => {
               message: "Please input your password!",
             },
           ]}
-          {...formItemLayout}
         >
           <Input.Password
             prefix={<LockOutlined className="site-form-item-icon" />}

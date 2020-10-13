@@ -2,35 +2,35 @@ import React, { useEffect } from "react";
 
 import { useParams, Link } from "react-router-dom";
 
-import { fetchQuestionsByUnit, markQuizCompleted } from "services/api";
+import { getQuestions, markQuizCompleted } from "services/api";
 
 import { Question } from "models";
 import { LivesContainer, MultipleChoice } from "components";
 import { Button } from "antd";
 
 interface RouteParams {
-  unitID: string;
+  unit_id: string;
+  topic_id: string;
 }
 
 const Quiz: React.FC = () => {
-  const { unitID } = useParams<RouteParams>();
+  const { unit_id, topic_id } = useParams<RouteParams>();
   const [questions, setQuestions] = React.useState<Question[]>();
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState(3);
 
   useEffect(() => {
-    if (!unitID) {
-      throw new Error("Quiz Requires a unit!");
-    }
-
-    fetchQuestionsByUnit(unitID).then((questions) => {
+    getQuestions(unit_id, topic_id).then((questions) => {
+      if(!questions) {
+        throw new Error("No Questions")
+      }
       var temp = questions.sort(() => Math.random() - 0.5);
       if (questions.length > 20) {
         temp = temp.slice(0, 19 + 1);
       }
       setQuestions(temp);
     });
-  }, [unitID]);
+  }, [unit_id, topic_id]);
 
   const handleAnswerSelection = (result: boolean) => {
     // if the user gets it wrong, take a life
@@ -60,7 +60,7 @@ const Quiz: React.FC = () => {
 
   const quizEnded = (passed: boolean) => {
     if (passed) {
-      markQuizCompleted(unitID);
+      markQuizCompleted(unit_id, topic_id);
     }
 
     return (

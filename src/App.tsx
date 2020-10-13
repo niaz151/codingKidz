@@ -9,7 +9,7 @@ import {
   PasswordReset,
   Units,
   Quiz,
-  UploadPage,
+  EditTopic,
 } from "pages";
 
 import { Navbar, PrivateRoute, PublicRoute } from "components";
@@ -49,9 +49,9 @@ const App: React.FC = () => {
         <PublicRoute exact path="/register" component={Register} />
         <Route exact path="/" component={Welcome} />
         <Route exact path="/passwordreset" component={PasswordReset} />
-        <Route exact path="/upload/:unit" component={UploadPage} />
         <PrivateRoute exact path="/units" component={Units} />
-        <PrivateRoute exact path="/quiz/:unitID" component={Quiz} />
+        <PrivateRoute exact path="/units/edit/:unit/:topic" component={EditTopic}/>
+        <PrivateRoute exact path="/units/quiz/:unit/:topic" component={Quiz} />
         <Route path="*">
           <Redirect to="/" />
         </Route>

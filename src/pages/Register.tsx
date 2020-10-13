@@ -20,7 +20,6 @@ const Register: React.FC = () => {
     );
   };
 
-  // const RegisterForm = () => {
   return (
     <>
       <Form name="register" className="register-form" onFinish={onFinish}>
