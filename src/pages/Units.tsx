@@ -21,15 +21,15 @@ import {
 } from "@ant-design/icons";
 import { Store } from "antd/lib/form/interface";
 import { addUnit, deleteUnit } from "services/api";
-import { LivesContainer } from "components";
 
 const Units: React.FC = () => {
   type Data = {
-    role: string;
+    role: Role;
     units?: Unit[];
     unitCompletions?: { [unit_id: string]: boolean };
     topics?: { [unit_id: string]: Topic[] };
     topicCompletions?: { [topic_id: string]: boolean };
+    test: boolean;
   };
 
   type State =
@@ -77,79 +77,101 @@ const Units: React.FC = () => {
     let didCancel = false;
 
     const fetchData = async () => {
-      let tempRole: Role;
-      let tempUnits: Unit[] | undefined;
-      let tempUnitCompletions: { [id: string]: boolean } | undefined;
-      let tempTopics: { [unit_id: string]: Topic[] } | undefined;
-      let tempTopicCompletions: { [id: string]: boolean } | undefined;
+      // let tempRole: Role | undefined;
+      // let tempUnits: Unit[] | undefined;
+      // let tempUnitCompletions: { [id: string]: boolean } | undefined;
+      // let tempTopics: { [unit_id: string]: Topic[] } | undefined;
+      // let tempTopicCompletions: { [id: string]: boolean } | undefined;
 
       dispatch({ type: "FETCH_INIT" });
-      await getRole().then((role) => {
-        if (role) {
-          tempRole = role;
-        } else {
-          throw new Error("Could not fetch role");
-        }
-      });
-
-      await getUnits()
-        .then((fetchedUnits) => {
-          if (fetchedUnits === undefined) {
-            console.log("no units found");
+      await getRole()
+        .then((role) => {
+          if (role) {
+            let tempData: Data = {
+              role: role,
+              test: false,
+            };
+            console.log("data after fetching role: ", tempData);
+            return tempData;
           } else {
-            tempUnits = fetchedUnits;
-            fetchedUnits.forEach(async (unit) => {
-              await checkUnitCompleted(unit.id).then((val) => {
-                if (tempUnitCompletions === undefined) {
-                  tempUnitCompletions = { [unit.id]: val };
-                } else {
-                  tempUnitCompletions[unit.id] = val;
-                }
-              });
-
-              await getTopics(unit.id).then((fetchedTopics) => {
-                if (fetchedTopics === undefined) {
-                  console.log("no topics for unit ", unit.id);
-                } else {
-                  if (tempTopics === undefined) {
-                    tempTopics = { [unit.id]: fetchedTopics };
-                  } else {
-                    tempTopics[unit.id] = fetchedTopics;
-                  }
-
-                  console.log(
-                    "found ",
-                    fetchedTopics,
-                    " topics for unit ",
-                    unit.id
-                  );
-
-                  fetchedTopics.forEach(async (topic) => {
-                    await checkTopicCompleted(unit.id, topic.id).then((val) => {
-                      if (tempTopicCompletions === undefined) {
-                        tempTopicCompletions = { [topic.id]: val };
-                      } else {
-                        tempTopicCompletions[topic.id] = val;
-                      }
-                    });
-                  });
-                }
-              });
-            });
+            throw new Error("Could not fetch role");
           }
         })
-        .then(() => {
+        .then(async (tempData) => {
+          return await getUnits().then((fetchedUnits) => {
+            tempData = { ...tempData, units: fetchedUnits };
+            console.log("data after fetching units: ", tempData);
+            return tempData;
+          });
+        })
+        .then((tempData) => {
+          tempData.units?.forEach(async (unit) => {
+            await checkUnitCompleted(unit.id).then((val) => {
+              tempData = {
+                ...tempData,
+                unitCompletions: {
+                  ...tempData.unitCompletions,
+                  [unit.id]: val,
+                },
+              };
+            });
+          });
+
+          console.log("data after fetching unit completions: ", tempData);
+          return tempData;
+        })
+        .then((tempData) => {
+          tempData.units?.forEach(async (unit) => {
+            await getTopics(unit.id).then((topics) => {
+              if (topics) {
+                tempData = {
+                  ...tempData,
+                  topics: {
+                    ...tempData.topics,
+                    [unit.id]: topics,
+                  },
+                };
+              } else {
+                console.log("no topics for unit ", unit.id);
+              }
+            });
+          });
+
+          console.log("data after fetching topics: ", tempData);
+          return tempData;
+        })
+        .then((tempData) => {
+          tempData.units?.forEach((unit) => {
+            tempData.topics &&
+              tempData.topics[unit.id].forEach(async (topic) => {
+                await checkTopicCompleted(unit.id, topic.id).then((val) => {
+                  tempData = {
+                    ...tempData,
+                    topicCompletions: {
+                      ...tempData.topicCompletions,
+                      [topic.id]: val,
+                    },
+                  };
+                });
+              });
+          });
+
+          console.log("data after fetching topic completions: ", tempData);
+          return tempData;
+        })
+        .then((tempData) => {
+          tempData = {
+            ...tempData,
+            test: true,
+          };
+          return tempData;
+        })
+        .then((tempData) => {
           if (!didCancel) {
-            console.log("topics before setting", tempTopics);
+            console.log("topics before setting", tempData.topics);
             dispatch({
               type: "FETCH_SUCCESS",
-              payload: {
-                role: tempRole,
-                units: tempUnits,
-                unitCompletions: tempUnitCompletions,
-                topics: tempTopics,
-                topicCompletions: tempTopicCompletions,
-              },
+              payload: tempData,
             });
           }
         })
@@ -199,13 +221,14 @@ const Units: React.FC = () => {
     case "ERROR":
       return <p>Something went wrong :(</p>;
     case "SUCCESS":
-      const { role, units, unitCompletions, topics, topicCompletions } = {
+      const { role, units, unitCompletions, topics, topicCompletions, test } = {
         ...state.data,
       };
 
       console.log("state at start of render: ", state);
       return (
         <>
+          {test ? <p>Test true</p> : <p>Test undefined</p>}
           <h1>Units Page</h1>
           {units === undefined ? (
             <>
@@ -286,6 +309,11 @@ const Units: React.FC = () => {
                                     >
                                       <DeleteOutlined />
                                     </Button>
+                                    <Link
+                                      to={`/units/edit/${unit.id}/${topic.id}`}
+                                    >
+                                      <EditOutlined />
+                                    </Link>
                                   </>
                                 ) : null}
                               </>
@@ -358,3 +386,58 @@ const Units: React.FC = () => {
 };
 
 export default Units;
+
+// await getRole().then((role) => {
+//   if (role) {
+//     tempRole = role;
+//   } else {
+//     throw new Error("Could not fetch role");
+//   }
+// });
+
+// await getUnits()
+//   .then((fetchedUnits) => {
+//     if (fetchedUnits === undefined) {
+//       console.log("no units found");
+//     } else {
+//       tempUnits = fetchedUnits;
+//       fetchedUnits.forEach(async (unit) => {
+//         await checkUnitCompleted(unit.id).then((val) => {
+//           if (tempUnitCompletions === undefined) {
+//             tempUnitCompletions = { [unit.id]: val };
+//           } else {
+//             tempUnitCompletions[unit.id] = val;
+//           }
+//         });
+
+//         await getTopics(unit.id).then((fetchedTopics) => {
+//           if (fetchedTopics === undefined) {
+//             console.log("no topics for unit ", unit.id);
+//           } else {
+//             if (tempTopics === undefined) {
+//               tempTopics = { [unit.id]: fetchedTopics };
+//             } else {
+//               tempTopics[unit.id] = fetchedTopics;
+//             }
+
+//             console.log(
+//               "found ",
+//               fetchedTopics,
+//               " topics for unit ",
+//               unit.id
+//             );
+
+//             fetchedTopics.forEach(async (topic) => {
+//               await checkTopicCompleted(unit.id, topic.id).then((val) => {
+//                 if (tempTopicCompletions === undefined) {
+//                   tempTopicCompletions = { [topic.id]: val };
+//                 } else {
+//                   tempTopicCompletions[topic.id] = val;
+//                 }
+//               });
+//             });
+//           }
+//         });
+//       });
+//     }
+//   })
