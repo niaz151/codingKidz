@@ -9,8 +9,8 @@ export interface Question extends NewQuestion {
 }
 
 export interface NewTopic {
-  topic: string;
-  quiz_number: number;
+  name: string;
+  topic_number: number;
 }
 
 export interface Topic extends NewTopic {
