@@ -1,115 +1,107 @@
-import { Button, Collapse, Form, Input, InputNumber } from "antd";
-import { Store } from "antd/lib/form/interface";
-import { assert } from "console";
-import { NewTopic, NewUnit, Role, Topic, Unit } from "models";
-import React, { useEffect, useState } from "react";
-import {
-  addTopic,
-  addUnit,
-  deleteTopic,
-  deleteUnit,
-  getRole,
-  getTopics,
-  getUnits,
-} from "services/api";
+import { Button, Form, Accordion, Card, FormControl } from "react-bootstrap";
+import { ExclamationTriangle } from "react-bootstrap-icons";
+import React, { useState } from "react";
+import { addUnit, useRole, useUnits } from "services/api";
 import { UnitContainer } from "./UnitContainer";
 
-type State = {
-  role?: Role;
-  units?: Unit[];
-  unitCompletions?: { [unit_id: string]: boolean };
-  topics?: { [unit_id: string]: Topic[] };
-  topicCompletions?: { [topic_id: string]: boolean };
-  loading?: boolean;
-};
-
 const Units: React.FC = () => {
-  const [role, setRole] = useState<Role>();
-  const [units, setUnits] = useState<Unit[]>();
+  const [roleData, roleLoading, roleError] = useRole();
+  const [units, unitsLoading, unitError] = useUnits();
 
-  const { Panel } = Collapse;
+  const AddUnitForm = () => {
+    const [number, setNumber] = useState<number>();
+    const [name, setName] = useState<string>();
 
-  const handleAddUnit = (values: Store) => {
-    const newUnit: NewUnit = {
-      unit_number: values.unitnumber,
-      name: values.name,
+    const handleAddUnit = () => {
+      if (!number || !name) {
+        console.log("got nothing from form even though it's required")
+      } else {
+        addUnit({
+          unit_number: number,
+          name: name
+        });
+      }
     };
 
-    addUnit(newUnit).then(() => window.location.reload());
+    return (
+      <Form name="addunit" onSubmit={handleAddUnit}>
+        {/* TODO: Automate unit number updating */}
+        <Form.Group>
+          <Form.Label>Unit Number</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter unit number"
+            onChange={(event) => {
+              setNumber(Number(event.target.value));
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter unit number
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Unit Name</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter unit name"
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter unit name
+          </FormControl.Feedback>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Add Unit
+        </Button>
+      </Form>
+    );
   };
-
-  useEffect(() => {
-    // shoutout to https://www.robinwieruch.de/react-hooks-fetch-data
-    let didCancel = false;
-
-    const fetchData = () => {
-      getRole()
-        .then((value) => {
-          if (!value) {
-            throw new Error("error fetching role");
-          } else {
-            if (!didCancel) {
-              setRole(value);
-            }
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      getUnits()
-        .then((units) => {
-          if (!didCancel) {
-            setUnits(units);
-            return units;
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
-    fetchData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, []);
 
   return (
     <>
-      {!role ? (
-        <p>Loading role...</p>
-      ) : !units ? (
+      {unitError && (
+        <p>
+          <ExclamationTriangle color="#EED202" /> Units error
+        </p>
+      )}
+      {roleError && (
+        <p>
+          <ExclamationTriangle color="#EED202" /> Role error
+        </p>
+      )}
+      {unitsLoading || roleLoading || !units || !roleData ? (
         <p>Loading units...</p>
       ) : (
-        units.map((unit) => {
-          return <UnitContainer key={unit.id} role={role} unit={unit} />;
-        })
-      )}
-      {role === "teacher" || role === "admin" ? (
         <>
-          <Collapse accordion>
-            <Panel header="Add New Unit" key="1">
-              <Form name="addunit" onFinish={handleAddUnit}>
-                {/* TODO: Automate unit number updating */}
-                <Form.Item name="unitnumber" label="Unit Number">
-                  <InputNumber />
-                </Form.Item>
-                <Form.Item name="name" label="Unit Name">
-                  <Input />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Add Unit
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Panel>
-          </Collapse>
-          <br></br>
+          <div>
+            {units.map((unit) => {
+              return (
+                <UnitContainer key={unit.id} role={roleData.role} unit={unit} />
+              );
+            })}
+          </div>
+          <div>
+            {(roleData.role === "teacher" || roleData.role === "admin") && (
+              <Accordion>
+                <Card>
+                  <Card.Header>
+                    <Accordion.Toggle as={Button} eventKey="0">
+                      Add New Unit
+                    </Accordion.Toggle>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey="0">
+                    <AddUnitForm />
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
+            )}
+          </div>
         </>
-      ) : null}
+      )}
     </>
   );
 };

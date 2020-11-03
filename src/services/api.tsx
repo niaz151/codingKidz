@@ -7,6 +7,12 @@ import {
   Unit,
   Role,
 } from "models";
+import { useAuthState } from "react-firebase-hooks/auth";
+import {
+  useCollectionData,
+  useDocument,
+  useDocumentData,
+} from "react-firebase-hooks/firestore";
 import { auth, db } from "services/firebase";
 
 /**********************
@@ -44,28 +50,22 @@ export const resetPassword = async (email: string) => {
   });
 };
 
-export const getUser = () => {
+const getUser = () => {
   return auth.currentUser;
 };
 
-export const getRole = async () => {
-  const user = getUser();
+export const useUser = () => {
+  return useAuthState(auth);
+};
 
+export const useRole = () => {
+  const [user, , userError] = useUser();
   if (user) {
-    return await db
-      .collection("users")
-      .doc(user.uid)
-      .get()
-      .then((documentSnapshot) => {
-        const r: Role = documentSnapshot.data()?.role;
-        if (r) {
-          return r;
-        } else {
-          console.error("error reading role in api");
-        }
-      });
+    return useDocumentData<{ role: Role }>(
+      db.collection("users").doc(user.uid)
+    );
   } else {
-    throw new Error("No User");
+    throw userError;
   }
 };
 
@@ -139,6 +139,30 @@ export const getUnits = async () => {
     });
 };
 
+export const useUnits = () => {
+  return useCollectionData<Unit>(
+    db.collection("units").orderBy("unit_number"),
+    { idField: "id" }
+  );
+};
+
+export const useUnitCompletion = (unit_id: string) => {
+  const id = getUser()?.uid;
+  if (id) {
+    return useDocumentData<{ completed: boolean }>(
+      db
+        .collection("users")
+        .doc(id)
+        .collection("data")
+        .doc("completion")
+        .collection("units")
+        .doc(unit_id)
+    );
+  } else {
+    throw new Error("Error fetching user while getting unit completion data");
+  }
+};
+
 export const markUnitCompleted = async (unit_id: string) => {
   const id = getUser()?.uid;
 
@@ -158,34 +182,6 @@ export const markUnitCompleted = async (unit_id: string) => {
       });
   } else {
     throw new Error("Error fetching user while marking unit completed");
-  }
-};
-
-export const checkUnitCompleted = async (unit_id: string) => {
-  const id = getUser()?.uid;
-
-  if (id) {
-    return await db
-      .collection("users")
-      .doc(id)
-      .collection("data")
-      .doc("completion")
-      .collection("units")
-      .doc(unit_id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          let c = doc.data() as { completed: boolean };
-          return c.completed;
-        } else {
-          return false;
-        }
-      })
-      .catch(() => {
-        throw new Error("Error checking unit completed");
-      });
-  } else {
-    throw new Error("Error fetching user while checking unit completed");
   }
 };
 
@@ -210,35 +206,11 @@ export const addTopic = async (unit_id: string, topic: NewTopic) => {
     });
 };
 
-export const getTopics = async (unit_id: string) => {
-  let topic: Topic;
-  let topics: Topic[] = [];
-
-  return await db
-    .collection("units")
-    .doc(unit_id)
-    .collection("topics")
-    .orderBy("quiz_number")
-    .get()
-    .then((querySnapshot) => {
-      if (querySnapshot.empty) {
-        return;
-      }
-      querySnapshot.forEach((res) => {
-        topic = res.data() as Topic;
-        topic.id = res.id;
-        topics.push(topic);
-      });
-
-      if (!topics) {
-        throw new Error("Empty Topics!");
-      }
-
-      return topics;
-    })
-    .catch(() => {
-      throw new Error("Error getting topics");
-    });
+export const useTopics = (unit_id: string) => {
+  return useCollectionData<Topic>(
+    db.collection("units").doc(unit_id).collection("topics"),
+    { idField: "id" }
+  );
 };
 
 export const markTopicCompleted = async (unit_id: string, topic_id: string) => {
@@ -262,33 +234,22 @@ export const markTopicCompleted = async (unit_id: string, topic_id: string) => {
   }
 };
 
-export const checkTopicCompleted = async (
-  unit_id: string,
-  topic_id: string
-) => {
+export const useTopicCompletion = (unit_id: string, topic_id: string) => {
   const id = getUser()?.uid;
-
   if (id) {
-    return await db
-      .collection("users")
-      .doc(id)
-      .collection("data")
-      .doc("completion")
-      .collection("units")
-      .doc(unit_id)
-      .collection("topics")
-      .doc(topic_id)
-      .get()
-      .then((doc) => {
-        if (doc.exists) {
-          let c = doc.data() as { completed: boolean };
-          return c.completed;
-        } else {
-          return false;
-        }
-      });
+    return useDocumentData<{ completed: boolean }>(
+      db
+        .collection("users")
+        .doc(id)
+        .collection("data")
+        .doc("completion")
+        .collection("units")
+        .doc(unit_id)
+        .collection("topics")
+        .doc(topic_id)
+    );
   } else {
-    throw new Error("Error fetching user while checking unit completed");
+    throw new Error("Error fetching user while getting unit completion data");
   }
 };
 
@@ -341,6 +302,18 @@ export const addQuestion = async (
     });
 };
 
+export const useQuestions = (unit_id: string, topic_id: string) => {
+  return useCollectionData<Question>(
+    db
+      .collection("units")
+      .doc(unit_id)
+      .collection("topics")
+      .doc(topic_id)
+      .collection("questions"),
+    { idField: "id" }
+  );
+};
+
 export const editQuestion = async (
   unit_id: string,
   topic_id: string,
@@ -360,37 +333,6 @@ export const editQuestion = async (
     })
     .catch(() => {
       throw new Error("Error editing question");
-    });
-};
-
-export const getQuestions = async (unit_id: string, topic_id: string) => {
-  let question: Question;
-  let tempQuestions: Question[] = [];
-  return await db
-    .collection("units")
-    .doc(unit_id)
-    .collection("topics")
-    .doc(topic_id)
-    .collection("questions")
-    .get()
-    .then((collectionSnapshot) => {
-      collectionSnapshot.forEach((res) => {
-        if (!res.data()) {
-          return null;
-        }
-        question = res.data() as Question;
-        question.id = res.id;
-        tempQuestions.push(question);
-      });
-
-      if (!tempQuestions) {
-        throw new Error("Empty Questions");
-      }
-
-      return tempQuestions;
-    })
-    .catch(() => {
-      throw new Error("Error getting questions");
     });
 };
 

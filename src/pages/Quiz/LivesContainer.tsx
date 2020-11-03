@@ -1,11 +1,12 @@
 import React from "react";
-import {HeartOutlined as EmptyHeart, HeartFilled as Heart} from "@ant-design/icons"
+import {Heart as EmptyHeart, HeartFill as Heart} from 'react-bootstrap-icons'
+
 
 interface Props {
   lives: number;
 }
 
-const LivesContainer: React.FC<Props> = (props) => {
+export const LivesContainer: React.FC<Props> = (props) => {
   let lives = props.lives;
 
   return (
@@ -16,5 +17,3 @@ const LivesContainer: React.FC<Props> = (props) => {
     </div>
   );
 };
-
-export default LivesContainer;

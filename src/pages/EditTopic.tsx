@@ -1,19 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { Form, Input, Button } from "antd";
+import { Form, FormControl, Button } from "react-bootstrap";
+import { ExclamationTriangle } from "react-bootstrap-icons";
 
 import { NewQuestion, Question } from "models";
 
 import {
-  getQuestions,
   editQuestion,
   addQuestion,
   deleteQuestion,
-  getTopics,
+  useQuestions,
 } from "services/api";
-import { Store } from "antd/lib/form/interface";
 
 interface RouteParams {
   unit_id: string;
@@ -21,196 +20,185 @@ interface RouteParams {
 }
 
 const EditTopic: React.FC = () => {
-  const [questions, setQuestions] = useState<Question[]>();
   const { unit_id, topic_id } = useParams<RouteParams>();
+  let questions: Question[] | undefined;
+  let questionsLoading = true;
+  let questionsError: Error | undefined;
 
-  // load topics for unit
-  useEffect(() => {
-    let didCancel = false;
+  try {
+    const [
+      fetchedQuestions,
+      fetchedQuestionsLoading,
+      fetchedQuestionsError,
+    ] = useQuestions(unit_id, topic_id);
 
-    const fetchData = async () => {
-      await getTopics(unit_id)
-        .then((topics) => {
-          if (topics === undefined) {
-            console.log("no topics created yet for unit ", unit_id);
-            return;
-          }
-
-          getQuestions(unit_id, topic_id).then((questions) => {
-            if (!didCancel) {
-              setQuestions(questions);
-            }
-          });
-        })
-        .catch((error) => {
-          if (!didCancel) {
-            console.log("Error", error);
-          }
-        });
-    };
-
-    fetchData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [unit_id, topic_id]);
-
-  const handleEditQuestion = async (values: Store) => {
-    console.log("editQuestion hit");
-
-    const editedQuestion: Question = {
-      id: values.question_id,
-      question: values.question,
-      correct_answer: values.correct_answer,
-      wrong_answers: [
-        values.wrong_answer0,
-        values.wrong_answer1,
-        values.wrong_answer2,
-      ],
-    };
-
-    await editQuestion(unit_id, topic_id, editedQuestion).then(() => {
-      window.location.reload();
-    });
-  };
-
-  const handleAddQuestion = async (values: Store) => {
-    console.log("addQuestion hit");
-
-    const newQuestion: NewQuestion = {
-      question: values.question,
-      correct_answer: values.correct_answer,
-      wrong_answers: [
-        values.wrong_answer0,
-        values.wrong_answer1,
-        values.wrong_answer2,
-      ],
-    };
-
-    await addQuestion(unit_id, topic_id, newQuestion).then(() => {
-      window.location.reload();
-    });
-  };
+    questions = fetchedQuestions;
+    questionsLoading = fetchedQuestionsLoading;
+    questionsError = fetchedQuestionsError;
+  } catch (e) {
+    console.log(e);
+  }
 
   const handleDeleteQuestion = async (question_id: string) => {
-    await deleteQuestion(unit_id, topic_id, question_id).then(() => {
-      // refreshes page after question deleted
-      window.location.reload();
-    });
+    await deleteQuestion(unit_id, topic_id, question_id);
+  };
+
+  const QuestionForm = (props: { initialQuestion?: Question }) => {
+    const { initialQuestion } = props;
+    const [question, setQuestion] = useState<string | undefined>(
+      initialQuestion?.question
+    );
+    const [correct_answer, setCorrectAnswer] = useState<string | undefined>(
+      initialQuestion?.correct_answer
+    );
+    const [wrong_answer0, setWrong0] = useState<string | undefined>(
+      initialQuestion?.wrong_answers[0]
+    );
+    const [wrong_answer1, setWrong1] = useState<string | undefined>(
+      initialQuestion?.wrong_answers[1]
+    );
+    const [wrong_answer2, setWrong2] = useState<string | undefined>(
+      initialQuestion?.wrong_answers[2]
+    );
+    const [wrong_answer3, setWrong3] = useState<string | undefined>(
+      initialQuestion?.wrong_answers[3]
+    );
+
+    const onSubmit = () => {
+      if (
+        !question ||
+        !correct_answer ||
+        !wrong_answer0 ||
+        !wrong_answer1 ||
+        !wrong_answer2 ||
+        !wrong_answer3
+      ) {
+        console.log("got empty values from required controls");
+      } else {
+        addQuestion(unit_id, topic_id, {
+          question: question,
+          correct_answer: correct_answer,
+          wrong_answers: [
+            wrong_answer0,
+            wrong_answer1,
+            wrong_answer2,
+            wrong_answer3,
+          ],
+        });
+      }
+    };
+    return (
+      <Form name="addquestion" onSubmit={onSubmit}>
+        <Form.Group>
+          <Form.Label>Question</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Question Here"
+            defaultValue={initialQuestion?.question}
+            onChange={(event) => {
+              setQuestion(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter question
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Correct Answer</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Correct Answer Here"
+            defaultValue={initialQuestion?.correct_answer}
+            onChange={(event) => {
+              setCorrectAnswer(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter answer
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>First Wrong Answer</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Wrong Answer Here"
+            defaultValue={initialQuestion?.wrong_answers[0]}
+            onChange={(event) => {
+              setWrong0(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter answer
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Second Wrong Answer</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Wrong Answer Here"
+            defaultValue={initialQuestion?.wrong_answers[1]}
+            onChange={(event) => {
+              setWrong1(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter answer
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Third Wrong Answer</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Wrong Answer Here"
+            defaultValue={initialQuestion?.wrong_answers[2]}
+            onChange={(event) => {
+              setWrong2(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter answer
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Fourth Wrong Answer</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter Wrong Answer Here"
+            defaultValue={initialQuestion?.wrong_answers[3]}
+            onChange={(event) => {
+              setWrong3(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter answer
+          </FormControl.Feedback>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Add Question
+        </Button>
+      </Form>
+    );
   };
 
   return (
     <>
       <p>Edit Topic Page</p>
-      <Form name="addquestion" onFinish={handleAddQuestion}>
-        <Form.Item label="Question" name="question" style={{ width: 600 }}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Correct answer"
-          name="correct_answer"
-          style={{ width: 300 }}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Wrong answer 1"
-          name="wrong_answer0"
-          style={{ width: 300 }}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Wrong answer 2"
-          name="wrong_answer1"
-          style={{ width: 300 }}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          label="Wrong answer 3"
-          name="wrong_answer2"
-          style={{ width: 300 }}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Add question
-          </Button>
-        </Form.Item>
-      </Form>
-      {!questions ? (
+      <QuestionForm />
+      {questionsError && <ExclamationTriangle color="#EED202" />}
+      {questionsLoading ? (
+        <p>Loading questions...</p>
+      ) : !questions ? (
         <p>Add your first question!</p>
       ) : (
         questions.map((question) => {
-          return (
-            <Form
-              name="question"
-              onFinish={handleEditQuestion}
-              initialValues={{
-                id: question.id,
-                question: question.question,
-                correct_answer: question.correct_answer,
-                wrong_answer0: question.wrong_answers[0],
-                wrong_answer1: question.wrong_answers[1],
-                wrong_answer2: question.wrong_answers[2],
-              }}
-            >
-              <Form.Item label="Question ID" name="question_id">
-                <Input disabled />
-              </Form.Item>
-              <Form.Item
-                label="Question"
-                name="question"
-                style={{ width: 600 }}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Correct answer"
-                name="correct_answer"
-                style={{ width: 300 }}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Wrong answer 1"
-                name="wrong_answer0"
-                style={{ width: 300 }}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Wrong answer 2"
-                name="wrong_answer1"
-                style={{ width: 300 }}
-              >
-                <Input />
-              </Form.Item>
-              <Form.Item
-                label="Wrong answer 3"
-                name="wrong_answer2"
-                style={{ width: 300 }}
-              >
-                <Input />
-              </Form.Item>
-
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Change
-                </Button>
-                <Button
-                  type="dashed"
-                  danger
-                  onClick={() => handleDeleteQuestion(question.id)}
-                >
-                  Delete question
-                </Button>
-              </Form.Item>
-            </Form>
-          );
+          // TODO: Add delete question button
+          return <QuestionForm initialQuestion={question} />;
         })
       )}
     </>
@@ -218,126 +206,3 @@ const EditTopic: React.FC = () => {
 };
 
 export default EditTopic;
-
-// return (
-//   <>
-//     <br></br>
-//     <p>Topic: {topic.topic}</p>
-//     <p>Topic Number: {topic.quiz_number}</p>
-//     <p>Number of questions: {questions.length}</p>
-// <Form
-//   name="addquestion"
-//   onFinish={(values) => {
-//     handleAddQuestion(topic.id, values);
-//   }}
-// >
-//   <Form.Item label="Question" name="question" style={{ width: 600 }}>
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Correct answer"
-//     name="correct_answer"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Wrong answer 1"
-//     name="wrong_answer0"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Wrong answer 2"
-//     name="wrong_answer1"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Wrong answer 3"
-//     name="wrong_answer2"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item>
-//     <Button type="primary" htmlType="submit">
-//       Add question
-//     </Button>
-//   </Form.Item>
-// </Form>
-//     <p>----------------------------------</p>
-//     {questions[topic.id].map((question) => {
-//       return (
-// <Form
-//   name="question"
-//   onFinish={(values) => {
-//     handleEditQuestion(question.id, topic.id, values);
-//   }}
-//   initialValues={{
-//     id: question.id,
-//     question: question.question,
-//     correct_answer: question.correct_answer,
-//     wrong_answer0: question.wrong_answers[0],
-//     wrong_answer1: question.wrong_answers[1],
-//     wrong_answer2: question.wrong_answers[2],
-//   }}
-// >
-//   <Form.Item label="Question ID" name="id">
-//     <Input disabled />
-//   </Form.Item>
-//   <Form.Item
-//     label="Question"
-//     name="question"
-//     style={{ width: 600 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Correct answer"
-//     name="correct_answer"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Wrong answer 1"
-//     name="wrong_answer0"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Wrong answer 2"
-//     name="wrong_answer1"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-//   <Form.Item
-//     label="Wrong answer 3"
-//     name="wrong_answer2"
-//     style={{ width: 300 }}
-//   >
-//     <Input />
-//   </Form.Item>
-
-//   <Form.Item>
-//     <Button type="primary" htmlType="submit">
-//       Change
-//     </Button>
-//     <Button
-//       type="dashed"
-//       danger
-//       onClick={() => handleDeleteQuestion(topic.id, question.id)}
-//     >
-//       Delete question
-//     </Button>
-//   </Form.Item>
-// </Form>
-//       );
-//     })}
-//   </>
-// );

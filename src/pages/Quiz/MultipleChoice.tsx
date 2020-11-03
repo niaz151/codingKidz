@@ -1,13 +1,13 @@
 import * as React from "react";
 import { Question } from "models";
-import { Button } from "antd";
+import { Button } from "react-bootstrap";
 
 interface Props {
   question: Question;
   handleResult: (result: boolean) => void;
 }
 
-const MultipleChoice: React.FC<Props> = (props) => {
+export const MultipleChoice: React.FC<Props> = (props) => {
   const question: Question = props.question;
   const [answers] = React.useState<string[]>(
     question.wrong_answers
@@ -37,5 +37,3 @@ const MultipleChoice: React.FC<Props> = (props) => {
     </>
   );
 };
-
-export default MultipleChoice;

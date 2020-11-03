@@ -1,34 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 
-import { getUser, getRole } from "services/api";
-import { Button } from "antd";
+import { ExclamationTriangle } from "react-bootstrap-icons";
+
+import { useUser } from "services/api";
+import { Button } from "react-bootstrap";
 
 const Welcome: React.FC = () => {
-  const [role, setRole] = useState<string>();
-  const user = getUser();
-  const languages = ["Scratch", "Python", "JavaScript", "Java"];
-  const languageList = languages.map((l) => (
-    <p key={l} style={{ marginLeft: 660 }}>
-      <Button size="middle">{l}</Button>
-    </p>
-  ));
-
-  if (user) {
-    getRole().then((r) => {
-      setRole(r);
-    });
-  }
+  const [user, , userError] = useUser();
+  const languages = ["Scratch", "ScratchJR"];
 
   return user ? (
     <div style={{ marginTop: 80 }}>
-      <p style={{ textAlign: "center" }}>Welcome {user.email}!</p>
-      {role ? (
-        <p style={{ textAlign: "center" }}>Your role is: {role}</p>
-      ) : (
-        <p>Loading role...</p>
+      {userError && (
+        <p>
+          <ExclamationTriangle color="#EED202" /> Error loading user
+        </p>
       )}
+      <p style={{ textAlign: "center" }}>Welcome {user.email}!</p>
       <p style={{ textAlign: "center" }}>Please select a language</p>
-      {languageList}
+      {languages.map((language) => (
+        <p key={language} style={{ marginLeft: 660 }}>
+          <Button>{language}</Button>
+        </p>
+      ))}
     </div>
   ) : (
     <p>Click above to login!</p>

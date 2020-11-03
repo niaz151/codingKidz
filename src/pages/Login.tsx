@@ -1,84 +1,76 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Form, Input, Button, Space } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Button, FormControl, Col, Row } from "react-bootstrap";
+import { Person, Lock } from "react-bootstrap-icons";
 
 import { Link } from "react-router-dom";
 import { login } from "services/api";
-import { Store } from "antd/lib/form/interface";
 
 const Login: React.FC = () => {
-  const onFinish = (values: Store) => {
-    login(values.email, values.password).then(
-      () => {
-        console.log("successfully logged in");
-        window.location.reload();
-      },
-      (error) => {
-        alert(error);
-      }
-    );
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+
+  const onSubmit = () => {
+    if (!email || !password) {
+      console.log("got empty values from required inputs");
+    } else {
+      login(email, password).then(
+        () => {
+          console.log("successfully logged in");
+        },
+        (error) => {
+          alert(error);
+        }
+      );
+    }
   };
 
   return (
-    <>
-      <Form
-        name="login"
-        className="login-form"
-        onFinish={onFinish}
-        style={{ marginTop: 16, marginLeft: 520 }}
-      >
-        <Form.Item
-          name="email"
-          label="Email"
-          rules={[
-            {
-              type: "email",
-              message: "The input is not valid E-mail!",
-            },
-            { required: true, message: "Please input your email!" },
-          ]}
-        >
-          <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            type="email"
-            placeholder="Email"
-          />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="Password"
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Password"
-          />
-        </Form.Item>
-        <Space direction="vertical">
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-            >
-              Log In
-            </Button>
-          </Form.Item>
+    <Form onSubmit={onSubmit}>
+      <Form.Group>
+        <Form.Label>Email</Form.Label>
+        <Form.Control
+          required
+          type="text"
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+        />
+        <FormControl.Feedback type="invalid">
+          Please enter email
+        </FormControl.Feedback>
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          required
+          type="text"
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
+        <FormControl.Feedback type="invalid">
+          Please enter password
+        </FormControl.Feedback>
+      </Form.Group>
+      <Row>
+        <Col>
+          <Button variant="primary" type="submit">
+            Login
+          </Button>
+        </Col>
+        <Col>
           <Link to="/passwordreset">
             <Button>Reset Password</Button>
           </Link>
+        </Col>
+        <Col>
           <Link to="/register">
             <Button>Register</Button>
           </Link>
-        </Space>
-      </Form>
-    </>
+        </Col>
+      </Row>
+    </Form>
   );
 };
 

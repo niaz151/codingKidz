@@ -1,17 +1,17 @@
 import {
-  CheckSquareFilled,
-  CheckSquareOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
-import { Button, Card, Collapse, Form, Input, InputNumber } from "antd";
-import { Store } from "antd/lib/form/interface";
-import { NewTopic, Role, Topic, Unit } from "models";
-import React, { useEffect, useState } from "react";
+  CheckSquare,
+  CheckSquareFill,
+  Trash,
+  ExclamationTriangle,
+} from "react-bootstrap-icons";
+import { Button, Accordion, Card, Form, FormControl } from "react-bootstrap";
+import { Role, Unit } from "models";
+import React, { useState } from "react";
 import {
   addTopic,
-  checkUnitCompleted,
   deleteUnit,
-  getTopics,
+  useTopics,
+  useUnitCompletion,
 } from "services/api";
 import { TopicContainer } from "./TopicContainer";
 
@@ -22,87 +22,98 @@ type Props = {
 
 export const UnitContainer = (props: Props) => {
   const { role, unit } = props;
-  const [completed, setCompleted] = useState<boolean>();
-  const [topics, setTopics] = useState<Topic[]>();
-
-  const { Panel } = Collapse;
+  const [
+    completionData,
+    completionLoading,
+    completionError,
+  ] = useUnitCompletion(unit.id);
+  const [topics, topicsLoading, topicsError] = useTopics(unit.id);
 
   const handleDeleteUnit = (unit_id: string) => {
-    deleteUnit(unit_id).then(() => window.location.reload());
+    deleteUnit(unit_id);
   };
 
-  const handleAddTopic = (unit_id: string, values: Store) => {
-    const newTopic: NewTopic = {
-      topic_number: values.topic_number,
-      name: values.name,
+  const AddTopicForm = () => {
+    const [number, setNumber] = useState<number>();
+    const [name, setName] = useState<string>();
+
+    const handleAddTopic = () => {
+      if (!number || !name) {
+        console.log("somehow got null values");
+      } else {
+        addTopic(unit.id, { topic_number: number, name: name });
+      }
     };
 
-    addTopic(unit_id, newTopic).then(() => window.location.reload());
+    return (
+      <Form name="addtopic" onSubmit={handleAddTopic}>
+        {/* TODO: Automate unit number updating */}
+        <Form.Group>
+          <Form.Label>Unit Number</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter unit number"
+            onChange={(event) => {
+              setNumber(Number(event.target.value));
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter topic number
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Topic Name</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            placeholder="Enter topic name"
+            onChange={(event) => {
+              setName(event.target.value);
+            }}
+          />
+          <FormControl.Feedback type="invalid">
+            Please enter topic name
+          </FormControl.Feedback>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Add Topic
+        </Button>
+      </Form>
+    );
   };
-
-  useEffect(() => {
-    let didCancel = false;
-
-    const fetchData = () => {
-      checkUnitCompleted(unit.id)
-        .then((value) => {
-          if (!didCancel) {
-            setCompleted(value);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-
-      getTopics(unit.id)
-        .then((topics) => {
-          if (!didCancel) {
-            setTopics(topics);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-
-    fetchData();
-
-    return () => {
-      didCancel = true;
-    };
-  }, [unit.id]);
 
   return (
-    <Card
-      key={unit.id}
-      title={
-        <>
-          {unit.name}
-          {completed ? <CheckSquareFilled /> : <CheckSquareOutlined />}
-        </>
-      }
-      extra={
-        <>
-          {role === "teacher" || role === "admin" ? (
-            <>
-              <Button
-                onClick={() => {
-                  handleDeleteUnit(unit.id);
-                }}
-              >
-                <DeleteOutlined />
-              </Button>
-            </>
-          ) : null}
-        </>
-      }
-    >
-      {topics &&
-        (!topics ? (
-          <p>No topics for {unit.name}</p>
+    <Card>
+      <Card.Header>
+        {unit.name} {completionError && <ExclamationTriangle color="#EED202" />}
+        {completionLoading ? (
+          <CheckSquare color="#EED202" />
+        ) : completionData && completionData.completed ? (
+          <CheckSquareFill />
         ) : (
+          <CheckSquare />
+        )}
+        {role === "teacher" || role === "admin" ? (
+          <>
+            <Button
+              onClick={() => {
+                handleDeleteUnit(unit.id);
+              }}
+            >
+              <Trash />
+            </Button>
+          </>
+        ) : null}
+      </Card.Header>
+      <Card.Body>
+        {topicsLoading ? (
+          <p>Loading topics for unit</p>
+        ) : topicsError ? (
+          <p>Error loading topics</p>
+        ) : (
+          topics &&
           topics.map((topic) => {
-            console.log("rendering topic", topic.id)
             return (
               <TopicContainer
                 key={topic.id}
@@ -112,33 +123,23 @@ export const UnitContainer = (props: Props) => {
               />
             );
           })
-        ))}
+        )}
+      </Card.Body>
+
       {role === "teacher" || role === "admin" ? (
         <>
-          <Collapse accordion>
-            <Panel header="Add New Topic" key="1">
-              <Form
-                name="addtopic"
-                onFinish={(values) => {
-                  handleAddTopic(unit.id, values);
-                }}
-              >
-                {/* TODO: Automate topic number updating */}
-                <Form.Item name="topic_number" label="Topic Number">
-                  <InputNumber />
-                </Form.Item>
-                <Form.Item name="name" label="Topic Name">
-                  <Input />
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Add Topic
-                  </Button>
-                </Form.Item>
-              </Form>
-            </Panel>
-          </Collapse>
-          <br></br>
+          <Accordion>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} eventKey="0">
+                  Add New Topic
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="0">
+                <AddTopicForm />
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
         </>
       ) : null}
     </Card>

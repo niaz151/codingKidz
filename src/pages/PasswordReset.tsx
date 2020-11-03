@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { resetPassword } from "services/api";
 import { Link } from "react-router-dom";
-import { Form, Input, Button, Space } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-import { Store } from "antd/lib/form/interface";
+import { Form, Button, Row, Col } from "react-bootstrap";
 
 const PasswordReset: React.FC = () => {
+  const [email, setEmail] = useState<string>();
   const [sent, setSent] = useState(false);
 
   useEffect(() => {
@@ -14,59 +13,53 @@ const PasswordReset: React.FC = () => {
     }
   }, []);
 
-  const onFinish = (values: Store) => {
-    resetPassword(values.email).then(
-      () => {
-        setSent(true);
-      },
-      (error) => {
-        setSent(false);
-        alert(error);
-      }
-    );
+  const onFinish = () => {
+    if (!email) {
+      console.log("got empty email from required input");
+    } else {
+      resetPassword(email).then(
+        () => {
+          setSent(true);
+        },
+        (error) => {
+          setSent(false);
+          alert(error);
+        }
+      );
+    }
   };
 
   const PasswordResetForm = () => {
     return (
       <>
-        <Form
-          name="resetPassword"
-          className="reset-password-form"
-          onFinish={onFinish}
-        >
-          <Form.Item
-            name="email"
-            label="Email"
-            rules={[
-              {
-                type: "email",
-                message: "The input is not a valid E-mail!",
-              },
-              {
-                required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
+        <Form name="resetPassword" onSubmit={onFinish}>
+          <Form.Group>
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              required
               type="email"
-              placeholder="Email"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
             />
-          </Form.Item>
-          <Space direction="vertical">
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
+          </Form.Group>
+          <Row>
+            <Col>
+              <Button variant="primary" type="submit">
                 Reset Password
               </Button>
-            </Form.Item>
-            <Link to="/login">
-              <Button>Go to Login</Button>
-            </Link>
-            <Link to="/register">
-              <Button>Go to Register</Button>
-            </Link>
-          </Space>
+            </Col>
+            <Col>
+              <Link to="/login">
+                <Button>Back to Login</Button>
+              </Link>
+            </Col>
+            <Col>
+              <Link to="/register">
+                <Button>Go To Register</Button>
+              </Link>
+            </Col>
+          </Row>
         </Form>
       </>
     );

@@ -1,115 +1,116 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Form, Input, Select, Button, Space } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { Form, Button, FormControl, Col, Row } from "react-bootstrap";
 import { register, signOut } from "services/api";
-import { Store } from "antd/lib/form/interface";
+import { Role } from "models";
 
 const Register: React.FC = () => {
-  const { Option } = Select;
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [role, setRole] = useState<string>();
 
-  const onFinish = (values: Store) => {
-    register(values.email, values.password, values.role).then(
-      () => {
-        console.log("registered successfully");
-        return signOut();
-      },
-      (error) => {
-        alert(error);
+  const onSubmit = () => {
+    if (!email || !password || !confirmPassword || !role) {
+      console.log("got empty value from form");
+    } else if (password !== confirmPassword) {
+      alert("passwords must match");
+    } else {
+      let derivedRole: Role;
+      if (role === "student") {
+        derivedRole = "student";
+      } else if (role === "teacher") {
+        derivedRole = "teacher";
+      } else {
+        derivedRole = "student";
       }
-    );
+
+      // TODO: Make this not terrible
+
+      register(email, password, derivedRole).then(
+        () => {
+          console.log("registered successfully");
+          return signOut();
+        },
+        (error) => {
+          alert(error);
+        }
+      );
+    }
   };
 
   return (
     <>
-      <Form name="register" className="register-form" onFinish={onFinish}>
-        <Form.Item
-          name="role"
-          label="Role"
-          hasFeedback
-          rules={[{ required: true, message: "Please select a role!" }]}
-        >
-          <Select>
-            <Option value="student">Student</Option>
-            <Option value="teacher">Teacher</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item
-          name="email"
-          label="Email"
-          rules={[
-            {
-              type: "email",
-              message: "The input is not a valid E-mail!",
-            },
-            {
-              required: true,
-              message: "Please input your email!",
-            },
-          ]}
-        >
-          <Input
-            prefix={<UserOutlined className="site-form-item-icon" />}
-            type="email"
-            placeholder="Email"
+      <Form onSubmit={onSubmit}>
+        <Form.Group>
+          <Form.Label>Email</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            onChange={(event) => {
+              setEmail(event.target.value);
+            }}
           />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          label="Password"
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Please input your password!",
-            },
-          ]}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Password"
+          <FormControl.Feedback type="invalid">
+            Please enter email
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            onChange={(event) => {
+              setPassword(event.target.value);
+            }}
           />
-        </Form.Item>
-        <Form.Item
-          name="confirmPassword"
-          label="Confirm Password"
-          dependencies={["password"]}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: "Please confirm your password!",
-            },
-            ({ getFieldValue }) => ({
-              validator(rule, value) {
-                if (!value || getFieldValue("password") === value) {
-                  return Promise.resolve();
-                }
-                return Promise.reject(
-                  "The two passwords that you entered do not match!"
-                );
-              },
-            }),
-          ]}
-        >
-          <Input.Password
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            placeholder="Confirm Password"
+          <FormControl.Feedback type="invalid">
+            Please enter password
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Confirm Password</Form.Label>
+          <Form.Control
+            required
+            type="text"
+            onChange={(event) => {
+              setConfirmPassword(event.target.value);
+            }}
           />
-        </Form.Item>
-        <Space direction="vertical">
-          <Form.Item>
-            <Button type="primary" htmlType="submit">
+          <FormControl.Feedback type="invalid">
+            Please confirm password
+          </FormControl.Feedback>
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Choose Role</Form.Label>
+          <Form.Control
+            required
+            as="select"
+            onChange={(event) => {
+              setRole(event.target.value);
+            }}
+          >
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </Form.Control>
+        </Form.Group>
+        <Row>
+          <Col>
+            <Button variant="primary" type="submit">
               Register
             </Button>
-          </Form.Item>
-          <Link to="/passwordreset">
-            <Button>Reset Password</Button>
-          </Link>
-          <Link to="/login">
-            <Button>Back to Login</Button>
-          </Link>
-        </Space>
+          </Col>
+          <Col>
+            <Link to="/passwordreset">
+              <Button>Reset Password</Button>
+            </Link>
+          </Col>
+          <Col>
+            <Link to="/login">
+              <Button>Back to Login</Button>
+            </Link>
+          </Col>
+        </Row>
       </Form>
     </>
   );
