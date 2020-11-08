@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import { Switch, Route, Redirect, NavLink, Link } from "react-router-dom";
 
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 
 import {
   Login,
@@ -15,7 +15,15 @@ import {
 } from "pages";
 
 import { PrivateRoute, PublicRoute } from "components";
-import { Button, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
+import {
+  Button,
+  Col,
+  Container,
+  Nav,
+  Navbar,
+  NavItem,
+  Row,
+} from "react-bootstrap";
 import { signOut, useUser } from "services/api";
 
 const App: React.FC = () => {
@@ -24,7 +32,7 @@ const App: React.FC = () => {
   const handleSignOut = async () => {
     await signOut().then(() => {
       console.log("signed out");
-      return <Redirect to="/login" />;
+      window.location.reload();
     });
   };
 
@@ -36,10 +44,23 @@ const App: React.FC = () => {
             <Navbar.Brand>
               <Link to="/">codingKIDZ Quizapp</Link>
             </Navbar.Brand>
-            <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
             <Navbar.Collapse>
               <Nav className="mr-auto">
-                <Nav.Link><Link to="/units">Units</Link></Nav.Link>
+                <Nav.Item>
+                  <Nav.Link as={Link} to="/units">
+                    Units
+                  </Nav.Link>
+                </Nav.Item>
+                {user ? (
+                  <Button onClick={handleSignOut}>Logout</Button>
+                ) : (
+                  <Nav.Item>
+                    <Nav.Link as={Link} to="/login">
+                      Login
+                    </Nav.Link>
+                  </Nav.Item>
+                )}
               </Nav>
             </Navbar.Collapse>
           </Navbar>

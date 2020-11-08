@@ -1,4 +1,4 @@
-import { Button, Form, Accordion, Card, FormControl } from "react-bootstrap";
+import { Button, Form, Accordion, Card, FormControl, Col } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 import React, { useState } from "react";
 import { addUnit, useRole, useUnits } from "services/api";
@@ -12,7 +12,7 @@ const Units: React.FC = () => {
     const [number, setNumber] = useState<number>();
     const [name, setName] = useState<string>();
 
-    const handleAddUnit = () => {
+    const handleAddUnit = (event: React.FormEvent<HTMLFormElement>) => {
       if (!number || !name) {
         console.log("got nothing from form even though it's required")
       } else {
@@ -21,6 +21,8 @@ const Units: React.FC = () => {
           name: name
         });
       }
+
+      event.preventDefault();
     };
 
     return (
@@ -76,7 +78,7 @@ const Units: React.FC = () => {
       {unitsLoading || roleLoading || !units || !roleData ? (
         <p>Loading units...</p>
       ) : (
-        <>
+        <Col>
           <div>
             {units.map((unit) => {
               return (
@@ -100,7 +102,7 @@ const Units: React.FC = () => {
               </Accordion>
             )}
           </div>
-        </>
+        </Col>
       )}
     </>
   );

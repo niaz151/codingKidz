@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Form, Button, FormControl, Col, Row } from "react-bootstrap";
+import { Form, Button, FormControl, Col, Row, InputGroup } from "react-bootstrap";
 import { Person, Lock } from "react-bootstrap-icons";
 
 import { Link } from "react-router-dom";
@@ -10,7 +10,7 @@ const Login: React.FC = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  const onSubmit = () => {
+  const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     if (!email || !password) {
       console.log("got empty values from required inputs");
     } else {
@@ -19,10 +19,12 @@ const Login: React.FC = () => {
           console.log("successfully logged in");
         },
         (error) => {
+          console.log(error)
           alert(error);
         }
       );
     }
+    event.preventDefault()
   };
 
   return (
@@ -42,13 +44,15 @@ const Login: React.FC = () => {
       </Form.Group>
       <Form.Group>
         <Form.Label>Password</Form.Label>
+        <InputGroup>
         <Form.Control
           required
-          type="text"
+          type="password"
           onChange={(event) => {
             setPassword(event.target.value);
           }}
         />
+        </InputGroup>
         <FormControl.Feedback type="invalid">
           Please enter password
         </FormControl.Feedback>

@@ -7,6 +7,7 @@ import { LivesContainer } from "./LivesContainer";
 import { MultipleChoice } from "./MultipleChoice";
 import {Button} from 'react-bootstrap'
 import { Question } from "models";
+import { ExclamationTriangle } from "react-bootstrap-icons";
 
 interface RouteParams {
   unit_id: string;
@@ -76,6 +77,7 @@ const Quiz: React.FC = () => {
   return lives >= 1 ? (
     <>
       <LivesContainer lives={lives} />
+      {questionsError && <ExclamationTriangle color="red"/>}
       {(questionsLoading || !selectedQuestions) && <p>Loading questions...</p>}
       {!questionsLoading &&
         selectedQuestions &&

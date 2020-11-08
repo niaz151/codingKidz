@@ -10,7 +10,6 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
   useCollectionData,
-  useDocument,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
 import { auth, db } from "services/firebase";

@@ -37,12 +37,13 @@ export const UnitContainer = (props: Props) => {
     const [number, setNumber] = useState<number>();
     const [name, setName] = useState<string>();
 
-    const handleAddTopic = () => {
+    const handleAddTopic = (event: React.FormEvent<HTMLFormElement>) => {
       if (!number || !name) {
         console.log("somehow got null values");
       } else {
         addTopic(unit.id, { topic_number: number, name: name });
       }
+      event.preventDefault();
     };
 
     return (

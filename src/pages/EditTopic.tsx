@@ -64,7 +64,7 @@ const EditTopic: React.FC = () => {
       initialQuestion?.wrong_answers[3]
     );
 
-    const onSubmit = () => {
+    const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
       if (
         !question ||
         !correct_answer ||
@@ -86,6 +86,7 @@ const EditTopic: React.FC = () => {
           ],
         });
       }
+      event.preventDefault();
     };
     return (
       <Form name="addquestion" onSubmit={onSubmit}>
