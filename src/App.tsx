@@ -1,6 +1,6 @@
 import React from "react";
 import "./App.css";
-import { Switch, Route, Redirect, NavLink, Link } from "react-router-dom";
+import { Switch, Route, Redirect, Link } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -21,7 +21,6 @@ import {
   Container,
   Nav,
   Navbar,
-  NavItem,
   Row,
 } from "react-bootstrap";
 import { signOut, useUser } from "services/api";
@@ -75,12 +74,12 @@ const App: React.FC = () => {
             <PrivateRoute exact path="/units" component={Units} />
             <PrivateRoute
               exact
-              path="/units/edit/:unit/:topic"
+              path="/units/edit/:unit_id/:topic_id"
               component={EditTopic}
             />
             <PrivateRoute
               exact
-              path="/units/quiz/:unit/:topic"
+              path="/units/quiz/:unit_id/:topic_id"
               component={Quiz}
             />
             <Route path="*">

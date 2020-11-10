@@ -4,9 +4,9 @@ import { useParams, Link } from "react-router-dom";
 
 import { markQuizCompleted, useQuestions } from "services/api";
 import { LivesContainer } from "./LivesContainer";
-import { MultipleChoice } from "./MultipleChoice";
+import { QuestionContainer } from "./QuestionContainer";
 import {Button} from 'react-bootstrap'
-import { Question } from "models";
+import { MultipleChoice } from "models";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 
 interface RouteParams {
@@ -27,7 +27,7 @@ const Quiz: React.FC = () => {
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState(3);
 
-  let selectedQuestions: Question[] = questions!.sort(
+  let selectedQuestions: MultipleChoice[] = questions!.sort(
     () => 0.5 - Math.random()
   );
   if (questions!.length > QUESTIONS_PER_QUIZ) {
@@ -82,7 +82,7 @@ const Quiz: React.FC = () => {
       {!questionsLoading &&
         selectedQuestions &&
         (questionIndex < QUESTIONS_PER_QUIZ ? (
-          <MultipleChoice
+          <QuestionContainer
             key={selectedQuestions[questionIndex].id}
             question={selectedQuestions[questionIndex]}
             handleResult={handleAnswerSelection}

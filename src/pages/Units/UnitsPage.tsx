@@ -13,9 +13,11 @@ const Units: React.FC = () => {
     const [name, setName] = useState<string>();
 
     const handleAddUnit = (event: React.FormEvent<HTMLFormElement>) => {
-      if (!number || !name) {
+      if (number === undefined || name === undefined) {
+        console.log("tried to add", "number", number, "name", name)
         console.log("got nothing from form even though it's required")
       } else {
+        console.log("about to add", "number", number, "name", name)
         addUnit({
           unit_number: number,
           name: name
@@ -26,7 +28,9 @@ const Units: React.FC = () => {
     };
 
     return (
-      <Form name="addunit" onSubmit={handleAddUnit}>
+      <Form name="addunit" onSubmit={(event) => {
+        handleAddUnit(event)
+      }}>
         {/* TODO: Automate unit number updating */}
         <Form.Group>
           <Form.Label>Unit Number</Form.Label>

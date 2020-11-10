@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Question } from "models";
+import { MultipleChoice } from "models";
 import { Button } from "react-bootstrap";
 
 interface Props {
-  question: Question;
+  question: MultipleChoice;
   handleResult: (result: boolean) => void;
 }
 
-export const MultipleChoice: React.FC<Props> = (props) => {
-  const question: Question = props.question;
+export const QuestionContainer: React.FC<Props> = (props) => {
+  const question: MultipleChoice = props.question;
   const [answers] = React.useState<string[]>(
     question.wrong_answers
       .concat(question.correct_answer)

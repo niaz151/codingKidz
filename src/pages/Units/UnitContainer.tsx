@@ -38,7 +38,7 @@ export const UnitContainer = (props: Props) => {
     const [name, setName] = useState<string>();
 
     const handleAddTopic = (event: React.FormEvent<HTMLFormElement>) => {
-      if (!number || !name) {
+      if (number === undefined || name === undefined) {
         console.log("somehow got null values");
       } else {
         addTopic(unit.id, { topic_number: number, name: name });
@@ -47,14 +47,14 @@ export const UnitContainer = (props: Props) => {
     };
 
     return (
-      <Form name="addtopic" onSubmit={handleAddTopic}>
-        {/* TODO: Automate unit number updating */}
+      <Form onSubmit={handleAddTopic}>
+        {/* TODO: Automate topic number updating */}
         <Form.Group>
-          <Form.Label>Unit Number</Form.Label>
+          <Form.Label>Topic Number</Form.Label>
           <Form.Control
             required
             type="text"
-            placeholder="Enter unit number"
+            placeholder="Enter topic number"
             onChange={(event) => {
               setNumber(Number(event.target.value));
             }}

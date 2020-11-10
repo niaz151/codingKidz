@@ -1,10 +1,20 @@
-export interface NewQuestion {
+export interface NewTrueFalse {
   question: string;
   correct_answer: string;
   wrong_answers: string[];
 }
 
-export interface Question extends NewQuestion {
+export interface TrueFalse extends NewTrueFalse {
+  id: string;
+}
+
+export interface NewMultipleChoice {
+  question: string;
+  correct_answer: string;
+  wrong_answers: string[];
+}
+
+export interface MultipleChoice extends NewMultipleChoice {
   id: string;
 }
 

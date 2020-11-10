@@ -1,8 +1,8 @@
 import {
-  NewQuestion,
+  NewMultipleChoice,
   NewTopic,
   NewUnit,
-  Question,
+  MultipleChoice,
   Topic,
   Unit,
   Role,
@@ -283,7 +283,7 @@ export const markQuizCompleted = async (unit_id: string, topic_id: string) => {
 export const addQuestion = async (
   unit_id: string,
   topic_id: string,
-  newQuestion: NewQuestion
+  newQuestion: NewMultipleChoice
 ) => {
   return await db
     .collection("units")
@@ -302,7 +302,7 @@ export const addQuestion = async (
 };
 
 export const useQuestions = (unit_id: string, topic_id: string) => {
-  return useCollectionData<Question>(
+  return useCollectionData<MultipleChoice>(
     db
       .collection("units")
       .doc(unit_id)
@@ -316,7 +316,7 @@ export const useQuestions = (unit_id: string, topic_id: string) => {
 export const editQuestion = async (
   unit_id: string,
   topic_id: string,
-  editedQuestion: Question
+  editedQuestion: MultipleChoice
 ) => {
   return await db
     .collection("units")
