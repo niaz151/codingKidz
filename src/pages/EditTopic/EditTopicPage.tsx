@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { useParams } from "react-router-dom";
 
-import { Button, Container, Col, Row, Accordion, Card } from "react-bootstrap";
+import {
+  Button,
+  Container,
+  Col,
+  Row,
+  Accordion,
+  Card,
+  Modal,
+} from "react-bootstrap";
 import { ExclamationTriangle, Trash } from "react-bootstrap-icons";
 
 import { deleteQuestion, useQuestions } from "services/api";
@@ -15,17 +23,52 @@ interface RouteParams {
 
 const EditTopic: React.FC = () => {
   const { unit_id, topic_id } = useParams<RouteParams>();
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [questionToDelete, setQuestionToDelete] = useState<string>();
   const [questions, questionsLoading, questionsError] = useQuestions(
     unit_id,
     topic_id
   );
 
-  const handleDeleteQuestion = async (question_id: string) => {
-    await deleteQuestion(unit_id, topic_id, question_id);
+  const handleDeleteQuestion = async (question_id: string | undefined) => {
+    if(question_id) {
+      await deleteQuestion(unit_id, topic_id, question_id);
+    } else {
+      console.log("called handleDeleteQuestion with undefined question_id")
+    }
   };
 
   return (
     <Container>
+      <Modal show={showDeleteModal}>
+        <Modal.Header>
+          <Modal.Title>Confirm your choice</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>This will permanently delete the question!</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              console.log("decided not to delete", questionToDelete);
+              setShowDeleteModal(false);
+              setQuestionToDelete(undefined)
+            }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              console.log("confirmed deletion of", questionToDelete);
+              handleDeleteQuestion(questionToDelete);
+              setQuestionToDelete(undefined)
+              setShowDeleteModal(false);
+            }}
+          >
+            Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Col>
         <Row>
           <h1>Edit Topic Page</h1>
@@ -55,38 +98,41 @@ const EditTopic: React.FC = () => {
             questions.map((question) => {
               // TODO: Add delete question button
               return (
-                <Accordion key={question.id}>
-                  <Card>
-                    <Card.Header>
-                      <Row>
-                        <Col>{question.id}</Col>
-                        <Col>
-                          <Button
-                            onClick={() => {
-                              handleDeleteQuestion(question.id);
-                            }}
-                          >
-                            <Trash />
-                          </Button>
-                        </Col>
-                        <Col>
-                          <Accordion.Toggle as={Button} eventKey="0">
-                            Edit Question
-                          </Accordion.Toggle>
-                        </Col>
-                      </Row>
-                    </Card.Header>
-                    <Accordion.Collapse eventKey="0">
-                      <Card.Body>
-                        <MultipleChoiceForm
-                          initialQuestion={question}
-                          unit_id={unit_id}
-                          topic_id={topic_id}
-                        />
-                      </Card.Body>
-                    </Accordion.Collapse>
-                  </Card>
-                </Accordion>
+                <React.Fragment key={question.id}>
+                  <Accordion>
+                    <Card>
+                      <Card.Header>
+                        <Row>
+                          <Col>{question.id}</Col>
+                          <Col>
+                            <Button
+                              onClick={() => {
+                                setQuestionToDelete(question.id)
+                                setShowDeleteModal(true);
+                              }}
+                            >
+                              <Trash />
+                            </Button>
+                          </Col>
+                          <Col>
+                            <Accordion.Toggle as={Button} eventKey="0">
+                              Edit Question
+                            </Accordion.Toggle>
+                          </Col>
+                        </Row>
+                      </Card.Header>
+                      <Accordion.Collapse eventKey="0">
+                        <Card.Body>
+                          <MultipleChoiceForm
+                            initialQuestion={question}
+                            unit_id={unit_id}
+                            topic_id={topic_id}
+                          />
+                        </Card.Body>
+                      </Accordion.Collapse>
+                    </Card>
+                  </Accordion>
+                </React.Fragment>
               );
             })
           )}

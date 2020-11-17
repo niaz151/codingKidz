@@ -4,7 +4,14 @@ import {
   Trash,
   ExclamationTriangle,
 } from "react-bootstrap-icons";
-import { Button, Accordion, Card, Form, FormControl } from "react-bootstrap";
+import {
+  Button,
+  Accordion,
+  Card,
+  Form,
+  FormControl,
+  Modal,
+} from "react-bootstrap";
 import { Role, Unit } from "models";
 import React, { useState } from "react";
 import {
@@ -22,6 +29,7 @@ type Props = {
 
 export const UnitContainer = (props: Props) => {
   const { role, unit } = props;
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [
     completionData,
     completionLoading,
@@ -85,64 +93,94 @@ export const UnitContainer = (props: Props) => {
   };
 
   return (
-    <Card>
-      <Card.Header>
-        {unit.name} {completionError && <ExclamationTriangle color="#EED202" />}
-        {completionLoading ? (
-          <CheckSquare color="#EED202" />
-        ) : completionData && completionData.completed ? (
-          <CheckSquareFill />
-        ) : (
-          <CheckSquare />
-        )}
-        {role === "teacher" || role === "admin" ? (
-          <>
+    <>
+      {(role === "teacher" || role === "admin") && (
+        <Modal show={showDeleteModal}>
+          <Modal.Header>
+            <Modal.Title>Confirm your choice</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            This will permanently delete the unit!
+          </Modal.Body>
+          <Modal.Footer>
             <Button
+              variant="secondary"
+              onClick={() => setShowDeleteModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="danger"
               onClick={() => {
                 handleDeleteUnit(unit.id);
+                setShowDeleteModal(false);
               }}
             >
-              <Trash />
+              Delete
             </Button>
+          </Modal.Footer>
+        </Modal>
+      )}
+      <Card>
+        <Card.Header>
+          {unit.name}{" "}
+          {completionError && <ExclamationTriangle color="#EED202" />}
+          {completionLoading ? (
+            <CheckSquare color="#EED202" />
+          ) : completionData && completionData.completed ? (
+            <CheckSquareFill />
+          ) : (
+            <CheckSquare />
+          )}
+          {role === "teacher" || role === "admin" ? (
+            <>
+              <Button
+                onClick={() => {
+                  setShowDeleteModal(true);
+                }}
+              >
+                <Trash />
+              </Button>
+            </>
+          ) : null}
+        </Card.Header>
+        <Card.Body>
+          {topicsLoading ? (
+            <p>Loading topics for unit</p>
+          ) : topicsError ? (
+            <p>Error loading topics</p>
+          ) : (
+            topics &&
+            topics.map((topic) => {
+              return (
+                <TopicContainer
+                  key={topic.id}
+                  role={role}
+                  topic={topic}
+                  unit_id={unit.id}
+                />
+              );
+            })
+          )}
+        </Card.Body>
+
+        {role === "teacher" || role === "admin" ? (
+          <>
+            <Accordion>
+              <Card>
+                <Card.Header>
+                  <Accordion.Toggle as={Button} eventKey="0">
+                    Add New Topic to {unit.name}
+                  </Accordion.Toggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey="0">
+                  <AddTopicForm />
+                </Accordion.Collapse>
+              </Card>
+            </Accordion>
           </>
         ) : null}
-      </Card.Header>
-      <Card.Body>
-        {topicsLoading ? (
-          <p>Loading topics for unit</p>
-        ) : topicsError ? (
-          <p>Error loading topics</p>
-        ) : (
-          topics &&
-          topics.map((topic) => {
-            return (
-              <TopicContainer
-                key={topic.id}
-                role={role}
-                topic={topic}
-                unit_id={unit.id}
-              />
-            );
-          })
-        )}
-      </Card.Body>
-
-      {role === "teacher" || role === "admin" ? (
-        <>
-          <Accordion>
-            <Card>
-              <Card.Header>
-                <Accordion.Toggle as={Button} eventKey="0">
-                  Add New Topic to {unit.name}
-                </Accordion.Toggle>
-              </Card.Header>
-              <Accordion.Collapse eventKey="0">
-                <AddTopicForm />
-              </Accordion.Collapse>
-            </Card>
-          </Accordion>
-        </>
-      ) : null}
-    </Card>
+      </Card>
+    </>
   );
 };
