@@ -26,7 +26,7 @@ import {
 import { signOut, useUser } from "services/api";
 
 const App: React.FC = () => {
-  const [user, userLoading, userError] = useUser();
+  const [user] = useUser();
 
   const handleSignOut = async () => {
     await signOut().then(() => {

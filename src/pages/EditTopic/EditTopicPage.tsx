@@ -2,7 +2,7 @@ import React from "react";
 
 import { useParams } from "react-router-dom";
 
-import { Button, Container, Col, Row } from "react-bootstrap";
+import { Button, Container, Col, Row, Accordion, Card } from "react-bootstrap";
 import { ExclamationTriangle, Trash } from "react-bootstrap-icons";
 
 import { deleteQuestion, useQuestions } from "services/api";
@@ -28,12 +28,25 @@ const EditTopic: React.FC = () => {
     <Container>
       <Col>
         <Row>
-          <p>Edit Topic Page</p>
+          <h1>Edit Topic Page</h1>
         </Row>
         <Row>
-          <MultipleChoiceForm unit_id={unit_id} topic_id={topic_id} />
+          <Accordion>
+            <Card>
+              <Card.Header>
+                <Accordion.Toggle as={Button} eventKey="1">
+                  Add Question
+                </Accordion.Toggle>
+              </Card.Header>
+              <Accordion.Collapse eventKey="1">
+                <Card.Body>
+                  <MultipleChoiceForm unit_id={unit_id} topic_id={topic_id} />
+                </Card.Body>
+              </Accordion.Collapse>
+            </Card>
+          </Accordion>
         </Row>
-        <Row>
+        <Col>
           {questionsError && <ExclamationTriangle color="#EED202" />}
           {questionsLoading && <p>Loading questions...</p>}
           {!questions ? (
@@ -42,31 +55,42 @@ const EditTopic: React.FC = () => {
             questions.map((question) => {
               // TODO: Add delete question button
               return (
-                <Col>
-                  <Row>
-                    <Col>
-                      <p>{question.id}</p>
-                    </Col>
-                    <Col>
-                      <Button
-                        onClick={() => {
-                          handleDeleteQuestion(question.id);
-                        }}
-                      >
-                        <Trash />
-                      </Button>
-                    </Col>
-                  </Row>
-                  <MultipleChoiceForm
-                    initialQuestion={question}
-                    unit_id={unit_id}
-                    topic_id={topic_id}
-                  />
-                </Col>
+                <Accordion key={question.id}>
+                  <Card>
+                    <Card.Header>
+                      <Row>
+                        <Col>{question.id}</Col>
+                        <Col>
+                          <Button
+                            onClick={() => {
+                              handleDeleteQuestion(question.id);
+                            }}
+                          >
+                            <Trash />
+                          </Button>
+                        </Col>
+                        <Col>
+                          <Accordion.Toggle as={Button} eventKey="0">
+                            Edit Question
+                          </Accordion.Toggle>
+                        </Col>
+                      </Row>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <MultipleChoiceForm
+                          initialQuestion={question}
+                          unit_id={unit_id}
+                          topic_id={topic_id}
+                        />
+                      </Card.Body>
+                    </Accordion.Collapse>
+                  </Card>
+                </Accordion>
               );
             })
           )}
-        </Row>
+        </Col>
       </Col>
     </Container>
   );

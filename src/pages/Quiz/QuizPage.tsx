@@ -1,12 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useParams, Link } from "react-router-dom";
 
 import { markQuizCompleted, useQuestions } from "services/api";
 import { LivesContainer } from "./LivesContainer";
 import { QuestionContainer } from "./QuestionContainer";
-import {Button} from 'react-bootstrap'
-import { MultipleChoice } from "models";
+import { Button } from "react-bootstrap";
 import { ExclamationTriangle } from "react-bootstrap-icons";
 
 interface RouteParams {
@@ -21,22 +20,18 @@ const Quiz: React.FC = () => {
     unit_id,
     topic_id
   );
-
-  console.log("questions", questions);
-
   const [questionIndex, setQuestionIndex] = React.useState<number>(0);
   const [lives, setLives] = React.useState(3);
 
-  let selectedQuestions: MultipleChoice[] = questions!.sort(
-    () => 0.5 - Math.random()
-  );
-  if (questions!.length > QUESTIONS_PER_QUIZ) {
-    selectedQuestions = questions!
-      .sort(() => 0.5 - Math.random())
-      .slice(0, QUESTIONS_PER_QUIZ);
-  } else {
-    selectedQuestions = questions!;
-  }
+  const [selectedQuestions, setSelectedQuestions] = useState<
+    typeof questions
+  >();
+
+  useEffect(() => {
+    setSelectedQuestions(
+      questions?.sort(() => 0.5 - Math.random()).slice(0, QUESTIONS_PER_QUIZ)
+    );
+  }, [questions]);
 
   const handleAnswerSelection = (result: boolean) => {
     // if the user gets it wrong, take a life
@@ -77,11 +72,11 @@ const Quiz: React.FC = () => {
   return lives >= 1 ? (
     <>
       <LivesContainer lives={lives} />
-      {questionsError && <ExclamationTriangle color="red"/>}
+      {questionsError && <ExclamationTriangle color="red" />}
       {(questionsLoading || !selectedQuestions) && <p>Loading questions...</p>}
       {!questionsLoading &&
         selectedQuestions &&
-        (questionIndex < QUESTIONS_PER_QUIZ ? (
+        (questionIndex < selectedQuestions.length ? (
           <QuestionContainer
             key={selectedQuestions[questionIndex].id}
             question={selectedQuestions[questionIndex]}

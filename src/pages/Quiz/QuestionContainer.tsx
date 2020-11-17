@@ -29,8 +29,8 @@ export const QuestionContainer: React.FC<Props> = (props) => {
       <h3 style={{marginLeft: 600, marginBottom: 16}}>{question.question}</h3>
 
       {/* diplay answer buttons */}
-      {answers.map((answer) => {
-        return <p style={{marginLeft: 600}}>
+      {answers.map((answer, idx) => {
+        return <p style={{marginLeft: 600}} key={idx}>
           <Button onClick={() => checkAnswer(answer)}>{answer}</Button>
           </p>;
       })}

@@ -133,7 +133,7 @@ export const UnitContainer = (props: Props) => {
             <Card>
               <Card.Header>
                 <Accordion.Toggle as={Button} eventKey="0">
-                  Add New Topic
+                  Add New Topic to {unit.name}
                 </Accordion.Toggle>
               </Card.Header>
               <Accordion.Collapse eventKey="0">
