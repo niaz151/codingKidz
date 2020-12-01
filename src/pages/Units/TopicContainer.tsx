@@ -11,13 +11,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { deleteTopic, useTopicCompletion } from "services/api";
 
-type Props = {
+export const TopicContainer = (props: {
   role: Role;
   unit_id: string;
   topic: Topic;
-};
-
-export const TopicContainer = (props: Props) => {
+}) => {
   const { role, unit_id, topic } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [

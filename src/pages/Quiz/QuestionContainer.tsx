@@ -1,5 +1,10 @@
 import * as React from "react";
-import { isMultipleChoice, isTrueFalse, MultipleChoice, TrueFalse } from "models";
+import {
+  isMultipleChoice,
+  isTrueFalse,
+  MultipleChoice,
+  TrueFalse,
+} from "models";
 import { Button } from "react-bootstrap";
 
 export const QuestionContainer = (props: {
@@ -17,13 +22,10 @@ export const QuestionContainer = (props: {
     );
   } else if (isTrueFalse(question)) {
     return (
-      <TrueFalseContainer
-        question={question}
-        handleResult={handleResult}
-      />
-    )
+      <TrueFalseContainer question={question} handleResult={handleResult} />
+    );
   } else {
-    return <p>Invalid question</p>
+    return <p>Invalid question</p>;
   }
 };
 

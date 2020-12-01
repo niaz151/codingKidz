@@ -22,12 +22,7 @@ import {
 } from "services/api";
 import { TopicContainer } from "./TopicContainer";
 
-type Props = {
-  role: Role;
-  unit: Unit;
-};
-
-export const UnitContainer = (props: Props) => {
+export const UnitContainer = (props: { role: Role; unit: Unit }) => {
   const { role, unit } = props;
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [
@@ -99,9 +94,7 @@ export const UnitContainer = (props: Props) => {
           <Modal.Header>
             <Modal.Title>Confirm your choice</Modal.Title>
           </Modal.Header>
-          <Modal.Body>
-            This will permanently delete the unit!
-          </Modal.Body>
+          <Modal.Body>This will permanently delete the unit!</Modal.Body>
           <Modal.Footer>
             <Button
               variant="secondary"

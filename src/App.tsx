@@ -15,14 +15,7 @@ import {
 } from "pages";
 
 import { PrivateRoute, PublicRoute } from "components";
-import {
-  Button,
-  Col,
-  Container,
-  Nav,
-  Navbar,
-  Row,
-} from "react-bootstrap";
+import { Button, Col, Container, Nav, Navbar, Row } from "react-bootstrap";
 import { signOut, useUser } from "services/api";
 
 const App: React.FC = () => {

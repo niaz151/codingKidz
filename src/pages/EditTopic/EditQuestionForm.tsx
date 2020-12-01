@@ -1,4 +1,9 @@
-import { isMultipleChoice, isTrueFalse, MultipleChoice, TrueFalse } from "models";
+import {
+  isMultipleChoice,
+  isTrueFalse,
+  MultipleChoice,
+  TrueFalse,
+} from "models";
 import React, { useState } from "react";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { addQuestion, editQuestion } from "services/api";
@@ -38,16 +43,32 @@ export const EditQuestionForm = (props: {
             <option value="TrueFalse">True False</option>
           </Form.Control>
         </Form>
-        {questionType === "MultipleChoice" && <MultipleChoiceForm unit_id={unit_id} topic_id={topic_id}/>}
-        {questionType === "TrueFalse" && <TrueFalseForm unit_id={unit_id} topic_id={topic_id}/>}
+        {questionType === "MultipleChoice" && (
+          <MultipleChoiceForm unit_id={unit_id} topic_id={topic_id} />
+        )}
+        {questionType === "TrueFalse" && (
+          <TrueFalseForm unit_id={unit_id} topic_id={topic_id} />
+        )}
       </>
     );
-  } else if(isMultipleChoice(initialQuestion)) {
-    return <MultipleChoiceForm initialQuestion={initialQuestion} unit_id={unit_id} topic_id={topic_id}/>
-  } else if(isTrueFalse(initialQuestion)) {
-    return <TrueFalseForm initialQuestion={initialQuestion} unit_id={unit_id} topic_id={topic_id}/>
+  } else if (isMultipleChoice(initialQuestion)) {
+    return (
+      <MultipleChoiceForm
+        initialQuestion={initialQuestion}
+        unit_id={unit_id}
+        topic_id={topic_id}
+      />
+    );
+  } else if (isTrueFalse(initialQuestion)) {
+    return (
+      <TrueFalseForm
+        initialQuestion={initialQuestion}
+        unit_id={unit_id}
+        topic_id={topic_id}
+      />
+    );
   } else {
-    return <p>If you see me something is wrong</p>
+    return <p>If you see me something is wrong</p>;
   }
 };
 
@@ -243,9 +264,7 @@ const TrueFalseForm = (props: {
   const [answer, setAnswer] = useState<boolean>();
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (
-      !question || !answer
-    ) {
+    if (!question || !answer) {
       console.log("got empty values from required controls");
     } else {
       if (initialQuestion) {
@@ -260,7 +279,7 @@ const TrueFalseForm = (props: {
         editQuestion(unit_id, topic_id, {
           id: initialQuestion.id,
           question: question,
-          answer: answer
+          answer: answer,
         });
       } else {
         console.log(
@@ -273,7 +292,7 @@ const TrueFalseForm = (props: {
         );
         addQuestion(unit_id, topic_id, {
           question: question,
-          answer: answer
+          answer: answer,
         });
       }
     }
@@ -305,24 +324,24 @@ const TrueFalseForm = (props: {
           placeholder="Enter Correct Answer Here"
           defaultValue={String(initialQuestion?.answer).toLowerCase()}
           onChange={(event) => {
-            switch(event.target.value) {
+            switch (event.target.value) {
               case "true":
-                setAnswer(true)
+                setAnswer(true);
                 break;
               case "false":
-                setAnswer(false)
+                setAnswer(false);
                 break;
               default:
-                throw new Error("invalid answer type")
+                throw new Error("invalid answer type");
             }
           }}
         >
           <option value="none" selected disabled hidden>
-              Please choose an answer
-            </option>
+            Please choose an answer
+          </option>
           <option value="true">True</option>
           <option value="false">False</option>
-          </Form.Control>
+        </Form.Control>
         <FormControl.Feedback type="invalid">
           Please enter answer
         </FormControl.Feedback>
@@ -333,4 +352,3 @@ const TrueFalseForm = (props: {
     </Form>
   );
 };
-
