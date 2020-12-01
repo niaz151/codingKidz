@@ -1,7 +1,6 @@
 export interface NewTrueFalse {
   question: string;
-  correct_answer: string;
-  wrong_answers: string[];
+  answer: boolean;
 }
 
 export interface TrueFalse extends NewTrueFalse {
@@ -36,7 +35,19 @@ export interface Unit extends NewUnit {
   id: string;
 }
 
-export type Role = 
-  | "teacher"
-  | "admin"
-  | "student"
+export type Role = "teacher" | "admin" | "student";
+
+/********************
+ **HELPER FUNCTIONS**
+ ********************/
+export const isMultipleChoice = (
+  question: MultipleChoice | TrueFalse
+): question is MultipleChoice => {
+  return (question as MultipleChoice).correct_answer !== undefined;
+};
+
+export const isTrueFalse = (
+  question: MultipleChoice | TrueFalse
+): question is TrueFalse => {
+  return (question as TrueFalse).answer !== undefined;
+};

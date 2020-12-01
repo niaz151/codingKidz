@@ -14,7 +14,7 @@ import {
 import { ExclamationTriangle, Trash } from "react-bootstrap-icons";
 
 import { deleteQuestion, useQuestions } from "services/api";
-import { MultipleChoiceForm } from "./MultipleChoiceForm";
+import { EditQuestionForm } from "./EditQuestionForm";
 
 interface RouteParams {
   unit_id: string;
@@ -31,10 +31,10 @@ const EditTopic: React.FC = () => {
   );
 
   const handleDeleteQuestion = async (question_id: string | undefined) => {
-    if(question_id) {
+    if (question_id) {
       await deleteQuestion(unit_id, topic_id, question_id);
     } else {
-      console.log("called handleDeleteQuestion with undefined question_id")
+      console.log("called handleDeleteQuestion with undefined question_id");
     }
   };
 
@@ -51,7 +51,7 @@ const EditTopic: React.FC = () => {
             onClick={() => {
               console.log("decided not to delete", questionToDelete);
               setShowDeleteModal(false);
-              setQuestionToDelete(undefined)
+              setQuestionToDelete(undefined);
             }}
           >
             Cancel
@@ -61,7 +61,7 @@ const EditTopic: React.FC = () => {
             onClick={() => {
               console.log("confirmed deletion of", questionToDelete);
               handleDeleteQuestion(questionToDelete);
-              setQuestionToDelete(undefined)
+              setQuestionToDelete(undefined);
               setShowDeleteModal(false);
             }}
           >
@@ -83,7 +83,7 @@ const EditTopic: React.FC = () => {
               </Card.Header>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
-                  <MultipleChoiceForm unit_id={unit_id} topic_id={topic_id} />
+                  <EditQuestionForm unit_id={unit_id} topic_id={topic_id} />
                 </Card.Body>
               </Accordion.Collapse>
             </Card>
@@ -107,7 +107,7 @@ const EditTopic: React.FC = () => {
                           <Col>
                             <Button
                               onClick={() => {
-                                setQuestionToDelete(question.id)
+                                setQuestionToDelete(question.id);
                                 setShowDeleteModal(true);
                               }}
                             >
@@ -123,7 +123,7 @@ const EditTopic: React.FC = () => {
                       </Card.Header>
                       <Accordion.Collapse eventKey="0">
                         <Card.Body>
-                          <MultipleChoiceForm
+                          <EditQuestionForm
                             initialQuestion={question}
                             unit_id={unit_id}
                             topic_id={topic_id}

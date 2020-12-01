@@ -6,6 +6,8 @@ import {
   Topic,
   Unit,
   Role,
+  TrueFalse,
+  NewTrueFalse,
 } from "models";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
@@ -283,7 +285,7 @@ export const markQuizCompleted = async (unit_id: string, topic_id: string) => {
 export const addQuestion = async (
   unit_id: string,
   topic_id: string,
-  newQuestion: NewMultipleChoice
+  newQuestion: NewMultipleChoice | NewTrueFalse
 ) => {
   return await db
     .collection("units")
@@ -291,18 +293,14 @@ export const addQuestion = async (
     .collection("topics")
     .doc(topic_id)
     .collection("questions")
-    .add({
-      question: newQuestion.question,
-      correct_answer: newQuestion.correct_answer,
-      wrong_answers: newQuestion.wrong_answers,
-    })
+    .add(newQuestion)
     .catch(() => {
       throw new Error("Error adding question");
     });
 };
 
 export const useQuestions = (unit_id: string, topic_id: string) => {
-  return useCollectionData<MultipleChoice>(
+  return useCollectionData<MultipleChoice | TrueFalse>(
     db
       .collection("units")
       .doc(unit_id)
@@ -316,7 +314,7 @@ export const useQuestions = (unit_id: string, topic_id: string) => {
 export const editQuestion = async (
   unit_id: string,
   topic_id: string,
-  editedQuestion: MultipleChoice
+  editedQuestion: MultipleChoice | TrueFalse
 ) => {
   return await db
     .collection("units")
@@ -325,11 +323,7 @@ export const editQuestion = async (
     .doc(topic_id)
     .collection("questions")
     .doc(editedQuestion.id)
-    .set({
-      question: editedQuestion.question,
-      correct_answer: editedQuestion.correct_answer,
-      wrong_answers: editedQuestion.wrong_answers,
-    })
+    .set(editedQuestion)
     .catch(() => {
       throw new Error("Error editing question");
     });
