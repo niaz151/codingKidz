@@ -18,16 +18,16 @@ export const MultipleChoiceForm = (props: {
     initialQuestion?.correct_answer
   );
   const [wrong_answer0, setWrong0] = useState<string | undefined>(
-    initialQuestion?.wrong_answers[0]
+    initialQuestion?.wrong_answers.wrong_answer_0
   );
   const [wrong_answer1, setWrong1] = useState<string | undefined>(
-    initialQuestion?.wrong_answers[1]
+    initialQuestion?.wrong_answers.wrong_answer_1
   );
   const [wrong_answer2, setWrong2] = useState<string | undefined>(
-    initialQuestion?.wrong_answers[2]
+    initialQuestion?.wrong_answers.wrong_answer_2
   );
   const [wrong_answer3, setWrong3] = useState<string | undefined>(
-    initialQuestion?.wrong_answers[3]
+    initialQuestion?.wrong_answers.wrong_answer_3
   );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -54,12 +54,12 @@ export const MultipleChoiceForm = (props: {
           id: initialQuestion.id,
           question: question,
           correct_answer: correct_answer,
-          wrong_answers: [
-            wrong_answer0,
-            wrong_answer1,
-            wrong_answer2,
-            wrong_answer3,
-          ],
+          wrong_answers: {
+            wrong_answer_0: wrong_answer0,
+            wrong_answer_1: wrong_answer1,
+            wrong_answer_2: wrong_answer2,
+            wrong_answer_3: wrong_answer3,
+          },
         });
       } else {
         console.log(
@@ -73,12 +73,12 @@ export const MultipleChoiceForm = (props: {
         addQuestion(unit_id, topic_id, {
           question: question,
           correct_answer: correct_answer,
-          wrong_answers: [
-            wrong_answer0,
-            wrong_answer1,
-            wrong_answer2,
-            wrong_answer3,
-          ],
+          wrong_answers: {
+            wrong_answer_0: wrong_answer0,
+            wrong_answer_1: wrong_answer1,
+            wrong_answer_2: wrong_answer2,
+            wrong_answer_3: wrong_answer3,
+          },
         });
       }
     }
@@ -123,7 +123,7 @@ export const MultipleChoiceForm = (props: {
           required
           type="text"
           placeholder="Enter Wrong Answer Here"
-          defaultValue={initialQuestion?.wrong_answers[0]}
+          defaultValue={initialQuestion?.wrong_answers.wrong_answer_0}
           onChange={(event) => {
             setWrong0(event.target.value);
           }}
@@ -138,7 +138,7 @@ export const MultipleChoiceForm = (props: {
           required
           type="text"
           placeholder="Enter Wrong Answer Here"
-          defaultValue={initialQuestion?.wrong_answers[1]}
+          defaultValue={initialQuestion?.wrong_answers.wrong_answer_1}
           onChange={(event) => {
             setWrong1(event.target.value);
           }}
@@ -153,7 +153,7 @@ export const MultipleChoiceForm = (props: {
           required
           type="text"
           placeholder="Enter Wrong Answer Here"
-          defaultValue={initialQuestion?.wrong_answers[2]}
+          defaultValue={initialQuestion?.wrong_answers.wrong_answer_2}
           onChange={(event) => {
             setWrong2(event.target.value);
           }}
@@ -168,7 +168,7 @@ export const MultipleChoiceForm = (props: {
           required
           type="text"
           placeholder="Enter Wrong Answer Here"
-          defaultValue={initialQuestion?.wrong_answers[3]}
+          defaultValue={initialQuestion?.wrong_answers.wrong_answer_3}
           onChange={(event) => {
             setWrong3(event.target.value);
           }}

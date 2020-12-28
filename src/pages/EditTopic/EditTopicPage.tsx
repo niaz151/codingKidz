@@ -49,7 +49,6 @@ const EditTopic: React.FC = () => {
           <Button
             variant="secondary"
             onClick={() => {
-              console.log("decided not to delete", questionToDelete);
               setShowDeleteModal(false);
               setQuestionToDelete(undefined);
             }}
@@ -59,7 +58,6 @@ const EditTopic: React.FC = () => {
           <Button
             variant="danger"
             onClick={() => {
-              console.log("confirmed deletion of", questionToDelete);
               handleDeleteQuestion(questionToDelete);
               setQuestionToDelete(undefined);
               setShowDeleteModal(false);

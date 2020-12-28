@@ -23,7 +23,6 @@ const App: React.FC = () => {
 
   const handleSignOut = async () => {
     await signOut().then(() => {
-      console.log("signed out");
       window.location.reload();
     });
   };

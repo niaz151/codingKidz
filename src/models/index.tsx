@@ -10,7 +10,12 @@ export interface TrueFalse extends NewTrueFalse {
 export interface NewMultipleChoice {
   question: string;
   correct_answer: string;
-  wrong_answers: string[];
+  wrong_answers: {
+    wrong_answer_0: string;
+    wrong_answer_1: string;
+    wrong_answer_2: string;
+    wrong_answer_3: string;
+  }
 }
 
 export interface MultipleChoice extends NewMultipleChoice {

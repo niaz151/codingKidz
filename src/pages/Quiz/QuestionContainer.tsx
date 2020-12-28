@@ -35,7 +35,12 @@ const MultipleChoiceContainer = (props: {
 }) => {
   const { question, handleResult } = props;
   const [answers] = React.useState<string[]>(
-    question.wrong_answers
+    [
+      question.wrong_answers.wrong_answer_0,
+      question.wrong_answers.wrong_answer_1,
+      question.wrong_answers.wrong_answer_2,
+      question.wrong_answers.wrong_answer_3,
+    ]
       .concat(question.correct_answer)
       .sort(() => Math.random() - 0.5)
   );

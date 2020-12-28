@@ -10,11 +10,12 @@ import {
   NewTrueFalse,
 } from "models";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useDownloadURL } from "react-firebase-hooks/storage";
 import {
   useCollectionData,
   useDocumentData,
 } from "react-firebase-hooks/firestore";
-import { auth, db } from "services/firebase";
+import { auth, db, storage } from "services/firebase";
 
 /**********************
  ****AUTHENTICATION****
@@ -299,6 +300,31 @@ export const addQuestion = async (
     });
 };
 
+export const setQuestionImage = async (
+  unit_id: string,
+  topic_id: string,
+  question_id: string,
+  question_img: File
+) => {
+  return await storage
+    .ref(
+      `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/question_image`
+    )
+    .put(question_img);
+};
+
+export const useQuestionImageURL = (
+  unit_id: string,
+  topic_id: string,
+  question_id: string | undefined
+) => {
+  return useDownloadURL(
+    storage.ref(
+      `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/question_image/`
+    )
+  );
+};
+
 export const useQuestions = (unit_id: string, topic_id: string) => {
   return useCollectionData<MultipleChoice | TrueFalse>(
     db
@@ -342,7 +368,28 @@ export const deleteQuestion = async (
     .collection("questions")
     .doc(question_id)
     .delete()
+    .then(() => {
+      deleteQuestionAttachments(unit_id, topic_id, question_id);
+    })
     .catch(() => {
       throw new Error("Error deleting question");
     });
+};
+
+export const deleteQuestionAttachments = async (
+  unit_id: string,
+  topic_id: string,
+  question_id: string
+) => {
+  const questionAttachmentsRef = storage.ref(
+    `/units/${unit_id}/topics/${topic_id}/questions/${question_id}`
+  );
+  return await questionAttachmentsRef.getDownloadURL().then(
+    () => {
+      questionAttachmentsRef.delete();
+    },
+    () => {
+      console.log("no attachments found");
+    }
+  );
 };
