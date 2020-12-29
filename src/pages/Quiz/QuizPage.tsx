@@ -83,6 +83,8 @@ const Quiz: React.FC = () => {
             key={selectedQuestions[questionIndex].id}
             question={selectedQuestions[questionIndex]}
             handleResult={handleAnswerSelection}
+            unit_id={unit_id}
+            topic_id={topic_id}
           />
         ) : (
           // If you still have lives left but no questions left, you passed

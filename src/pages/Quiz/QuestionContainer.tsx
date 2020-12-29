@@ -6,12 +6,15 @@ import {
   TrueFalse,
 } from "models";
 import { Button } from "react-bootstrap";
+import { useQuestionImageURL } from "services/api";
 
 export const QuestionContainer = (props: {
+  unit_id: string;
+  topic_id: string;
   question: MultipleChoice | TrueFalse;
   handleResult: (result: boolean) => void;
 }) => {
-  const { question, handleResult } = props;
+  const { question, handleResult, unit_id, topic_id } = props;
 
   if (isMultipleChoice(question)) {
     return (
@@ -22,7 +25,12 @@ export const QuestionContainer = (props: {
     );
   } else if (isTrueFalse(question)) {
     return (
-      <TrueFalseContainer question={question} handleResult={handleResult} />
+      <TrueFalseContainer
+        question={question}
+        handleResult={handleResult}
+        unit_id={unit_id}
+        topic_id={topic_id}
+      />
     );
   } else {
     return <p>Invalid question</p>;
@@ -71,10 +79,18 @@ const MultipleChoiceContainer = (props: {
 };
 
 const TrueFalseContainer = (props: {
+  unit_id: string;
+  topic_id: string;
   question: TrueFalse;
   handleResult: (result: boolean) => void;
 }) => {
-  const { question, handleResult } = props;
+  const { question, handleResult, unit_id, topic_id } = props;
+
+  const [url, urlLoading, urlError] = useQuestionImageURL(
+    unit_id,
+    topic_id,
+    question.id
+  );
 
   const checkAnswer = (answer: boolean) => {
     if (answer === question.answer) {
@@ -88,6 +104,12 @@ const TrueFalseContainer = (props: {
     <>
       {/* display question */}
       <h3>{question.question}</h3>
+
+      {urlError && <p>{urlError.message}</p>}
+      {urlLoading && <p>Loading image...</p>}
+      {!urlLoading && url && (
+        <img src={url} alt="Supporting Question" width="10%" height="20%" />
+      )}
 
       <Button
         onClick={() => {
