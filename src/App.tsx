@@ -80,7 +80,7 @@ const App: React.FC = () => {
           </Switch>
         </Row>
 
-        <Row style={{ textAlign: "center" }}>
+        <Row className="mt-5" style={{ textAlign: "center" }}>
           QuizApp ©2020 Created by codingKIDZ
         </Row>
       </Col>

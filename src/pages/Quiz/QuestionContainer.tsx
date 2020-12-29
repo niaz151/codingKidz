@@ -101,30 +101,37 @@ const TrueFalseContainer = (props: {
   };
 
   return (
-    <>
+    <div style={{display:"flex", alignItems:"center", justifyContent:"center", flexDirection:"column"}}>
       {/* display question */}
-      <h3>{question.question}</h3>
+      <div className="mt-4">
+        <h3>{question.question}</h3>
+      </div>
 
-      {urlError && <p>{urlError.message}</p>}
-      {urlLoading && <p>Loading image...</p>}
-      {!urlLoading && url && (
-        <img src={url} alt="Supporting Question" width="10%" height="20%" />
-      )}
+      <div className="mt-5" style={{display:'flex', alignItems:"center", justifyContent:'center'}}>
+        {urlError && <p>{urlError.message}</p>}
+        {urlLoading && <p>Loading image...</p>}
+        {!urlLoading && url && (
+          <img src={url} alt="Supporting Question" width="10%" height="20%" />
+        )}
+      </div>
 
-      <Button
-        onClick={() => {
-          checkAnswer(true);
-        }}
-      >
-        True
-      </Button>
-      <Button
-        onClick={() => {
-          checkAnswer(false);
-        }}
-      >
-        False
-      </Button>
-    </>
+      <div className="mt-5 w-25" style={{display:'flex', alignItems:'center', justifyContent:'space-around'}}>
+        <Button
+          onClick={() => {
+            checkAnswer(true);
+          }}
+        >
+          True
+        </Button>
+        <Button
+          onClick={() => {
+            checkAnswer(false);
+          }}
+        >
+          False
+        </Button>
+      </div>
+      
+    </div>
   );
 };

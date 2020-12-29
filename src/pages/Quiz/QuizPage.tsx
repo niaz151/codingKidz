@@ -71,7 +71,7 @@ const Quiz: React.FC = () => {
 
   return lives >= 1 ? (
     // If you have lives left, display lives and the question
-    <>
+    <div className="mt-5"> 
       <LivesContainer lives={lives} />
       {questionsError && <ExclamationTriangle color="red" />}
       {(questionsLoading || !selectedQuestions) && <p>Loading questions...</p>}
@@ -90,11 +90,13 @@ const Quiz: React.FC = () => {
           // If you still have lives left but no questions left, you passed
           <QuizEnded passed={true} />
         ))}
-    </>
+    </div>
   ) : (
     // If you have no lives left, you failed
     <QuizEnded passed={false} />
   );
 };
+
+
 
 export default Quiz;
