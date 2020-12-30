@@ -10,7 +10,7 @@ const Welcome: React.FC = () => {
   const languages = ["Scratch", "ScratchJR"];
 
   return user ? (
-    <div style={{ marginTop: 80 }}>
+    <div>
       {userError && (
         <p>
           <ExclamationTriangle color="#EED202" /> Error loading user
