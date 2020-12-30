@@ -11,7 +11,7 @@ const Splash: React.FC =  () => {
                 <span className="splash-logo-title-two">KIDZ</span>
             </div>
             <div className="splash-logo-img-wrap mt-5">
-                <div className="splash-logo-circle-portrait">
+                <div className="splash-logo-circle-portrait mt-5">
                     <img src={splash_logo} alt="logo" />
                 </div>
             </div>
@@ -20,7 +20,7 @@ const Splash: React.FC =  () => {
                     lorem ipsum dolor sit amet, cosnectetur adipiscing elit.
                 </div>
             </div> 
-            <div className="splash-button-wrap mt-5">
+            <div className="splash-button-wrap mt-3">
                 <div className="splash-button splash-button-one">
                     LOG IN  
                 </div>
