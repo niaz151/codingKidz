@@ -2,6 +2,7 @@ import React from 'react';
 import '../styles/Splash.css';
 import {Container} from "react-bootstrap";
 import splash_logo from '../images/splash_logo.svg';
+import {Link} from 'react-router-dom';
 
 const Splash: React.FC =  () => {
     return(
@@ -22,17 +23,15 @@ const Splash: React.FC =  () => {
             </div> 
             <div className="splash-button-wrap mt-3">
                 <div className="splash-button splash-button-one">
-                    LOG IN  
+                    <Link to="/welcome"> LOG IN </Link>  
                 </div>
                 <div className="splash-button splash-button-two" >
-                    SIGN UP 
+                    <Link to="/register"> SIGN UP </Link>
                 </div>
             </div> 
         </div>
     )
 } 
-
-
 
 
 

@@ -68,6 +68,11 @@
     justify-content: center;
     border-radius: 7px;
     font-weight: bold;
+    text-decoration: none;
+}
+
+.splash-button a {
+    color:inherit;
 }
 
 .splash-button-one{
