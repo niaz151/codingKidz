@@ -84,7 +84,7 @@ export const TrueFalseForm = (props: {
           Please enter question
         </FormControl.Feedback>
       </Form.Group>
-      {urlError && (
+      {urlError && urlError.code !== "storage/object-not-found" && (
         <p>
           <ExclamationTriangle color="#EED202" /> {urlError.code}
         </p>
@@ -100,7 +100,12 @@ export const TrueFalseForm = (props: {
         <img src={url} alt="Supporting Question" width="10%" height="20%" />
       )}
       <Form.Group>
-        <Form.Label> Upload an image to go with the question </Form.Label>
+        {!urlLoading && (
+          <Form.Label>
+            {" "}
+            Upload {url ? "a new" : "an"} image to go with the question{" "}
+          </Form.Label>
+        )}
         <Form.File onChange={handleQuestionImage} />
       </Form.Group>
       <Form.Group>

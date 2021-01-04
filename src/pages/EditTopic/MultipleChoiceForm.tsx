@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { Button, Form, FormControl } from "react-bootstrap";
 
-import { addQuestion, editQuestion } from "services/api";
+import {
+  addQuestion,
+  editQuestion,
+  setQuestionImage,
+  useQuestionImageURL,
+} from "services/api";
 
 import { MultipleChoice } from "models";
+import { ExclamationTriangle } from "react-bootstrap-icons";
 
 export const MultipleChoiceForm = (props: {
   initialQuestion?: MultipleChoice;
@@ -14,6 +20,8 @@ export const MultipleChoiceForm = (props: {
   const [question, setQuestion] = useState<string | undefined>(
     initialQuestion?.question
   );
+  const [image, setImage] = useState<File>();
+
   const [correct_answer, setCorrectAnswer] = useState<string | undefined>(
     initialQuestion?.correct_answer
   );
@@ -28,6 +36,12 @@ export const MultipleChoiceForm = (props: {
   );
   const [wrong_answer3, setWrong3] = useState<string | undefined>(
     initialQuestion?.wrong_answers.wrong_answer_3
+  );
+
+  const [url, urlLoading, urlError] = useQuestionImageURL(
+    unit_id,
+    topic_id,
+    initialQuestion?.id
   );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -60,6 +74,10 @@ export const MultipleChoiceForm = (props: {
             wrong_answer_2: wrong_answer2,
             wrong_answer_3: wrong_answer3,
           },
+        }).then(() => {
+          if (image) {
+            setQuestionImage(unit_id, topic_id, initialQuestion.id, image);
+          }
         });
       } else {
         console.log(
@@ -79,10 +97,21 @@ export const MultipleChoiceForm = (props: {
             wrong_answer_2: wrong_answer2,
             wrong_answer_3: wrong_answer3,
           },
+        }).then((doc) => {
+          if (image) {
+            setQuestionImage(unit_id, topic_id, doc.id, image);
+          }
         });
       }
     }
     event.preventDefault();
+  };
+
+  const handleQuestionImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    if (event.target.files) {
+      setImage(event.target.files[0]);
+    }
   };
 
   return (
@@ -101,6 +130,30 @@ export const MultipleChoiceForm = (props: {
         <FormControl.Feedback type="invalid">
           Please enter question
         </FormControl.Feedback>
+      </Form.Group>
+      {urlError && urlError.code !== "storage/object-not-found" && (
+        <p>
+          <ExclamationTriangle color="#EED202" /> {urlError.code}
+        </p>
+      )}
+      {urlLoading && <p>Loading image...</p>}
+      {initialQuestion &&
+        !urlLoading &&
+        (url === undefined ||
+          urlError?.code === "storage/object-not-found") && (
+          <p>No image set for question yet</p>
+        )}
+      {!urlLoading && url && (
+        <img src={url} alt="Supporting Question" width="10%" height="20%" />
+      )}
+      <Form.Group>
+        {!urlLoading && (
+          <Form.Label>
+            {" "}
+            Upload {url ? "a new" : "an"} image to go with the question{" "}
+          </Form.Label>
+        )}
+        <Form.File onChange={handleQuestionImage} />
       </Form.Group>
       <Form.Group>
         <Form.Label>Correct Answer</Form.Label>
