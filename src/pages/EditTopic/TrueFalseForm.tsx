@@ -24,7 +24,9 @@ export const TrueFalseForm = (props: {
   );
   const [image, setImage] = useState<File>();
 
-  const [answer, setAnswer] = useState<boolean>();
+  const [answer, setAnswer] = useState<boolean | undefined>(
+    initialQuestion?.answer
+  );
 
   const [url, urlLoading, urlError] = useQuestionImageURL(
     unit_id,
@@ -33,7 +35,7 @@ export const TrueFalseForm = (props: {
   );
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    if (!question || !answer) {
+    if (question === undefined || answer === undefined) {
       console.log("got empty values from required controls");
     } else {
       if (initialQuestion) {
@@ -113,12 +115,6 @@ export const TrueFalseForm = (props: {
         <Form.Control
           required
           as="select"
-          placeholder="Enter Correct Answer Here"
-          defaultValue={
-            initialQuestion
-              ? String(initialQuestion.answer).toLowerCase()
-              : "Choose answer"
-          }
           onChange={(event) => {
             switch (event.target.value) {
               case "true":
@@ -132,8 +128,10 @@ export const TrueFalseForm = (props: {
             }
           }}
         >
-          <option value="true">True</option>
-          <option value="false">False</option>
+          {/* TODO remove disabled option as react wants us to use defaultValue/value instead */}
+          {!initialQuestion && <option selected={!initialQuestion} disabled>Choose an answer...</option>}
+          <option value="true" selected={initialQuestion?.answer === true}>True</option>
+          <option value="false" selected={initialQuestion?.answer === false}>False</option>
         </Form.Control>
         <FormControl.Feedback type="invalid">
           Please enter answer
