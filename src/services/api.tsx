@@ -313,6 +313,47 @@ export const setQuestionImage = async (
     .put(question_img);
 };
 
+export const setMultipleChoiceAnswerImage = async (
+  unit_id: string,
+  topic_id: string,
+  question_id: string,
+  question_img: File,
+  answer_key: "correct" | "wrong0" | "wrong1" | "wrong2" | "wrong3"
+) => {
+  switch (answer_key) {
+    case "correct":
+      return await storage
+        .ref(
+          `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/correct_image`
+        )
+        .put(question_img);
+      case "wrong0":
+        return await storage
+          .ref(
+            `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong0_image`
+          )
+          .put(question_img);
+      case "wrong1":
+        return await storage
+          .ref(
+            `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong1_image`
+          )
+          .put(question_img);
+      case "wrong2":
+        return await storage
+          .ref(
+            `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong2_image`
+          )
+          .put(question_img);
+      case "wrong3":
+        return await storage
+          .ref(
+            `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong3_image`
+          )
+          .put(question_img);
+  }
+};
+
 export const useQuestionImageURL = (
   unit_id: string,
   topic_id: string,
@@ -323,6 +364,52 @@ export const useQuestionImageURL = (
       `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/question_image/`
     )
   );
+};
+
+// TODO REFACTOR!!!!!!!!!!
+export const useMultipleChoiceAnswerImageURL = (
+  unit_id: string,
+  topic_id: string,
+  question_id: string | undefined,
+  answer_key: "correct" | "wrong0" | "wrong1" | "wrong2" | "wrong3"
+) => {
+  switch(answer_key) {
+    case "correct":
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      return useDownloadURL(
+        storage.ref(
+          `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/correct_image/`
+        )
+      );
+    case "wrong0":
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      return useDownloadURL(
+        storage.ref(
+          `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong0_image/`
+        )
+      );
+    case "wrong1":
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      return useDownloadURL(
+        storage.ref(
+          `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong1_image/`
+        )
+      );
+    case "wrong2":
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      return useDownloadURL(
+        storage.ref(
+          `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong2_image/`
+        )
+      );
+    case "wrong3":
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      return useDownloadURL(
+        storage.ref(
+          `/units/${unit_id}/topics/${topic_id}/questions/${question_id}/images/wrong3_image/`
+        )
+      );
+  }
 };
 
 export const useQuestions = (unit_id: string, topic_id: string) => {
