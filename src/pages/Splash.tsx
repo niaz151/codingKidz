@@ -23,10 +23,10 @@ const Splash: React.FC =  () => {
             </div> 
             <div className="splash-button-wrap mt-3">
                 <div className="splash-button splash-button-one">
-                    <Link to="/login"> LOG IN </Link>  
+                  
                 </div>
                 <div className="splash-button splash-button-two" >
-                    <Link to="/register"> SIGN UP </Link>
+                 
                 </div>
             </div> 
         </div>
