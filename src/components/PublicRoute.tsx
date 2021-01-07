@@ -7,7 +7,7 @@ interface Props extends RouteProps {}
 
 const PublicRoute: React.FC<Props> = (props) => {
   const [user] = useAuthState(auth);
-  return !user ? <Route {...props} /> : <Redirect to="/" />;
+  return !user ? <Route {...props} /> : <Redirect to="/home" />;
 };
 
 export default PublicRoute;
