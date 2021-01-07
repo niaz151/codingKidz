@@ -32,8 +32,8 @@ const App: React.FC = () => {
   return (
     <div className="app-container">
       <Switch>
-            <PublicRoute exact path="/login" component={Login} />
-            <PublicRoute exact path="/register" component={Register} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />
             <Route exact path="/" component={Splash} />
             <Route exact path="/passwordreset" component={PasswordReset} />
             <PrivateRoute exact path="/units" component={Units} />
@@ -47,9 +47,6 @@ const App: React.FC = () => {
               path="/units/quiz/:unit_id/:topic_id"
               component={Quiz}
             />
-            <Route path="*">
-              <Redirect to="/" />
-            </Route>
           </Switch>
     </div>
   );
