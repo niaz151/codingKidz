@@ -26,53 +26,48 @@ const Login: React.FC = () => {
   };
 
   return (
-    <Form onSubmit={onSubmit}>
-      <Form.Group>
-        <Form.Label>Email</Form.Label>
-        <Form.Control
-          required
-          type="text"
-          onChange={(event) => {
-            setEmail(event.target.value);
-          }}
-        />
-        <FormControl.Feedback type="invalid">
-          Please enter email
-        </FormControl.Feedback>
-      </Form.Group>
-      <Form.Group>
-        <Form.Label>Password</Form.Label>
-        <InputGroup>
-        <Form.Control
-          required
-          type="password"
-          onChange={(event) => {
-            setPassword(event.target.value);
-          }}
-        />
-        </InputGroup>
-        <FormControl.Feedback type="invalid">
-          Please enter password
-        </FormControl.Feedback>
-      </Form.Group>
-      <Row>
-        <Col>
-          <Button variant="primary" type="submit">
-            Login
+    <div className="login-container">
+      <div className="login-field-container">   
+        <Form onSubmit={onSubmit}>
+          <Form.Group>
+            <Form.Control
+              className="login-field"
+              placeholder="Email"
+              required
+              type="text"
+              onChange={(event) => {
+                setEmail(event.target.value);
+              }}
+            />
+            <FormControl.Feedback type="invalid">
+              Please enter email
+            </FormControl.Feedback>
+          </Form.Group>
+          <Form.Group>
+            <InputGroup>
+            <Form.Control
+              className="login-field"
+              placeholder="Password"
+              required
+              type="password"
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+            />
+            </InputGroup>
+            <FormControl.Feedback type="invalid">
+              Please enter password
+            </FormControl.Feedback>
+          </Form.Group>
+          <Button variant="primary" type="submit" className="login-login-btn">
+            SIGN IN
           </Button>
-        </Col>
-        <Col>
-          <Link to="/passwordreset">
-            <Button>Reset Password</Button>
-          </Link>
-        </Col>
-        <Col>
-          <Link to="/register">
-            <Button>Register</Button>
-          </Link>
-        </Col>
-      </Row>
-    </Form>
+          <div className="login-forgot-password">
+            <Link to="/forgotpassword"> FORGOT PASSWORD </Link>
+          </div>
+        </Form>
+      </div>
+    </div>
   );
 };
 

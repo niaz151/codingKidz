@@ -1,1 +1,45 @@
+.login-container{
+  height: 100vh;
+  width: 100vw;
+  background-color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 
+.login-field-container{
+  height: 300px;
+  width: 400px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align: center;
+}
+
+.login-field{
+  border:2px solid #FF671D;
+  border-radius: 10px;
+  height: 40px;
+  width: 20rem;
+  margin-top:1rem;
+}
+
+.login-login-btn{
+  background-color:#FF671D;
+  border:0px;
+  border-radius: 8px;
+  height: 40px;
+  width:10rem;
+  margin-top: 1rem;
+}
+
+.login-forgot-password{
+  color:#FF671D;
+  font-weight:bold;
+  margin-top:1rem;
+  font-size: 12px;
+}
+
+.login-forgot-password a{
+  color:#FF671D;
+}
