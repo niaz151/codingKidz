@@ -14,12 +14,18 @@
   align-items:center;
   justify-content:center;
   text-align: center;
+  flex-direction:column;
+}
+
+.login-img{
+  height: 1000px;
+  width: 1000px;
 }
 
 .login-field{
   border:2px solid #FF671D;
   border-radius: 10px;
-  height: 40px;
+  height: 35px;
   width: 20rem;
   margin-top:1rem;
 }
@@ -28,7 +34,7 @@
   background-color:#FF671D;
   border:0px;
   border-radius: 8px;
-  height: 40px;
+  height: 35px;
   width:10rem;
   margin-top: 1rem;
 }

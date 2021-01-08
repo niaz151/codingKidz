@@ -3,6 +3,7 @@ import { Form, Button, FormControl, Col, Row, InputGroup } from "react-bootstrap
 import { Link } from "react-router-dom";
 import { login } from "services/api";
 import '../styles/Login.css';
+import mouse_logo from '../images/vertical_mouse.svg';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState<string>();
@@ -28,6 +29,7 @@ const Login: React.FC = () => {
   return (
     <div className="login-container">
       <div className="login-field-container">   
+        <img src={mouse_logo} className="login-img"/>
         <Form onSubmit={onSubmit}>
           <Form.Group>
             <Form.Control
@@ -59,7 +61,7 @@ const Login: React.FC = () => {
               Please enter password
             </FormControl.Feedback>
           </Form.Group>
-          <Button variant="primary" type="submit" className="login-login-btn">
+          <Button type="submit" className="login-login-btn">
             SIGN IN
           </Button>
           <div className="login-forgot-password">
