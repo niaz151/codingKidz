@@ -65,6 +65,9 @@ const Login: React.FC = () => {
             SIGN IN
           </Button>
           <div className="login-forgot-password">
+            <Link to="/register"> CREATE ACCOUNT </Link>
+          </div>
+          <div className="login-forgot-password">
             <Link to="/forgotpassword"> FORGOT PASSWORD </Link>
           </div>
         </Form>

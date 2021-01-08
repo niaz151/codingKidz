@@ -50,6 +50,7 @@ const Register: React.FC = () => {
       </div>
 
       <Form onSubmit={onSubmit}>
+        
         <Form.Group>
           <Form.Control
             placeholder="Email"
@@ -64,10 +65,27 @@ const Register: React.FC = () => {
             Please enter email
           </FormControl.Feedback>
         </Form.Group>
+
+        <Form.Group>
+          <Form.Control
+            placeholder="Choose Role"
+            className="register-field role-field"
+            required
+            as="select"
+            onChange={(event) => {
+              setRole(event.target.value);
+            }}
+          >
+            <option value="" disabled selected>Role</option>
+            <option value="student">Student</option>
+            <option value="teacher">Teacher</option>
+          </Form.Control>
+        </Form.Group>
+
         <Form.Group>
           <Form.Control
             placeholder="Password"
-            className="register-field"
+            className="register-field password-field"
             required
             type="password"
             onChange={(event) => {
@@ -92,21 +110,7 @@ const Register: React.FC = () => {
             Please confirm password
           </FormControl.Feedback>
         </Form.Group>
-        <Form.Group>
-          <Form.Control
-            placeholder="Choose Role"
-            className="register-field"
-            required
-            as="select"
-            onChange={(event) => {
-              setRole(event.target.value);
-            }}
-          >
-            <option value="" disabled selected>Role</option>
-            <option value="student">Student</option>
-            <option value="teacher">Teacher</option>
-          </Form.Control>
-        </Form.Group>
+     
         <Button className="register-btn" type="submit">
           CREATE ACCOUNT
         </Button>
