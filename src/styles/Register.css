@@ -16,6 +16,10 @@
   font-weight:bold;
 }
 
+#first-field{
+  margin-top:2rem;
+}
+
 .register-field{
   border:2px solid #FF671D;
   border-radius: 10px;

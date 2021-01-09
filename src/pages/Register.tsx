@@ -4,6 +4,8 @@ import { Form, Button, FormControl, Col, Row } from "react-bootstrap";
 import { register, signOut } from "services/api";
 import { Role } from "models";
 import '../styles/Register.css';
+import mouse_logo from '../images/mouse_cutter.svg';
+
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>();
@@ -44,6 +46,8 @@ const Register: React.FC = () => {
 
   return (
     <div className="register-container">
+
+      <img src={mouse_logo} className="register-img" />
       
       <div className="register-title">
         REGISTER
@@ -55,6 +59,7 @@ const Register: React.FC = () => {
           <Form.Control
             placeholder="Email"
             className="register-field"
+            id="first-field"
             required
             type="email"
             onChange={(event) => {
@@ -112,10 +117,10 @@ const Register: React.FC = () => {
         </Form.Group>
      
         <Button className="register-btn" type="submit">
-          CREATE ACCOUNT
+          Create Account
         </Button>
         <div className="login-forgot-password">
-          <Link to="/login"> HAVE AN ACCOUNT? </Link>
+          <Link to="/login"> Have An Account? </Link>
         </div>
       </Form>
     </div>

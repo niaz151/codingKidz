@@ -62,13 +62,13 @@ const Login: React.FC = () => {
             </FormControl.Feedback>
           </Form.Group>
           <Button type="submit" className="login-login-btn">
-            SIGN IN
+            Sign In
           </Button>
           <div className="login-forgot-password">
-            <Link to="/register"> CREATE ACCOUNT </Link>
+            <Link to="/register"> Create Account </Link>
           </div>
           <div className="login-forgot-password">
-            <Link to="/forgotpassword"> FORGOT PASSWORD </Link>
+            <Link to="/forgotpassword"> Forgot Password? </Link>
           </div>
         </Form>
       </div>
