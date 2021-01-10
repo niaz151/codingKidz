@@ -1,20 +1,40 @@
 import React from "react";
-
 import { ExclamationTriangle } from "react-bootstrap-icons";
-
 import { useUser } from "services/api";
+import '../styles/Home.css';
 
 const Home: React.FC = () => {
   const [user, , userError] = useUser();
 
   return (
-    <div>
+    <div className="home-container">
+
       {userError && (
-        <p>
-          <ExclamationTriangle color="#EED202" /> Error loading user
-        </p>
+        <div>
+          <p>
+            <ExclamationTriangle color="#EED202" /> Error loading user
+          </p>
+        </div>
       )}
-      <p style={{ textAlign: "center" }}>Hello {user.email}!</p>
+
+      <div className="home-subcontainer">
+        <div className="welcome-wrap wrap">
+          <p>
+            <span> Welcome </span> 
+            <span className="welcome-border"> {user.email}! </span>
+          </p>
+        </div>
+
+        <div className="role-wrap wrap">
+            You are a ....
+        </div>
+
+        <div className="language-wrap wrap">
+            What language do you want to learn?
+        </div>
+      </div>
+
+
     </div>
   );
 };
