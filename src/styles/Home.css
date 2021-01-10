@@ -26,3 +26,10 @@
 .welcome-border{
   border-bottom:1px dashed black;
 }
+
+.btn-wrap{
+  display:flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+}

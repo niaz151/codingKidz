@@ -1,4 +1,5 @@
 import React from "react";
+import {Button} from 'react-bootstrap';
 import { ExclamationTriangle } from "react-bootstrap-icons";
 import { useUser } from "services/api";
 import '../styles/Home.css';
@@ -31,6 +32,11 @@ const Home: React.FC = () => {
 
         <div className="language-wrap wrap">
             What language do you want to learn?
+        </div>
+
+        <div className="btn-wrap wrap">
+            <Button>Test</Button>
+            <Button>Test</Button>
         </div>
       </div>
 
