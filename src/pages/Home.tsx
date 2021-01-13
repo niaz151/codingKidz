@@ -1,12 +1,20 @@
 import React from "react";
 import {Button} from 'react-bootstrap';
 import { ExclamationTriangle } from "react-bootstrap-icons";
-import { useUser, useRole } from "services/api";
+import { useUser, useRole, useUnits } from "services/api";
+import {Unit} from 'models';
 import '../styles/Home.css';
 
+
 const Home: React.FC = () => {
+
   const [user, , userError] = useUser();
   const [roleData, roleLoading, roleError] = useRole();
+  const [units, unitsLoading, unitError] = useUnits();
+
+  units?.map( unit => {
+    
+  })
 
   return (
     <div className="home-container">
@@ -31,12 +39,13 @@ const Home: React.FC = () => {
         </div>
 
         <div className="language-wrap wrap">
-            WHAT LANGUAGE DO YOU WANT TO LEARN TODAY?
+          WHAT LANGUAGE DO YOU WANT TO LEARN TODAY?
         </div>
 
         <div className="btn-wrap wrap">
-            <Button className="home-language-btn">Test</Button>
-            <Button className="home-language-btn">Test</Button>
+          {units?.map((unit) => (
+            <Button className="home-language-btn"> {unit.name} </Button>
+          ))}
         </div>
       </div>
 
