@@ -33,6 +33,8 @@ const Home: React.FC = () => {
           <span className="welcome-email"> {user.email}! </span>
         </div>
 
+        {/*
+
         <div className="role-wrap wrap">
           <span className="role-txt"> YOU ARE A </span>
           <span className="role-btn-wrap"> <Button className="role-btn"> {roleData?.role.toUpperCase()} </Button></span>
@@ -47,6 +49,8 @@ const Home: React.FC = () => {
             <Button className="home-language-btn"> {unit.name} </Button>
           ))}
         </div>
+
+          */}
       </div>
 
 
