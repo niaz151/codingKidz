@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, FormControl, Col, Row } from "react-bootstrap";
+import { Form, Button, FormControl } from "react-bootstrap";
 import { register, signOut } from "services/api";
 import { Role } from "models";
-import '../styles/Register.css';
-import mouse_logo from '../images/mouse_cutter.svg';
-
+import "../styles/Register.css";
+import mouse_logo from "../images/mouse_cutter.svg";
 
 const Register: React.FC = () => {
   const [email, setEmail] = useState<string>();
@@ -46,15 +45,11 @@ const Register: React.FC = () => {
 
   return (
     <div className="register-container">
+      <img src={mouse_logo} className="register-img" alt="Logo" />
 
-      <img src={mouse_logo} className="register-img" />
-      
-      <div className="register-title">
-        REGISTER
-      </div>
+      <div className="register-title">REGISTER</div>
 
       <Form onSubmit={onSubmit}>
-        
         <Form.Group>
           <Form.Control
             placeholder="Email"
@@ -81,7 +76,9 @@ const Register: React.FC = () => {
               setRole(event.target.value);
             }}
           >
-            <option value="" disabled selected>Role</option>
+            <option value="" disabled selected>
+              Role
+            </option>
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
           </Form.Control>
@@ -115,7 +112,7 @@ const Register: React.FC = () => {
             Please confirm password
           </FormControl.Feedback>
         </Form.Group>
-     
+
         <Button className="register-btn" type="submit">
           Create Account
         </Button>

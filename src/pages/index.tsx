@@ -5,3 +5,4 @@ export { default as Home } from "./Home";
 export { default as Units } from "./Units/UnitsPage";
 export { default as Quiz } from "./Quiz/QuizPage";
 export { default as EditTopic } from "./EditTopic/EditTopicPage";
+export {default as Settings} from './Settings'

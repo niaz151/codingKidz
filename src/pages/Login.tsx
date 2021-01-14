@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Button, FormControl, Col, Row, InputGroup } from "react-bootstrap";
+import { Form, Button, FormControl, InputGroup } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { login } from "services/api";
 import '../styles/Login.css';
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
   return (
     <div className="login-container">
       <div className="login-field-container">   
-        <img src={mouse_logo} className="login-img"/>
+        <img src={mouse_logo} className="login-img" alt="Logo"/>
         <Form onSubmit={onSubmit}>
           <Form.Group>
             <Form.Control
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
             <Link to="/register"> Create Account </Link>
           </div>
           <div className="login-forgot-password">
-            <Link to="/forgotpassword"> Forgot Password? </Link>
+            <Link to="/passwordreset"> Forgot Password? </Link>
           </div>
         </Form>
       </div>
