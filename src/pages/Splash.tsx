@@ -3,7 +3,8 @@ import "../styles/Splash.css";
 import splash_logo from "../images/splash_logo.svg";
 import { Link } from "react-router-dom";
 
-const Splash: React.FC = () => {
+const Splash = (props: { auth: boolean }) => {
+  const { auth } = props;
   return (
     <div className="splash-container">
       <div className="splash-logo-title-wrap mt-5">
@@ -20,14 +21,16 @@ const Splash: React.FC = () => {
           lorem ipsum dolor sit amet, cosnectetur adipiscing elit.
         </div>
       </div>
-      <div className="splash-button-wrap mt-3">
-        <div className="splash-button splash-button-one">
-          <Link to="/settings/login"> LOG IN </Link>
+      {auth && (
+        <div className="splash-button-wrap mt-3">
+          <div className="splash-button splash-button-one">
+            <Link to="/login"> LOG IN </Link>
+          </div>
+          <div className="splash-button splash-button-two">
+            <Link to="/register"> SIGN UP </Link>
+          </div>
         </div>
-        <div className="splash-button splash-button-two">
-          <Link to="/settings/register"> SIGN UP </Link>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

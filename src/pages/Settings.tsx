@@ -1,12 +1,13 @@
 import React from "react";
 import { Button, Container } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import { signOut } from "services/api";
 
 const Settings: React.FC = () => {
+  const history = useHistory();
   const handleSignOut = async () => {
     await signOut().then(() => {
-      console.log("about to reload")
-      window.location.reload();
+      history.push("/")
     });
   };
 

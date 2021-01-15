@@ -91,7 +91,7 @@ const Units: React.FC = () => {
             })}
           </div>
           <div>
-            {(roleData.role === "teacher" || roleData.role === "admin") && (
+            {!roleLoading && (roleData.role === "teacher" || roleData.role === "admin") && (
               <Accordion>
                 <Card>
                   <Card.Header>
