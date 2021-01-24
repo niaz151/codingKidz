@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 
 const TestPage = () => {
   const [test, setTest] = useState<string>();
@@ -17,11 +17,11 @@ const TestPage = () => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
       {!test && !testError && <Text>Loading test...</Text>}
       {test && <Text>Message from the other side: {test}</Text>}
       {testError && <Text>{testError}</Text>}
-    </SafeAreaView>
+    </View>
   );
 };
 
