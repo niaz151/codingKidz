@@ -8,32 +8,63 @@
  * @format
  */
 
-import {SafeAreaView, Text, StatusBar, Platform} from 'react-native';
+import 'react-native-gesture-handler';
 
-import React, {useEffect, useState} from 'react';
-import axios from 'axios';
+import {StatusBar} from 'react-native';
+
+import React from 'react';
+
+import TestPage from './pages/TestPage';
+
+import Ionicons from 'react-native-vector-icons/Ionicons';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+
+import {UnitsStack, HomeStack} from './pages'
+
+const Tab = createBottomTabNavigator();
+
 const App = () => {
-  const [test, setTest] = useState<string>();
-  const [testError, setTestError] = useState<string>();
-  useEffect(() => {
-    axios.get('http://localhost:8000/api/test').then(
-      (value) => {
-        setTest(value.data.message);
-      },
-      (error) => {
-        setTestError(String(error));
-      },
-    );
-  }, []);
   return (
-    <>
+    <NavigationContainer>
       <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        {!test && !testError && <Text>Loading test...</Text>}
-        {test && <Text>{test}</Text>}
-        {testError && <Text>{testError}</Text>}
-      </SafeAreaView>
-    </>
+      <Tab.Navigator
+        screenOptions={({route}) => ({
+          tabBarIcon: ({focused, color, size}) => {
+            switch (route.name) {
+              case 'Home':
+                return (
+                  <Ionicons
+                    name={`home-${focused ? 'outline' : 'sharp'}`}
+                    size={size}
+                    color={color}
+                  />
+                );
+              case 'Units':
+                return (
+                  <Ionicons
+                    name={`book-${focused ? 'outline' : 'sharp'}`}
+                    size={size}
+                    color={color}
+                  />
+                );
+              case 'Settings':
+                return (
+                  <Ionicons name={`cog-${focused ? 'outline' : 'sharp'}`} />
+                );
+            }
+          },
+        })}
+        tabBarOptions={{
+          activeTintColor: 'tomato',
+          inactiveTintColor: 'gray',
+        }}>
+        <Tab.Screen name="Home" component={HomeStack} />
+        <Tab.Screen name="Units" component={UnitsStack} />
+        <Tab.Screen name="Settings" component={TestPage} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
 };
 
