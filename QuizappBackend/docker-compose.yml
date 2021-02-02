@@ -1,0 +1,43 @@
+version: "3"
+services:
+  db:
+    image: mongo:4.2.12-bionic
+    restart: always
+    container_name: mongo-container
+    ports:
+      - "5432:5432"
+    environment:
+      - MONGO_INITDB_DATABASE=quizapp
+      # - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      # - MONGO_INITDB_ROOT_PASSWORD=mongoadmin
+    volumes:
+      # - ./docker-local/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+      - ./docker-local/mongo-volume:/data/db
+    ports:
+      - 27017:27017
+    networks: 
+    - quizapp_net
+
+  backend:
+    image: node:15.7.0-alpine3.12
+    restart: always
+    container_name: backend-container
+    environment:
+      - NODE_ENV=dev
+      - PORT=8000
+      # - MONGO_URI=mongodb://mongoadmin:mongoadmin@db:27017/quizapp
+      - MONGO_URI=mongodb://db:27017/quizapp
+    volumes:
+      - .:/app
+      - /app/node_modules
+    entrypoint: "/app/entrypoint.sh"
+    ports:
+      - 8000:8000
+    depends_on: 
+      - db
+    networks: 
+      - quizapp_net
+
+networks:
+  quizapp_net:
+    driver: bridge

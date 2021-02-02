@@ -1,10 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "commonjs",
-    "rootDir": "./",
+    /* Basic Options */
+    "target": "esnext",
+    "module": "CommonJS",
+    "lib": [
+      "es6"
+    ],
+    "sourceMap": true,
+    "rootDir": ".",
     "outDir": "./build",
+    /* Strict Type-Checking Options */
+    "strict": true,
+    "noImplicitAny": true,
+    /* Module Resolution Options */
+    "moduleResolution": "node",
+    "baseUrl": "./src",
     "esModuleInterop": true,
-    "strict": true
-  }
+    /* Advanced Options */
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["src/**/*", "index.ts"],
+  "exclude": ["node_modules"]
 }
