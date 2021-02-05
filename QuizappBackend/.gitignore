@@ -19,3 +19,6 @@ yarn-debug.log*
 yarn-error.log*
 
 .eslintcache
+
+# Docker
+docker-local/mongo-volume

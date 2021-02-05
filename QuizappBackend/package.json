@@ -2,18 +2,35 @@
   "name": "QuizappBackend",
   "version": "0.0.1",
   "description": "Express backend for codingKIDZ Quizapp",
-  "main": "index.js",
+  "main": "./src/index.ts",
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.ts",
     "build": "tsc --project ./"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.9.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.13",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^3.0.0",
     "@types/express": "^4.17.11",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.10.3",
     "@types/node": "^14.14.22",
+    "@types/passport": "^1.0.5",
+    "@types/passport-jwt": "^3.0.3",
+    "@types/passport-local": "^1.0.33",
+    "@typescript-eslint/eslint-plugin": "^4.14.1",
+    "@typescript-eslint/parser": "^4.14.1",
+    "eslint": "^7.18.0",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
     "typescript": "^4.1.3"
