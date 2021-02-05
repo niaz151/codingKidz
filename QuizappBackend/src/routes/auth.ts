@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../utils/index";
 
 const authRouter = Router();
 
@@ -8,10 +9,16 @@ authRouter.post(
   "/signup",
   passport.authenticate("signup", { session: false }),
   async (req, res) => {
-    res.json({
-      message: "Signup Successful",
-      user: req.user,
-    });
+    if (req.user) {
+      const token = jwt.sign({ user: req.user }, JWT_SECRET);
+
+      res.json({
+        message: "Signup Successful",
+        token: token,
+      });
+    } else {
+      res.json({ message: "An error occured" });
+    }
   }
 );
 
@@ -20,7 +27,6 @@ authRouter.post("/login", async (req, res, next) => {
     try {
       if (err || !user) {
         const error = new Error("An error occurred.");
-
         return next(error);
       }
 
@@ -28,9 +34,12 @@ authRouter.post("/login", async (req, res, next) => {
         if (error) return next(error);
 
         const body = { _id: user._id, email: user.email };
-        const token = jwt.sign({ user: body }, "TOP_SECRET");
+        const token = jwt.sign({ user: body }, JWT_SECRET);
 
-        return res.json({ token });
+        return res.json({
+          message: "Login Successful",
+          token: token,
+        });
       });
     } catch (error) {
       return next(error);

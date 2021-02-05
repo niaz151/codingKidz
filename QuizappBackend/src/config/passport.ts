@@ -5,6 +5,8 @@ import {
   ExtractJwt as ExtractJWT,
 } from "passport-jwt";
 import { User, IUser } from "../models";
+import { JWT_SECRET } from "../utils/index";
+import { CallbackError } from "mongoose";
 
 export default function (): void {
   passport.use(
@@ -17,7 +19,7 @@ export default function (): void {
 
           return done(null, user);
         } catch (error) {
-          done(error);
+          return done(error);
         }
       }
     )
@@ -31,23 +33,19 @@ export default function (): void {
         passwordField: "password",
       },
       async (email, password, done) => {
-        try {
-          const user: IUser | null = await User.findOne({ email });
-
-          if (user === null) {
-            return done(null, false, { message: "User not found" });
+        User.findOne({ email }, function (err: CallbackError, user: IUser) {
+          if (err) {
+            return done(err);
+          }
+          if (!user) {
+            return done(null, false);
+          }
+          if (!user.isValidPassword(password)) {
+            return done(null, false);
           }
 
-          const validate = await user.isValidPassword(password);
-
-          if (!validate) {
-            return done(null, false, { message: "Wrong Password" });
-          }
-
-          return done(null, user, { message: "Logged in Successfully" });
-        } catch (error) {
-          return done(error);
-        }
+          return done(null, user);
+        });
       }
     )
   );
@@ -56,7 +54,7 @@ export default function (): void {
     "JWT",
     new JWTstrategy(
       {
-        secretOrKey: "TOP_SECRET",
+        secretOrKey: JWT_SECRET,
         jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
       },
       async (token, done) => {

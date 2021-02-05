@@ -7,15 +7,16 @@ import configPassport from "./src/config/passport";
 
 import { authRouter, secureRouter } from "./src/routes";
 
+import { PORT, MONGO_URI } from "./src/utils";
+
 const app = express();
-const PORT = process.env.PORT || 8000;
 
 app.use(json());
 app.use(passport.initialize());
 configPassport();
 
 mongoose.connect(
-  `${process.env.MONGO_URI}`,
+  MONGO_URI,
   {
     useCreateIndex: true,
     useNewUrlParser: true,
@@ -26,10 +27,6 @@ mongoose.connect(
   }
 );
 mongoose.connection.on("error", (error) => console.log(error));
-
-app.get("/api/test", (req, res) =>
-  res.send({ message: "typescript + express ftw" })
-);
 
 app.use("/api/auth", authRouter);
 app.use(
