@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import express from "express";
 
 import { Token, User, TokenContent } from "../models";
 import { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } from "../utils";
@@ -32,6 +31,7 @@ const generateAccessTokenFromRefreshToken = async (
     user: {
       _id: tokenContents.user._id,
       email: tokenContents.user.email,
+      role: tokenContents.user.role
     },
   };
 
@@ -88,6 +88,7 @@ const generateRefreshTokenFromRefreshToken = async (
     user: {
       _id: tokenContents.user._id,
       email: tokenContents.user.email,
+      role: tokenContents.user.role
     },
   };
 

@@ -22,6 +22,9 @@ authRouter.post(
   "/auth/signup",
   body("email").isEmail().normalizeEmail(),
   body("password").isLength({ min: 6 }),
+  body("role").custom((val) => {
+    return val === "TEACHER" || val === "STUDENT" || val === "ADMIN";
+  }),
   async (req, res) => {
     // Deal with validation errors
     const errors = validationResult(req);
@@ -32,7 +35,7 @@ authRouter.post(
     }
 
     // If no validation errors occured, these fields will exist
-    const { email, password } = req.body;
+    const { email, password, role } = req.body;
 
     // Check to see if user already exists
 
@@ -49,17 +52,18 @@ authRouter.post(
     const newUser = await User.create({
       email: email,
       password: hash,
+      role: role,
     });
 
     const tokenContent: TokenContent = {
-      user: { _id: newUser._id, email: newUser.email },
+      user: { _id: newUser._id, email: newUser.email, role: newUser.role },
     };
 
     // Generate access token, used for accessing API in the future
-    const access_token = generateAccessToken(tokenContent);
+    const access_token = await generateAccessToken(tokenContent);
 
     // Generate refresh token, used for getting new access tokens in the future
-    const refresh_token = generateRefreshToken(tokenContent);
+    const refresh_token = await generateRefreshToken(tokenContent);
 
     return res.json({
       message: "Signup Successful",
@@ -102,7 +106,7 @@ authRouter.post(
     }
 
     const tokenContent: TokenContent = {
-      user: { _id: user._id, email: user.email },
+      user: { _id: user._id, email: user.email, role: user.role },
     };
 
     // Generate access token, used for accessing API in the future
@@ -143,7 +147,7 @@ authRouter.post(
 
     return res.json({
       access_token: newAccessToken,
-      refresh_token: newRefreshToken
+      refresh_token: newRefreshToken,
     });
   }
 );

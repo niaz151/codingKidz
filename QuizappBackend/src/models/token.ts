@@ -6,6 +6,7 @@ export type TokenContent = {
   user: {
     _id: string;
     email: string;
+    role: string;
   };
 };
 
