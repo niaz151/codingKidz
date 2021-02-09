@@ -1,0 +1,1 @@
+export { checkAccess } from "./AuthMiddleware";

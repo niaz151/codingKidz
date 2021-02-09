@@ -1,12 +1,12 @@
 import { Router } from "express";
+import { checkAccess } from "../middleware";
 
 const secureRouter = Router();
 
-secureRouter.get("/profile", (req, res) => {
+secureRouter.post("/profile", checkAccess, (req, res) => {
   res.json({
     message: "*Hacker Voice* I'm in",
     user: req.user,
-    token: req.headers.authorization
   });
 });
 
