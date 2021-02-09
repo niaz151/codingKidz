@@ -25,7 +25,8 @@ services:
     environment:
       - NODE_ENV=dev
       - PORT=8000
-      - JWT_SECRET=TOP_SECRET
+      - ACCESS_JWT_SECRET=ACCESS_TOP_SECRET
+      - REFRESH_JWT_SECRET=REFRESH_TOP_SECRET
       - MONGO_URI=mongodb://db:27017/quizapp
     volumes:
       - .:/app

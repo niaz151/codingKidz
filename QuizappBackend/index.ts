@@ -1,20 +1,15 @@
-import express from "express";
+import express, { json } from "express";
 import mongoose from "mongoose";
-import passport from "passport";
-import { json } from "body-parser";
 
-import configPassport from "./src/config/passport";
-
-import { authRouter, secureRouter } from "./src/routes";
+import { router } from "./src/routes";
 
 import { PORT, MONGO_URI } from "./src/utils";
 
 const app = express();
 
 app.use(json());
-app.use(passport.initialize());
-configPassport();
 
+// Display messages on server connect / fail
 mongoose.connect(
   MONGO_URI,
   {
@@ -28,13 +23,10 @@ mongoose.connect(
 );
 mongoose.connection.on("error", (error) => console.log(error));
 
-app.use("/api/auth", authRouter);
-app.use(
-  "/api/user",
-  passport.authenticate("JWT", { session: false }),
-  secureRouter
-);
+// Use routes defined in ./routes/index/ts
+app.use("/", router);
 
+// Display message upon server startup
 app.listen(PORT, () => {
   console.log(`⚡️[server]: Server is running at https://localhost:${PORT}`);
 });
