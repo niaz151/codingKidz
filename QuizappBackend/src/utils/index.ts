@@ -1,7 +1,7 @@
 const enum ROLES {
-  Student,
-  Teacher,
-  Admin,
+  Student = "STUDENT",
+  Teacher = "TEACHER",
+  Admin = "ADMIN",
 }
 
 const ACCESS_JWT_SECRET = process.env.ACCESS_JWT_SECRET || "ACCESS_TOP_SECRET";

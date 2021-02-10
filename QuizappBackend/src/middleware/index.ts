@@ -1,1 +1,1 @@
-export { checkAccess } from "./AuthMiddleware";
+export { checkAccessToken } from "./AuthMiddleware";

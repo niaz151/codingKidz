@@ -1,10 +1,28 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { ACCESS_JWT_SECRET } from "../utils";
-import { TokenContent } from "../models";
+import { ACCESS_JWT_SECRET, ROLES } from "../utils";
 
-const checkAccess = (req: Request, res: Response, next: NextFunction) => {
-  const { access_token } = req.body;
+const checkAccessToken = (req: Request, res: Response, next: NextFunction) => {
+  // const { access_token } = req.body;
+  const bearerHeader = req.headers.authorization?.split(" ");
+
+  if (bearerHeader === undefined) {
+    return res
+      .status(401)
+      .json({
+        error: "Access Denied, auth header must be of form `Bearer token`",
+      });
+  }
+
+  if (bearerHeader[0] !== "Bearer") {
+    return res
+      .status(401)
+      .json({
+        error: "Access Denied, auth header must be of form `Bearer token`",
+      });
+  }
+
+  const access_token = bearerHeader[1];
 
   if (!access_token) {
     return res.status(401).json({ error: "Access Denied, token missing" });
@@ -27,8 +45,6 @@ const checkAccess = (req: Request, res: Response, next: NextFunction) => {
           if (err) {
             throw err;
           }
-
-          console.log(decoded);
         }
       );
 
@@ -52,4 +68,8 @@ const checkAccess = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { checkAccess };
+// const checkRole = (role: ROLES) => (req: Request, res: Response, next: NextFunction) => {
+
+// }
+
+export { checkAccessToken };
