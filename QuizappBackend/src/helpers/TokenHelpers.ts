@@ -65,7 +65,7 @@ const generateRefreshToken = async (
     TODO: Automatically clean up expired stored tokens because they are no longer useful
     */
   const token = jwt.sign(tokenContent, REFRESH_JWT_SECRET, {
-    expiresIn: "30m",
+    expiresIn: "7d",
   });
 
   const newRefreshToken = await Token.create({ token: token });
@@ -95,7 +95,6 @@ const generateRefreshTokenFromRefreshToken = async (
   // Delete previous token
   await Token.findOneAndDelete({token: refreshToken});
 
-  // Access tokens are generated on the fly and not stored due to short expire time
   return generateRefreshToken(newTokenContents);
 };
 

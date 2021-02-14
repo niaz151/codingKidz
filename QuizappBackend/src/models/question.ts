@@ -1,10 +1,17 @@
-import mongoose, { Mongoose } from "mongoose";
+import mongoose from "mongoose";
 
-interface IQuestion extends mongoose.Document {
+interface IQuestion {
   question: string;
 }
 
-const Question: mongoose.Model<IQuestion> = mongoose.model(
+// Define statics here eg Question.findByQuestion("Where is the If block?")
+export interface IQuestionDoc extends IQuestion, mongoose.Document {}
+
+// Define methods here eg questionOne.
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface IQuestionModel extends mongoose.Model<IQuestionDoc> {}
+
+const Question: mongoose.Model<IQuestionDoc & IQuestionModel> = mongoose.model(
   "Question",
   new mongoose.Schema({
     question: { type: String, required: true }
@@ -20,7 +27,7 @@ interface IMultipleChoice extends IQuestion {
   };
 }
 
-const MultipleChoice = Question.discriminator<IMultipleChoice>(
+const MultipleChoice = Question.discriminator<IMultipleChoice & mongoose.Document>(
   "MultipleChoice",
   new mongoose.Schema({
     correct_answer: { type: String, required: true },

@@ -7,4 +7,4 @@ export {
   verifyAccessToken,
   verifyRefreshToken,
   readRefreshToken,
-} from "./TokenController";
+} from "./TokenHelpers";

@@ -2,15 +2,15 @@ import { Router } from "express";
 import { body, param } from "express-validator";
 import { Topic } from "../models";
 
-import { checkAccessToken } from "../middleware";
+import { hasValidAccessToken } from "../middleware";
 
 const topicRouter = Router();
 
 topicRouter
-  .route("/topics")
-  .all(checkAccessToken)
+  .route("/")
+  .all(hasValidAccessToken)
   .post(
-    checkAccessToken,
+    hasValidAccessToken,
     body("name").isString(),
     body("number").isNumeric(),
     async (req, res) => {
@@ -49,9 +49,9 @@ topicRouter
     }
   });
 
-// @route /api/topics/:topicId Read update and delete individual topics
+// @route /api/topic/:topicId Read update and delete individual topics
 topicRouter
-  .route("/topics/:topidId")
+  .route("/:topidId")
   .all(param("topicId"))
   .get(async (req, res) => {
     const { topicId } = req.params;

@@ -1,29 +1,27 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
-import { User, Token, TokenContent } from "../models";
-import { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } from "../utils";
+import { User, TokenContent } from "../models";
 import { body, validationResult } from "express-validator";
 import {
   generateAccessToken,
-  readAccessToken,
-  verifyAccessToken,
-  verifyRefreshToken,
   generateRefreshToken,
-  readRefreshToken,
   generateAccessTokenFromRefreshToken,
   generateRefreshTokenFromRefreshToken,
-} from "../controllers";
+} from "../helpers";
+import { ROLES } from "utils";
+import { hasValidRefreshToken } from "../middleware";
 
 const authRouter = Router();
 
 // @route POST /api/auth/signup
 authRouter.post(
-  "/auth/signup",
+  "/signup",
   body("email").isEmail().normalizeEmail(),
   body("password").isLength({ min: 6 }),
   body("role").custom((val) => {
-    return val === "TEACHER" || val === "STUDENT" || val === "ADMIN";
+    return (
+      val === ROLES.Student || val === ROLES.Teacher || val === ROLES.Admin
+    );
   }),
   async (req, res) => {
     // Deal with validation errors
@@ -75,7 +73,7 @@ authRouter.post(
 
 // @route POST /api/auth/login
 authRouter.post(
-  "/auth/login",
+  "/login",
   body("email").isEmail().normalizeEmail(),
   body("password").notEmpty(),
   async (req, res) => {
@@ -125,8 +123,8 @@ authRouter.post(
 
 // @route POST /api/auth/refresh_access
 authRouter.post(
-  "/auth/refresh_access",
-  body("refresh_token").isString(),
+  "/refresh_access",
+  hasValidRefreshToken,
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

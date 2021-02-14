@@ -1,1 +1,1 @@
-export { checkAccessToken } from "./AuthMiddleware";
+export { hasValidAccessToken, hasValidAccessTokenAndRole, hasValidRefreshToken } from "./AuthMiddleware";
