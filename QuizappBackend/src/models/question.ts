@@ -11,11 +11,16 @@ export interface IQuestionDoc extends IQuestion, mongoose.Document {}
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface IQuestionModel extends mongoose.Model<IQuestionDoc> {}
 
+const questionSchema = new mongoose.Schema(
+  {
+    question: { type: String, required: true },
+  },
+  { discriminatorKey: "kind" }
+);
+
 const Question: mongoose.Model<IQuestionDoc & IQuestionModel> = mongoose.model(
   "Question",
-  new mongoose.Schema({
-    question: { type: String, required: true }
-  }, {discriminatorKey: "kind" })
+  questionSchema
 );
 
 interface IMultipleChoice extends IQuestion {
@@ -27,7 +32,9 @@ interface IMultipleChoice extends IQuestion {
   };
 }
 
-const MultipleChoice = Question.discriminator<IMultipleChoice & mongoose.Document>(
+const MultipleChoice = Question.discriminator<
+  IMultipleChoice & mongoose.Document
+>(
   "MultipleChoice",
   new mongoose.Schema({
     correct_answer: { type: String, required: true },
@@ -36,6 +43,17 @@ const MultipleChoice = Question.discriminator<IMultipleChoice & mongoose.Documen
       wrong_answer_1: String,
       wrong_answer_2: String,
     },
+  })
+);
+
+interface ITrueFalse extends IQuestion {
+  answer: boolean;
+}
+
+const TrueFalse = Question.discriminator<ITrueFalse & mongoose.Document>(
+  "TrueFalse",
+  new mongoose.Schema({
+    answer: { type: Boolean, required: true },
   })
 );
 

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { TokenContent } from "models";
+import { TokenContent } from "../models";
 import { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET, ROLES } from "../utils";
 
 const hasValidAccessToken = (

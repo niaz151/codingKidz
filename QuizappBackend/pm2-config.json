@@ -1,0 +1,13 @@
+{
+  "name": "backend",
+  "cwd": "/app",
+  "script": "./index.ts",
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "env_production": {
+    "NODE_ENV": "production"
+  },
+  "max_restarts": 10,
+  "ignore_watch" : ["node_modules"]
+}

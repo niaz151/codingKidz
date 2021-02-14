@@ -4,7 +4,7 @@ import { Unit, IUnit, Topic } from "../models";
 import mongoose from "mongoose";
 
 import { hasValidAccessToken, hasValidAccessTokenAndRole } from "../middleware";
-import { ROLES } from "utils";
+import { ROLES } from "../utils";
 
 const unitRouter = Router();
 

@@ -8,7 +8,7 @@ import {
   generateAccessTokenFromRefreshToken,
   generateRefreshTokenFromRefreshToken,
 } from "../helpers";
-import { ROLES } from "utils";
+import { ROLES } from "../utils";
 import { hasValidRefreshToken } from "../middleware";
 
 const authRouter = Router();
