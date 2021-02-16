@@ -1,6 +1,6 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { View, Text, StyleSheet, Image} from "react-native";
+import { View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import splash_logo from '../assets/images/splash_logo.svg';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
@@ -14,11 +14,23 @@ const Splash = () => {
       </View>
       <View style={styles.splashLogoImgWrap}>
         <View style={styles.splashLogoCirclePortrait}>
-          <Image source={require('../assets/images/splash_logo.svg')} />
+          <Image source={require('../assets/images/splash_logo.png')} style={styles.splashImg} />
         </View>
       </View>
       <View style={styles.splashCaptionWrap}>
         <Text> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
+      </View>
+      <View style={styles.btnWrap}>
+        <TouchableOpacity
+          onPress={() => console.log('login')}
+          style={[styles.btn, styles.loginBtn]}>
+            <Text style={styles.yellowText}> Login </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => console.log('register')}
+          style={[styles.btn, styles.registerBtn]}>
+            <Text style={styles.orangeText}> Register </Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -60,6 +72,10 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     marginTop:3,
   },
+  splashImg:{
+    height: 300,
+    width: 300
+  },
   splashLogoCirclePortrait:{
     borderRadius: 200,
     width: 270,
@@ -67,7 +83,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#FCFADD",
     borderWidth: 5,
     borderColor: "#F8EB30",
-    marginTop:3
+    marginTop:3,
+    display:"flex",
+    alignItems: "center",
+    justifyContent:"center",
   },
   splashCaptionWrap:{
     color:"white",
@@ -105,7 +124,40 @@ const styles = StyleSheet.create({
     color: "#FF671D",
     backgroundColor: "#F8EB30",
   },
-  splashBtnLink:{
+  btnWrap:{
+    width: 350,
+    display:'flex',
+    flexDirection:'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    marginTop: hp("6%"),
+  },
+  btn:{
+    height: 50,
+    width: 110,
+    borderColor:'red',
+    borderWidth:2.5,
+    borderRadius: 10,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loginBtn:{
+    color: '#F8EB30',
+    borderColor: '#F8EB30'
+  },
+  registerBtn:{
+    backgroundColor: '#F8EB30',
+    borderColor: '#F8EB30'
+  },
+  whiteText:{
+    color:'white'
+  },
+  yellowText:{
+    color:'#F8EB30'
+  },
+  orangeText:{
+    color:'#FF671D'
   }
 })
 
