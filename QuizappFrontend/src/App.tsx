@@ -9,6 +9,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {UnitsStack, HomeStack} from './pages';
 import {SafeAreaView} from 'react-native-safe-area-context';
 const Tab = createBottomTabNavigator();
+import LoginPage from './pages/Login';
 
 
 interface CustomProps {
@@ -24,7 +25,7 @@ class App extends Component<CustomProps, CustomState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      showSplash: true
+      showSplash: false
     }
   }
 
@@ -45,6 +46,8 @@ class App extends Component<CustomProps, CustomState> {
     else{
       return (
         <SafeAreaView>
+            <LoginPage/>
+          {/*
           <NavigationContainer>
             <StatusBar barStyle="dark-content" />
             <Tab.Navigator
@@ -83,6 +86,7 @@ class App extends Component<CustomProps, CustomState> {
               <Tab.Screen name="Settings" component={TestPage} />
             </Tab.Navigator>
           </NavigationContainer>
+            */}
         </SafeAreaView>
       );
     }
