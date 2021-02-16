@@ -17,6 +17,7 @@ const LoginPage = () => {
         <Button mode="contained" style={styles.btn}> SIGN IN </Button>
         <Text style={styles.forgot}> Forgot Password? </Text>
       </View>
+      <Text style={styles.privacy}> Privacy Policy </Text>
     </View>
   );
 };
@@ -27,8 +28,8 @@ const styles = StyleSheet.create({
     width: wp("100%"),
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
-
+    justifyContent: "center",
+    position: 'relative'
   },
   inputContainer:{
     height: hp("30%"),
@@ -57,6 +58,12 @@ const styles = StyleSheet.create({
   forgot:{
     color: '#FF671D',
     fontSize: 15
+  },
+  privacy:{
+    position: 'absolute',
+    bottom: hp("10%"),
+    color: '#1B6A7A',
+    fontSize: 14
   }
 })
 
