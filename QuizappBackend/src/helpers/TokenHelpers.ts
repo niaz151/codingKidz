@@ -1,19 +1,50 @@
+import { Request } from "express";
 import jwt from "jsonwebtoken";
 
-import { Token, User, TokenContent } from "../models";
+import { db, ROLES } from "../../prisma";
 import { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } from "../utils";
+
+interface TokenContent {
+  id: number;
+  email: string;
+  roles: ROLES[];
+}
+
+const extractTokenFromRequest = (req: Request): string => {
+  const bearerHeader = req.headers.authorization?.split(" ");
+
+  if (bearerHeader === undefined || bearerHeader[0] !== "Bearer") {
+    throw new Error(
+      "Access Denied, auth header must be of form `Bearer token`"
+    );
+  } else if (bearerHeader[1].split(".").length !== 3) {
+    throw new Error("Invalid JWT Format");
+  }
+
+  return bearerHeader[1];
+};
 
 const generateAccessToken = async (
   tokenContent: TokenContent
 ): Promise<string> => {
-  const user = await User.findOne({ _id: tokenContent.user._id });
+  const user = await db.user.findUnique({
+    where: {
+      id: tokenContent.id,
+    },
+  });
 
   if (!user) {
     throw new Error("No user found, cannot generate token");
   }
 
+  const newTokenContent: TokenContent = {
+    id: user.id,
+    email: user.email,
+    roles: user.roles,
+  };
+
   // Access tokens are generated on the fly and not stored due to short expire time
-  return jwt.sign(tokenContent, ACCESS_JWT_SECRET, { expiresIn: "30m" });
+  return jwt.sign(newTokenContent, ACCESS_JWT_SECRET, { expiresIn: "30m" });
 };
 
 const generateAccessTokenFromRefreshToken = async (
@@ -21,40 +52,40 @@ const generateAccessTokenFromRefreshToken = async (
 ): Promise<string> => {
   const tokenContents = readRefreshToken(refreshToken) as TokenContent;
 
-  const user = await User.findOne({ _id: tokenContents.user._id });
+  const user = await db.user.findUnique({
+    where: { id: tokenContents.id },
+  });
 
   if (!user) {
     throw new Error("No user found, cannot generate token");
   }
 
-  const newTokenContents: TokenContent = {
-    user: {
-      _id: tokenContents.user._id,
-      email: tokenContents.user.email,
-      role: tokenContents.user.role
-    },
-  };
-
   // Access tokens are generated on the fly and not stored due to short expire time
-  return generateAccessToken(newTokenContents);
+  return generateAccessToken({
+    id: tokenContents.id,
+    email: tokenContents.email,
+    roles: tokenContents.roles,
+  });
 };
 
-const verifyAccessToken = (token: string) => {
+const readAccessToken = (token: string): TokenContent => {
   const decoded = jwt.verify(token, ACCESS_JWT_SECRET);
 
-  return decoded;
-};
-
-const readAccessToken = (token: string) => {
-  const decoded = jwt.verify(token, ACCESS_JWT_SECRET);
-
-  return decoded;
+  if (typeof decoded === "string") {
+    throw new Error("JWT decoded to string");
+  } else {
+    return { ...decoded } as TokenContent;
+  }
 };
 
 const generateRefreshToken = async (
   tokenContent: TokenContent
 ): Promise<string> => {
-  const user = await User.findOne({ _id: tokenContent.user._id });
+  const user = await db.user.findUnique({
+    where: {
+      id: tokenContent.id,
+    },
+  });
 
   if (!user) {
     throw new Error("No user found, cannot generate token");
@@ -68,7 +99,11 @@ const generateRefreshToken = async (
     expiresIn: "7d",
   });
 
-  const newRefreshToken = await Token.create({ token: token });
+  const newRefreshToken = await db.token.create({
+    data: {
+      token: token,
+    },
+  });
 
   return newRefreshToken.token;
 };
@@ -76,41 +111,40 @@ const generateRefreshToken = async (
 const generateRefreshTokenFromRefreshToken = async (
   refreshToken: string
 ): Promise<string> => {
-  const tokenContents = readRefreshToken(refreshToken) as TokenContent;
+  const tokenContent = readRefreshToken(refreshToken) as TokenContent;
 
-  const user = await User.findOne({ _id: tokenContents.user._id });
+  const user = await db.user.findUnique({
+    where: {
+      id: tokenContent.id,
+    },
+  });
 
   if (!user) {
     throw new Error("No user found, cannot generate token");
   }
 
-  const newTokenContents: TokenContent = {
-    user: {
-      _id: tokenContents.user._id,
-      email: tokenContents.user.email,
-      role: tokenContents.user.role
+  // Invalidate / delete previous token
+  await db.token.delete({
+    where: {
+      token: refreshToken,
     },
-  };
+  });
 
-  // Delete previous token
-  await Token.findOneAndDelete({token: refreshToken});
-
-  return generateRefreshToken(newTokenContents);
+  return generateRefreshToken({
+    id: user.id,
+    email: user.email,
+    roles: user.roles,
+  });
 };
 
-const verifyRefreshToken = (token: string) => {
-  try {
-    readAccessToken(token);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
-const readRefreshToken = (token: string) => {
+const readRefreshToken = (token: string): TokenContent => {
   const decoded = jwt.verify(token, REFRESH_JWT_SECRET);
 
-  return decoded;
+  if (typeof decoded === "string") {
+    throw new Error("JWT decoded to string");
+  } else {
+    return { ...decoded } as TokenContent;
+  }
 };
 
 export {
@@ -118,8 +152,8 @@ export {
   generateAccessTokenFromRefreshToken,
   generateRefreshToken,
   generateRefreshTokenFromRefreshToken,
-  verifyAccessToken,
-  verifyRefreshToken,
   readAccessToken,
   readRefreshToken,
+  extractTokenFromRequest,
+  TokenContent
 };

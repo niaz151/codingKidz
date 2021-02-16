@@ -1,20 +1,17 @@
 version: "3"
 services:
   db:
-    image: mongo:4.2.12-bionic
+    image: postgres:13.2-alpine
     restart: always
-    container_name: mongo-container
+    container_name: db-container
     ports:
       - "5432:5432"
     environment:
-      - MONGO_INITDB_DATABASE=quizapp
-      # - MONGO_INITDB_ROOT_USERNAME=mongoadmin
-      # - MONGO_INITDB_ROOT_PASSWORD=mongoadmin
+      - POSTGRES_USER=dbadmin
+      - POSTGRES_PASSWORD=dbadmin
+      - POSTGRES_DB=quizappdb
     volumes:
-      # - ./docker-local/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-      - ./docker-local/mongo-volume:/data/db
-    ports:
-      - 27017:27017
+      - ./docker-local/postgres-data:/var/lib/postgresql/data
     networks: 
     - quizapp_net
 
@@ -27,7 +24,7 @@ services:
       - PORT=8000
       - ACCESS_JWT_SECRET=ACCESS_TOP_SECRET
       - REFRESH_JWT_SECRET=REFRESH_TOP_SECRET
-      - MONGO_URI=mongodb://db:27017/quizapp
+      - DB_URI=postgresql://dbadmin:dbadmin@db:5432/quizappdb
     volumes:
       - .:/app
       - /app/node_modules

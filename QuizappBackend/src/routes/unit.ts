@@ -1,45 +1,18 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-import { Unit, IUnit, Topic } from "../models";
-import mongoose from "mongoose";
+import { db } from "../../prisma";
 
-import { hasValidAccessToken, hasValidAccessTokenAndRole } from "../middleware";
-import { ROLES } from "../utils";
+import { hasValidAccessToken, hasRole } from "../middleware";
 
 const unitRouter = Router();
 
 unitRouter
   .route("/")
   .all(hasValidAccessToken)
-  .post(
-    hasValidAccessToken,
-    body("name").isString(),
-    body("number").isNumeric(),
-    async (req, res) => {
-      const { name, number } = req.body;
-      try {
-        const newUnitContent: IUnit = {
-          name: String(name),
-          number: Number(number),
-        };
-
-        const newUnit = await Unit.create(newUnitContent);
-        // TODO Add status
-        return res.json({
-          message: "Successfully created unit",
-          newUnit: newUnit.toJSON(),
-        });
-      } catch (error) {
-        // TODO Add status
-        return res.json({
-          error: error,
-        });
-      }
-    }
-  )
-  .get(hasValidAccessTokenAndRole(ROLES.Admin), async (_, res) => {
+  // Get all units
+  .get(hasValidAccessToken, async (_, res) => {
     try {
-      const units = await Unit.find();
+      const units = await db.unit.findMany();
 
       // TODO Add status
       return res.json({
@@ -51,9 +24,41 @@ unitRouter
         error: error,
       });
     }
-  });
+  })
+  // Create Unit
+  .post(
+    hasRole("TEACHER") || hasRole("ADMIN"),
+    body("name").isString(),
+    body("number").isNumeric(),
+    async (req, res) => {
+      const { name, number } = req.body;
 
-// @route /api/units/:unitId Read update and delete individual units
+      try {
+        const newUnit = await db.unit.create({
+          data: {
+            name: String(name),
+            number: Number(number),
+          },
+        });
+        // TODO Add status
+        return res.json({
+          message: "Successfully created unit",
+          newUnit: {
+            id: newUnit.id,
+            name: newUnit.name,
+            number: newUnit.number,
+          },
+        });
+      } catch (error) {
+        // TODO Add status
+        return res.json({
+          error: error,
+        });
+      }
+    }
+  );
+
+// @route /api/unit/:unitId Read update and delete individual units
 unitRouter
   .route("/:unitId")
   .all(param("unitId"))
@@ -61,7 +66,12 @@ unitRouter
     const { unitId } = req.params;
 
     try {
-      const unit = await Unit.findById(unitId);
+      const unit = await db.unit.findUnique({
+        where: {
+          id: Number(unitId),
+        },
+      });
+
       // TODO Add status
       return res.json({
         unit: unit,
@@ -77,39 +87,67 @@ unitRouter
     body("newName"),
     body("newNumber"),
     body("newTopics"),
+    hasRole("TEACHER") || hasRole("ADMIN"),
     async (req, res) => {
       const { unitId } = req.params;
       const { newName, newNumber, newTopics } = req.body;
       try {
         let changed = false;
-        const unit = Unit.findById(unitId);
+        const unit = await db.unit.findUnique({
+          where: { id: Number(unitId) },
+        });
+
+        if (unit == null) {
+          return res.status(404).json({
+            error: "Unit not found",
+          });
+        }
 
         if (newName) {
-          await unit.update({ _id: unitId }, { name: newName });
+          await db.unit.update({
+            where: {
+              id: unit.id,
+            },
+            data: {
+              name: newName,
+            },
+          });
           changed = true;
         }
 
         if (newNumber) {
-          await unit.update({
-            number: newNumber,
+          await db.unit.update({
+            where: {
+              id: unit.id,
+            },
+            data: {
+              number: newNumber,
+            },
           });
           changed = true;
         }
 
         if (newTopics) {
-          await unit.update({
-            topics: newTopics,
+          await db.unit.update({
+            where: {
+              id: unit.id,
+            },
+            data: {
+              topics: newTopics,
+            },
           });
           changed = true;
         }
 
         if (changed) {
-          const newUnit = await Unit.findById(unitId);
+          const newUnit = await db.unit.findUnique({ where: { id: unit.id } });
+          // TODO Add status
           return res.json({
             message: "Succesfully updated unit",
             unit: newUnit,
           });
         } else {
+          // TODO Add status
           return res.json({
             message: "No changes made",
             unit: unit,
@@ -127,7 +165,14 @@ unitRouter
     const { unitId } = req.params;
 
     try {
-      const deleted = await Unit.findByIdAndDelete(unitId);
+      const deleted = await db.unit.delete({
+        where: {
+          id: Number(unitId),
+        },
+        include: {
+          topics: true,
+        },
+      });
       // TODO Add status
       return res.json({
         message: `Successfully deleted unit ${deleted?.name}`,
@@ -141,63 +186,97 @@ unitRouter
   });
 
 unitRouter
-  .route("/:unitId/topics/:topicId")
-  .post(body("unitId"), body("topicId"), async (req, res) => {
+  .route("/:unitId/topic/")
+  .all(param("unitId").isNumeric())
+  .get(async (req, res) => {
+    const { unitId } = req.params;
+
+    const unitWithTopics = await db.unit.findUnique({
+      where: {
+        id: Number(unitId),
+      },
+      include: {
+        topics: true,
+      },
+    });
+
+    if (unitWithTopics == null) {
+      return res.status(404).json({
+        error: `Could not find unit ${unitId}`,
+      });
+    }
+
+    return res.json({
+      topics: unitWithTopics.topics,
+    });
+  })
+  .post(
+    body("name").isAlphanumeric(),
+    body("number").isNumeric(),
+    async (req, res) => {
+      const { unitId } = req.params;
+      const { name, number } = req.body;
+
+      try {
+        const updatedUnit = await db.unit.update({
+          where: {
+            id: Number(unitId),
+          },
+          data: {
+            topics: {
+              create: {
+                name: name,
+                number: Number(number),
+              },
+            },
+          },
+          include: {
+            topics: true
+          }
+        });
+
+        if (updatedUnit) {
+          return res.json({
+            message: "Sucessfully added topic",
+            unit: updatedUnit,
+          });
+        } else {
+          return res.status(404).json({
+            error: "Unit not found",
+          });
+        }
+      } catch (error) {
+        return res.status(500).json({
+          error: error,
+        });
+      }
+    }
+  );
+
+unitRouter
+  .route("/:unitId/topic/:topicId")
+  .all(param("unitId").isNumeric(), param("topicId").isNumeric())
+  .delete(async (req, res) => {
     const { unitId, topicId } = req.params;
 
-    console.log("unitId, topicId: ", unitId, topicId);
-
-    const topic = await Topic.findById(topicId);
-
-    if (topic === null) {
-      return res.status(404).json({
-        error: "Topic not found",
-      });
-    }
-
     try {
-      const topicID = new mongoose.Types.ObjectId(topicId);
-      
-      const unit = await Unit.findByIdAndUpdate(unitId, {
-        $push: { topics: topicID },
+      const unit = await db.unit.update({
+        where: {
+          id: Number(unitId),
+        },
+        data: {
+          topics: {
+            delete: {
+              id: Number(topicId),
+            },
+          },
+        },
       });
 
       if (unit) {
         return res.json({
-          unit: unit,
           message: "Sucessfully updated unit",
-        });
-      } else {
-        return res.status(404).json({
-          error: "Unit not found",
-        });
-      }
-    } catch (error) {
-      return res.status(500).json({
-        error: error,
-      });
-    }
-  })
-  .delete(body("unitId"), body("topicId"), async (req, res) => {
-    const { unitId, topicId } = req.body;
-
-    try {
-      const topic = await Topic.findById(topicId);
-
-      if (!topic) {
-        return res.status(404).json({
-          error: "Topic not found, did not remove from unit",
-        });
-      }
-
-      const unit = await Unit.findByIdAndUpdate(unitId, {
-        $pull: { topics: topicId },
-      });
-
-      if (unit) {
-        return res.json({
           unit: unit,
-          message: "Sucessfully updated unit",
         });
       } else {
         return res.status(404).json({

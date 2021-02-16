@@ -1,6 +1,5 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import { User, TokenContent } from "../models";
 import { body, validationResult } from "express-validator";
 import {
   generateAccessToken,
@@ -8,7 +7,9 @@ import {
   generateAccessTokenFromRefreshToken,
   generateRefreshTokenFromRefreshToken,
 } from "../helpers";
-import { ROLES } from "../utils";
+
+import { db } from "../../prisma";
+
 import { hasValidRefreshToken } from "../middleware";
 
 const authRouter = Router();
@@ -18,11 +19,7 @@ authRouter.post(
   "/signup",
   body("email").isEmail().normalizeEmail(),
   body("password").isLength({ min: 6 }),
-  body("role").custom((val) => {
-    return (
-      val === ROLES.Student || val === ROLES.Teacher || val === ROLES.Admin
-    );
-  }),
+  body("role"),
   async (req, res) => {
     // Deal with validation errors
     const errors = validationResult(req);
@@ -37,7 +34,13 @@ authRouter.post(
 
     // Check to see if user already exists
 
-    if (await User.findOne({ email })) {
+    if (
+      await db.user.findUnique({
+        where: {
+          email: email,
+        },
+      })
+    ) {
       return res.status(409).json({
         message: "User already exists",
       });
@@ -47,21 +50,27 @@ authRouter.post(
     const hash = await bcrypt.hash(password, 10);
 
     // Save email and hash into new user
-    const newUser = await User.create({
-      email: email,
-      password: hash,
-      role: role,
+    const newUser = await db.user.create({
+      data: {
+        email: email,
+        password: hash,
+        roles: [role],
+      },
     });
 
-    const tokenContent: TokenContent = {
-      user: { _id: newUser._id, email: newUser.email, role: newUser.role },
-    };
-
     // Generate access token, used for accessing API in the future
-    const access_token = await generateAccessToken(tokenContent);
+    const access_token = await generateAccessToken({
+      id: newUser.id,
+      email: newUser.email,
+      roles: newUser.roles,
+    });
 
     // Generate refresh token, used for getting new access tokens in the future
-    const refresh_token = await generateRefreshToken(tokenContent);
+    const refresh_token = await generateRefreshToken({
+      id: newUser.id,
+      email: newUser.email,
+      roles: newUser.roles,
+    });
 
     return res.json({
       message: "Signup Successful",
@@ -87,7 +96,12 @@ authRouter.post(
     const { email, password } = req.body;
 
     // Confirm user exists before continuing
-    const user = await User.findOne({ email });
+    const user = await db.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
+
     if (!user) {
       return res.status(500).json({
         message: "User doesn't exist",
@@ -103,15 +117,19 @@ authRouter.post(
       });
     }
 
-    const tokenContent: TokenContent = {
-      user: { _id: user._id, email: user.email, role: user.role },
-    };
-
     // Generate access token, used for accessing API in the future
-    const access_token = await generateAccessToken(tokenContent);
+    const access_token = await generateAccessToken({
+      id: user.id,
+      email: user.email,
+      roles: user.roles,
+    });
 
     // Generate refresh token, used for getting new access tokens in the future
-    const refresh_token = await generateRefreshToken(tokenContent);
+    const refresh_token = await generateRefreshToken({
+      id: user.id,
+      email: user.email,
+      roles: user.roles,
+    });
 
     return res.json({
       message: "Login Successful",
@@ -122,32 +140,28 @@ authRouter.post(
 );
 
 // @route POST /api/auth/refresh_access
-authRouter.post(
-  "/refresh_access",
-  hasValidRefreshToken,
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(403).json({
-        error: errors.array(),
-      });
-    }
-
-    const { refresh_token } = req.body;
-
-    const newAccessToken = await generateAccessTokenFromRefreshToken(
-      refresh_token
-    );
-
-    const newRefreshToken = await generateRefreshTokenFromRefreshToken(
-      refresh_token
-    );
-
-    return res.json({
-      access_token: newAccessToken,
-      refresh_token: newRefreshToken,
+authRouter.post("/refresh_access", hasValidRefreshToken, async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(403).json({
+      error: errors.array(),
     });
   }
-);
+
+  const { refresh_token } = req.body;
+
+  const newAccessToken = await generateAccessTokenFromRefreshToken(
+    refresh_token
+  );
+
+  const newRefreshToken = await generateRefreshTokenFromRefreshToken(
+    refresh_token
+  );
+
+  return res.json({
+    access_token: newAccessToken,
+    refresh_token: newRefreshToken,
+  });
+});
 
 export { authRouter };

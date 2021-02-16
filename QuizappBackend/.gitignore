@@ -21,4 +21,5 @@ yarn-error.log*
 .eslintcache
 
 # Docker
-docker-local/mongo-volume
+docker-local/postgres-data
+!docker-local/postgres-data/postgresql.conf
