@@ -1,36 +1,43 @@
+import { PrismaPromise, Prisma } from "@prisma/client";
 import { Router } from "express";
-import { body, param } from "express-validator";
+import { body, param, validationResult } from "express-validator";
 import { db } from "../../prisma";
 
-import { hasValidAccessToken, hasRole } from "../middleware";
+import { hasRole, hasValidAccessToken } from "../middleware";
 
 const unitRouter = Router();
 
 unitRouter
   .route("/")
-  .all(hasValidAccessToken)
   // Get all units
-  .get(hasValidAccessToken, async (_, res) => {
+  .all(hasValidAccessToken)
+  .get(async (_, res) => {
     try {
       const units = await db.unit.findMany();
 
-      // TODO Add status
-      return res.json({
+      return res.status(200).json({
         units: units,
       });
     } catch (error) {
-      // TODO Add status
-      return res.json({
+      return res.status(500).json({
         error: error,
       });
     }
   })
   // Create Unit
   .post(
-    hasRole("TEACHER") || hasRole("ADMIN"),
     body("name").isString(),
     body("number").isNumeric(),
     async (req, res) => {
+      // Deal with validation errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
+
+      // If no validation errors occured, these fields will exist
       const { name, number } = req.body;
 
       try {
@@ -40,8 +47,7 @@ unitRouter
             number: Number(number),
           },
         });
-        // TODO Add status
-        return res.json({
+        return res.status(201).json({
           message: "Successfully created unit",
           newUnit: {
             id: newUnit.id,
@@ -50,19 +56,26 @@ unitRouter
           },
         });
       } catch (error) {
-        // TODO Add status
-        return res.json({
+        return res.status(500).json({
           error: error,
         });
       }
     }
   );
 
-// @route /api/unit/:unitId Read update and delete individual units
 unitRouter
   .route("/:unitId")
   .all(param("unitId"))
+  // Get unit from id
   .get(async (req, res) => {
+    // Deal with validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
     const { unitId } = req.params;
 
     try {
@@ -72,27 +85,32 @@ unitRouter
         },
       });
 
-      // TODO Add status
-      return res.json({
+      return res.status(200).json({
         unit: unit,
       });
     } catch (error) {
-      // TODO Add status
-      return res.json({
+      return res.status(500).json({
         error: error,
       });
     }
   })
-  .post(
+  // Update unit
+  .put(
     body("newName"),
     body("newNumber"),
     body("newTopics"),
-    hasRole("TEACHER") || hasRole("ADMIN"),
     async (req, res) => {
+      // Deal with validation errors
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
       const { unitId } = req.params;
       const { newName, newNumber, newTopics } = req.body;
+
       try {
-        let changed = false;
         const unit = await db.unit.findUnique({
           where: { id: Number(unitId) },
         });
@@ -103,56 +121,21 @@ unitRouter
           });
         }
 
-        if (newName) {
-          await db.unit.update({
-            where: {
-              id: unit.id,
-            },
-            data: {
-              name: newName,
-            },
-          });
-          changed = true;
-        }
+        const updatedUnit = await db.unit.update({
+          where: {
+            id: unit.id,
+          },
+          data: {
+            name: newName ?? undefined,
+            number: newNumber ?? undefined,
+            topics: newTopics ?? undefined,
+          },
+        });
 
-        if (newNumber) {
-          await db.unit.update({
-            where: {
-              id: unit.id,
-            },
-            data: {
-              number: newNumber,
-            },
-          });
-          changed = true;
-        }
-
-        if (newTopics) {
-          await db.unit.update({
-            where: {
-              id: unit.id,
-            },
-            data: {
-              topics: newTopics,
-            },
-          });
-          changed = true;
-        }
-
-        if (changed) {
-          const newUnit = await db.unit.findUnique({ where: { id: unit.id } });
-          // TODO Add status
-          return res.json({
-            message: "Succesfully updated unit",
-            unit: newUnit,
-          });
-        } else {
-          // TODO Add status
-          return res.json({
-            message: "No changes made",
-            unit: unit,
-          });
-        }
+        return res.status(200).json({
+          message: "Succesfully updated unit",
+          unit: updatedUnit,
+        });
       } catch (error) {
         // TODO Add status
         return res.json({
@@ -161,26 +144,67 @@ unitRouter
       }
     }
   )
-  .delete(async (req, res) => {
+  // Delete unit and related topics and questions
+  .delete(param("unitId").isNumeric(), async (req, res) => {
+    // Deal with validation errors
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
     const { unitId } = req.params;
 
     try {
-      const deleted = await db.unit.delete({
+      const originalUnitWithTopics = await db.unit.findUnique({
+        where: { id: Number(unitId) },
+        include: { topics: true },
+      });
+
+      if (!originalUnitWithTopics) {
+        return res.status(404).json({
+          error: "Unit not found",
+        });
+      }
+
+      const deleteTopics = db.topic.deleteMany({
+        // await db.topic.deleteMany({
+        where: { id: originalUnitWithTopics?.id },
+      });
+
+      const deleteQuestions: typeof deleteTopics[] = [];
+      // const deleteQuestions = originalUnitWithTopics.topics.map((topic) => {
+      originalUnitWithTopics.topics.map(async (topic) => {
+        deleteQuestions.push(
+          db.question.deleteMany({ where: { id: topic.number } })
+        );
+      });
+
+      const deleteUnit = db.unit.delete({
+        // await db.unit.delete({
         where: {
-          id: Number(unitId),
+          id: originalUnitWithTopics.id,
         },
         include: {
           topics: true,
         },
       });
-      // TODO Add status
-      return res.json({
-        message: `Successfully deleted unit ${deleted?.name}`,
+
+      // delete properly with transactions
+      const deleteAll = await db.$transaction([
+        ...deleteQuestions,
+        deleteTopics,
+        deleteUnit,
+      ]);
+
+      return res.status(200).json({
+        message: "Successfully deleted unit",
+        transaction: deleteAll,
       });
     } catch (error) {
       // TODO Add status
       return res.json({
-        error: error,
+        error,
       });
     }
   });
@@ -188,6 +212,7 @@ unitRouter
 unitRouter
   .route("/:unitId/topic/")
   .all(param("unitId").isNumeric())
+  // Get topics for a unit
   .get(async (req, res) => {
     const { unitId } = req.params;
 
@@ -210,6 +235,7 @@ unitRouter
       topics: unitWithTopics.topics,
     });
   })
+  // Create a new topic
   .post(
     body("name").isAlphanumeric(),
     body("number").isNumeric(),
@@ -231,8 +257,8 @@ unitRouter
             },
           },
           include: {
-            topics: true
-          }
+            topics: true,
+          },
         });
 
         if (updatedUnit) {
@@ -255,12 +281,34 @@ unitRouter
 
 unitRouter
   .route("/:unitId/topic/:topicId")
-  .all(param("unitId").isNumeric(), param("topicId").isNumeric())
+  .all(
+    param("unitId").isNumeric(),
+    param("topicId").isNumeric(),
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
+
+      return next();
+    }
+  )
+  // Delete a specific topic
   .delete(async (req, res) => {
     const { unitId, topicId } = req.params;
 
     try {
-      const unit = await db.unit.update({
+      // Need to delete all linked questions before deleting topic
+      const deleteQuestions = db.question.deleteMany({
+        where: {
+          topicId: Number(topicId),
+        },
+      });
+
+      // Need to disconnect topic from unit before deleting topic
+      const deleteTopic = db.unit.update({
         where: {
           id: Number(unitId),
         },
@@ -273,21 +321,150 @@ unitRouter
         },
       });
 
-      if (unit) {
+      // Now that the topic has no relations, it can be deleted (ominous)
+      // const deleteTopic = db.topic.delete({
+      //   where: {
+      //     id: Number(topicId),
+      //   },
+      // });
+
+      // Delete topic using transaction to ensure everything succeeds or nothing is carried out
+      const completed = await db.$transaction([deleteQuestions, deleteTopic]);
+
+      if (completed) {
         return res.json({
-          message: "Sucessfully updated unit",
-          unit: unit,
+          message: "Sucessfully deleted topic",
+          completed: completed,
         });
       } else {
-        return res.status(404).json({
+        return res.status(500).json({
           error: "Unit not found",
         });
       }
     } catch (error) {
       return res.status(500).json({
-        error: error,
+        error
       });
     }
+  });
+
+unitRouter
+  .route("/:unitId/topic/:topicId/question")
+  .all(param("unitId").isInt(), param("topicId").isInt(), (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
+
+    return next();
+  })
+  // Get questions for a specific topic
+  .get(async (req, res) => {
+    const { unitId, topicId } = req.params;
+    const unitWithTopicAndQuestions = await db.unit.findUnique({
+      where: {
+        id: Number(unitId),
+      },
+      include: {
+        topics: {
+          where: {
+            id: Number(topicId),
+          },
+          include: {
+            questions: true,
+          },
+        },
+      },
+    });
+
+    return res.json({
+      message: "Succesfully fetched questions",
+      questions: unitWithTopicAndQuestions,
+    });
+  })
+  // Create question
+  .post(body("question"), body("questionImage"), async (req, res) => {
+    const { unitId, topicId } = req.params;
+
+    const { question, questionImage } = req.body;
+
+    const updatedUnit = await db.unit.update({
+      where: {
+        id: Number(unitId),
+      },
+      data: {
+        topics: {
+          update: {
+            where: {
+              id: Number(topicId),
+            },
+            data: {
+              questions: {
+                create: {
+                  question: question,
+                  questionImage: questionImage,
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.json({
+      message: "Successfully created question",
+      unit: updatedUnit,
+    });
+  });
+
+unitRouter
+  .route("/:unitId/topic/:topicId/question/:questionId")
+  .all(
+    param("unitId").isInt(),
+    param("topicId").isInt(),
+    param("questionId").isInt(),
+    (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
+
+      return next();
+    }
+  )
+  // Delete question
+  .delete(async (req, res) => {
+    const { unitId, topicId, questionId } = req.params;
+
+    await db.unit.update({
+      where: {
+        id: Number(unitId),
+      },
+      data: {
+        topics: {
+          update: {
+            where: {
+              id: Number(topicId),
+            },
+            data: {
+              questions: {
+                delete: {
+                  id: Number(questionId),
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return res.status(200).json({
+      message: "Successfully deleted question",
+    });
   });
 
 export { unitRouter };

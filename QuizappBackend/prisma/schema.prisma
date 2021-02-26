@@ -41,12 +41,13 @@ model Topic {
   number Int
   Unit Unit @relation(fields: [unitId], references: [id])
   unitId Int
-  Question Question[]
+  questions Question[]
 }
 
 model Question {
   id Int @default(autoincrement()) @id
-
+  question String
+  questionImage Bytes?
   Topic Topic @relation(fields: [topicId], references: [id])
   topicId Int
 }

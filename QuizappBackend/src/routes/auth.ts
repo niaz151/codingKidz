@@ -6,6 +6,7 @@ import {
   generateRefreshToken,
   generateAccessTokenFromRefreshToken,
   generateRefreshTokenFromRefreshToken,
+  extractTokenFromRequest,
 } from "../helpers";
 
 import { db } from "../../prisma";
@@ -139,7 +140,7 @@ authRouter.post(
   }
 );
 
-// @route POST /api/auth/refresh_access
+// Refresh access and refresh tokens from refresh token
 authRouter.post("/refresh_access", hasValidRefreshToken, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -148,19 +149,41 @@ authRouter.post("/refresh_access", hasValidRefreshToken, async (req, res) => {
     });
   }
 
-  const { refresh_token } = req.body;
+  const refresh_token = extractTokenFromRequest(req);
 
-  const newAccessToken = await generateAccessTokenFromRefreshToken(
-    refresh_token
-  );
+  try {
+    const newAccessToken = await generateAccessTokenFromRefreshToken(
+      refresh_token
+    );
 
-  const newRefreshToken = await generateRefreshTokenFromRefreshToken(
-    refresh_token
-  );
+    const newRefreshToken = await generateRefreshTokenFromRefreshToken(
+      refresh_token
+    );
+
+    return res.json({
+      access_token: newAccessToken,
+      refresh_token: newRefreshToken,
+    });
+  } catch (error) {
+    if(error.code === "P2025") {
+      return res.status(400).json({
+        error: "Token previously invalidated, please log in again"
+      });
+    }
+    return res.status(500).json({
+      error: error,
+    });
+  }
+});
+
+authRouter.get("/users",
+// hasRole(["ADMIN"]), 
+async (req, res) => {
+  const users = await db.user.findMany();
 
   return res.json({
-    access_token: newAccessToken,
-    refresh_token: newRefreshToken,
+    message: "Succesfully fetched users",
+    users: users,
   });
 });
 

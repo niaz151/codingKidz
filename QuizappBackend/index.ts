@@ -1,13 +1,17 @@
-import express, { json } from "express";
-
+import express, { json, urlencoded } from "express";
+import helmet from "helmet";
 
 import { router } from "./src/routes";
 
-import { PORT} from "./src/utils";
+import { PORT } from "./src/utils";
 
 const app = express();
 
+// Sets a lot of secure defaults
+app.use(helmet());
+
 app.use(json());
+app.use(urlencoded({ extended: true }));
 
 // Use routes defined in ./routes/index/ts
 app.use("/", router);
