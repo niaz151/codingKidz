@@ -5,6 +5,7 @@
     "lib": [
       "es6"
     ],
+    "checkJs": false,
     "allowJs": true,
     "jsx": "react-jsx",
     "noEmit": true,

@@ -3,14 +3,15 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
 import splash_logo from '../assets/images/splash_logo.svg';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 
-const Splash = () => {
+const Splash = ({navigation}) => {
   return (
     <View style={styles.splashContainer}>
       <View style={styles.splashLogoTitleWrap}>
         <Text style={styles.splashLogoTitleOne}> coding </Text>
-        <Text style={styles.splashLogoTitleTwo}> Kidz </Text>
+        <Text style={styles.splashLogoTitleTwo}> KIDZ </Text>
       </View>
       <View style={styles.splashLogoImgWrap}>
         <View style={styles.splashLogoCirclePortrait}>
@@ -24,12 +25,12 @@ const Splash = () => {
         <TouchableOpacity
           onPress={() => console.log('login')}
           style={[styles.btn, styles.loginBtn]}>
-            <Text style={styles.yellowText}> Login </Text>
+            <Text style={styles.yellowText} onPress={() => navigation.navigate('Login')} > LOGIN </Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => console.log('register')}
+          onPress={() => navigation.navigate('Register')}
           style={[styles.btn, styles.registerBtn]}>
-            <Text style={styles.orangeText}> Register </Text>
+            <Text style={styles.orangeText}  > SIGN UP </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -38,6 +39,7 @@ const Splash = () => {
 
 const styles = StyleSheet.create({
   splashContainer:{
+    backgroundColor:"#FF671D",
     height: hp('100%'),
     width: wp('100%'),
     display: "flex",
@@ -59,10 +61,12 @@ const styles = StyleSheet.create({
   splashLogoTitleOne:{
     fontWeight:"bold",
     fontSize: 30,
+    color:"white",
   },
   splashLogoTitleTwo:{
     fontSize: 30,
-    marginLeft:-10
+    marginLeft:-10,
+    color:"white"
   },
   splashLogoImgWrap:{
     height: 270,
@@ -81,7 +85,7 @@ const styles = StyleSheet.create({
     width: 270,
     height: 270,
     backgroundColor: "#FCFADD",
-    borderWidth: 5,
+    borderWidth: 10,
     borderColor: "#F8EB30",
     marginTop:3,
     display:"flex",
