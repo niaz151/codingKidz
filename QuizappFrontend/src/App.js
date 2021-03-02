@@ -29,8 +29,20 @@ function App(){
                 backgroundColor:"#FF671D"
               }
             }} />
-            <Stack.Screen name="Login" component={LoginPage} />
-            <Stack.Screen name="Register" component={RegisterPage} />
+            <Stack.Screen name="Login" component={LoginPage} options={{
+              title:"",
+              headerLeft:null,
+              headerStyle:{
+                backgroundColor:"white"
+              }
+            }} />
+            <Stack.Screen name="Register" component={RegisterPage} options={{
+              title:"",
+              headerLeft: null,
+              headerStyle:{
+                backgroundColor:"white"
+              }
+            }}/>
           </Stack.Navigator> 
         </NavigationContainer>
       </SafeAreaView>

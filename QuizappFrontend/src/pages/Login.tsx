@@ -52,12 +52,12 @@ const LoginPage = () => {
           onChangeText={(text) => setPassword(text)}
           style={styles.textInput}
         />
-        <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
+        <Button mode="contained" style={styles.btn} onPress={handleSubmit}  >
           SIGN IN
         </Button>
-        <Text style={styles.forgot}> Forgot Password? </Text>
+        <Text style={styles.forgot}> FORGOT PASSWORD? </Text>
       </View>
-      <Text style={styles.privacy}> Privacy Policy </Text>
+      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
     </View>
   );
 };
@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+    backgroundColor:"white"
   },
   inputContainer: {
     height: hp('30%'),
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     width: wp('80%'),
     height: 50,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 0,
     borderColor: '#FF671D',
   },
   btn: {
@@ -98,10 +99,11 @@ const styles = StyleSheet.create({
   forgot: {
     color: '#FF671D',
     fontSize: 15,
+    fontWeight: "700"
   },
   privacy: {
     position: 'absolute',
-    bottom: hp('10%'),
+    bottom: hp('15%'),
     color: '#1B6A7A',
     fontSize: 14,
   },
