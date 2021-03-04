@@ -4,6 +4,7 @@ import bcrypt from "bcrypt";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Create a user of each type
   const student = await prisma.user.upsert({
     where: { email: "student@prisma.io" },
     update: {},
@@ -31,6 +32,7 @@ async function main() {
       roles: ["ADMIN"]
     },
   });
+
   console.log("Created users", { student, teacher, admin });
 }
 

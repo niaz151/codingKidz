@@ -15,7 +15,7 @@ app.use(json());
 app.use(urlencoded({ extended: true }));
 
 // Logger
-app.use(Logger);
+// app.use(Logger);
 
 // Use routes defined in ./routes/index/ts
 app.use("/", router);

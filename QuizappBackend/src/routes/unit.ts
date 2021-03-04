@@ -172,16 +172,16 @@ unitRouter
         where: { id: originalUnitWithTopics?.id },
       });
 
-      const deleteQuestions: typeof deleteTopics[] = [];
+      // const deleteQuestions: typeof deleteTopics[] = [];
       // const deleteQuestions = originalUnitWithTopics.topics.map((topic) => {
-      originalUnitWithTopics.topics.map(async (topic) => {
-        deleteQuestions.push(
-          db.multipleChoiceQuestion.deleteMany({ where: { topicId: topic.id } })
-        );
-        deleteQuestions.push(
-          db.trueFalseQuestion.deleteMany({ where: { topicId: topic.id } })
-        );
-      });
+      // originalUnitWithTopics.topics.map(async (topic) => {
+      //   deleteQuestions.push(
+      //     db.multipleChoiceQuestion.deleteMany({ where: { topicId: topic.id } })
+      //   );
+      //   deleteQuestions.push(
+      //     db.trueFalseQuestion.deleteMany({ where: { topicId: topic.id } })
+      //   );
+      // });
 
       const deleteUnit = db.unit.delete({
         // await db.unit.delete({
@@ -195,7 +195,7 @@ unitRouter
 
       // delete properly with transactions
       const deleteAll = await db.$transaction([
-        ...deleteQuestions,
+        // ...deleteQuestions,
         deleteTopics,
         deleteUnit,
       ]);
@@ -304,16 +304,16 @@ unitRouter
 
     try {
       // Need to delete all linked questions before deleting topic
-      const deleteQuestions = [
-        db.multipleChoiceQuestion.deleteMany({
-          where: {
-            topicId: Number(topicId),
-          },
-        }),
-        db.trueFalseQuestion.deleteMany({
-          where: { topicId: Number(topicId) },
-        }),
-      ];
+      // const deleteQuestions = [
+      //   db.multipleChoiceQuestion.deleteMany({
+      //     where: {
+      //       topicId: Number(topicId),
+      //     },
+      //   }),
+      //   db.trueFalseQuestion.deleteMany({
+      //     where: { topicId: Number(topicId) },
+      //   }),
+      // ];
 
       // Need to disconnect topic from unit before deleting topic
       const deleteTopic = db.unit.update({
@@ -337,7 +337,10 @@ unitRouter
       // });
 
       // Delete topic using transaction to ensure everything succeeds or nothing is carried out
-      const completed = await db.$transaction([...deleteQuestions, deleteTopic]);
+      const completed = await db.$transaction([
+        // ...deleteQuestions,
+         deleteTopic
+      ]);
 
       if (completed) {
         return res.json({
@@ -371,62 +374,62 @@ unitRouter
   // Get questions for a specific topic
   .get(async (req, res) => {
     const { unitId, topicId } = req.params;
-    const unitWithTopicAndQuestions = await db.unit.findUnique({
-      where: {
-        id: Number(unitId),
-      },
-      include: {
-        topics: {
-          where: {
-            id: Number(topicId),
-          },
-          include: {
-            multipleChoiceQuestions: true,
-            trueFalseQuestions: true
-          },
-        },
-      },
-    });
+    // const unitWithTopicAndQuestions = await db.unit.findUnique({
+    //   where: {
+    //     id: Number(unitId),
+    //   },
+    //   include: {
+    //     topics: {
+    //       where: {
+    //         id: Number(topicId),
+    //       },
+    //       include: {
+    //         multipleChoiceQuestions: true,
+    //         trueFalseQuestions: true
+    //       },
+    //     },
+    //   },
+    // });
 
     return res.json({
-      message: "Succesfully fetched questions",
-      questions: unitWithTopicAndQuestions,
-    });
-  })
-  // Create question
-  .post(body("question"), body("questionImage"), async (req, res) => {
-    const { unitId, topicId } = req.params;
-
-    const { question, questionImage } = req.body;
-
-    const updatedUnit = await db.unit.update({
-      where: {
-        id: Number(unitId),
-      },
-      data: {
-        topics: {
-          update: {
-            where: {
-              id: Number(topicId),
-            },
-            data: {
-              multipleChoiceQuestions: {
-                create: {
-                  question: question,
-                  questionImage: questionImage,
-                },
-              },
-            },
-          },
-        },
-      },
-    });
-
-    return res.json({
-      message: "Successfully created question",
-      unit: updatedUnit,
+      message: "Succesfully fetched questions (not really)",
+      // questions: unitWithTopicAndQuestions,
     });
   });
+  // Create question
+  // .post(body("question"), body("questionImage"), async (req, res) => {
+  //   const { unitId, topicId } = req.params;
+
+  //   const { question, questionImage } = req.body;
+
+  //   const updatedUnit = await db.unit.update({
+  //     where: {
+  //       id: Number(unitId),
+  //     },
+  //     data: {
+  //       topics: {
+  //         update: {
+  //           where: {
+  //             id: Number(topicId),
+  //           },
+  //           data: {
+  //             multipleChoiceQuestions: {
+  //               create: {
+  //                 question: question,
+                  
+  //               },
+  //             },
+  //           },
+  //         },
+  //       },
+  //     },
+  //   });
+
+    // return res.json({
+    //   message: "Successfully created question",
+    //   unit: updatedUnit,
+    // });
+  // });
 
 unitRouter
   .route("/:unitId/topic/:topicId/question/:questionId")
@@ -451,23 +454,23 @@ unitRouter
 
     
 
-    const disconnectFromTopics = await db.topic.update({
-      where: {
-        id: Number(topicId)
-      },
-      data: {
-        multipleChoiceQuestions: {
-          disconnect: {
-            id: Number(questionId)
-          }
-        }
-      }
-    });
+    // const disconnectFromTopics = await db.topic.update({
+    //   where: {
+    //     id: Number(topicId)
+    //   },
+    //   data: {
+    //     multipleChoiceQuestions: {
+    //       disconnect: {
+    //         id: Number(questionId)
+    //       }
+    //     }
+    //   }
+    // });
 
-    const 
+
 
     return res.status(200).json({
-      message: "Successfully deleted question",
+      message: "Successfully deleted question (not really)",
     });
   });
 
