@@ -176,7 +176,10 @@ unitRouter
       // const deleteQuestions = originalUnitWithTopics.topics.map((topic) => {
       originalUnitWithTopics.topics.map(async (topic) => {
         deleteQuestions.push(
-          db.question.deleteMany({ where: { id: topic.number } })
+          db.multipleChoiceQuestion.deleteMany({ where: { topicId: topic.id } })
+        );
+        deleteQuestions.push(
+          db.trueFalseQuestion.deleteMany({ where: { topicId: topic.id } })
         );
       });
 
@@ -301,11 +304,16 @@ unitRouter
 
     try {
       // Need to delete all linked questions before deleting topic
-      const deleteQuestions = db.question.deleteMany({
-        where: {
-          topicId: Number(topicId),
-        },
-      });
+      const deleteQuestions = [
+        db.multipleChoiceQuestion.deleteMany({
+          where: {
+            topicId: Number(topicId),
+          },
+        }),
+        db.trueFalseQuestion.deleteMany({
+          where: { topicId: Number(topicId) },
+        }),
+      ];
 
       // Need to disconnect topic from unit before deleting topic
       const deleteTopic = db.unit.update({
@@ -329,7 +337,7 @@ unitRouter
       // });
 
       // Delete topic using transaction to ensure everything succeeds or nothing is carried out
-      const completed = await db.$transaction([deleteQuestions, deleteTopic]);
+      const completed = await db.$transaction([...deleteQuestions, deleteTopic]);
 
       if (completed) {
         return res.json({
@@ -343,7 +351,7 @@ unitRouter
       }
     } catch (error) {
       return res.status(500).json({
-        error
+        error,
       });
     }
   });
@@ -373,7 +381,8 @@ unitRouter
             id: Number(topicId),
           },
           include: {
-            questions: true,
+            multipleChoiceQuestions: true,
+            trueFalseQuestions: true
           },
         },
       },
@@ -401,7 +410,7 @@ unitRouter
               id: Number(topicId),
             },
             data: {
-              questions: {
+              multipleChoiceQuestions: {
                 create: {
                   question: question,
                   questionImage: questionImage,
@@ -440,27 +449,22 @@ unitRouter
   .delete(async (req, res) => {
     const { unitId, topicId, questionId } = req.params;
 
-    await db.unit.update({
+    
+
+    const disconnectFromTopics = await db.topic.update({
       where: {
-        id: Number(unitId),
+        id: Number(topicId)
       },
       data: {
-        topics: {
-          update: {
-            where: {
-              id: Number(topicId),
-            },
-            data: {
-              questions: {
-                delete: {
-                  id: Number(questionId),
-                },
-              },
-            },
-          },
-        },
-      },
+        multipleChoiceQuestions: {
+          disconnect: {
+            id: Number(questionId)
+          }
+        }
+      }
     });
+
+    const 
 
     return res.status(200).json({
       message: "Successfully deleted question",

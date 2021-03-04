@@ -39,15 +39,32 @@ model Topic {
   id Int @default(autoincrement()) @id
   name String
   number Int
-  Unit Unit @relation(fields: [unitId], references: [id])
+  unit Unit @relation(fields: [unitId], references: [id])
   unitId Int
-  questions Question[]
+  multipleChoiceQuestions MultipleChoiceQuestion[]
+  trueFalseQuestions TrueFalseQuestion[]
 }
 
-model Question {
+model MultipleChoiceQuestion {
   id Int @default(autoincrement()) @id
   question String
   questionImage Bytes?
-  Topic Topic @relation(fields: [topicId], references: [id])
+  correctAnswer String
+  wrongAnswer0 String
+  wrongAnswer0Image Bytes?
+  wrongAnswer1 String
+  wrongAnswer1Image Bytes?
+  wrongAnswer2 String
+  wrongAnswer2Image Bytes?
+  topic Topic @relation(fields: [topicId], references: [id])
+  topicId Int
+}
+
+model TrueFalseQuestion {
+  id Int @default(autoincrement()) @id
+  question String
+  questionImage Bytes?
+  correctAnswer Boolean
+  topic Topic @relation(fields: [topicId], references: [id])
   topicId Int
 }
