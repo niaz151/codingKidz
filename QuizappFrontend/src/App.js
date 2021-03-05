@@ -1,24 +1,20 @@
 import 'react-native-gesture-handler';
-import {StatusBar, StyleSheet} from 'react-native';
-import React, {Component} from 'react';
-import TestPage from './pages/TestPage';
+import {StyleSheet} from 'react-native';
+import React, {useState} from 'react';
 import Splash from './pages/Splash';
-import Ionicons from 'react-native-vector-icons/Ionicons';
 import {NavigationContainer} from '@react-navigation/native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {UnitsStack, HomeStack} from './pages';
 import {SafeAreaView} from 'react-native-safe-area-context';
-const Tab = createBottomTabNavigator();
-import LoginPage from './pages/Login';
-import RegisterPage from './pages/Register';
-import { create } from 'react-test-renderer';
+import LoginPage from './pages/Auth/LoginPage';
+import RegisterPage from './pages/Auth/RegisterPage';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
-import {View, Text} from 'react-native';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const Stack = createStackNavigator();
 
 function App(){
+
+  const [accessToken, setAccessToken] = useState();
+
     return (
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
