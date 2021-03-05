@@ -1,7 +1,5 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import { View, Text, StyleSheet, Image, TouchableOpacity} from "react-native";
-import splash_logo from '../assets/images/splash_logo.svg';
 import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 import { StackNavigationProp } from '@react-navigation/stack';
 
@@ -15,7 +13,7 @@ const SplashPage = ({navigation}) => {
       </View>
       <View style={styles.splashLogoImgWrap}>
         <View style={styles.splashLogoCirclePortrait}>
-          <Image source={require('../assets/images/splash_logo.png')} style={styles.splashImg} />
+          <Image source={require('../../assets/images/splash_logo.png')} style={styles.splashImg} />
         </View>
       </View>
       <View style={styles.splashCaptionWrap}>

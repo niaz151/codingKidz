@@ -20,7 +20,7 @@ const AuthStack = () => {
 
       <Stack.Screen name="Login" component={LoginPage} options={{
         title:"",
-        headerLeft:undefined,
+        headerLeft:null as any,
         headerStyle:{
           backgroundColor:"white"
         }
@@ -28,7 +28,7 @@ const AuthStack = () => {
 
       <Stack.Screen name="Register" component={RegisterPage} options={{
         title:"",
-        headerLeft: undefined,
+        headerLeft: null as any,
         headerStyle:{
           backgroundColor:"white"
         }
