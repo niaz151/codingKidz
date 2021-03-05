@@ -1,18 +1,20 @@
 import axios from 'axios';
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import {TokenContext} from '../../TokenContext';
 import {View, Text, StyleSheet, Alert} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
 
 const LoginPage = () => {
+
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [accessToken, setAccessToken] = useState<string>();
+  const value = useContext(TokenContext);
   const [refreshToken, setRefreshToken] = useState<string>();
 
+  console.log(value);
+  
   const handleSubmit = async () => {
     await axios
       .post('http://localhost:8000/api/auth/login', {
@@ -21,8 +23,8 @@ const LoginPage = () => {
       })
       .then(
         (response) => {
-          setAccessToken(response.data.access_token);
-          setRefreshToken(response.data.refresh_token);
+          //setAccessToken(response.data.access_token);
+          //setRefreshToken(response.data.refresh_token);
         },
         (error) => {
           console.log('error occured', error);
