@@ -1,4 +1,3 @@
-import { PrismaPromise, Prisma } from "@prisma/client";
 import { Router } from "express";
 import { body, param, validationResult } from "express-validator";
 import { db } from "../../prisma";
@@ -26,6 +25,7 @@ unitRouter
   })
   // Create Unit
   .post(
+    hasRole(["TEACHER", "ADMIN"]),
     body("name").isString(),
     body("number").isNumeric(),
     async (req, res) => {
