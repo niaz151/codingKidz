@@ -6,7 +6,7 @@ import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-nativ
 import { StackNavigationProp } from '@react-navigation/stack';
 
 
-const Splash = ({navigation}) => {
+const SplashPage = ({navigation}) => {
   return (
     <View style={styles.splashContainer}>
       <View style={styles.splashLogoTitleWrap}>
@@ -165,4 +165,4 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Splash;
+export default SplashPage;
