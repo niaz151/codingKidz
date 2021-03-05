@@ -7,7 +7,8 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["createMany"]
 }
 
 enum Role {
@@ -17,54 +18,54 @@ enum Role {
 }
 
 model Token {
-  id Int @default(autoincrement()) @id
+  id    Int    @id @default(autoincrement())
   token String @unique
 }
 
 model User {
-  id Int @default(autoincrement()) @id
-  email String @unique
+  id       Int    @id @default(autoincrement())
+  email    String @unique
   password String
-  roles Role[]
+  roles    Role[]
 }
 
 model Unit {
-  id Int @default(autoincrement()) @id
-  name String
+  id     Int     @id @default(autoincrement())
+  name   String
   number Int
   topics Topic[]
 }
 
 model Topic {
-  id Int @default(autoincrement()) @id
-  name String
-  number Int
-  unit Unit @relation(fields: [unitId], references: [id])
-  unitId Int
+  id                      Int                      @id @default(autoincrement())
+  name                    String
+  number                  Int
+  unit                    Unit                     @relation(fields: [unitId], references: [id])
+  unitId                  Int
   multipleChoiceQuestions MultipleChoiceQuestion[]
-  trueFalseQuestions TrueFalseQuestion[]
+  trueFalseQuestions      TrueFalseQuestion[]
 }
 
 model MultipleChoiceQuestion {
-  id Int @default(autoincrement()) @id
-  question String
-  questionImage Bytes?
-  correctAnswer String
-  wrongAnswer0 String
+  id                Int    @id @default(autoincrement())
+  question          String
+  questionImage     Bytes?
+  correctAnswer     String
+  wrongAnswer0      String
   wrongAnswer0Image Bytes?
-  wrongAnswer1 String
+  wrongAnswer1      String
   wrongAnswer1Image Bytes?
-  wrongAnswer2 String
+  wrongAnswer2      String
   wrongAnswer2Image Bytes?
-  topic Topic @relation(fields: [topicId], references: [id])
-  topicId Int
+  topic             Topic  @relation(fields: [topicId], references: [id])
+  topicId           Int
 }
 
 model TrueFalseQuestion {
-  id Int @default(autoincrement()) @id
-  question String
+  id            Int     @id @default(autoincrement())
+  question      String
   questionImage Bytes?
   correctAnswer Boolean
-  topic Topic @relation(fields: [topicId], references: [id])
-  topicId Int
+  topic         Topic   @relation(fields: [topicId], references: [id])
+  topicId       Int
 }
