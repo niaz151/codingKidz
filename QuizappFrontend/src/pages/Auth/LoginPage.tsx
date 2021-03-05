@@ -1,20 +1,26 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
-import {TokenContext} from '../../TokenContext';
+import {TokenContext} from '../../context';
 import {View, Text, StyleSheet, Alert} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {useNavigation} from '@react-navigation/native';
 
 const LoginPage = () => {
+  const navigation = useNavigation();
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const [accessToken, setAccessToken] = useState<string>();
-  const value = useContext(TokenContext);
-  const [refreshToken, setRefreshToken] = useState<string>();
+  const {
+    accessToken,
+    refreshToken,
+    storeAccessToken,
+    storeRefreshToken,
+  } = useContext(TokenContext);
 
-  console.log(value);
-  
   const handleSubmit = async () => {
     await axios
       .post('http://localhost:8000/api/auth/login', {
@@ -23,8 +29,8 @@ const LoginPage = () => {
       })
       .then(
         (response) => {
-          //setAccessToken(response.data.access_token);
-          //setRefreshToken(response.data.refresh_token);
+          storeAccessToken(response.data.access_token);
+          storeRefreshToken(response.data.refresh_token);
         },
         (error) => {
           console.log('error occured', error);
@@ -35,12 +41,6 @@ const LoginPage = () => {
 
   return (
     <View style={styles.loginContainer}>
-      <Text>
-        Access Token: {accessToken ? accessToken : 'Sign in to set me'}
-      </Text>
-      <Text>
-        Refresh Token: {refreshToken ? refreshToken : 'Sign in to set me'}
-      </Text>
       <View style={styles.inputContainer}>
         <TextInput
           label="Email"
@@ -54,7 +54,7 @@ const LoginPage = () => {
           onChangeText={(text) => setPassword(text)}
           style={styles.textInput}
         />
-        <Button mode="contained" style={styles.btn} onPress={handleSubmit}  >
+        <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
           SIGN IN
         </Button>
         <Text style={styles.forgot}> FORGOT PASSWORD? </Text>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
-    backgroundColor:"white"
+    backgroundColor: 'white',
   },
   inputContainer: {
     height: hp('30%'),
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   forgot: {
     color: '#FF671D',
     fontSize: 15,
-    fontWeight: "700"
+    fontWeight: '700',
   },
   privacy: {
     position: 'absolute',
