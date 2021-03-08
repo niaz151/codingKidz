@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, {useState, useContext} from 'react';
 import {TokenContext} from '../../context';
-import {View, Text, StyleSheet, Alert} from 'react-native';
+import {View, Text, StyleSheet, Alert, Image} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
@@ -42,6 +42,15 @@ const LoginPage = () => {
   return (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>
+        <View style={styles.splashLogoImgWrap}>
+          <View style={styles.splashLogoCirclePortrait}>
+            <Image
+              source={require('../../assets/images/splash_logo.png')}
+              style={styles.splashImg}
+            />
+          </View>
+        </View>
+
         <TextInput
           label="Email"
           value={email}
@@ -75,11 +84,34 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputContainer: {
-    height: hp('30%'),
+    height: hp('60%'),
     width: wp('100%'),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
+    marginTop:hp("-10%")
+  },
+  splashLogoImgWrap: {
+    height: 200,
+    width: 200,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  splashImg: {
+    height: 200,
+    width: 200,
+  },
+  splashLogoCirclePortrait: {
+    borderRadius: 200,
+    width: 200,
+    height: 200,
+    backgroundColor: '#FCFADD',
+    borderWidth: 10,
+    borderColor: '#F8EB30',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   textInput: {
     width: wp('80%'),
