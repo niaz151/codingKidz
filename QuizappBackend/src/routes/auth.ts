@@ -11,7 +11,11 @@ import {
 
 import { db } from "../../prisma";
 
-import { hasValidRefreshToken } from "../middleware";
+import {
+  hasRole,
+  hasValidAccessToken,
+  hasValidRefreshToken,
+} from "../middleware";
 
 const authRouter = Router();
 
@@ -165,9 +169,9 @@ authRouter.post("/refresh_access", hasValidRefreshToken, async (req, res) => {
       refresh_token: newRefreshToken,
     });
   } catch (error) {
-    if(error.code === "P2025") {
+    if (error.code === "P2025") {
       return res.status(400).json({
-        error: "Token previously invalidated, please log in again"
+        error: "Token previously invalidated, please log in again",
       });
     }
     return res.status(500).json({
@@ -176,15 +180,24 @@ authRouter.post("/refresh_access", hasValidRefreshToken, async (req, res) => {
   }
 });
 
-authRouter.get("/users",
-// hasRole(["ADMIN"]), 
-async (req, res) => {
-  const users = await db.user.findMany();
+authRouter.get(
+  "/users",
+  hasValidAccessToken,
+  hasRole(["ADMIN", "TEACHER"]),
+  async (req, res) => {
+    const users = await db.user.findMany({
+      select: {
+        id: true,
+        email: true,
+        roles: true
+      }
+    });
 
-  return res.json({
-    message: "Succesfully fetched users",
-    users: users,
-  });
-});
+    return res.json({
+      message: "Succesfully fetched users",
+      users: users,
+    });
+  }
+);
 
 export { authRouter };
