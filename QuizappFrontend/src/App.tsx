@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {AuthStack} from './pages/index';
+import {AuthStack, UnitsStack} from './pages/index';
 import {TokenProvider, TokenContext} from './context';
 import {
   widthPercentageToDP as wp,
@@ -11,6 +11,7 @@ import {
 } from 'react-native-responsive-screen';
 
 function App() {
+
   const {
     accessToken,
     refreshToken,
@@ -24,7 +25,9 @@ function App() {
   return (
     <SafeAreaView style={styles.viewStyles}>
       <TokenProvider>
-        <NavigationContainer>{AuthStack()}</NavigationContainer>
+        <NavigationContainer>
+        {accessToken === undefined ? AuthStack() : UnitsStack()}
+        </NavigationContainer>
       </TokenProvider>
     </SafeAreaView>
   );
