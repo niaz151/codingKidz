@@ -26,7 +26,7 @@ function App() {
     <SafeAreaView style={styles.viewStyles}>
       <TokenProvider>
         <NavigationContainer>
-        {accessToken === undefined ? AuthStack() : UnitsStack()}
+        {accessToken ? AuthStack() : UnitsStack()}
         </NavigationContainer>
       </TokenProvider>
     </SafeAreaView>
