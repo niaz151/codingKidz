@@ -7,6 +7,7 @@ import {
   TokenContent,
 } from "../helpers";
 import { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } from "../utils";
+import { Logger } from "../utils";
 
 const hasValidAccessToken = (
   req: Request,
@@ -35,7 +36,6 @@ const hasValidAccessToken = (
         }
       }
     );
-
   } catch (error) {
     // token can be expired or invalid. Send appropriate errors in each case:
     if (error.name === "TokenExpiredError") {
@@ -112,12 +112,13 @@ const hasRole = (roles: ROLES[]) => (
   try {
     const access_token_contents = readAccessToken(extractTokenFromRequest(req));
 
-    access_token_contents.roles.map((role) => {
-      // Only need one of the given roles, quit after first match
-      if (roles.includes(role)) {
-        return next();
-      }
+    const filteredRoles = roles.filter((role) => {
+      return access_token_contents.roles.includes(role);
     });
+
+    if (filteredRoles.length > 0) {
+      return next();
+    }
 
     // TODO Add status
     return res.json({
