@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, {useState, useContext} from 'react';
-import {TokenContext} from '../../context';
+import React, {useState} from 'react';
+import {useTokenContext} from '../../context';
 import {View, Text, StyleSheet, Alert, Image} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import {
@@ -19,7 +19,7 @@ const LoginPage = () => {
     refreshToken,
     storeAccessToken,
     storeRefreshToken,
-  } = useContext(TokenContext);
+  } = useTokenContext();
 
   const handleSubmit = async () => {
     await axios
@@ -29,8 +29,10 @@ const LoginPage = () => {
       })
       .then(
         (response) => {
-          storeAccessToken(response.data.access_token);
-          storeRefreshToken(response.data.refresh_token);
+          const AT = response.data.access_token;
+          const RT = response.data.refresh_token;
+          storeAccessToken(AT);
+          storeRefreshToken(RT);
         },
         (error) => {
           console.log('error occured', error);
@@ -50,16 +52,18 @@ const LoginPage = () => {
             />
           </View>
         </View>
-
         <TextInput
           label="Email"
           value={email}
+          textContentType="username"
           onChangeText={(text) => setEmail(text)}
           style={styles.textInput}
         />
         <TextInput
           label="Password"
+          textContentType="password"
           value={password}
+          secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
           style={styles.textInput}
         />
@@ -89,7 +93,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
-    marginTop:hp("-10%")
+    marginTop: hp('-10%'),
   },
   splashLogoImgWrap: {
     height: 170,

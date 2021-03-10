@@ -51,6 +51,7 @@ model MultipleChoiceQuestion {
   question          String
   questionImage     Bytes?
   correctAnswer     String
+  correctAnswerImage Bytes?
   wrongAnswer0      String
   wrongAnswer0Image Bytes?
   wrongAnswer1      String

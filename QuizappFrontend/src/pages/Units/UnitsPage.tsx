@@ -1,7 +1,12 @@
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {widthPercentageToDP as wp, heightPercentageToDP as hp,} from 'react-native-responsive-screen';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {Text, View} from 'react-native';
+import axios from 'axios';
+import {useTokenContext} from '../../context';
 
 const UnitTile = () => {
   return (
@@ -12,13 +17,17 @@ const UnitTile = () => {
 };
 
 export const UnitsPage = () => {
-
   const navigation = useNavigation();
+
+  const {accessToken} = useTokenContext();
 
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}> LET'S LEARN SCRATCH! </Text>
+      </View>
+      <View>
+        <Text>Token: {accessToken}</Text>
       </View>
       <View style={styles.unitsList}>
         <UnitTile />
@@ -56,14 +65,12 @@ const styles = {
     width: wp('100%'),
   },
   unitTileContainer: {
-    borderWidth:1,
-    borderColor:"black",
-    height: hp("10%"),
-    maxHeight:70,
-    width: wp("35%"),
-    maxWidth:200,
+    borderWidth: 1,
+    borderColor: 'black',
+    height: hp('10%'),
+    maxHeight: 70,
+    width: wp('35%'),
+    maxWidth: 200,
   },
-  unitTileText:{
-    
-  }
+  unitTileText: {},
 };

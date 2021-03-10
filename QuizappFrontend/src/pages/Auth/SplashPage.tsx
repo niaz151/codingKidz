@@ -1,13 +1,16 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {TokenContext, useTokenContext} from '../../context';
 
 const SplashPage = () => {
   const navigation = useNavigation();
+
+  const {accessToken} = useTokenContext();
 
   return (
     <View style={styles.splashContainer}>
@@ -27,9 +30,7 @@ const SplashPage = () => {
         <Text> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
       </View>
       <View style={styles.btnWrap}>
-        <TouchableOpacity
-          onPress={() => console.log('login')}
-          style={[styles.btn, styles.loginBtn]}>
+        <TouchableOpacity style={[styles.btn, styles.loginBtn]}>
           <Text
             style={styles.yellowText}
             onPress={() => navigation.navigate('Login')}>

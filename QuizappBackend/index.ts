@@ -1,10 +1,9 @@
-import express, { json, Request, Response, urlencoded } from "express";
+import express, { json, urlencoded } from "express";
 import helmet from "helmet";
-import winston from "winston";
 
 import { router } from "./src/routes";
 
-import { PORT, Logger } from "./src/utils";
+import { PORT } from "./src/utils";
 
 const app = express();
 

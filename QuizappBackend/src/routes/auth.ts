@@ -145,7 +145,7 @@ authRouter.post(
 );
 
 // Refresh access and refresh tokens from refresh token
-authRouter.post("/refresh_access", hasValidRefreshToken, async (req, res) => {
+authRouter.get("/refresh_access", hasValidRefreshToken, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(403).json({

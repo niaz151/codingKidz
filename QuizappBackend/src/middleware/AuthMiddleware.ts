@@ -121,7 +121,7 @@ const hasRole = (roles: ROLES[]) => (
     }
 
     // TODO Add status
-    return res.json({
+    return res.status(400).json({
       message: "Access denied, you do not have the required permission",
     });
   } catch (error) {

@@ -1,1 +1,1 @@
-export {TokenContext, TokenProvider} from './TokenContext';
+export {TokenProvider, useTokenContext} from './TokenContext';

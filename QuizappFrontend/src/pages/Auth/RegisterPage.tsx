@@ -22,8 +22,6 @@ const RegisterPage = () => {
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [role, setRole] = useState<Roles>();
-  const [accessToken, setAccessToken] = useState<string>();
-  const [refreshToken, setRefreshToken] = useState<string>();
   const navigation = useNavigation();
 
   const handleSubmit = async () => {
@@ -59,6 +57,7 @@ const RegisterPage = () => {
         <Text style={styles.titleText}> REGISTER </Text>
         <TextInput
           label="Email"
+          textContentType="username"
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={[styles.textInput, styles.email]}
@@ -81,12 +80,16 @@ const RegisterPage = () => {
         <TextInput
           label="Password"
           value={password}
+          textContentType="newPassword"
+          secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
           style={[styles.textInput,styles.password]}
         />
         <TextInput
           label="Re-enter Password"
           value={confirmPassword}
+          textContentType="newPassword"
+          secureTextEntry={true}
           onChangeText={(text) => setConfirmPassword(text)}
           style={[styles.textInput, styles.password]}
         />

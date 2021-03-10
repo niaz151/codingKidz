@@ -80,12 +80,7 @@ unitRouter
 
 unitRouter
   .route("/:unitId")
-  .all(param("unitId"), (_, __, next) => {
-    next();
-  })
-  // Get unit from id
-  .get(async (req, res) => {
-    // Deal with validation errors
+  .all(param("unitId"), async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -93,6 +88,20 @@ unitRouter
       });
     }
 
+    const { unitId } = req.params;
+
+    const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
+
+    if (!unit) {
+      return res.status(400).json({
+        error: "Unit not found",
+      });
+    }
+
+    return next();
+  })
+  // Get unit from id
+  .get(async (req, res) => {
     const { unitId } = req.params;
 
     try {
@@ -132,6 +141,7 @@ unitRouter
           errors: errors.array(),
         });
       }
+
       const { unitId } = req.params;
       const { newName, newNumber, newTopics } = req.body;
 
@@ -162,15 +172,14 @@ unitRouter
           unit: updatedUnit,
         });
       } catch (error) {
-        // TODO Add status
-        return res.json({
+        return res.status(500).json({
           error: error,
         });
       }
     }
   )
   // Delete unit and related topics and questions
-  .delete(param("unitId").isNumeric(), async (req, res) => {
+  .delete(async (req, res) => {
     // Deal with validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -239,11 +248,21 @@ unitRouter
 
 unitRouter
   .route("/:unitId/topic/")
-  .all(param("unitId").isNumeric(), (req, res, next) => {
+  .all(param("unitId").isNumeric(), async (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
         errors: errors.array(),
+      });
+    }
+
+    const { unitId } = req.params;
+
+    const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
+
+    if (!unit) {
+      return res.status(400).json({
+        error: "Unit not found",
       });
     }
 
@@ -321,11 +340,31 @@ unitRouter
   .all(
     param("unitId").isNumeric(),
     param("topicId").isNumeric(),
-    (req, res, next) => {
+    async (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
+        });
+      }
+
+      const { unitId, topicId } = req.params;
+
+      const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
+
+      if (!unit) {
+        return res.status(400).json({
+          error: "Unit not found",
+        });
+      }
+
+      const topic = await db.topic.findUnique({
+        where: { id: Number(topicId) },
+      });
+
+      if (!topic) {
+        return res.status(400).json({
+          error: "Topic not found",
         });
       }
 
@@ -358,43 +397,35 @@ unitRouter
     const { unitId, topicId } = req.params;
 
     try {
-      // Need to delete all linked questions before deleting topic
-      // const deleteQuestions = [
-      //   db.multipleChoiceQuestion.deleteMany({
-      //     where: {
-      //       topicId: Number(topicId),
-      //     },
-      //   }),
-      //   db.trueFalseQuestion.deleteMany({
-      //     where: { topicId: Number(topicId) },
-      //   }),
-      // ];
+      // Disconnect and delete questions from topic
+      const disconnectAndDeleteQuestions = db.topic.update({
+        where: { id: Number(topicId) },
+        data: {
+          multipleChoiceQuestions: {
+            deleteMany: {},
+          },
+          trueFalseQuestions: {
+            deleteMany: {},
+          },
+        },
+      });
 
-      // Need to disconnect topic from unit before deleting topic
-      const deleteTopic = db.unit.update({
+      // Disconnect and delete topic from unit
+      const disconnectAndDeleteTopic = db.unit.update({
         where: {
           id: Number(unitId),
         },
         data: {
           topics: {
-            delete: {
-              id: Number(topicId),
-            },
+            delete: { id: Number(topicId) },
           },
         },
       });
 
-      // Now that the topic has no relations, it can be deleted (ominous)
-      // const deleteTopic = db.topic.delete({
-      //   where: {
-      //     id: Number(topicId),
-      //   },
-      // });
-
       // Delete topic using transaction to ensure everything succeeds or nothing is carried out
       const completed = await db.$transaction([
-        // ...deleteQuestions,
-        deleteTopic,
+        disconnectAndDeleteQuestions,
+        disconnectAndDeleteTopic,
       ]);
 
       if (completed) {
@@ -416,75 +447,135 @@ unitRouter
 
 unitRouter
   .route("/:unitId/topic/:topicId/question")
-  .all(param("unitId").isInt(), param("topicId").isInt(), (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({
-        errors: errors.array(),
-      });
-    }
+  .all(
+    param("unitId").isInt(),
+    param("topicId").isInt(),
+    async (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
 
-    return next();
-  })
+      const { unitId, topicId } = req.params;
+
+      const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
+
+      if (!unit) {
+        return res.status(400).json({
+          error: "Unit not found",
+        });
+      }
+
+      const topic = await db.topic.findUnique({
+        where: { id: Number(topicId) },
+      });
+
+      if (!topic) {
+        return res.status(400).json({
+          error: "Topic not found",
+        });
+      }
+
+      return next();
+    }
+  )
   // Get questions for a specific topic
   .get(async (req, res) => {
-    const { unitId, topicId } = req.params;
-    const unitWithTopicAndQuestions = await db.unit.findUnique({
+    const { topicId } = req.params;
+    const trueFalseQuestions = await db.trueFalseQuestion.findMany({
       where: {
-        id: Number(unitId),
+        topicId: Number(topicId),
       },
-      include: {
-        topics: {
-          where: {
-            id: Number(topicId),
-          },
-          include: {
-            multipleChoiceQuestions: true,
-            trueFalseQuestions: true,
-          },
-        },
+    });
+
+    const multipleChoiceQuestions = await db.multipleChoiceQuestion.findMany({
+      where: {
+        topicId: Number(topicId),
       },
     });
 
     return res.json({
-      message: "Succesfully fetched questions (not really)",
-      // questions: unitWithTopicAndQuestions,
+      message: "Succesfully fetched questions",
+      trueFalseQuestions: trueFalseQuestions,
+      multipleChoiceQuestions: multipleChoiceQuestions,
     });
-  });
-// Create question
-// .post(body("question"), body("questionImage"), async (req, res) => {
-//   const { unitId, topicId } = req.params;
+  })
+  // Create question
+  .post(
+    body("question"),
+    body("questionImage").optional(),
+    body("correctAnswer"),
+    body("correctAnswerImage"),
+    body("wrongAnswer0"),
+    body("wrongAnswer0Image"),
+    body("wrongAnswer1"),
+    body("wrongAnswer1Image"),
+    body("wrongAnswer2"),
+    body("wrongAnswer2Image"),
+    async (req, res) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({
+          errors: errors.array(),
+        });
+      }
 
-//   const { question, questionImage } = req.body;
+      const { topicId } = req.params;
 
-//   const updatedUnit = await db.unit.update({
-//     where: {
-//       id: Number(unitId),
-//     },
-//     data: {
-//       topics: {
-//         update: {
-//           where: {
-//             id: Number(topicId),
-//           },
-//           data: {
-//             multipleChoiceQuestions: {
-//               create: {
-//                 question: question,
+      const {
+        question,
+        questionImage,
+        correctAnswer,
+        correctAnswerImage,
+        wrongAnswer0,
+        wrongAnswer0Image,
+        wrongAnswer1,
+        wrongAnswer1Image,
+        wrongAnswer2,
+        wrongAnswer2Image,
+      } = req.body;
 
-//               },
-//             },
-//           },
-//         },
-//       },
-//     },
-//   });
+      const updatedUnit = await db.topic.update({
+        where: {
+          id: Number(topicId),
+        },
+        data: {
+          multipleChoiceQuestions: {
+            create: {
+              question: question,
+              ...(questionImage && { questionImage: questionImage }),
+              correctAnswer: correctAnswer,
+              ...(correctAnswerImage && {
+                correctAnswerImage: correctAnswerImage,
+              }),
+              wrongAnswer0: wrongAnswer0,
+              ...(wrongAnswer0Image && {
+                wrongAnswer0Image: wrongAnswer0Image,
+              }),
+              wrongAnswer1: wrongAnswer1,
+              ...(wrongAnswer1Image && {
+                wrongAnswer1Image: wrongAnswer1Image,
+              }),
+              wrongAnswer2: wrongAnswer2,
+              ...(wrongAnswer2Image && {
+                wrongAnswer2Image: wrongAnswer2Image,
+              }),
+            },
+          },
+        },
+        include: {
+          multipleChoiceQuestions: true,
+        },
+      });
 
-// return res.json({
-//   message: "Successfully created question",
-//   unit: updatedUnit,
-// });
-// });
+      return res.json({
+        message: "Successfully created question",
+        unit: updatedUnit,
+      });
+    }
+  );
 
 unitRouter
   .route("/:unitId/topic/:topicId/question/:questionId")
@@ -492,13 +583,35 @@ unitRouter
     param("unitId").isInt(),
     param("topicId").isInt(),
     param("questionId").isInt(),
-    (req, res, next) => {
+    async (req, res, next) => {
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
         return res.status(400).json({
           errors: errors.array(),
         });
       }
+
+      const { unitId, topicId, questionId } = req.params;
+
+      const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
+
+      if (!unit) {
+        return res.status(400).json({
+          error: "Unit not found",
+        });
+      }
+
+      const topic = await db.topic.findUnique({
+        where: { id: Number(topicId) },
+      });
+
+      if (!topic) {
+        return res.status(400).json({
+          error: "Topic not found",
+        });
+      }
+
+      // TODO check question ID
 
       return next();
     }

@@ -1,4 +1,4 @@
-import React, {useState, createContext} from 'react';
+import React, {useState, createContext, useContext} from 'react';
 
 type TokenContextType = {
   accessToken: string | undefined;
@@ -38,4 +38,8 @@ const TokenProvider: React.FC = ({children}) => {
   );
 };
 
-export {TokenContext, TokenProvider};
+const useTokenContext = () => {
+  return useContext(TokenContext);
+};
+
+export {useTokenContext, TokenProvider};
