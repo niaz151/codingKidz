@@ -7,11 +7,15 @@ import {
 } from 'react-native-responsive-screen';
 import DropDownPicker from 'react-native-dropdown-picker';
 import axios from 'axios';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useNavigation } from '@react-navigation/native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useNavigation} from '@react-navigation/native';
 
-
-const RegisterPage = () => {
+const RegisterPage = (props: {
+  setTokensInApp: (
+    newAccessToken: string,
+    newRefreshToken: string,
+  ) => Promise<void>;
+}) => {
   enum Roles {
     Student = 'STUDENT',
     Teacher = 'TEACHER',
@@ -24,20 +28,24 @@ const RegisterPage = () => {
   const [role, setRole] = useState<Roles>();
   const navigation = useNavigation();
 
+  const {setTokensInApp} = props;
+
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
       Alert.alert('Password must match!');
     } else {
-      await axios
+      return await axios
         .post('http://localhost:8000/api/auth/signup', {
           email: email,
           password: password,
           role: 'ADMIN',
         })
         .then(
-          (response) => {
-            setAccessToken(response.data.access_token);
-            setRefreshToken(response.data.refresh_token);
+          async (response) => {
+            await setTokensInApp(
+              response.data.access_token,
+              response.data.refresh_token,
+            );
           },
           (error) => {
             console.log('error occured', error);
@@ -83,7 +91,7 @@ const RegisterPage = () => {
           textContentType="newPassword"
           secureTextEntry={true}
           onChangeText={(text) => setPassword(text)}
-          style={[styles.textInput,styles.password]}
+          style={[styles.textInput, styles.password]}
         />
         <TextInput
           label="Re-enter Password"
@@ -96,7 +104,7 @@ const RegisterPage = () => {
         <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
           SIGN UP
         </Button>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>        
+        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.forgot}> Existing User? Log In &#8594; </Text>
         </TouchableOpacity>
       </View>
@@ -122,9 +130,9 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '700',
   },
-  mouseImg:{
-    height: hp("10%"),
-    width:"60%"
+  mouseImg: {
+    height: hp('10%'),
+    width: '60%',
   },
   inputContainer: {
     height: hp('70%'),
@@ -142,17 +150,13 @@ const styles = StyleSheet.create({
     borderColor: '#FF671D',
     marginLeft: wp('10%'),
   },
-  dropDown:{
+  dropDown: {
     height: 40,
     width: 200,
-    marginLeft:wp("10%"),
+    marginLeft: wp('10%'),
   },
-  email:{
-
-  },
-  password:{
-   
-  }, 
+  email: {},
+  password: {},
   btn: {
     height: 50,
     width: 150,

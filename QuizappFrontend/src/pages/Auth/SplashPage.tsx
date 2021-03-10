@@ -1,16 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useContext} from 'react';
+import React from 'react';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {TokenContext, useTokenContext} from '../../context';
+// import {useTokenContext} from '../../context';
 
 const SplashPage = () => {
   const navigation = useNavigation();
-
-  const {accessToken} = useTokenContext();
 
   return (
     <View style={styles.splashContainer}>

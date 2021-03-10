@@ -11,7 +11,7 @@ import {TokenProvider} from './context';
 
 const Root = () => {
   <TokenProvider>
-    <App />
+      <App />
   </TokenProvider>;
 };
 

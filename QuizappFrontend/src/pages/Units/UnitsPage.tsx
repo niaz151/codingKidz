@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
@@ -6,7 +6,7 @@ import {
 } from 'react-native-responsive-screen';
 import {Text, View} from 'react-native';
 import axios from 'axios';
-import {useTokenContext} from '../../context';
+import {Button} from 'react-native-paper';
 
 const UnitTile = () => {
   return (
@@ -16,18 +16,19 @@ const UnitTile = () => {
   );
 };
 
-export const UnitsPage = () => {
+export const UnitsPage = (props: {
+  accessToken: string;
+  logout: () => Promise<void>;
+}) => {
   const navigation = useNavigation();
 
-  const {accessToken} = useTokenContext();
+  // const {accessToken} = useTokenContext();
+  const {accessToken, logout} = props;
 
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}> LET'S LEARN SCRATCH! </Text>
-      </View>
-      <View>
-        <Text>Token: {accessToken}</Text>
       </View>
       <View style={styles.unitsList}>
         <UnitTile />
@@ -36,6 +37,7 @@ export const UnitsPage = () => {
         <UnitTile />
         <UnitTile />
       </View>
+      <Button onPress={logout}>Logout</Button>
     </View>
   );
 };

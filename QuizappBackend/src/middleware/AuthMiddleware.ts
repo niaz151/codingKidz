@@ -120,7 +120,6 @@ const hasRole = (roles: ROLES[]) => (
       return next();
     }
 
-    // TODO Add status
     return res.status(400).json({
       message: "Access denied, you do not have the required permission",
     });

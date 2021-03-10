@@ -9,30 +9,30 @@ import {
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 
-const LoginPage = () => {
+const LoginPage = (props: {
+  setTokensInApp: (
+    newAccessToken: string,
+    newRefreshToken: string,
+  ) => Promise<void>;
+}) => {
   const navigation = useNavigation();
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
-  const {
-    accessToken,
-    refreshToken,
-    storeAccessToken,
-    storeRefreshToken,
-  } = useTokenContext();
+
+  const {setTokensInApp} = props;
 
   const handleSubmit = async () => {
-    await axios
+    return await axios
       .post('http://localhost:8000/api/auth/login', {
         email: email,
         password: password,
       })
       .then(
-        (response) => {
+        async (response) => {
           const AT = response.data.access_token;
           const RT = response.data.refresh_token;
-          storeAccessToken(AT);
-          storeRefreshToken(RT);
+          await setTokensInApp(AT, RT);
         },
         (error) => {
           console.log('error occured', error);
@@ -69,6 +69,12 @@ const LoginPage = () => {
         />
         <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
           SIGN IN
+        </Button>
+        <Button
+          onPress={() => {
+            navigation.navigate('Register');
+          }}>
+          REGISTER
         </Button>
         <Text style={styles.forgot}> FORGOT PASSWORD? </Text>
       </View>

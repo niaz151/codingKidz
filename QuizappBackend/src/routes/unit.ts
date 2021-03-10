@@ -239,8 +239,7 @@ unitRouter
         transaction: deleteAll,
       });
     } catch (error) {
-      // TODO Add status
-      return res.json({
+      return res.status(500).json({
         error,
       });
     }
