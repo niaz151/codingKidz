@@ -11,7 +11,7 @@ import {Button} from 'react-native-paper';
 const UnitTile = () => {
   return (
     <View style={styles.unitTileContainer}>
-      <Text style={styles.unitTileText}> Tile </Text>
+      <Text style={styles.unitTileText}> Lesson</Text>
     </View>
   );
 };
@@ -19,7 +19,8 @@ const UnitTile = () => {
 export const UnitsPage = (props: {
   accessToken: string;
   logout: () => Promise<void>;
-}) => {
+  }) => 
+  {
   const navigation = useNavigation();
 
   // const {accessToken} = useTokenContext();
@@ -31,6 +32,7 @@ export const UnitsPage = (props: {
         <Text style={styles.titleText}> LET'S LEARN SCRATCH! </Text>
       </View>
       <View style={styles.unitsList}>
+        <UnitTile />
         <UnitTile />
         <UnitTile />
         <UnitTile />
@@ -61,18 +63,28 @@ const styles = {
     letterSpacing: 1,
   },
   unitsList: {
-    borderWidth: 1,
-    borderColor: 'black',
     height: hp('70%'),
     width: wp('100%'),
+    flex:1,
+    flexWrap:'wrap',
+    flexDirection:'row',
+    display:'flex',
+    justifyContent:'space-around',
+    alignItems: 'center'
   },
   unitTileContainer: {
-    borderWidth: 1,
-    borderColor: 'black',
+    borderWidth: 1.5,
+    borderColor: 'white',
+    borderRadius:5,
     height: hp('10%'),
     maxHeight: 70,
     width: wp('35%'),
     maxWidth: 200,
+    flexBasis:"40%",
+    marginTop:hp("10%"),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
   },
   unitTileText: {},
 };

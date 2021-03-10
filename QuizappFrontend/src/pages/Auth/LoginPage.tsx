@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   splashImg: {
-    height: 170,
-    width: 170,
+    height: 190,
+    width: 190,
   },
   splashLogoCirclePortrait: {
     borderRadius: 200,
