@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
   forgot: {
     color: '#FF671D',
     fontSize: 15,
+    fontWeight:'700',
     marginLeft: wp('29%'),
   },
   privacy: {
