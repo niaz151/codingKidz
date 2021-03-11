@@ -13,7 +13,8 @@ const AuthStack = (props: {
     newRefreshToken: string,
   ) => Promise<void>;
 }) => {
-  const {setTokensInApp} = props;
+  const LoginPageWithProps = () => <LoginPage {...props} />;
+  const RegisterPageWithProps = () => <RegisterPage {...props} />;
 
   return (
     <Stack.Navigator initialRouteName="Splash">
@@ -30,9 +31,7 @@ const AuthStack = (props: {
 
       <Stack.Screen
         name="Login"
-        component={() => {
-          return <LoginPage setTokensInApp={setTokensInApp} />;
-        }}
+        component={LoginPageWithProps}
         options={{
           title: '',
           headerLeft: null as any,
@@ -44,9 +43,7 @@ const AuthStack = (props: {
 
       <Stack.Screen
         name="Register"
-        component={() => {
-          return <RegisterPage setTokensInApp={setTokensInApp} />;
-        }}
+        component={RegisterPageWithProps}
         options={{
           title: '',
           headerLeft: null as any,

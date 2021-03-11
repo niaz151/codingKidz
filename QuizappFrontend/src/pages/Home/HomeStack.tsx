@@ -5,10 +5,14 @@ import {HomePage} from './HomePage';
 
 const Stack = createStackNavigator();
 
-const HomeStack = () => {
+const HomeStack = (props: {accessToken: string}) => {
+  const HomePageWithProps = () => {
+    return <HomePage {...props} />;
+  };
+
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomePage} />
+      <Stack.Screen name="Home" component={HomePageWithProps} />
     </Stack.Navigator>
   );
 };
