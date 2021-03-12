@@ -9,6 +9,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
+import {Roles} from '../../utils';
 
 const RegisterPage = (props: {
   setTokensInApp: (
@@ -16,12 +17,6 @@ const RegisterPage = (props: {
     newRefreshToken: string,
   ) => Promise<void>;
 }) => {
-  enum Roles {
-    Student = 'STUDENT',
-    Teacher = 'TEACHER',
-    Admin = 'ADMIN',
-  }
-
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
@@ -38,7 +33,7 @@ const RegisterPage = (props: {
         .post('http://localhost:8000/api/auth/signup', {
           email: email,
           password: password,
-          role: 'ADMIN',
+          role: role,
         })
         .then(
           async (response) => {
