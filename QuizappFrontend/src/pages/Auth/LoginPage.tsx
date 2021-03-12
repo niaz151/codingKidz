@@ -8,6 +8,7 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const LoginPage = (props: {
   setTokensInApp: (
@@ -70,12 +71,12 @@ const LoginPage = (props: {
         <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
           SIGN IN
         </Button>
-        <Button
+        <TouchableOpacity
           onPress={() => {
             navigation.navigate('Register');
           }}>
-          REGISTER
-        </Button>
+          <Text style={styles.forgot}> REGISTER </Text>
+        </TouchableOpacity>
         <Text style={styles.forgot}> FORGOT PASSWORD? </Text>
       </View>
       <Text style={styles.privacy}> Terms and Privacy Policy </Text>
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   splashImg: {
-    height: 170,
-    width: 170,
+    height: 190,
+    width: 190,
   },
   splashLogoCirclePortrait: {
     borderRadius: 200,
