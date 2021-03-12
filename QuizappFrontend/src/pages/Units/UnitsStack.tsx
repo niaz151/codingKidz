@@ -9,17 +9,13 @@ const UnitsStack = (props: {
   accessToken: string;
   logout: () => Promise<void>;
 }) => {
-  const {accessToken, logout} = props;
-
-  console.log('units token: ', accessToken);
+  const UnitsPageWithProps = () => <UnitsPage {...props} />;
 
   return (
     <Stack.Navigator initialRouteName="Units">
       <Stack.Screen
         name="Units"
-        component={() => {
-          return <UnitsPage accessToken={accessToken} logout={logout} />;
-        }}
+        component={UnitsPageWithProps}
         options={{
           title: '',
           headerLeft: null as any,
