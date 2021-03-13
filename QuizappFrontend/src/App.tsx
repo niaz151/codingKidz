@@ -136,9 +136,18 @@ const App = () => {
     <SafeAreaView style={styles.viewStyles}>
       <NavigationContainer>
         {accessToken ? (
-          <Tab.Navigator>
-            <Tab.Screen name="Home" component={HomeStackWithprops} />
-            <Tab.Screen name="Units" component={UnitsStackWithProps} />
+          <Tab.Navigator 
+          tabBarOptions={{
+            labelStyle:{
+              color:'white',
+              fontSize:14,
+            },
+            style:{
+              backgroundColor:'#FF671D',
+            }
+          }}>
+            <Tab.Screen name="HOME" component={HomeStackWithprops} />
+            <Tab.Screen name="UNITS" component={UnitsStackWithProps} />
           </Tab.Navigator>
         ) : (
           <AuthStack setTokensInApp={setTokensInApp} />
