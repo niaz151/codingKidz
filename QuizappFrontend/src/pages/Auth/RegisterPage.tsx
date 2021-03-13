@@ -144,6 +144,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#FF671D',
     marginLeft: wp('10%'),
+    backgroundColor:'white'
   },
   dropDown: {
     height: 40,

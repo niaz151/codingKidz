@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 0,
     borderColor: '#FF671D',
+    backgroundColor:'white'
   },
   btn: {
     height: 50,
