@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
 import React, {useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthStack, UnitsStack, HomeStack} from './pages';
@@ -11,43 +10,21 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
-import {Buffer} from 'buffer';
-import axios from 'axios';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {isTokenExpired, refreshTokens} from './utils';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import {
+  getRefreshTokenFromStorage,
+  isTokenExpired,
+  refreshTokens,
+  removeRefreshTokenFromStorage,
+  storeRefreshTokenInStorage,
+} from './utils';
+
+Ionicon.loadFont();
 
 const App = () => {
   const [accessToken, setAccessToken] = useState<string>();
   const [refreshToken, setRefreshToken] = useState<string>();
-
-  const storeRefreshTokenInStorage = async (token: string) => {
-    try {
-      return await AsyncStorage.setItem('@refreshToken', token);
-    } catch (error) {
-      console.log('AsyncStorage Error: ' + error.message);
-    }
-  };
-
-  const getRefreshTokenFromStorage = async () => {
-    try {
-      const storedRefreshToken = await AsyncStorage.getItem('@refreshToken');
-      if (storedRefreshToken) {
-        setRefreshToken(storedRefreshToken);
-        return storedRefreshToken;
-      } else {
-      }
-    } catch (error) {
-      console.log('AsyncStorage Error: ', +error.message);
-    }
-  };
-
-  const removeRefreshTokenFromStorage = async () => {
-    try {
-      return await AsyncStorage.removeItem('@refreshToken');
-    } catch (error) {
-      console.log('AsyncStorage Error: ', +error.message);
-    }
-  };
 
   const setTokensInApp = async (
     newAccessToken: string,
@@ -129,7 +106,9 @@ const App = () => {
   };
 
   const HomeStackWithprops = () => {
-    return <HomeStack />;
+    // Assert accessToken is non-null because it will only
+    // be rendered below when accessToken is defined
+    return <HomeStack accessToken={accessToken!} />;
   };
 
   return (

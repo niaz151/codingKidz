@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {Buffer} from 'buffer';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 type ROLES = 'STUDENT' | 'TEACHER' | 'ADMIN';
 
@@ -47,4 +48,32 @@ export const refreshTokens = async (refreshToken: string) => {
         throw new Error(error);
       },
     );
+};
+
+export const storeRefreshTokenInStorage = async (token: string) => {
+  try {
+    return await AsyncStorage.setItem('@refreshToken', token);
+  } catch (error) {
+    throw new Error(`AsyncStorage Error: ${error.message}`);
+  }
+};
+
+export const getRefreshTokenFromStorage = async () => {
+  try {
+    const storedRefreshToken = await AsyncStorage.getItem('@refreshToken');
+    if (storedRefreshToken) {
+      return storedRefreshToken;
+    } else {
+    }
+  } catch (error) {
+    throw new Error(`AsyncStorage Error: ${error}`);
+  }
+};
+
+export const removeRefreshTokenFromStorage = async () => {
+  try {
+    return await AsyncStorage.removeItem('@refreshToken');
+  } catch (error) {
+    throw new Error(`AsyncStorage Error: ${error}`);
+  }
 };
