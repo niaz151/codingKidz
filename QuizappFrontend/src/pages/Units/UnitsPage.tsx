@@ -55,9 +55,11 @@ export const UnitsPage = (props: {
       </View>
       {units ? (
         <View style={styles.unitsList}>
+          <Text style={styles.unitTileText}>
           {units.map((unit) => {
-            <Text>Unit: {unit.name}</Text>;
+           return unit.name
           })}
+          </Text>
         </View>
       ) : (
         <View>
@@ -91,6 +93,9 @@ const styles = {
     height: hp('70%'),
     width: wp('100%'),
     flex: 1,
+    borderWidth:1,
+    borderColor:'black',
+    color:'white',
     flexWrap: 'wrap',
     flexDirection: 'row',
     display: 'flex',
@@ -111,5 +116,8 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  unitTileText: {},
+  unitTileText: {
+    fontSize:30,
+    color:'white'
+  },
 };
