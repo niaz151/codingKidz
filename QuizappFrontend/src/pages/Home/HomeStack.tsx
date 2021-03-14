@@ -12,7 +12,14 @@ const HomeStack = (props: {accessToken: string}) => {
 
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomePageWithProps} />
+      <Stack.Screen name="Home" component={HomePageWithProps}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#FF671D',
+          },
+        }} 
+      />
     </Stack.Navigator>
   );
 };

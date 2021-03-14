@@ -1,43 +1,52 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import {widthPercentageToDP as wp, heightPercentageToDP as hp,} from 'react-native-responsive-screen';
 import {Text, View} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
 
-const UnitTile = () => {
-  return (
-    <View style={styles.unitTileContainer}>
-      <Text style={styles.unitTileText}> Lesson</Text>
-    </View>
-  );
-};
+type Unit = {
+  id: number, 
+  name: string, 
+  number: number}
 
-export const UnitsPage = (props: {
-  accessToken: string;
-  logout: () => Promise<void>;
-  }) => 
-  {
+export const UnitsPage = (props: {accessToken: string;logout: () => Promise<void>;}) => {
+
   const navigation = useNavigation();
-
-  // const {accessToken} = useTokenContext();
   const {accessToken, logout} = props;
+  const [units, setUnits] = useState<Unit[]>();
 
+  useEffect(() => {
+    getUnits();
+  });
+
+  const getUnits = async () => {
+    await axios
+    .get('http://localhost:8000/api/unit', {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then(
+      (response) => {
+        setUnits(response.data.units);
+        console.log("units:",units)
+      },
+      (error) => {
+        console.log('fetching error', error);
+      },
+    ); 
+  };
+  
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}> LET'S LEARN SCRATCH! </Text>
       </View>
       <View style={styles.unitsList}>
-        <UnitTile />
-        <UnitTile />
-        <UnitTile />
-        <UnitTile />
-        <UnitTile />
-        <UnitTile />
+      {units && units.map( (unit) => {
+
+      })}
       </View>
       <Button onPress={logout}>Logout</Button>
     </View>
