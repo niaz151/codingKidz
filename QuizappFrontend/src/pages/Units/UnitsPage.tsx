@@ -7,6 +7,7 @@ import {
 import {Text, View} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface Unit {
   id: number;
@@ -21,6 +22,7 @@ export const UnitsPage = (props: {
   const navigation = useNavigation();
   const {accessToken, logout} = props;
   const [units, setUnits] = useState<Unit[]>();
+  const [unitID, setUnitID] = useState<Number>();
 
   useEffect(() => {
     const getUnits = async () => {
@@ -36,6 +38,7 @@ export const UnitsPage = (props: {
             let tempUnits: Unit[] = [];
             response.data.units.map((unit: Unit) => {
               tempUnits.push(unit);
+              setUnitID(unit.id);
             });
             setUnits(tempUnits);
           },
@@ -48,6 +51,19 @@ export const UnitsPage = (props: {
     getUnits();
   }, [accessToken]);
 
+
+  const UnitTile = (props:{name: string;}) => {
+    return(
+      <View style={styles.unitTileContainer}>
+        <TouchableOpacity onPress={ () => navigation.navigate('Lessons')}>
+          <Text style={styles.unitTileText}>
+            {props.name}
+          </Text>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.title}>
@@ -55,11 +71,9 @@ export const UnitsPage = (props: {
       </View>
       {units ? (
         <View style={styles.unitsList}>
-          <Text style={styles.unitTileText}>
           {units.map((unit) => {
-           return unit.name
+           return <UnitTile name={unit.name}/>
           })}
-          </Text>
         </View>
       ) : (
         <View>
@@ -106,8 +120,8 @@ const styles = {
     borderWidth: 1.5,
     borderColor: 'white',
     borderRadius: 5,
-    height: hp('10%'),
-    maxHeight: 70,
+    height: hp('15%'),
+    maxHeight: 60,
     width: wp('35%'),
     maxWidth: 200,
     flexBasis: '40%',
