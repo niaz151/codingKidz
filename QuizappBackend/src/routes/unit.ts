@@ -28,7 +28,16 @@ unitRouter
   // Get all units
   .get(async (_, res) => {
     try {
-      const units = await db.unit.findMany();
+      const units = await db.unit.findMany({
+        include: {
+          topics: {
+            include: {
+              multipleChoiceQuestions: true,
+              trueFalseQuestions: true,
+            },
+          },
+        },
+      });
 
       return res.status(200).json({
         units: units,

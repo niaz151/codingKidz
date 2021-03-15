@@ -35,9 +35,6 @@ const App = () => {
     setRefreshToken(newRefreshToken);
   };
 
-  // TODO Check if accessToken and refreshToken are set,
-  // render either authstack or tab app
-
   const logout = async () => {
     setAccessToken(undefined);
     setRefreshToken(undefined);
@@ -115,16 +112,16 @@ const App = () => {
     <SafeAreaView style={styles.viewStyles}>
       <NavigationContainer>
         {accessToken ? (
-          <Tab.Navigator 
-          tabBarOptions={{
-            labelStyle:{
-              color:'white',
-              fontSize:14,
-            },
-            style:{
-              backgroundColor:'#FF671D',
-            }
-          }}>
+          <Tab.Navigator
+            tabBarOptions={{
+              labelStyle: {
+                color: 'white',
+                fontSize: 14,
+              },
+              style: {
+                backgroundColor: '#FF671D',
+              },
+            }}>
             <Tab.Screen name="HOME" component={HomeStackWithprops} />
             <Tab.Screen name="UNITS" component={UnitsStackWithProps} />
           </Tab.Navigator>

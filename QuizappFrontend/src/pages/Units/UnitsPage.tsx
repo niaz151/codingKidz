@@ -7,13 +7,8 @@ import {
 import {Text, View} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
-interface Unit {
-  id: number;
-  name: string;
-  number: number;
-}
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Unit} from '../../utils';
 
 export const UnitsPage = (props: {
   accessToken: string;
@@ -22,7 +17,6 @@ export const UnitsPage = (props: {
   const navigation = useNavigation();
   const {accessToken, logout} = props;
   const [units, setUnits] = useState<Unit[]>();
-  const [unitID, setUnitID] = useState<Number>();
 
   useEffect(() => {
     const getUnits = async () => {
@@ -38,7 +32,6 @@ export const UnitsPage = (props: {
             let tempUnits: Unit[] = [];
             response.data.units.map((unit: Unit) => {
               tempUnits.push(unit);
-              setUnitID(unit.id);
             });
             setUnits(tempUnits);
           },
@@ -51,18 +44,17 @@ export const UnitsPage = (props: {
     getUnits();
   }, [accessToken]);
 
+  const UnitTile = (_props: {unit: Unit}) => {
+    const {unit} = _props;
 
-  const UnitTile = (props:{name: string;}) => {
-    return(
+    return (
       <View style={styles.unitTileContainer}>
-        <TouchableOpacity onPress={ () => navigation.navigate('Lessons')}>
-          <Text style={styles.unitTileText}>
-            {props.name}
-          </Text>
+        <TouchableOpacity onPress={() => navigation.navigate('Lessons')}>
+          <Text style={styles.unitTileText}>{unit.name}</Text>
         </TouchableOpacity>
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <View style={styles.container}>
@@ -72,7 +64,7 @@ export const UnitsPage = (props: {
       {units ? (
         <View style={styles.unitsList}>
           {units.map((unit) => {
-           return <UnitTile name={unit.name}/>
+            return <UnitTile unit={unit} />;
           })}
         </View>
       ) : (
@@ -107,9 +99,9 @@ const styles = {
     height: hp('70%'),
     width: wp('100%'),
     flex: 1,
-    borderWidth:1,
-    borderColor:'black',
-    color:'white',
+    borderWidth: 1,
+    borderColor: 'black',
+    color: 'white',
     flexWrap: 'wrap',
     flexDirection: 'row',
     display: 'flex',
@@ -131,7 +123,7 @@ const styles = {
     justifyContent: 'center',
   },
   unitTileText: {
-    fontSize:30,
-    color:'white'
+    fontSize: 30,
+    color: 'white',
   },
 };

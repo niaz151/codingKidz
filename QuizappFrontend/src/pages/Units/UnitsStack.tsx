@@ -10,7 +10,6 @@ const UnitsStack = (props: {
   accessToken: string;
   logout: () => Promise<void>;
 }) => {
-
   const UnitsPageWithProps = () => <UnitsPage {...props} />;
   const LessonsPageWithProps = () => <LessonsPage {...props} />;
 
