@@ -10,7 +10,6 @@ export const LessonsPage = (props: {
   const route:any = useRoute();
   const id = route.params.id;
 
-  console.log("params:", id)
   return(
     <View>
       <Text> Lessons Page </Text>

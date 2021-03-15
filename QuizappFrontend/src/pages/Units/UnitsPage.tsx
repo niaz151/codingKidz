@@ -18,7 +18,6 @@ export const UnitsPage = (props: {
   const navigation = useNavigation();
   const {accessToken, logout} = props;
   const [units, setUnits] = useState<Unit[]>();
-  const [unitId, setUnitId] = useState(0);
 
   useEffect(() => {
     const getUnits = async () => {

@@ -2,18 +2,15 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {LessonsPage} from './LessonsPage';
 
-const LessonsStack = (props: {
-  accessToken:string,
-}) => {
+const LessonsStack = () => {
 
-  const Stack = createStackNavigator<RootStackParamList>();
-  const LessonsPageWithProps = () => <LessonsPage {...props} />;
-  
+  const Stack = createStackNavigator();
+
   return (
-    <Stack.Navigator initialRouteName="Units">
+    <Stack.Navigator initialRouteName="Lessons">
       <Stack.Screen
         name="Lessons"
-        component={LessonsPageWithProps}
+        component={LessonsPage}
       />
     </Stack.Navigator>
   );
