@@ -70,8 +70,37 @@ async function generateData() {
       // },
     },
   });
+  
+  console.log("Created Loops Unit", loopsUnit);
 
-  console.log("Created unit", loopsUnit);
+
+  const recursionUnit = await prisma.unit.upsert({
+    where: {
+      id: 2,
+    },
+    update: {},
+    create: {
+      id: 2,
+      name: "Recursion",
+      number: 1,
+    },
+  });
+
+  console.log("Created Recursion Unit", recursionUnit);
+
+  const testingUnit = await prisma.unit.upsert({
+    where: {
+      id: 3,
+    },
+    update: {},
+    create: {
+      id: 3,
+      name: "Testing",
+      number: 1,
+    },
+  });
+
+  console.log("Created Testing Unit", testingUnit);
 
   const loops1Topic = await prisma.topic.upsert({
     where: {

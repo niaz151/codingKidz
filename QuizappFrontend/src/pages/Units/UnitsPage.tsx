@@ -63,8 +63,8 @@ export const UnitsPage = (props: {
       </View>
       {units ? (
         <View style={styles.unitsList}>
-          {units.map((unit) => {
-            return <UnitTile unit={unit} />;
+          {units.map((unit, index) => {
+            return <UnitTile unit={unit} key={index} />;
           })}
         </View>
       ) : (
