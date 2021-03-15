@@ -30,7 +30,7 @@ const UnitsStack = (props: {
         name="Lessons"
         component={LessonsPageWithProps}
         options={{
-          title: 'Lessons',
+          title: '',
           headerStyle: {
             backgroundColor: '#FF671D',
           },

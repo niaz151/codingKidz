@@ -124,7 +124,7 @@ const styles = {
     justifyContent: 'center',
   },
   unitTileText: {
-    fontSize: 30,
+    fontSize: 20,
     color: 'white',
   },
 };
