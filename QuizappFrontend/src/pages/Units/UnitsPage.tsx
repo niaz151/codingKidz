@@ -14,9 +14,11 @@ export const UnitsPage = (props: {
   accessToken: string;
   logout: () => Promise<void>;
 }) => {
+  
   const navigation = useNavigation();
   const {accessToken, logout} = props;
   const [units, setUnits] = useState<Unit[]>();
+  const [unitId, setUnitId] = useState(0);
 
   useEffect(() => {
     const getUnits = async () => {
@@ -44,12 +46,12 @@ export const UnitsPage = (props: {
     getUnits();
   }, [accessToken]);
 
-  const UnitTile = (_props: {unit: Unit}) => {
-    const {unit} = _props;
-
+  const UnitTile = (_props: {unit: Unit, id: Number}) => {
+    const {unit, id} = _props;
+    console.log("tile id:", id)
     return (
       <View style={styles.unitTileContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Lessons')}>
+        <TouchableOpacity onPress={() => navigation.navigate('Lessons', {id:id} )}>
           <Text style={styles.unitTileText}>{unit.name}</Text>
         </TouchableOpacity>
       </View>
@@ -64,7 +66,7 @@ export const UnitsPage = (props: {
       {units ? (
         <View style={styles.unitsList}>
           {units.map((unit, index) => {
-            return <UnitTile unit={unit} key={index} />;
+            return <UnitTile unit={unit} key={index} id={unit.id} />;
           })}
         </View>
       ) : (

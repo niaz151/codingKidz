@@ -6,9 +6,9 @@ const LessonsStack = (props: {
   accessToken:string,
 }) => {
 
-  const Stack = createStackNavigator();
+  const Stack = createStackNavigator<RootStackParamList>();
   const LessonsPageWithProps = () => <LessonsPage {...props} />;
-
+  
   return (
     <Stack.Navigator initialRouteName="Units">
       <Stack.Screen
