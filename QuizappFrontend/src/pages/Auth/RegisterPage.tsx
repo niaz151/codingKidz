@@ -11,6 +11,9 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Roles} from '../../utils';
 
+import {register} from '../../ducks/authSlice';
+import {useAppDispatch} from '../../ducks/store';
+
 const RegisterPage = (props: {
   setTokensInApp: (
     newAccessToken: string,
@@ -22,31 +25,17 @@ const RegisterPage = (props: {
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [role, setRole] = useState<Roles>();
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const {setTokensInApp} = props;
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
       Alert.alert('Password must match!');
+    } else if (!password || !email || !role) {
+      Alert.alert('Please fill out form');
     } else {
-      return await axios
-        .post('http://localhost:8000/api/auth/signup', {
-          email: email,
-          password: password,
-          role: role,
-        })
-        .then(
-          async (response) => {
-            await setTokensInApp(
-              response.data.access_token,
-              response.data.refresh_token,
-            );
-          },
-          (error) => {
-            console.log('error occured', error);
-            Alert.alert('Error!');
-          },
-        );
+      return await dispatch(register({email, password, role}));
     }
   };
 
@@ -144,7 +133,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#FF671D',
     marginLeft: wp('10%'),
-    backgroundColor:'white'
+    backgroundColor: 'white',
   },
   dropDown: {
     height: 40,
@@ -167,7 +156,7 @@ const styles = StyleSheet.create({
   forgot: {
     color: '#FF671D',
     fontSize: 15,
-    fontWeight:'700',
+    fontWeight: '700',
     marginLeft: wp('29%'),
   },
   privacy: {

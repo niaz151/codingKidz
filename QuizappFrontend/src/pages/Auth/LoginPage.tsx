@@ -1,6 +1,4 @@
-import axios from 'axios';
 import React, {useState} from 'react';
-import {useTokenContext} from '../../context';
 import {View, Text, StyleSheet, Alert, Image} from 'react-native';
 import {TextInput, Button} from 'react-native-paper';
 import {
@@ -8,38 +6,23 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {login} from '../../ducks/authSlice';
+import {useAppDispatch} from '../../ducks/store';
 
-const LoginPage = (props: {
-  setTokensInApp: (
-    newAccessToken: string,
-    newRefreshToken: string,
-  ) => Promise<void>;
-}) => {
+const LoginPage = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
 
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  const {setTokensInApp} = props;
-
   const handleSubmit = async () => {
-    return await axios
-      .post('http://localhost:8000/api/auth/login', {
-        email: email,
-        password: password,
-      })
-      .then(
-        async (response) => {
-          const AT = response.data.access_token;
-          const RT = response.data.refresh_token;
-          await setTokensInApp(AT, RT);
-        },
-        (error) => {
-          console.log('error occured', error);
-          Alert.alert('Error!');
-        },
-      );
+    if (email && password) {
+      return await dispatch(login({email, password}));
+    } else {
+      Alert.alert('Please enter email and password');
+    }
   };
 
   return (
@@ -130,7 +113,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 0,
     borderColor: '#FF671D',
-    backgroundColor:'white'
+    backgroundColor: 'white',
   },
   btn: {
     height: 50,

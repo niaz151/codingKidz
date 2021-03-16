@@ -4,9 +4,7 @@ import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import {Topic} from '../../../utils';
 
-export const LessonsPage = (props: {
-  accessToken: string;
-}) => {
+export const LessonsPage = () => {
 
   const route:any = useRoute();
   const id = route.params.id;

@@ -5,20 +5,18 @@ import {HomePage} from './HomePage';
 
 const Stack = createStackNavigator();
 
-const HomeStack = (props: {accessToken: string}) => {
-  const HomePageWithProps = () => {
-    return <HomePage {...props} />;
-  };
-
+const HomeStack = () => {
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomePageWithProps}
+      <Stack.Screen
+        name="Home"
+        component={HomePage}
         options={{
           title: '',
           headerStyle: {
             backgroundColor: '#FF671D',
           },
-        }} 
+        }}
       />
     </Stack.Navigator>
   );

@@ -108,7 +108,7 @@ authRouter.post(
     });
 
     if (!user) {
-      return res.status(500).json({
+      return res.status(404).json({
         message: "User doesn't exist",
       });
     }

@@ -7,15 +7,7 @@ import RegisterPage from './RegisterPage';
 
 const Stack = createStackNavigator();
 
-const AuthStack = (props: {
-  setTokensInApp: (
-    newAccessToken: string,
-    newRefreshToken: string,
-  ) => Promise<void>;
-}) => {
-  const LoginPageWithProps = () => <LoginPage {...props} />;
-  const RegisterPageWithProps = () => <RegisterPage {...props} />;
-
+const AuthStack = () => {
   return (
     <Stack.Navigator initialRouteName="Splash">
       <Stack.Screen
@@ -31,7 +23,7 @@ const AuthStack = (props: {
 
       <Stack.Screen
         name="Login"
-        component={LoginPageWithProps}
+        component={LoginPage}
         options={{
           title: '',
           headerLeft: null as any,
@@ -43,7 +35,7 @@ const AuthStack = (props: {
 
       <Stack.Screen
         name="Register"
-        component={RegisterPageWithProps}
+        component={RegisterPage}
         options={{
           title: '',
           headerLeft: null as any,

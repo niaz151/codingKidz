@@ -9,14 +9,12 @@ import axios from 'axios';
 import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Unit} from '../../utils';
+import {useAppSelector} from '../../ducks/store';
+import {logout} from '../../ducks/authSlice';
 
-export const UnitsPage = (props: {
-  accessToken: string;
-  logout: () => Promise<void>;
-}) => {
-  
+export const UnitsPage = () => {
   const navigation = useNavigation();
-  const {accessToken, logout} = props;
+  const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [units, setUnits] = useState<Unit[]>();
 
   useEffect(() => {
@@ -45,12 +43,13 @@ export const UnitsPage = (props: {
     getUnits();
   }, [accessToken]);
 
-  const UnitTile = (_props: {unit: Unit, id: Number}) => {
+  const UnitTile = (_props: {unit: Unit; id: Number}) => {
     const {unit, id} = _props;
-    console.log("tile id:", id)
+    console.log('tile id:', id);
     return (
       <View style={styles.unitTileContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Lessons', {id:id} )}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Lessons', {id: id})}>
           <Text style={styles.unitTileText}>{unit.name}</Text>
         </TouchableOpacity>
       </View>

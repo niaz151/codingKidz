@@ -120,7 +120,7 @@ const hasRole = (roles: ROLES[]) => (
       return next();
     }
 
-    return res.status(400).json({
+    return res.status(401).json({
       message: "Access denied, you do not have the required permission",
     });
   } catch (error) {

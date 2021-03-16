@@ -6,18 +6,12 @@ import {LessonsPage} from './Lessons/LessonsPage';
 
 const Stack = createStackNavigator();
 
-const UnitsStack = (props: {
-  accessToken: string;
-  logout: () => Promise<void>;
-}) => {
-  const UnitsPageWithProps = () => <UnitsPage {...props} />;
-  const LessonsPageWithProps = () => <LessonsPage {...props} />;
-
+const UnitsStack = () => {
   return (
     <Stack.Navigator initialRouteName="Units">
       <Stack.Screen
         name="Units"
-        component={UnitsPageWithProps}
+        component={UnitsPage}
         options={{
           title: '',
           headerLeft: null as any,
@@ -28,7 +22,7 @@ const UnitsStack = (props: {
       />
       <Stack.Screen
         name="Lessons"
-        component={LessonsPageWithProps}
+        component={LessonsPage}
         options={{
           title: '',
           headerStyle: {

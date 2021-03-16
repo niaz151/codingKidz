@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {AuthStack, UnitsStack, HomeStack} from './pages';
@@ -12,34 +12,17 @@ import {
 
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {
-  getRefreshTokenFromStorage,
-  isTokenExpired,
-  refreshTokens,
-  removeRefreshTokenFromStorage,
-  storeRefreshTokenInStorage,
-} from './utils';
+import {getRefreshTokenFromStorage, isTokenExpired} from './utils';
+
+import {useAppDispatch, useAppSelector} from './ducks/store';
+import {logout, refreshTokens, setRefreshToken} from './ducks/authSlice';
 
 Ionicon.loadFont();
 
 const App = () => {
-  const [accessToken, setAccessToken] = useState<string>();
-  const [refreshToken, setRefreshToken] = useState<string>();
-
-  const setTokensInApp = async (
-    newAccessToken: string,
-    newRefreshToken: string,
-  ) => {
-    await storeRefreshTokenInStorage(newRefreshToken);
-    setAccessToken(newAccessToken);
-    setRefreshToken(newRefreshToken);
-  };
-
-  const logout = async () => {
-    setAccessToken(undefined);
-    setRefreshToken(undefined);
-    await removeRefreshTokenFromStorage();
-  };
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector((state) => state.userReducer.accessToken);
+  const refreshToken = useAppSelector((state) => state.userReducer.accessToken);
 
   // Manage JWTs, render based on auth
   useEffect(() => {
@@ -59,20 +42,20 @@ const App = () => {
         if (!storedRefreshToken) {
           // No stored refresh token, remove any access token that
           // may exist and exit so user is sent to auth stack
-          setAccessToken(undefined);
+          dispatch(logout());
           return;
         }
 
         // Set refresh token and exit early because useEffect
         // will be called again by changed refreshToken state
-        setRefreshToken(storedRefreshToken);
+        await dispatch(setRefreshToken(storedRefreshToken));
         return;
       }
 
       // If we have a refresh token, make sure it's not expired, if
-      // it is clear any access token to send them to auth stack
+      // it is log us out
       if (isTokenExpired(refreshToken)) {
-        setAccessToken(undefined);
+        dispatch(logout());
         return;
       }
 
@@ -81,32 +64,15 @@ const App = () => {
       // TODO (Backend) Only refresh access token, have different
       // endpoint to fetch new refresh and access tokens
       if (isTokenExpired(accessToken)) {
-        const {access_token, refresh_token} = await refreshTokens(refreshToken);
-        setAccessToken(access_token);
-        setRefreshToken(refreshToken);
-        await storeRefreshTokenInStorage(refresh_token);
+        dispatch(refreshTokens(refreshToken));
+        return;
       }
     };
 
     checkOrGetTokens();
-  }, [accessToken, refreshToken]);
+  }, [accessToken, dispatch, refreshToken]);
 
   const Tab = createBottomTabNavigator();
-
-  // Define this so that we can pass it directly to component below
-  // Passing () => (<UnitsStack props.../>) is bad for performance
-  // and gives a warning
-  const UnitsStackWithProps = () => {
-    // Assert accessToken is non-null because it will only
-    // be rendered below when accessToken is defined
-    return <UnitsStack accessToken={accessToken!} logout={logout} />;
-  };
-
-  const HomeStackWithprops = () => {
-    // Assert accessToken is non-null because it will only
-    // be rendered below when accessToken is defined
-    return <HomeStack accessToken={accessToken!} />;
-  };
 
   return (
     <SafeAreaView style={styles.viewStyles}>
@@ -122,11 +88,11 @@ const App = () => {
                 backgroundColor: '#FF671D',
               },
             }}>
-            <Tab.Screen name="HOME" component={HomeStackWithprops} />
-            <Tab.Screen name="UNITS" component={UnitsStackWithProps} />
+            <Tab.Screen name="HOME" component={HomeStack} />
+            <Tab.Screen name="UNITS" component={UnitsStack} />
           </Tab.Navigator>
         ) : (
-          <AuthStack setTokensInApp={setTokensInApp} />
+          <AuthStack />
         )}
       </NavigationContainer>
     </SafeAreaView>

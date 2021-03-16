@@ -6,13 +6,13 @@ import React from 'react';
 import {AppRegistry} from 'react-native';
 import App from './App';
 import {name as appName} from './app.json';
-
-import {TokenProvider} from './context';
+import {Provider} from 'react-redux';
+import store from './ducks/store';
 
 const Root = () => {
-  <TokenProvider>
-      <App />
-  </TokenProvider>;
+  <Provider store={store}>
+    <App />
+  </Provider>;
 };
 
 AppRegistry.registerComponent(appName, () => Root);

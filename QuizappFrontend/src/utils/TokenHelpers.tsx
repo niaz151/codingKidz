@@ -1,4 +1,3 @@
-import axios from 'axios';
 import {Buffer} from 'buffer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -29,25 +28,6 @@ export const isTokenExpired = (token: string) => {
   const currentTimeInUnixSeconds = Math.floor(Date.now() / 1000);
 
   return Number(decodedToken.exp) < currentTimeInUnixSeconds;
-};
-
-export const refreshTokens = async (refreshToken: string) => {
-  return await axios
-    .get('http://localhost:8000/api/auth/refresh_access', {
-      headers: {
-        Authorization: `Bearer ${refreshToken}`,
-      },
-    })
-    .then(
-      (response) => {
-        const access_token = response.data.access_token as string;
-        const refresh_token = response.data.refresh_token as string;
-        return {access_token, refresh_token};
-      },
-      (error) => {
-        throw new Error(error);
-      },
-    );
 };
 
 export const storeRefreshTokenInStorage = async (token: string) => {
