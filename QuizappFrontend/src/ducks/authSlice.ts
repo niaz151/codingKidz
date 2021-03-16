@@ -117,6 +117,10 @@ const refreshTokens = createAsyncThunk(
   },
 );
 
+const logout = createAsyncThunk('user/logout', async ({}, _thunkAPI) => {
+  return await removeRefreshTokenFromStorage();
+});
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -124,80 +128,94 @@ const userSlice = createSlice({
     setRefreshToken: (state, action: PayloadAction<string>) => {
       state.refreshToken = action.payload;
     },
-    logout: (state) => {
-      removeRefreshTokenFromStorage();
+  },
+  extraReducers: (builder) => {
+    builder.addCase(login.pending, (state, _action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = null;
+      state.loading = true;
+    });
+
+    builder.addCase(login.fulfilled, (state, action) => {
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      state.error = null;
+      state.loading = false;
+    });
+
+    builder.addCase(login.rejected, (state, action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = action.error.message ?? 'Unknown login error';
+      state.loading = false;
+    });
+
+    builder.addCase(register.pending, (state, _action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = null;
+      state.loading = true;
+    });
+
+    builder.addCase(logout.fulfilled, (state, _action) => {
       state.accessToken = null;
       state.refreshToken = null;
       state.error = null;
       state.loading = false;
-    },
-  },
-  extraReducers: (builder) => {
-    builder.addCase(login.pending, (state, _action) => {
-      (state.accessToken = null),
-        (state.refreshToken = null),
-        (state.error = null),
-        (state.loading = true);
     });
 
-    builder.addCase(login.fulfilled, (state, action) => {
-      (state.accessToken = action.payload.accessToken),
-        (state.refreshToken = action.payload.refreshToken),
-        (state.error = null),
-        (state.loading = false);
+    builder.addCase(logout.rejected, (state, action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = action.error.message ?? 'Unknown registration error';
+      state.loading = false;
     });
 
-    builder.addCase(login.rejected, (state, action) => {
-      (state.accessToken = null),
-        (state.refreshToken = null),
-        (state.error = action.error.message ?? 'Unknown login error'),
-        (state.loading = false);
-    });
-
-    builder.addCase(register.pending, (state, _action) => {
-      (state.accessToken = null),
-        (state.refreshToken = null),
-        (state.error = null),
-        (state.loading = true);
+    builder.addCase(logout.pending, (state, _action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = null;
+      state.loading = true;
     });
 
     builder.addCase(register.fulfilled, (state, action) => {
-      (state.accessToken = action.payload.accessToken),
-        (state.refreshToken = action.payload.refreshToken),
-        (state.error = null),
-        (state.loading = false);
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      state.error = null;
+      state.loading = false;
     });
 
     builder.addCase(register.rejected, (state, action) => {
-      (state.accessToken = null),
-        (state.refreshToken = null),
-        (state.error = action.error.message ?? 'Unknown registration error'),
-        (state.loading = false);
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = action.error.message ?? 'Unknown registration error';
+      state.loading = false;
     });
 
     builder.addCase(refreshTokens.pending, (state, _action) => {
-      (state.accessToken = null),
-        (state.refreshToken = null),
-        (state.error = null),
-        (state.loading = true);
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = null;
+      state.loading = true;
     });
 
     builder.addCase(refreshTokens.fulfilled, (state, action) => {
-      (state.accessToken = action.payload.accessToken),
-        (state.refreshToken = action.payload.refreshToken),
-        (state.error = null),
-        (state.loading = false);
+      state.accessToken = action.payload.accessToken;
+      state.refreshToken = action.payload.refreshToken;
+      state.error = null;
+      state.loading = false;
     });
 
     builder.addCase(refreshTokens.rejected, (state, action) => {
-      (state.accessToken = null),
-        (state.refreshToken = null),
-        (state.error = action.error.message ?? 'Unknown registration error'),
-        (state.loading = false);
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = action.error.message ?? 'Unknown registration error';
+      state.loading = false;
     });
   },
 });
 
-export const {logout, setRefreshToken} = userSlice.actions;
+export const {setRefreshToken} = userSlice.actions;
 export default userSlice.reducer;
-export {login, register, refreshTokens};
+export {login, register, refreshTokens, logout};
