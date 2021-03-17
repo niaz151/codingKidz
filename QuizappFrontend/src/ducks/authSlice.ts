@@ -1,9 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-import {AppThunk} from './store';
-
 import axios, {AxiosError} from 'axios';
 import {
+  getRefreshTokenFromStorage,
   removeRefreshTokenFromStorage,
   Roles,
   storeRefreshTokenInStorage,
@@ -121,6 +120,18 @@ const logout = createAsyncThunk('user/logout', async ({}, _thunkAPI) => {
   return await removeRefreshTokenFromStorage();
 });
 
+const restoreRefreshToken = createAsyncThunk(
+  'user/restoreToken',
+  async ({}, thunkAPI) => {
+    const storedToken = await getRefreshTokenFromStorage();
+    if (storedToken) {
+      return storedToken;
+    } else {
+      return thunkAPI.rejectWithValue('No token stored');
+    }
+  },
+);
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -213,9 +224,30 @@ const userSlice = createSlice({
       state.error = action.error.message ?? 'Unknown registration error';
       state.status = 'failed';
     });
+
+    builder.addCase(restoreRefreshToken.pending, (state, _action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = null;
+      state.status = 'loading';
+    });
+
+    builder.addCase(restoreRefreshToken.fulfilled, (state, action) => {
+      state.accessToken = null;
+      state.refreshToken = action.payload;
+      state.error = null;
+      state.status = 'succeeded';
+    });
+
+    builder.addCase(restoreRefreshToken.rejected, (state, action) => {
+      state.accessToken = null;
+      state.refreshToken = null;
+      state.error = action.error.message ?? 'Unknown registration error';
+      state.status = 'failed';
+    });
   },
 });
 
 export const {setRefreshToken} = userSlice.actions;
 export default userSlice.reducer;
-export {login, register, refreshTokens, logout};
+export {login, register, refreshTokens, logout, restoreRefreshToken};

@@ -9,11 +9,12 @@ import axios from 'axios';
 import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Unit} from '../../utils';
-import {useAppSelector} from '../../ducks/store';
-import {logout} from '../../ducks/authSlice';
+import {useAppDispatch, useAppSelector} from '../../ducks/store';
+import { logout } from '../../ducks/authSlice';
 
 export const UnitsPage = () => {
   const navigation = useNavigation();
+  const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [units, setUnits] = useState<Unit[]>();
 
@@ -72,7 +73,12 @@ export const UnitsPage = () => {
           <Text>Loading units...</Text>
         </View>
       )}
-      <Button onPress={logout}>Logout</Button>
+      <Button
+        onPress={() => {
+          dispatch(logout());
+        }}>
+        Logout
+      </Button>
     </View>
   );
 };

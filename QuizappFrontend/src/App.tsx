@@ -14,17 +14,31 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {getRefreshTokenFromStorage, isTokenExpired} from './utils';
 
-import {useAppDispatch, useAppSelector} from './ducks/store';
-import {logout, refreshTokens, setRefreshToken} from './ducks/authSlice';
+import {store, useAppDispatch, useAppSelector} from './ducks/store';
+import {
+  logout,
+  refreshTokens,
+  restoreRefreshToken,
+  setRefreshToken,
+} from './ducks/authSlice';
+import {Text} from 'react-native-paper';
+import {Provider} from 'react-redux';
 
 Ionicon.loadFont();
 
 const App = () => {
   const dispatch = useAppDispatch();
+  const authStatus = useAppSelector((state) => state.userReducer.status);
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const refreshToken = useAppSelector((state) => state.userReducer.accessToken);
 
   // Manage JWTs, render based on auth
+  // useEffect(() => {
+  //   if (authStatus === 'idle') {
+  //     dispatch(restoreRefreshToken());
+  //   }
+  // }, [authStatus, dispatch, refreshToken]);
+
   useEffect(() => {
     console.log('running useEffect');
     // Workaround to use async functions in useEffect by defining
@@ -107,4 +121,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const AppWithProvider = () => (
+  <Provider store={store}>
+    <App />
+  </Provider>
+);
+
+export default AppWithProvider;
