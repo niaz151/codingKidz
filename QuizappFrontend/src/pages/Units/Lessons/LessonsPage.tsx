@@ -3,6 +3,10 @@ import {View, Text} from 'react-native'
 import { useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import {Topic} from '../../../utils';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 export const LessonsPage = (props: {
   accessToken: string;
@@ -40,8 +44,31 @@ export const LessonsPage = (props: {
   }, [accessToken]);
 
   return(
-    <View>
-      <Text> Lessons Page </Text>
+    <View style={styles.containerStyle}>
+      <View style={styles.titleContainer}>
+        <Text style={styles.titleText}> Test </Text>
+      </View>
     </View>
   )
+}
+
+const styles = {
+  containerStyle:{
+    height:hp("100%"),
+    width:wp("100%"),
+    backgroundColor: '#FF671D',
+  },
+  titleContainer:{
+    height:hp("8%"),
+    maxHeight:70,
+    width:wp("100%"),
+    backgroundColor:'white',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
+  }, 
+  titleText:{
+    fontSize:15,
+    fontColor:'white',
+  }
 }
