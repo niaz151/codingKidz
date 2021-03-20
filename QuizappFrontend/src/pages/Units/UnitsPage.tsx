@@ -90,7 +90,7 @@ export const UnitsPage = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#FFF9DF',
+    backgroundColor: '#FF671D',
   },
   title: {
     height: hp('10%'),

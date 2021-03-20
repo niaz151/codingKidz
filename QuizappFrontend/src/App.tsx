@@ -89,7 +89,7 @@ const App = () => {
 
   return (
     <>
-      <SafeAreaView style={{ flex:0, backgroundColor: '#FFF9DF' }} />
+      <SafeAreaView style={{ flex:0, backgroundColor: '#FF671D' }} />
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
           {accessToken ? (
@@ -102,7 +102,7 @@ const App = () => {
                 },
                 showLabel:false,
                 style: {
-                  backgroundColor: '#FFF9DF',
+                  backgroundColor: '#FF671D',
                 },
               }}>
               <Tab.Screen 
@@ -146,7 +146,7 @@ const App = () => {
 const styles = StyleSheet.create({
   viewStyles: {
     flex:1,
-    backgroundColor: 'black',
+    backgroundColor: '#FF671D',
   },
 });
 

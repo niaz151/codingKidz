@@ -16,7 +16,7 @@ const UnitsStack = () => {
           title: '',
           headerLeft: null as any,
           headerStyle: {
-            backgroundColor: '#FFF9DF',
+            backgroundColor: '#FF671D',
           },
         }}
       />
@@ -26,7 +26,7 @@ const UnitsStack = () => {
         options={{
           title: '',
           headerStyle: {
-            backgroundColor: '#FFF9DF',
+            backgroundColor: '#FF671D',
           },
         }}
       />
