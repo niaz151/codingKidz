@@ -73,12 +73,16 @@ export const UnitsPage = () => {
           <Text>Loading units...</Text>
         </View>
       )}
+
+      {/*
       <Button
         onPress={() => {
           dispatch(logout());
         }}>
         Logout
       </Button>
+      */}
+      
     </View>
   );
 };
