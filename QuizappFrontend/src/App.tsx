@@ -9,11 +9,9 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {getRefreshTokenFromStorage, isTokenExpired} from './utils';
-
 import {store, useAppDispatch, useAppSelector} from './ducks/store';
 import {
   logout,
@@ -23,6 +21,7 @@ import {
 } from './ducks/authSlice';
 import {Text} from 'react-native-paper';
 import {Provider} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 Ionicon.loadFont();
 
@@ -89,35 +88,65 @@ const App = () => {
   const Tab = createBottomTabNavigator();
 
   return (
-    <SafeAreaView style={styles.viewStyles}>
-      <NavigationContainer>
-        {accessToken ? (
-          <Tab.Navigator
-            tabBarOptions={{
-              labelStyle: {
-                color: 'white',
-                fontSize: 14,
-              },
-              style: {
-                backgroundColor: '#FF671D',
-              },
-            }}>
-            <Tab.Screen name="HOME" component={HomeStack} />
-            <Tab.Screen name="UNITS" component={UnitsStack} />
-          </Tab.Navigator>
-        ) : (
-          <AuthStack />
-        )}
-      </NavigationContainer>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{ flex:0, backgroundColor: '#FFF9DF' }} />
+      <SafeAreaView style={styles.viewStyles}>
+        <NavigationContainer>
+          {accessToken ? (
+            <Tab.Navigator
+              tabBarOptions={{
+                labelStyle: {
+                  color: 'black',
+                  fontSize: 14,
+                  
+                },
+                showLabel:false,
+                style: {
+                  backgroundColor: '#FFF9DF',
+                },
+              }}>
+              <Tab.Screen 
+                name="1" 
+                component={HomeStack}
+                options={{
+                  tabBarIcon: () => (<Icon name="home" size={25} />)
+                }}
+              />
+              <Tab.Screen 
+                name="2" 
+                component={UnitsStack} 
+                options={{
+                  tabBarIcon: () => (<Icon name="folder-open" size={25} />)
+                }}
+              />
+              <Tab.Screen 
+                name="3" 
+                component={UnitsStack} 
+                options={{
+                  tabBarIcon: () => (<Icon name="notifications" size={25} />),
+                }}
+              />
+              <Tab.Screen 
+                name="4" 
+                component={UnitsStack} 
+                options={{
+                  tabBarIcon: () => (<Icon name="settings" size={25} />),
+                }}
+              />
+            </Tab.Navigator>
+          ) : (
+            <AuthStack />
+          )}
+        </NavigationContainer>
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   viewStyles: {
-    height: hp('100%'),
-    width: wp('100'),
-    backgroundColor: '#FF671D',
+    flex:1,
+    backgroundColor: 'black',
   },
 });
 

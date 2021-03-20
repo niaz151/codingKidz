@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FF671D',
+    backgroundColor: '#FFF9DF',
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: 20,
-    color: 'white',
+    color: 'black',
   },
   languageWrap: {
     height: hp('15%'),
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
   },
   languagePrompt: {
     fontSize: 20,
-    color: 'white',
+    color: 'black',
     paddingLeft: 2,
   },
 });

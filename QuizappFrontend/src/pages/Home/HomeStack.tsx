@@ -14,7 +14,7 @@ const HomeStack = () => {
         options={{
           title: '',
           headerStyle: {
-            backgroundColor: '#FF671D',
+            backgroundColor: '#FFF9DF',
           },
         }}
       />

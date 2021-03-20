@@ -54,7 +54,7 @@ const styles = {
   containerStyle: {
     height: hp('100%'),
     width: wp('100%'),
-    backgroundColor: '#FF671D',
+    backgroundColor: '#FFF9DF',
   },
   titleContainer: {
     height: hp('8%'),

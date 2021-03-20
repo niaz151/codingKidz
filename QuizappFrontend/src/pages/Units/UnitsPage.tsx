@@ -86,7 +86,7 @@ export const UnitsPage = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#FF671D',
+    backgroundColor: '#FFF9DF',
   },
   title: {
     height: hp('10%'),
@@ -96,7 +96,7 @@ const styles = {
     justifyContent: 'center',
   },
   titleText: {
-    color: 'white',
+    color: 'black',
     fontSize: 25,
     fontWeight: 'bold',
     letterSpacing: 1,
@@ -105,8 +105,6 @@ const styles = {
     height: hp('70%'),
     width: wp('100%'),
     flex: 1,
-    borderWidth: 1,
-    borderColor: 'black',
     color: 'white',
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -116,7 +114,7 @@ const styles = {
   },
   unitTileContainer: {
     borderWidth: 1.5,
-    borderColor: 'white',
+    borderColor: 'black',
     borderRadius: 5,
     height: hp('15%'),
     maxHeight: 60,
@@ -130,6 +128,6 @@ const styles = {
   },
   unitTileText: {
     fontSize: 20,
-    color: 'white',
+    color: 'black',
   },
 };
