@@ -43,13 +43,13 @@ export const UnitsPage = () => {
     getUnits();
   }, [accessToken]);
 
-  const UnitTile = (_props: {unit: Unit; id: Number, unitNum:Number}) => {
-    const {unit, id, unitNum} = _props;
+  const UnitTile = (_props: {unit_name: String; unit_id: Number, topic_num:Number}) => {
+    const {unit_name, unit_id, topic_num} = _props;
     return (
       <View style={styles.unitTileContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Lessons', {id: id, unitNum:unitNum})}>
-          <Text style={styles.unitTileText}>{unit.name}</Text>
+          onPress={() => navigation.navigate('Lessons', {unit_id: unit_id, topic_num:topic_num})}>
+          <Text style={styles.unitTileText}>{unit_name}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -63,7 +63,7 @@ export const UnitsPage = () => {
       {units ? (
         <View style={styles.unitsList}>
           {units.map((unit, index) => {
-            return <UnitTile unit={unit} key={index} unitNum={index + 1} id={unit.id} />;
+            return <UnitTile unit_name={unit.name} unit_id={unit.id} topic_num={index + 1} key={index} />;
           })}
         </View>
       ) : (

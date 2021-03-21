@@ -12,8 +12,8 @@ import {useAppSelector} from '../../../ducks/store';
 export const LessonPage = () => {
 
   const route:any = useRoute();
-  const id = route.params.id;
-  const unitNum = route.params.unitNum;
+  const unit_id = route.params.unit_id;
+  const topic_num = route.params.topic_num;
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [topics, setTopics] = useState<Topic[]>();
   const [MC_Questions,setMC_Questions] = useState<MultipleChoiceQuestion[]>();
@@ -22,7 +22,7 @@ export const LessonPage = () => {
 
   async function getTopics(){
     return await axios
-    .get(`http://localhost:8000/api/unit/${id}/topic/`, {
+    .get(`http://localhost:8000/api/unit/${unit_id}/topic/`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -43,7 +43,7 @@ export const LessonPage = () => {
 
   async function getQuestions(){
     return await axios
-    .get(`http://localhost:8000/api/unit/${id}/topic/${unitNum}/question`, {
+    .get(`http://localhost:8000/api/unit/${unit_id}/topic/${topic_num}/question`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
