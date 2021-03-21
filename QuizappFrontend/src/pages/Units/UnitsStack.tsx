@@ -2,7 +2,8 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
-import {LessonsPage} from './Lessons/LessonsPage';
+import {LessonPage} from './Lessons/LessonPage';
+import {QuestionsPage} from './Questions/QuestionsPage';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ const UnitsStack = () => {
       />
       <Stack.Screen
         name="Lessons"
-        component={LessonsPage}
+        component={LessonPage}
         options={{
           title: '',
           headerStyle: {

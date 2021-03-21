@@ -14,7 +14,11 @@ export type Topic = {
   trueFalseQuestions?: TrueFalseQuestion[];
 };
 
-export type MultipleChoiceQuestion = {
+export type Question = {
+  data?:any;
+}
+
+export type MultipleChoiceQuestion = Question & {
   id: number;
   topicId: number;
   question: string;
@@ -29,7 +33,7 @@ export type MultipleChoiceQuestion = {
   wrongAnswer2Image?: Buffer;
 };
 
-export type TrueFalseQuestion = {
+export type TrueFalseQuestion = Question & {
   id: number;
   topicId: number;
   question: string;

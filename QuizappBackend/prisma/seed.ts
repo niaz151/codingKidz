@@ -43,44 +43,52 @@ async function createUsers() {
 }
 
 async function generateData() {
+  
   const loopsUnit = await prisma.unit.upsert({
     where: {
       id: 1,
     },
-    update: {},
+    update: {
+      name: "Loops", 
+      number: 1
+    },
     create: {
       id: 1,
       name: "Loops",
       number: 1,
-      // topics: {
-      //   createMany: {
-      //     data: [
-      //       {
-      //         id: 1,
-      //         name: "Loops I",
-      //         number: 1,
-      //       },
-      //       {
-      //         id: 2,
-      //         name: "Loops II",
-      //         number: 2,
-      //       },
-      //     ],
-      //   },
-      // },
     },
   });
   
   console.log("Created Loops Unit", loopsUnit);
+  
+  const loopsIIUnit = await prisma.unit.upsert({
+    where: {
+      id: 2,
+    },
+    update: {
+      name: "Variables", 
+      number: 2,
+    },
+    create: {
+      id: 2,
+      name: "Variables",
+      number: 1,
+    },
+  });
+
+  console.log("Created Loops II Unit", loopsIIUnit);
 
 
   const recursionUnit = await prisma.unit.upsert({
     where: {
-      id: 2,
+      id: 3,
     },
-    update: {},
+    update: {
+      name: "Recursion", 
+      number: 3
+    },
     create: {
-      id: 2,
+      id: 3,
       name: "Recursion",
       number: 1,
     },
@@ -90,17 +98,21 @@ async function generateData() {
 
   const testingUnit = await prisma.unit.upsert({
     where: {
-      id: 3,
+      id: 4,
     },
-    update: {},
+    update: {
+      name: "Testing", 
+      number: 4
+    },
     create: {
-      id: 3,
+      id: 4,
       name: "Testing",
       number: 1,
     },
   });
 
   console.log("Created Testing Unit", testingUnit);
+ 
 
   const loops1Topic = await prisma.topic.upsert({
     where: {

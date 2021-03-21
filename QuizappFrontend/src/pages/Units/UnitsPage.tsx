@@ -8,15 +8,15 @@ import {Text, View} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Unit} from '../../utils';
+import {Unit, Question} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
-import { logout } from '../../ducks/authSlice';
 
 export const UnitsPage = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [units, setUnits] = useState<Unit[]>();
+  const [questions,setQuestions] = useState<Question[]>();
 
   useEffect(() => {
     const getUnits = async () => {
@@ -123,7 +123,7 @@ const styles = {
     height: hp('15%'),
     maxHeight: 60,
     width: wp('35%'),
-    maxWidth: 200,
+    maxWidth: 150,
     flexBasis: '40%',
     marginTop: hp('10%'),
     display: 'flex',

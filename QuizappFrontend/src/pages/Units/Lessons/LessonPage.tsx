@@ -9,9 +9,9 @@ import {
 } from 'react-native-responsive-screen';
 import {useAppSelector} from '../../../ducks/store';
 
-export const LessonsPage = () => {
-  // const route:any = useRoute();
-  // const id = route.params.id;
+export const LessonPage = () => {
+  const route:any = useRoute();
+  const id = route.params.id;
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [topics, setTopics] = useState<Topic[]>();
 
@@ -36,6 +36,7 @@ export const LessonsPage = () => {
             console.log('fetching error', error);
           },
         );
+        console.log('topics', getTopics)
     };
 
     getTopics();
@@ -67,6 +68,6 @@ const styles = {
   },
   titleText: {
     fontSize: 15,
-    fontColor: 'white',
+    color: 'black',
   },
 };
