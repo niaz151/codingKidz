@@ -13,4 +13,5 @@ export type {
   Topic,
   TrueFalseQuestion,
   Unit,
+  Question
 } from './Models';

@@ -8,7 +8,7 @@ import {Text, View} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Unit, Question} from '../../utils';
+import {Unit} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
 
 export const UnitsPage = () => {
@@ -16,7 +16,6 @@ export const UnitsPage = () => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [units, setUnits] = useState<Unit[]>();
-  const [questions,setQuestions] = useState<Question[]>();
 
   useEffect(() => {
     const getUnits = async () => {
@@ -44,13 +43,12 @@ export const UnitsPage = () => {
     getUnits();
   }, [accessToken]);
 
-  const UnitTile = (_props: {unit: Unit; id: Number}) => {
-    const {unit, id} = _props;
-    console.log('tile id:', id);
+  const UnitTile = (_props: {unit: Unit; id: Number, unitNum:Number}) => {
+    const {unit, id, unitNum} = _props;
     return (
       <View style={styles.unitTileContainer}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Lessons', {id: id})}>
+          onPress={() => navigation.navigate('Lessons', {id: id, unitNum:unitNum})}>
           <Text style={styles.unitTileText}>{unit.name}</Text>
         </TouchableOpacity>
       </View>
@@ -65,7 +63,7 @@ export const UnitsPage = () => {
       {units ? (
         <View style={styles.unitsList}>
           {units.map((unit, index) => {
-            return <UnitTile unit={unit} key={index} id={unit.id} />;
+            return <UnitTile unit={unit} key={index} unitNum={index + 1} id={unit.id} />;
           })}
         </View>
       ) : (
