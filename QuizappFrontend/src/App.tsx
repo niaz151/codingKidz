@@ -61,7 +61,7 @@ const App = () => {
 
         // Set refresh token and exit early because useEffect
         // will be called again by changed refreshToken state
-        await dispatch(setRefreshToken(storedRefreshToken));
+        dispatch(setRefreshToken(storedRefreshToken));
         return;
       }
 
@@ -89,7 +89,7 @@ const App = () => {
 
   return (
     <>
-      <SafeAreaView style={{ flex:0, backgroundColor: '#FF671D' }} />
+      <SafeAreaView style={{flex: 0, backgroundColor: '#FF671D'}} />
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
           {accessToken ? (
@@ -98,39 +98,38 @@ const App = () => {
                 labelStyle: {
                   color: 'black',
                   fontSize: 14,
-                  
                 },
-                showLabel:false,
+                showLabel: false,
                 style: {
                   backgroundColor: '#FF671D',
                 },
               }}>
-              <Tab.Screen 
-                name="1" 
+              <Tab.Screen
+                name="1"
                 component={HomeStack}
                 options={{
-                  tabBarIcon: () => (<Icon name="home" size={25} />)
+                  tabBarIcon: () => <Icon name="home" size={25} />,
                 }}
               />
-              <Tab.Screen 
-                name="2" 
-                component={UnitsStack} 
+              <Tab.Screen
+                name="2"
+                component={UnitsStack}
                 options={{
-                  tabBarIcon: () => (<Icon name="folder-open" size={25} />)
+                  tabBarIcon: () => <Icon name="folder-open" size={25} />,
                 }}
               />
-              <Tab.Screen 
-                name="3" 
-                component={UnitsStack} 
+              <Tab.Screen
+                name="3"
+                component={UnitsStack}
                 options={{
-                  tabBarIcon: () => (<Icon name="notifications" size={25} />),
+                  tabBarIcon: () => <Icon name="notifications" size={25} />,
                 }}
               />
-              <Tab.Screen 
-                name="4" 
-                component={UnitsStack} 
+              <Tab.Screen
+                name="4"
+                component={UnitsStack}
                 options={{
-                  tabBarIcon: () => (<Icon name="settings" size={25} />),
+                  tabBarIcon: () => <Icon name="settings" size={25} />,
                 }}
               />
             </Tab.Navigator>
@@ -145,7 +144,7 @@ const App = () => {
 
 const styles = StyleSheet.create({
   viewStyles: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#FF671D',
   },
 });

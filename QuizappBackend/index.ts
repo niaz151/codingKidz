@@ -1,5 +1,6 @@
 import express, { json, urlencoded } from "express";
 import helmet from "helmet";
+import compression from "compression";
 
 import { router } from "./src/routes";
 
@@ -9,6 +10,9 @@ const app = express();
 
 // Sets a lot of secure defaults
 app.use(helmet());
+
+// Compresses responses
+app.use(compression());
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
