@@ -1,9 +1,9 @@
 import 'react-native-gesture-handler';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {AuthStack, UnitsStack, HomeStack} from './pages';
+import {AuthStack, UnitsStack, HomeStack, SettingsStack, NotificationsStack} from './pages';
 // import {useTokenContext} from './context';
 import {
   widthPercentageToDP as wp,
@@ -105,29 +105,29 @@ const App = () => {
                 },
               }}>
               <Tab.Screen
-                name="1"
+                name="Home"
                 component={HomeStack}
                 options={{
                   tabBarIcon: () => <Icon name="home" size={25} />,
                 }}
               />
               <Tab.Screen
-                name="2"
+                name="Units"
                 component={UnitsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="folder-open" size={25} />,
+                  tabBarIcon: () => <Icon name="library" size={25} />,
                 }}
               />
               <Tab.Screen
-                name="3"
-                component={UnitsStack}
+                name="Notifications"
+                component={NotificationsStack}
                 options={{
                   tabBarIcon: () => <Icon name="notifications" size={25} />,
                 }}
               />
               <Tab.Screen
-                name="4"
-                component={UnitsStack}
+                name="Settings"
+                component={SettingsStack}
                 options={{
                   tabBarIcon: () => <Icon name="settings" size={25} />,
                 }}
