@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Button} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {Topic, MultipleChoiceQuestion, TrueFalseQuestion} from '../../../utils';
@@ -18,7 +18,11 @@ export const LessonPage = () => {
   const [topics, setTopics] = useState<Topic[]>();
   const [MC_Questions,setMC_Questions] = useState<MultipleChoiceQuestion[]>();
   const [TF_Questions,setTF_Questions] = useState<TrueFalseQuestion[]>();
-  
+  const [currentQuestion, setCurrentQuestion] = useState<any>();
+
+  function nextQuestion(){
+
+  }
 
   async function getTopics(){
     return await axios
@@ -78,8 +82,9 @@ export const LessonPage = () => {
   return (
     <View style={styles.containerStyle}>
       <View style={styles.titleContainer}>
-        <Text style={styles.titleText}> Test </Text>
+        <Text style={styles.titleText}> Question Description </Text>
       </View>
+      <Button title="Next Question" />
     </View>
   );
 };
