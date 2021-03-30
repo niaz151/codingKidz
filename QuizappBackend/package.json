@@ -2,7 +2,7 @@
   "name": "QuizappBackend",
   "version": "0.0.1",
   "description": "Express backend for codingKIDZ Quizapp",
-  "main": "./src/index.ts",
+  "main": "./index.ts",
   "license": "MIT",
   "scripts": {
     "start": "nodemon index.ts",
