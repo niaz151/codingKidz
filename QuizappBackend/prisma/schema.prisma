@@ -7,8 +7,7 @@ datasource db {
 }
 
 generator client {
-  provider        = "prisma-client-js"
-  previewFeatures = ["createMany"]
+  provider = "prisma-client-js"
 }
 
 enum Role {
@@ -47,19 +46,19 @@ model Topic {
 }
 
 model MultipleChoiceQuestion {
-  id                Int    @id @default(autoincrement())
-  question          String
-  questionImage     Bytes?
-  correctAnswer     String
+  id                 Int    @id @default(autoincrement())
+  question           String
+  questionImage      Bytes?
+  correctAnswer      String
   correctAnswerImage Bytes?
-  wrongAnswer0      String
-  wrongAnswer0Image Bytes?
-  wrongAnswer1      String
-  wrongAnswer1Image Bytes?
-  wrongAnswer2      String
-  wrongAnswer2Image Bytes?
-  topic             Topic  @relation(fields: [topicId], references: [id])
-  topicId           Int
+  wrongAnswer0       String
+  wrongAnswer0Image  Bytes?
+  wrongAnswer1       String
+  wrongAnswer1Image  Bytes?
+  wrongAnswer2       String
+  wrongAnswer2Image  Bytes?
+  topic              Topic  @relation(fields: [topicId], references: [id])
+  topicId            Int
 }
 
 model TrueFalseQuestion {
