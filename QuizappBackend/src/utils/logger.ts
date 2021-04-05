@@ -1,5 +1,4 @@
 import winston from "winston";
-import expressWinston from "express-winston";
 
 const levels = {
   error: 0,
@@ -44,9 +43,9 @@ const transports = [
 
 const Logger = winston.createLogger({
   level: level(),
-  levels,
-  format,
-  transports,
+  levels: levels,
+  format: format,
+  transports: transports,
 });
 
 export default Logger;

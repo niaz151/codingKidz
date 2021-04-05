@@ -1,13 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { db, ROLES } from "../../prisma";
-import {
-  extractTokenFromRequest,
-  readAccessToken,
-  TokenContent,
-} from "../helpers";
+import { DataStoredInToken } from "../interfaces/auth.interface";
+import { ROLES } from "../prisma";
+import { TokenService } from "../services";
 import { ACCESS_JWT_SECRET, REFRESH_JWT_SECRET } from "../utils";
-import { Logger } from "../utils";
 
 const hasValidAccessToken = (
   req: Request,
@@ -15,7 +11,7 @@ const hasValidAccessToken = (
   next: NextFunction
 ) => {
   try {
-    const access_token = extractTokenFromRequest(req);
+    const access_token = TokenService.extractTokenFromRequest(req);
 
     jwt.verify(
       access_token,
@@ -62,14 +58,14 @@ const hasValidRefreshToken = (
   try {
     /* If the incoming request has a valid token, we extract the 
       payload from the token and attach it to the request object */
-    const refresh_token = extractTokenFromRequest(req);
+    const refresh_token = TokenService.extractTokenFromRequest(req);
 
     jwt.verify(
       refresh_token,
       REFRESH_JWT_SECRET,
       // eslint-disable-next-line @typescript-eslint/ban-types
       function (err: jwt.VerifyErrors | null, payload: object | undefined) {
-        const decoded = { ...payload } as TokenContent;
+        const decoded = { ...payload } as DataStoredInToken;
         if (err) {
           throw err;
         }
@@ -103,31 +99,26 @@ const hasValidRefreshToken = (
   }
 };
 
-// Accepts a list of acceptable roles for the route
-const hasRole = (roles: ROLES[]) => (
+const hasRoles = (roles: ROLES[]) => (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const access_token_contents = readAccessToken(extractTokenFromRequest(req));
+  const tokenData = TokenService.readAccessToken(
+    TokenService.extractTokenFromRequest(req)
+  );
 
-    const filteredRoles = roles.filter((role) => {
-      return access_token_contents.roles.includes(role);
-    });
+  const filteredRoles = roles.filter((role) => {
+    return tokenData.roles.includes(role);
+  });
 
-    if (filteredRoles.length > 0) {
-      return next();
-    }
-
-    return res.status(401).json({
-      message: "Access denied, you do not have the required permission",
-    });
-  } catch (error) {
-    return res.status(500).json({
-      error: "Error reading role",
-    });
+  if (filteredRoles.length > 0) {
+    return next();
   }
+
+  return res.status(401).json({
+    message: "Access denied, you do not have the required permission",
+  });
 };
 
-export { hasValidAccessToken, hasValidRefreshToken, hasRole };
+export default { hasValidAccessToken, hasValidRefreshToken, hasRoles };

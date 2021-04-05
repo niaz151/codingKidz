@@ -1,2 +1,2 @@
 export * from "./constants";
-export { default as Logger } from "./logger";
+export { default as logger } from "./logger";

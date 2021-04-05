@@ -1,1 +1,2 @@
-export { hasValidAccessToken, hasRole, hasValidRefreshToken } from "./AuthMiddleware";
+export { default as AuthMiddleware } from "./auth.middleware";
+export { default as ErrorMiddleware } from "./error.middleware";

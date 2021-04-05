@@ -5,6 +5,9 @@ import compression from "compression";
 import { router } from "./src/routes";
 
 import { PORT } from "./src/utils";
+import winston from "winston";
+import expressWinston from "express-winston";
+import { ErrorMiddleware } from "./src/middleware";
 
 const app = express();
 
@@ -17,11 +20,35 @@ app.use(compression());
 app.use(json());
 app.use(urlencoded({ extended: true }));
 
-// Logger
-// app.use(Logger);
+// Request Logger must be before routes are defined
+app.use(
+  expressWinston.logger({
+    transports: [new winston.transports.Console()],
+    format: winston.format.combine(
+      winston.format.colorize(),
+      winston.format.json()
+    ),
+    meta: false, // optional: control whether you want to log the meta data about the request (default to true)
+    msg: "HTTP {{req.method}} {{req.url}} {{res.responseTime}}ms", // optional: customize the default logging message. E.g. "{{res.statusCode}} {{req.method}} {{res.responseTime}}ms {{req.url}}"
+    expressFormat: true, // Use the default Express/morgan request formatting. Enabling this will override any msg if true. Will only output colors with colorize set to true
+    colorize: true, // Color the text and status code, using the Express/morgan color palette (text: gray, status: default green, 3XX cyan, 4XX yellow, 5XX red).
+  })
+);
 
 // Use routes defined in ./routes/index/ts
 app.use("/", router);
+
+// Error logger must be after routes are defined
+app.use(ErrorMiddleware.errorMiddleware);
+// app.use(
+//   expressWinston.errorLogger({
+//     transports: [new winston.transports.Console()],
+//     format: winston.format.combine(
+//       winston.format.colorize(),
+//       winston.format.json()
+//     ),
+//   })
+// );
 
 // Display message upon server startup
 app.listen(PORT, () => {
