@@ -2,7 +2,11 @@ import { Router } from "express";
 import { body, param, validationResult } from "express-validator";
 
 import { AuthMiddleware, ErrorMiddleware } from "../middleware";
-import { QuestionController, TopicController, UnitController } from "../controllers";
+import {
+  QuestionController,
+  TopicController,
+  UnitController,
+} from "../controllers";
 
 import { db } from "../prisma";
 import { UnitValidator } from "../validators";
@@ -84,89 +88,63 @@ unitRouter
   .delete(TopicController.deleteTopic);
 
 unitRouter
+  .route("/:unitId/topic/:topicId/question")
+  .all(
+    param("unitId").custom(UnitValidator.isValidUnitID),
+    param("topicId").custom(UnitValidator.isValidTopicID),
+    ErrorMiddleware.checkForValidationErrors
+  )
+  // Get questions for a specific topic
+  .get(QuestionController.getQuestionsByTopicID);
+
+unitRouter
   .route("/:unitId/topic/:topicId/question/multiplechoice")
   .all(
     param("unitId").custom(UnitValidator.isValidUnitID),
     param("topicId").custom(UnitValidator.isValidTopicID),
-    ErrorMiddleware.checkForValidationErrors,
+    ErrorMiddleware.checkForValidationErrors
   )
-  // Get questions for a specific topic
-  .get(QuestionController.getQuestionsByTopicID)
-  // Create question
   .post(
+    // Create question
     body("question"),
-    body("questionImage"),
+    body("questionImage").optional(),
     body("correctAnswer"),
-    body("correctAnswerImage"),
+    body("correctAnswerImage").optional(),
     body("wrongAnswer0"),
-    body("wrongAnswer0Image"),
+    body("wrongAnswer0Image").optional(),
     body("wrongAnswer1"),
-    body("wrongAnswer1Image"),
+    body("wrongAnswer1Image").optional(),
     body("wrongAnswer2"),
-    body("wrongAnswer2Image"),
+    body("wrongAnswer2Image").optional(),
     ErrorMiddleware.checkForValidationErrors,
-    QuestionController.
+    QuestionController.createMultipleChoiceQuestion
+  );
+
+unitRouter
+  .route("/:unitId/topic/:topicId/question/truefalse")
+  .all(
+    param("unitId").custom(UnitValidator.isValidUnitID),
+    param("topicId").custom(UnitValidator.isValidTopicID),
+    ErrorMiddleware.checkForValidationErrors
+  )
+  .post(
+    // Create question
+    body("question"),
+    body("questionImage").optional(),
+    body("correctAnswer"),
+    ErrorMiddleware.checkForValidationErrors,
+    QuestionController.createTrueFalseQuestion
   );
 
 unitRouter
   .route("/:unitId/topic/:topicId/question/:questionId")
   .all(
-    param("unitId").isInt(),
-    param("topicId").isInt(),
+    param("unitId").custom(UnitValidator.isValidUnitID),
+    param("topicId").custom(UnitValidator.isValidTopicID),
     param("questionId").isInt(),
-    async (req, res, next) => {
-      const errors = validationResult(req);
-      if (!errors.isEmpty()) {
-        return res.status(400).json({
-          errors: errors.array(),
-        });
-      }
-
-      const { unitId, topicId, questionId } = req.params;
-
-      const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
-
-      if (!unit) {
-        return res.status(400).json({
-          error: "Unit not found",
-        });
-      }
-
-      const topic = await db.topic.findUnique({
-        where: { id: Number(topicId) },
-      });
-
-      if (!topic) {
-        return res.status(400).json({
-          error: "Topic not found",
-        });
-      }
-
-      // TODO check question ID
-
-      return next();
-    }
+    ErrorMiddleware.checkForValidationErrors
   )
   // Delete question
-  .delete(async (req, res) => {
-    const { unitId, topicId, questionId } = req.params;
-
-    // const disconnectFromTopics = await db.topic.update({
-    //   where: {
-    //     id: Number(topicId)
-    //   },
-    //   data: {
-    //     multipleChoiceQuestions: {
-    //       disconnect: {
-    //         id: Number(questionId)
-    //       }
-    //     }
-    //   }
-    // });
-
-    return res.status(200).json({
-      message: "Successfully deleted question (not really)",
-    });
-  });
+  .delete(QuestionController.deleteQuestion);
 
 export { unitRouter };

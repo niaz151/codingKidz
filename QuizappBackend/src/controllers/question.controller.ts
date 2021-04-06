@@ -1,3 +1,4 @@
+import { TrueFalseQuestion } from ".prisma/client";
 import { NextFunction, Request, Response } from "express";
 import { QuestionService } from "../services";
 
@@ -33,7 +34,7 @@ const createTrueFalseQuestion = async (
     const { topicId } = req.params;
     const { question, questionImage, correctAnswer } = req.body;
 
-    const newQuestion = await QuestionService.createTrueFalseQuestion(
+    const updatedUnit = await QuestionService.createTrueFalseQuestion(
       Number(topicId),
       {
         question: question,
@@ -41,6 +42,11 @@ const createTrueFalseQuestion = async (
         correctAnswer: correctAnswer,
       }
     );
+
+    return res.status(200).json({
+      message: "Successfully created question",
+      updatedUnit: updatedUnit,
+    });
   } catch (error) {
     return next(error);
   }
@@ -87,8 +93,30 @@ const createMultipleChoiceQuestion = async (
   }
 };
 
+const deleteQuestion = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { topicId, questionId } = req.params;
+    const updatedUnit = await QuestionService.deleteQuestion(
+      Number(topicId),
+      Number(questionId)
+    );
+
+    return res.status(200).json({
+      message: "Successfully deleted question",
+      updatedUnit: updatedUnit,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export default {
   getQuestionsByTopicID,
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
+  deleteQuestion
 };

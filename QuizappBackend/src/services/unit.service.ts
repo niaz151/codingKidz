@@ -1,4 +1,4 @@
-import { Topic, Unit } from ".prisma/client";
+import { Topic, Unit } from "@prisma/client";
 import { db } from "../prisma";
 
 const createUnit = async (name: Unit["name"], number: Unit["number"]) => {

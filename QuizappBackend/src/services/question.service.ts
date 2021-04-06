@@ -1,9 +1,8 @@
 import {
   MultipleChoiceQuestion,
   Topic,
-  TrueFalseQuestion
-} from ".prisma/client";
-import { nextTick } from "node:process";
+  TrueFalseQuestion,
+} from "@prisma/client";
 import { db } from "../prisma";
 
 const getQuestionsByTopicID = async (topicId: Topic["id"]) => {
@@ -27,7 +26,8 @@ const getQuestionsByTopicID = async (topicId: Topic["id"]) => {
 
 const createTrueFalseQuestion = async (
   topicId: Topic["id"],
-  question: TrueFalseQuestion
+  question: Pick<TrueFalseQuestion, "question" | "correctAnswer"> &
+    Partial<Pick<TrueFalseQuestion, "questionImage">>
 ) => {
   return await db.topic.update({
     where: {
@@ -42,40 +42,45 @@ const createTrueFalseQuestion = async (
         },
       },
     },
+    include: {
+      trueFalseQuestions: true,
+    },
   });
 };
 
 const createMultipleChoiceQuestion = async (
   topicId: Topic["id"],
-  question: MultipleChoiceQuestion
+  question: Pick<
+    MultipleChoiceQuestion,
+    | "question"
+    | "correctAnswer"
+    | "wrongAnswer0"
+    | "wrongAnswer1"
+    | "wrongAnswer2"
+  > &
+    Partial<
+      Pick<
+        MultipleChoiceQuestion,
+        | "questionImage"
+        | "correctAnswerImage"
+        | "wrongAnswer0Image"
+        | "wrongAnswer1Image"
+        | "wrongAnswer2Image"
+      >
+    >
 ) => {
-  const updatedTopic = await db.topic.update({
+  return await db.topic.update({
     where: {
       id: Number(topicId),
     },
     data: {
       multipleChoiceQuestions: {
         create: {
-          question: question,
-          ...(question.questionImage && {
-            questionImage: question.questionImage,
-          }),
+          question: question.question,
           correctAnswer: question.correctAnswer,
-          ...(question.correctAnswerImage && {
-            correctAnswerImage: question.correctAnswerImage,
-          }),
           wrongAnswer0: question.wrongAnswer0,
-          ...(question.wrongAnswer0Image && {
-            wrongAnswer0Image: question.wrongAnswer0Image,
-          }),
           wrongAnswer1: question.wrongAnswer1,
-          ...(question.wrongAnswer1Image && {
-            wrongAnswer1Image: question.wrongAnswer1Image,
-          }),
           wrongAnswer2: question.wrongAnswer2,
-          ...(question.wrongAnswer2Image && {
-            wrongAnswer2Image: question.wrongAnswer2Image,
-          }),
         },
       },
     },
@@ -85,8 +90,32 @@ const createMultipleChoiceQuestion = async (
   });
 };
 
+const deleteQuestion = async (
+  topicId: Topic["id"],
+  questionId: MultipleChoiceQuestion["id"] | TrueFalseQuestion["id"]
+) => {
+  return await db.topic.update({
+    where: {
+      id: topicId,
+    },
+    data: {
+      multipleChoiceQuestions: {
+        delete: {
+          id: questionId,
+        },
+      },
+      trueFalseQuestions: {
+        delete: {
+          id: questionId,
+        },
+      },
+    },
+  });
+};
+
 export default {
   getQuestionsByTopicID,
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
+  deleteQuestion
 };
