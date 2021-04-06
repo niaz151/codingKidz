@@ -23,3 +23,6 @@ yarn-error.log*
 # Docker
 docker-local/postgres-data
 !docker-local/postgres-data/postgresql.conf
+
+# Winston logs
+logs/**
