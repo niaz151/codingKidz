@@ -12,12 +12,14 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 export const store = configureStore({
   reducer: rootReducer,
-  middleware: (getDefaultMiddleware) => {
-    return [...getDefaultMiddleware(), require('redux-flipper').default];
-  },
+  // TODO Fix middleware typing bug preventing proper dispatches
+  // middleware: (getDefaultMiddleware) => {
+  //   return [...getDefaultMiddleware(), require('redux-flipper').default];
+  // },
 });
 
-export type AppDispatch = typeof store.dispatch;
+type AppDispatch = typeof store.dispatch;
+type AppThunk = ThunkAction<void, RootState, unknown, Action>;
+
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
-export type AppThunk = ThunkAction<void, RootState, unknown, Action>;
