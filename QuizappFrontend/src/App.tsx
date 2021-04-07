@@ -21,12 +21,7 @@ import {
   NotificationsStack,
 } from './pages';
 import {store, useAppDispatch, useAppSelector} from './ducks/store';
-import {
-  logout,
-  refreshTokens,
-  restoreRefreshToken,
-  setRefreshToken,
-} from './ducks/authSlice';
+import {logout, refreshTokens, restoreRefreshToken} from './ducks/authSlice';
 
 import {isTokenExpired} from './utils';
 
@@ -39,23 +34,37 @@ const App = () => {
   const refreshToken = useAppSelector((state) => state.userReducer.accessToken);
 
   // Manage JWTs, render based on auth
-  useEffect(() => {
-    switch (authStatus) {
-      // idle on startup, try to restore tokens from storage
-      case 'idle':
-        dispatch(restoreRefreshToken());
-        break;
-      case 'succeeded':
-        if (isTokenExpired(refreshToken)) {
-          dispatch(logout());
-        }
-        break;
-      // if failed force a logout
-      case 'failed':
-        dispatch(logout());
-        break;
-    }
-  }, [authStatus, dispatch, refreshToken, accessToken]);
+  // useEffect(() => {
+  //   console.log('running useEffect');
+  //   switch (authStatus) {
+  //     // idle on startup, try to restore tokens from storage
+  //     case 'idle':
+  //       console.log('idle status');
+  //       dispatch(restoreRefreshToken());
+  //       break;
+  //     case 'succeeded':
+  //       console.log('succeeded status');
+  //       // Shouldn't happen but adding it to make them defined below
+  //       if (accessToken === null || refreshToken === null) {
+  //         dispatch(logout());
+  //         break;
+  //       }
+
+  //       if (isTokenExpired(accessToken)) {
+  //         // Refresh tokens if access token is expired
+  //         dispatch(refreshTokens(refreshToken));
+  //       } else if (isTokenExpired(refreshToken)) {
+  //         // Force logout if refresh token is expired
+  //         dispatch(logout());
+  //       }
+  //       break;
+  //     // if failed force a logout
+  //     case 'failed':
+  //       console.log('failed status');
+  //       dispatch(logout());
+  //       break;
+  //   }
+  // }, [authStatus, dispatch, refreshToken, accessToken]);
 
   const Tab = createBottomTabNavigator();
 
