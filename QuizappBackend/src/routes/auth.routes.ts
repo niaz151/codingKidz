@@ -43,4 +43,4 @@ authRouter.get(
   AuthController.listUsers
 );
 
-export { authRouter };
+export default authRouter;

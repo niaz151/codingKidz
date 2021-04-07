@@ -81,6 +81,24 @@ const deleteUser = async (userId: User["id"]) => {
   return user;
 };
 
+const uploadAvatar = async (userId: User["id"], avatar: Buffer) => {
+  return await db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      profile: {
+        update: {
+          avatar: avatar,
+        },
+      },
+    },
+    include: {
+      profile: true,
+    },
+  });
+};
+
 export default {
   findAllUsers,
   findUserByEmail,
@@ -88,4 +106,5 @@ export default {
   createUser,
   updatePassword,
   deleteUser,
+  uploadAvatar
 };

@@ -26,6 +26,14 @@ model User {
   email    String @unique
   password String
   roles    Role[]
+  profile Profile?
+}
+
+model Profile {
+  id       Int    @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  avatar Bytes
 }
 
 model Unit {
