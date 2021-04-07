@@ -32,14 +32,15 @@ const login = createAsyncThunk(
       })
       .then(
         async (response) => {
-          await storeRefreshTokenInStorage(response.data.refresh_token);
+          await storeRefreshTokenInStorage(response.data.refreshToken);
 
           return {
-            accessToken: String(response.data.access_token),
-            refreshToken: String(response.data.refresh_token),
+            accessToken: String(response.data.accessToken),
+            refreshToken: String(response.data.refreshToken),
           };
         },
         (error: AxiosError) => {
+          console.log('REJECTING LOGIN WITH ERROR', error);
           return thunkAPI.rejectWithValue(error);
         },
       );
@@ -66,11 +67,11 @@ const register = createAsyncThunk<
       })
       .then(
         async (response) => {
-          await storeRefreshTokenInStorage(response.data.refresh_token);
+          await storeRefreshTokenInStorage(response.data.refreshToken);
 
           return {
-            accessToken: String(response.data.access_token),
-            refreshToken: String(response.data.refresh_token),
+            accessToken: String(response.data.accessToken),
+            refreshToken: String(response.data.refreshToken),
           };
         },
         (error) => {
@@ -98,7 +99,7 @@ const refreshTokens = createAsyncThunk(
   'user/refreshTokens',
   async (refreshToken: string, _thunkAPI) => {
     return await axios
-      .get('http://localhost:8000/api/auth/refresh_token', {
+      .get('http://localhost:8000/api/auth/refreshToken', {
         headers: {
           headers: {
             Authorization: `Bearer ${refreshToken}`,
@@ -106,11 +107,11 @@ const refreshTokens = createAsyncThunk(
         },
       })
       .then((response) => {
-        storeRefreshTokenInStorage(response.data.refresh_token);
+        storeRefreshTokenInStorage(response.data.refreshToken);
 
         return {
-          accessToken: String(response.data.access_token),
-          refreshToken: String(response.data.refresh_token),
+          accessToken: String(response.data.accessToken),
+          refreshToken: String(response.data.refreshToken),
         };
       });
   },

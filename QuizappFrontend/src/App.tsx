@@ -4,19 +4,22 @@ import React, {useEffect} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Ionicon from 'react-native-vector-icons/Ionicons';
+import {Text} from 'react-native-paper';
+import {Provider} from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
+
+import {
   AuthStack,
   UnitsStack,
   HomeStack,
   SettingsStack,
   NotificationsStack,
 } from './pages';
-// import {useTokenContext} from './context';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Ionicon from 'react-native-vector-icons/Ionicons';
 import {store, useAppDispatch, useAppSelector} from './ducks/store';
 import {
   logout,
@@ -24,9 +27,8 @@ import {
   restoreRefreshToken,
   setRefreshToken,
 } from './ducks/authSlice';
-import {Text} from 'react-native-paper';
-import {Provider} from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
+
+import {isTokenExpired} from './utils';
 
 Ionicon.loadFont();
 
@@ -43,59 +45,17 @@ const App = () => {
       case 'idle':
         dispatch(restoreRefreshToken());
         break;
+      case 'succeeded':
+        if (isTokenExpired(refreshToken)) {
+          dispatch(logout());
+        }
+        break;
       // if failed force a logout
       case 'failed':
         dispatch(logout());
         break;
     }
-  }, [authStatus, dispatch, refreshToken]);
-
-  // useEffect(() => {
-  //   console.log('running useEffect');
-  //   // Workaround to use async functions in useEffect by defining
-  //   // them inside useEffect and calling them at the end
-
-  //   const checkOrGetTokens = async () => {
-  //     // If we have a valid access token, no need to do anything else
-  //     if (accessToken && !isTokenExpired(accessToken)) {
-  //       return;
-  //     }
-
-  //     // Check for refresh token because we need to get a new access token
-  //     if (!accessToken || !refreshToken) {
-  //       const storedRefreshToken = await getRefreshTokenFromStorage();
-  //       if (!storedRefreshToken) {
-  //         // No stored refresh token, remove any access token that
-  //         // may exist and exit so user is sent to auth stack
-  //         dispatch(logout());
-  //         return;
-  //       }
-
-  //       // Set refresh token and exit early because useEffect
-  //       // will be called again by changed refreshToken state
-  //       dispatch(setRefreshToken(storedRefreshToken));
-  //       return;
-  //     }
-
-  //     // If we have a refresh token, make sure it's not expired, if
-  //     // it is log us out
-  //     if (isTokenExpired(refreshToken)) {
-  //       dispatch(logout());
-  //       return;
-  //     }
-
-  //     // Now that we know we have a valid refresh token, refresh both
-  //     // tokens
-  //     // TODO (Backend) Only refresh access token, have different
-  //     // endpoint to fetch new refresh and access tokens
-  //     if (isTokenExpired(accessToken)) {
-  //       dispatch(refreshTokens(refreshToken));
-  //       return;
-  //     }
-  //   };
-
-  //   checkOrGetTokens();
-  // }, [accessToken, dispatch, refreshToken]);
+  }, [authStatus, dispatch, refreshToken, accessToken]);
 
   const Tab = createBottomTabNavigator();
 
