@@ -1,20 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, FlatList, Alert} from 'react-native';
+import React from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import axios from 'axios';
 import {useAppSelector} from '../../ducks/store';
+import {readToken} from '../../utils';
 
 export const HomePage = () => {
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
+  const {email} = readToken(accessToken);
 
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
         <Text style={[styles.welcomeText, styles.bold]}> WELCOME </Text>
-        <Text style={styles.welcomeText}> niaz151@gmail.com !</Text>
+        <Text style={styles.welcomeText}> {email}</Text>
       </View>
       <View style={styles.languageWrap}>
         <Text style={[styles.languagePrompt, styles.bold]}>

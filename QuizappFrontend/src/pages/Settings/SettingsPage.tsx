@@ -5,15 +5,26 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import axios from 'axios';
-import {useAppSelector} from '../../ducks/store';
+import {useAppDispatch} from '../../ducks/store';
+import {logout} from '../../ducks/authSlice';
+import {Button} from 'react-native-paper';
 
 export const SettingsPage = () => {
+  const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
-        <Text style={[styles.welcomeText, styles.bold]}> Settings will be here </Text>
+        <Text style={[styles.welcomeText, styles.bold]}>
+          {' '}
+          Settings will be here{' '}
+        </Text>
       </View>
+      <Button onPress={handleLogout}>Logout</Button>
     </View>
   );
 };
