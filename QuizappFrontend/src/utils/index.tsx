@@ -1,5 +1,5 @@
 export {
-  refreshTokens,
+  readToken,
   isTokenExpired,
   getRefreshTokenFromStorage,
   removeRefreshTokenFromStorage,
@@ -13,5 +13,4 @@ export type {
   Topic,
   TrueFalseQuestion,
   Unit,
-  Question
 } from './Models';
