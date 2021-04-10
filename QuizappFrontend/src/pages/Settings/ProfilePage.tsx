@@ -1,28 +1,20 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, Text, View, FlatList, Alert} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useAppSelector} from '../../ducks/store';
-import {TokenService} from '../../services';
+import axios from 'axios';
+import {useAppDispatch} from '../../ducks/store';
+import {logout} from '../Auth/authSlice';
+import {Button} from 'react-native-paper';
 
-export const HomePage = () => {
-  const accessToken = useAppSelector((state) => state.userReducer.accessToken);
-  const {email} = TokenService.readToken(accessToken);
+const ProfilePage = () => {
+  const dispatch = useAppDispatch();
 
   return (
     <View style={styles.container}>
-      <View style={styles.welcomeWrap}>
-        <Text style={[styles.welcomeText, styles.bold]}> WELCOME </Text>
-        <Text style={styles.welcomeText}> {email}</Text>
-      </View>
-      <View style={styles.languageWrap}>
-        <Text style={[styles.languagePrompt, styles.bold]}>
-          {' '}
-          WHAT LANGUAGE DO YOU WANT TO LEARN TODAY?{' '}
-        </Text>
-      </View>
+      <Text>Profile</Text>
     </View>
   );
 };
@@ -62,3 +54,5 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
   },
 });
+
+export default ProfilePage;

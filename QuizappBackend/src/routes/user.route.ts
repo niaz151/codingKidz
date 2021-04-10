@@ -1,11 +1,9 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 
-import { Role } from "@prisma/client";
 import { AuthMiddleware, ErrorMiddleware, UserMiddleware } from "../middleware";
-import { AuthController, QuestionController, UserController } from "../controllers";
+import { UserController } from "../controllers";
 
-import multer from "multer";
 import { UserValidator } from "../validators";
 
 
@@ -14,11 +12,18 @@ const userRouter = Router();
 
 userRouter.route("/").all(AuthMiddleware.hasValidAccessToken);
 
-userRouter.post(
-  "/:id/profile/avatar",
-  param("id").custom(UserValidator.isValidUserID),
-  UserMiddleware.upload.single("avatar"),
+userRouter.get(
+  "/:userId/profile",
+  param("userId").custom(UserValidator.isValidUserID),
   ErrorMiddleware.checkForValidationErrors,
+  UserController.getProfile
+);
+
+userRouter.post(
+  "/:userId/profile/avatar",
+  param("userId").custom(UserValidator.isValidUserID),
+  ErrorMiddleware.checkForValidationErrors,
+  UserMiddleware.upload.single("avatar"),
   UserController.uploadAvatar
 );
 

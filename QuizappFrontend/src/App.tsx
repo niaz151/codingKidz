@@ -21,7 +21,7 @@ import {
   NotificationsStack,
 } from './pages';
 import {store, useAppDispatch, useAppSelector} from './ducks/store';
-import {logout, refreshTokens, restoreRefreshToken} from './ducks/authSlice';
+import {logout, refreshTokens, restoreRefreshToken} from './pages/Auth/authSlice';
 
 import {isTokenExpired} from './utils';
 

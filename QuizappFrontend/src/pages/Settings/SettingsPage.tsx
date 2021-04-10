@@ -6,14 +6,20 @@ import {
 } from 'react-native-responsive-screen';
 import axios from 'axios';
 import {useAppDispatch} from '../../ducks/store';
-import {logout} from '../../ducks/authSlice';
+import {logout} from '../Auth/authSlice';
 import {Button} from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
 
-export const SettingsPage = () => {
+const SettingsPage = () => {
   const dispatch = useAppDispatch();
+  const navigation = useNavigation();
 
   const handleLogout = () => {
     dispatch(logout());
+  };
+
+  const goToProfilePage = () => {
+    navigation.navigate('Profile');
   };
 
   return (
@@ -24,6 +30,7 @@ export const SettingsPage = () => {
           Settings will be here{' '}
         </Text>
       </View>
+      <Button onPress={goToProfilePage}>Go to Profile</Button>
       <Button onPress={handleLogout}>Logout</Button>
     </View>
   );
@@ -64,3 +71,5 @@ const styles = StyleSheet.create({
     paddingLeft: 2,
   },
 });
+
+export default SettingsPage;

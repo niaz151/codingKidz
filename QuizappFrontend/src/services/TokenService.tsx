@@ -11,7 +11,7 @@ interface TokenContents {
   exp: number;
 }
 
-export const readToken = (token: string) => {
+const readToken = (token: string) => {
   try {
     return JSON.parse(
       Buffer.from(token.split('.')[1], 'base64').toString(),
@@ -21,7 +21,7 @@ export const readToken = (token: string) => {
   }
 };
 
-export const isTokenExpired = (token: string) => {
+const isTokenExpired = (token: string) => {
   const decodedToken = readToken(token);
 
   // token exp time is measured in seconds not milliseconds
@@ -30,7 +30,7 @@ export const isTokenExpired = (token: string) => {
   return Number(decodedToken.exp) < currentTimeInUnixSeconds;
 };
 
-export const storeRefreshTokenInStorage = async (token: string) => {
+const storeRefreshTokenInStorage = async (token: string) => {
   try {
     return await AsyncStorage.setItem('@refreshToken', token);
   } catch (error) {
@@ -38,7 +38,7 @@ export const storeRefreshTokenInStorage = async (token: string) => {
   }
 };
 
-export const getRefreshTokenFromStorage = async () => {
+const getRefreshTokenFromStorage = async () => {
   try {
     const storedRefreshToken = await AsyncStorage.getItem('@refreshToken');
     if (storedRefreshToken) {
@@ -50,10 +50,18 @@ export const getRefreshTokenFromStorage = async () => {
   }
 };
 
-export const removeRefreshTokenFromStorage = async () => {
+const removeRefreshTokenFromStorage = async () => {
   try {
     return await AsyncStorage.removeItem('@refreshToken');
   } catch (error) {
     throw new Error(`AsyncStorage Error: ${error}`);
   }
+};
+
+export default {
+  readToken,
+  isTokenExpired,
+  storeRefreshTokenInStorage,
+  getRefreshTokenFromStorage,
+  removeRefreshTokenFromStorage,
 };

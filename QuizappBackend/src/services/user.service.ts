@@ -88,10 +88,29 @@ const uploadAvatar = async (userId: User["id"], avatar: Buffer) => {
     },
     data: {
       profile: {
-        update: {
-          avatar: avatar,
+        upsert: {
+          create: {
+            avatar: avatar,
+          },
+          update: {
+            avatar: avatar,
+          },
         },
+        // update: {
+        //   avatar: avatar,
+        // },
       },
+    },
+    include: {
+      profile: true,
+    },
+  });
+};
+
+const getProfile = async (userId: User["id"]) => {
+  return await db.user.findUnique({
+    where: {
+      id: userId,
     },
     include: {
       profile: true,
@@ -106,5 +125,6 @@ export default {
   createUser,
   updatePassword,
   deleteUser,
-  uploadAvatar
+  uploadAvatar,
+  getProfile,
 };

@@ -11,7 +11,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Roles} from '../../utils';
 
-import {register} from '../../ducks/authSlice';
+import {register} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
 
 const RegisterPage = (props: {

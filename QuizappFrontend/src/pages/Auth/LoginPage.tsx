@@ -7,7 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {login} from '../../ducks/authSlice';
+import {login} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
 
 const LoginPage = () => {

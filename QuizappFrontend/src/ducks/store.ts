@@ -4,7 +4,7 @@ import {ThunkAction} from 'redux-thunk';
 
 import {combineReducers} from '@reduxjs/toolkit';
 
-import userReducer from './authSlice';
+import userReducer from '../pages/Auth/authSlice';
 
 const rootReducer = combineReducers({userReducer});
 

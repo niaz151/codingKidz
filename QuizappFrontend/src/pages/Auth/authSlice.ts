@@ -1,12 +1,8 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import axios, {AxiosError} from 'axios';
-import {
-  getRefreshTokenFromStorage,
-  removeRefreshTokenFromStorage,
-  Roles,
-  storeRefreshTokenInStorage,
-} from '../utils';
+import {TokenService} from '../../services';
+import {Roles} from '../../utils';
 
 interface StateType {
   accessToken: string | null;
@@ -32,7 +28,9 @@ const login = createAsyncThunk(
       })
       .then(
         async (response) => {
-          await storeRefreshTokenInStorage(response.data.refreshToken);
+          await TokenService.storeRefreshTokenInStorage(
+            response.data.refreshToken,
+          );
 
           return {
             accessToken: String(response.data.accessToken),
@@ -67,7 +65,9 @@ const register = createAsyncThunk<
       })
       .then(
         async (response) => {
-          await storeRefreshTokenInStorage(response.data.refreshToken);
+          await TokenService.storeRefreshTokenInStorage(
+            response.data.refreshToken,
+          );
 
           return {
             accessToken: String(response.data.accessToken),
@@ -107,7 +107,7 @@ const refreshTokens = createAsyncThunk(
         },
       })
       .then((response) => {
-        storeRefreshTokenInStorage(response.data.refreshToken);
+        TokenService.storeRefreshTokenInStorage(response.data.refreshToken);
 
         return {
           accessToken: String(response.data.accessToken),
@@ -118,13 +118,13 @@ const refreshTokens = createAsyncThunk(
 );
 
 const logout = createAsyncThunk('user/logout', async ({}, _thunkAPI) => {
-  return await removeRefreshTokenFromStorage();
+  return await TokenService.removeRefreshTokenFromStorage();
 });
 
 const restoreRefreshToken = createAsyncThunk(
   'user/restoreToken',
   async ({}, thunkAPI) => {
-    const storedToken = await getRefreshTokenFromStorage();
+    const storedToken = await TokenService.getRefreshTokenFromStorage();
     if (storedToken) {
       return storedToken;
     } else {
