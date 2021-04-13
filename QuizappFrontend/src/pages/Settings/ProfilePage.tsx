@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {Alert, StyleSheet, Text, View} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -7,41 +7,110 @@ import {
 import {Avatar, Button} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {logout} from '../Auth/authSlice';
 
 import {getProfile} from './settingsSlice';
+import {Profile} from '../../utils/Models';
+import {Buffer} from 'buffer';
+import {TokenService} from '../../services';
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
   const avatar = useAppSelector(
     (state) => state.settingsReducer.profile?.avatar,
   );
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  const userId = accessToken
+    ? TokenService.readToken(accessToken).id
+    : undefined;
   const settingsStatus = useAppSelector(
     (state) => state.settingsReducer.status,
   );
 
+  const [fetchedImage, setFetchedImage] = useState<string>();
+  const [uploadError, setUploadError] = useState<string>();
+
   useEffect(() => {
-    console.log('useEffect profilepage');
-    if (settingsStatus === 'idle') {
-      dispatch(getProfile({}));
+    const fetchAvatar = async () => {
+      return await axios
+        .get(`http://localhost:8000/api/user/${userId}/profile`, {
+          headers: {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'multipart/form-data; ',
+            },
+          },
+        })
+        .then(
+          (response) => {
+            Alert.alert(response.data);
+            setFetchedImage(
+              Buffer.from(response.data.user.profile.avatar.data).toString(
+                'base64',
+              ),
+            );
+          },
+          (error: AxiosError) => {
+            setUploadError(error.message);
+          },
+        );
+    };
+
+    fetchAvatar();
+  }, [accessToken, userId]);
+
+  const selectImage = async () => {
+    try {
+      const res = await DocumentPicker.pick({
+        type: [DocumentPicker.types.images],
+      });
+      console.log(
+        res.uri,
+        res.type, // mime type
+        res.name,
+        res.size,
+      );
+    } catch (err) {
+      if (DocumentPicker.isCancel(err)) {
+        // User cancelled the picker, exit any dialogs or menus and move on
+      } else {
+        throw err;
+      }
     }
-  }, [dispatch, settingsStatus]);
+  };
 
   return (
     <View style={styles.container}>
       <View>
+        <Text>Fetched image</Text>
+        {fetchedImage ? (
+          <Avatar.Image
+            size={100}
+            source={{
+              uri: 'data:image/jpeg;base64,' + fetchedImage,
+            }}
+          />
+        ) : (
+          <Text>Loading image...</Text>
+        )}
+      </View>
+      <View>
+        <Text>Avatar image</Text>
         {avatar ? (
           <Avatar.Image
             size={100}
             source={{
-              uri: 'data:image/jpeg;base64,' + avatar?.toString('base64'),
+              uri: 'data:image/jpeg;base64,' + avatar.toString('base64'),
             }}
           />
         ) : (
           <Text>Upload an avatar!</Text>
         )}
+      </View>
+      <View>
+        <Button onPress={selectImage}>Upload new avatar...</Button>
       </View>
     </View>
   );

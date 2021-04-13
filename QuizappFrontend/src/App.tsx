@@ -9,7 +9,6 @@ import {
 } from 'react-native-responsive-screen';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {Text} from 'react-native-paper';
 import {Provider} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -26,8 +25,6 @@ import {
   refreshTokens,
   restoreRefreshToken,
 } from './pages/Auth/authSlice';
-
-import {isTokenExpired} from './utils';
 
 Ionicon.loadFont();
 
