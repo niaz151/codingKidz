@@ -4,9 +4,13 @@ import {ThunkAction} from 'redux-thunk';
 
 import {combineReducers} from '@reduxjs/toolkit';
 
-import userReducer from '../pages/Auth/authSlice';
+import authReducer from '../pages/Auth/authSlice';
+import settingsReducer from '../pages/Settings/settingsSlice';
 
-const rootReducer = combineReducers({userReducer});
+const rootReducer = combineReducers({
+  authReducer: authReducer,
+  settingsReducer: settingsReducer,
+});
 
 export type RootState = ReturnType<typeof rootReducer>;
 

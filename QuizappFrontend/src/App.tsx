@@ -21,7 +21,11 @@ import {
   NotificationsStack,
 } from './pages';
 import {store, useAppDispatch, useAppSelector} from './ducks/store';
-import {logout, refreshTokens, restoreRefreshToken} from './pages/Auth/authSlice';
+import {
+  logout,
+  refreshTokens,
+  restoreRefreshToken,
+} from './pages/Auth/authSlice';
 
 import {isTokenExpired} from './utils';
 
@@ -29,42 +33,9 @@ Ionicon.loadFont();
 
 const App = () => {
   const dispatch = useAppDispatch();
-  const authStatus = useAppSelector((state) => state.userReducer.status);
-  const accessToken = useAppSelector((state) => state.userReducer.accessToken);
-  const refreshToken = useAppSelector((state) => state.userReducer.accessToken);
-
-  // Manage JWTs, render based on auth
-  // useEffect(() => {
-  //   console.log('running useEffect');
-  //   switch (authStatus) {
-  //     // idle on startup, try to restore tokens from storage
-  //     case 'idle':
-  //       console.log('idle status');
-  //       dispatch(restoreRefreshToken());
-  //       break;
-  //     case 'succeeded':
-  //       console.log('succeeded status');
-  //       // Shouldn't happen but adding it to make them defined below
-  //       if (accessToken === null || refreshToken === null) {
-  //         dispatch(logout());
-  //         break;
-  //       }
-
-  //       if (isTokenExpired(accessToken)) {
-  //         // Refresh tokens if access token is expired
-  //         dispatch(refreshTokens(refreshToken));
-  //       } else if (isTokenExpired(refreshToken)) {
-  //         // Force logout if refresh token is expired
-  //         dispatch(logout());
-  //       }
-  //       break;
-  //     // if failed force a logout
-  //     case 'failed':
-  //       console.log('failed status');
-  //       dispatch(logout());
-  //       break;
-  //   }
-  // }, [authStatus, dispatch, refreshToken, accessToken]);
+  const authStatus = useAppSelector((state) => state.authReducer.status);
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  const refreshToken = useAppSelector((state) => state.authReducer.accessToken);
 
   const Tab = createBottomTabNavigator();
 

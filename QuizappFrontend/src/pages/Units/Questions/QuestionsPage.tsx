@@ -12,14 +12,13 @@ import {
 } from 'react-native-responsive-screen';
 
 export const QuestionsPage = () => {
-
-  const route:any = useRoute();
+  const route: any = useRoute();
   const id = route.params.id;
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const [MC_Question, setMC_Questions] = useState<MultipleChoiceQuestion[]>();
   const [TF_Question, setTF_Questions] = useState<TrueFalseQuestion[]>();
-  const accessToken = useAppSelector( (state) => state.userReducer.accessToken);
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
 
   useEffect(() => {
     const getQuestions = async () => {
@@ -42,10 +41,9 @@ export const QuestionsPage = () => {
     getQuestions();
   }, [accessToken]);
 
-
-  return(
+  return (
     <View>
       <Text> Question Component </Text>
     </View>
-  )
-}
+  );
+};

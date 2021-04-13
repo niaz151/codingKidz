@@ -1,20 +1,48 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, FlatList, Alert} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import {Avatar, Button} from 'react-native-paper';
+import DocumentPicker from 'react-native-document-picker';
+
 import axios from 'axios';
-import {useAppDispatch} from '../../ducks/store';
+import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {logout} from '../Auth/authSlice';
-import {Button} from 'react-native-paper';
+
+import {getProfile} from './settingsSlice';
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
+  const avatar = useAppSelector(
+    (state) => state.settingsReducer.profile?.avatar,
+  );
+  const settingsStatus = useAppSelector(
+    (state) => state.settingsReducer.status,
+  );
+
+  useEffect(() => {
+    console.log('useEffect profilepage');
+    if (settingsStatus === 'idle') {
+      dispatch(getProfile({}));
+    }
+  }, [dispatch, settingsStatus]);
 
   return (
     <View style={styles.container}>
-      <Text>Profile</Text>
+      <View>
+        {avatar ? (
+          <Avatar.Image
+            size={100}
+            source={{
+              uri: 'data:image/jpeg;base64,' + avatar?.toString('base64'),
+            }}
+          />
+        ) : (
+          <Text>Upload an avatar!</Text>
+        )}
+      </View>
     </View>
   );
 };

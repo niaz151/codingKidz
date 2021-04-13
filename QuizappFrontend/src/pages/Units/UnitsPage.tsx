@@ -14,7 +14,7 @@ import {useAppDispatch, useAppSelector} from '../../ducks/store';
 export const UnitsPage = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const accessToken = useAppSelector((state) => state.userReducer.accessToken);
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const [units, setUnits] = useState<Unit[]>();
 
   useEffect(() => {

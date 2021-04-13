@@ -21,6 +21,7 @@ const getProfile = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = req.params;
 
     const user = await UserService.getProfile(Number(userId));
+    
     return res.status(200).json({
       message: "Fetched profile",
       user: user,

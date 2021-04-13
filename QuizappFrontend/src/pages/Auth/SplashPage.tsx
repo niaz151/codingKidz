@@ -28,13 +28,10 @@ const SplashPage = () => {
         <Text> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
       </View>
       <View style={styles.btnWrap}>
-        <TouchableOpacity style={[styles.btn, styles.loginBtn]}>
-          <Text
-            style={styles.yellowText}
-            onPress={() => navigation.navigate('Login')}>
-            {' '}
-            LOGIN{' '}
-          </Text>
+        <TouchableOpacity
+          style={[styles.btn, styles.loginBtn]}
+          onPress={() => navigation.navigate('Login')}>
+          <Text style={styles.yellowText}> LOGIN </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}

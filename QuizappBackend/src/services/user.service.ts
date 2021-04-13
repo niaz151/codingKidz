@@ -96,9 +96,6 @@ const uploadAvatar = async (userId: User["id"], avatar: Buffer) => {
             avatar: avatar,
           },
         },
-        // update: {
-        //   avatar: avatar,
-        // },
       },
     },
     include: {

@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 import axios, {AxiosError} from 'axios';
+import {RootState} from '../../ducks/store';
 import {TokenService} from '../../services';
 import {Roles} from '../../utils';
 
@@ -95,27 +96,34 @@ const register = createAsyncThunk<
   },
 );
 
-const refreshTokens = createAsyncThunk(
-  'user/refreshTokens',
-  async (refreshToken: string, _thunkAPI) => {
-    return await axios
-      .get('http://localhost:8000/api/auth/refreshToken', {
-        headers: {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        },
-      })
-      .then((response) => {
-        TokenService.storeRefreshTokenInStorage(response.data.refreshToken);
-
-        return {
-          accessToken: String(response.data.accessToken),
-          refreshToken: String(response.data.refreshToken),
-        };
-      });
+const refreshTokens = createAsyncThunk<
+  {
+    accessToken: string;
+    refreshToken: string;
   },
-);
+  string,
+  {
+    state: RootState;
+  }
+>('user/refreshTokens', async ({}, {getState}) => {
+  const {refreshToken} = getState().authReducer;
+  return await axios
+    .get('http://localhost:8000/api/auth/refreshToken', {
+      headers: {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      },
+    })
+    .then((response) => {
+      TokenService.storeRefreshTokenInStorage(response.data.refreshToken);
+
+      return {
+        accessToken: String(response.data.accessToken),
+        refreshToken: String(response.data.refreshToken),
+      };
+    });
+});
 
 const logout = createAsyncThunk('user/logout', async ({}, _thunkAPI) => {
   return await TokenService.removeRefreshTokenFromStorage();

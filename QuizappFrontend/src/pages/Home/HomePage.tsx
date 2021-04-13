@@ -8,7 +8,7 @@ import {useAppSelector} from '../../ducks/store';
 import {TokenService} from '../../services';
 
 export const HomePage = () => {
-  const accessToken = useAppSelector((state) => state.userReducer.accessToken);
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {email} = TokenService.readToken(accessToken);
 
   return (

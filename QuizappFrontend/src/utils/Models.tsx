@@ -1,3 +1,22 @@
+enum Role {
+  STUDENT = 'STUDENT',
+  TEACHER = 'TEACHER',
+  ADMIN = 'ADMIN',
+}
+
+export type User = {
+  id: number;
+  email: string;
+  password: string;
+  roles: Role[];
+  profile?: Profile;
+};
+
+export type Profile = {
+  avatar: Buffer;
+  userId: User['id'];
+};
+
 export type Unit = {
   id: number;
   name: string;

@@ -34,7 +34,7 @@ const listUnits = async (req: Request, res: Response, next: NextFunction) => {
 
     return res.status(201).json({
       message: "Succesfully fetched units",
-      unit: units,
+      units: units,
     });
   } catch (error) {
     return next(error);
