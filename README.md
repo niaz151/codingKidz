@@ -2,27 +2,32 @@
 
 codingKIDZ Quizapp is an application to test knowledge of MIT Scratch
 
-# Install and Run
-
-## System Requirements
+# System Requirements
 [Docker Compose](https://docs.docker.com/compose/install/)
 - On macOS and Windows Compose will be installed along with the basic [Docker install](https://docs.docker.com/engine/install/) install
 
 
+
+# Install and Run
 ***Start the backend before starting the frontend***
 ## Backend
 ```bash
 cd QuizappBackend
-yarn # Install Dependencies
-docker-compose up # Start database and express server
-yarn prisma migrate dev --preview-feature # Create tables defined in prisma schema, run on first install and after making any changes to the schema
+# Install Dependencies
+yarn
+# Start database and express server
+docker-compose up
+# Connect to database and create tables defined in prisma schema, run on first install and after making any changes to the schema
+yarn prisma migrate dev --preview-feature 
 ```
 
 ## Frontend
 ```bash
 cd QuizappFrontend
-yarn # Install Dependencies
-yarn start # Start metro server
+# Install Dependencies
+yarn
+# Start metro server
+yarn start
 # Open up second terminal in same folder and run either iOS or Android Simulator
 yarn [ios|android]
 ```
