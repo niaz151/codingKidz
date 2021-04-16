@@ -7,59 +7,23 @@ import {
 import {Avatar, Button} from 'react-native-paper';
 import DocumentPicker from 'react-native-document-picker';
 
-import axios, {AxiosError} from 'axios';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
-import {logout} from '../Auth/authSlice';
 
-import {getProfile} from './settingsSlice';
-import {Profile} from '../../utils/Models';
-import {Buffer} from 'buffer';
-import {TokenService} from '../../services';
+import {getProfile, uploadAvatar} from './settingsSlice';
 
 const ProfilePage = () => {
   const dispatch = useAppDispatch();
-  const avatar = useAppSelector(
-    (state) => state.settingsReducer.profile?.avatar,
-  );
-  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  const userId = accessToken
-    ? TokenService.readToken(accessToken).id
-    : undefined;
+  const profile = useAppSelector((state) => state.settingsReducer.profile);
+
   const settingsStatus = useAppSelector(
     (state) => state.settingsReducer.status,
   );
 
-  const [fetchedImage, setFetchedImage] = useState<string>();
-  const [uploadError, setUploadError] = useState<string>();
-
   useEffect(() => {
-    const fetchAvatar = async () => {
-      return await axios
-        .get(`http://localhost:8000/api/user/${userId}/profile`, {
-          headers: {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-              'Content-Type': 'multipart/form-data; ',
-            },
-          },
-        })
-        .then(
-          (response) => {
-            Alert.alert(response.data);
-            setFetchedImage(
-              Buffer.from(response.data.user.profile.avatar.data).toString(
-                'base64',
-              ),
-            );
-          },
-          (error: AxiosError) => {
-            setUploadError(error.message);
-          },
-        );
-    };
-
-    fetchAvatar();
-  }, [accessToken, userId]);
+    if (settingsStatus === 'idle') {
+      dispatch(getProfile({}));
+    }
+  }, [dispatch, settingsStatus]);
 
   const selectImage = async () => {
     try {
@@ -84,25 +48,13 @@ const ProfilePage = () => {
   return (
     <View style={styles.container}>
       <View>
-        <Text>Fetched image</Text>
-        {fetchedImage ? (
-          <Avatar.Image
-            size={100}
-            source={{
-              uri: 'data:image/jpeg;base64,' + fetchedImage,
-            }}
-          />
-        ) : (
-          <Text>Loading image...</Text>
-        )}
-      </View>
-      <View>
         <Text>Avatar image</Text>
-        {avatar ? (
+        {profile ? (
           <Avatar.Image
             size={100}
             source={{
-              uri: 'data:image/jpeg;base64,' + avatar.toString('base64'),
+              uri:
+                'data:image/jpeg;base64,' + profile.avatar.toString('base64'),
             }}
           />
         ) : (

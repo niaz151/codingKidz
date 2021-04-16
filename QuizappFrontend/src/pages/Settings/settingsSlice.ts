@@ -24,15 +24,12 @@ const initialState: StateType = {
 };
 
 const getProfile = createAsyncThunk<
-  {
-    avatar: Buffer;
-    userId: User['id'];
-  },
+  Profile,
   {},
   {
     state: RootState;
   }
->('settings/getProfile', async (_, {getState, rejectWithValue}) => {
+>('settings/getProfile', async (_foo, {getState, rejectWithValue}) => {
   const {accessToken} = getState().authReducer;
   const userId = accessToken
     ? TokenService.readToken(accessToken).id
@@ -66,51 +63,45 @@ const getProfile = createAsyncThunk<
 });
 
 const uploadAvatar = createAsyncThunk<
-  {
-    avatar: Buffer;
-  },
-  {
-
-  },
+  Profile,
+  Buffer,
   {
     state: RootState;
   }
->(
-  'settings/uploadAvatar',
-  async (avatar: Buffer, {getState, rejectWithValue}) => {
-    const {accessToken} = getState().authReducer;
-    const userId = accessToken
-      ? TokenService.readToken(accessToken).id
-      : undefined;
+>('settings/uploadAvatar', async (avatar, {getState, rejectWithValue}) => {
+  const {accessToken} = getState().authReducer;
+  const userId = accessToken
+    ? TokenService.readToken(accessToken).id
+    : undefined;
 
-    const data = new FormData();
-    data.append(avatar);
+  const data = new FormData();
+  data.append('avatar', avatar);
 
-    return await axios
-      .post(
-        `http://localhost:8000/api/user/${userId}/profile/avatar`,
-        {
-          avatar: avatar,
-        },
-        {
+  return await axios
+    .post(
+      `http://localhost:8000/api/user/${userId}/profile/avatar`,
+      {
+        avatar: avatar,
+      },
+      {
+        headers: {
           headers: {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'multipart/form-data; ',
           },
         },
-      )
-      .then(
-        async (response) => {
-          return response.data.profile.profile;
-        },
-        (error: AxiosError) => {
-          console.log('REJECTING LOGIN WITH ERROR', error);
-          return rejectWithValue(error);
-        },
-      );
-  },
-);
+      },
+    )
+    .then(
+      async (response) => {
+        return response.data.profile.profile as Profile;
+      },
+      (error: AxiosError) => {
+        console.log('REJECTING LOGIN WITH ERROR', error);
+        return rejectWithValue(error);
+      },
+    );
+});
 
 const settingsSlice = createSlice({
   name: 'user',
@@ -132,11 +123,23 @@ const settingsSlice = createSlice({
       state.error = action.error.message ?? null;
       state.status = 'failed';
     });
+    builder.addCase(uploadAvatar.pending, (state, _action) => {
+      state.profile = null;
+      state.error = null;
+      state.status = 'loading';
+    });
+    builder.addCase(uploadAvatar.fulfilled, (state, action) => {
+      state.profile = action.payload;
+      state.error = null;
+      state.status = 'succeeded';
+    });
+    builder.addCase(uploadAvatar.rejected, (state, action) => {
+      state.profile = null;
+      state.error = action.error.message ?? null;
+      state.status = 'failed';
+    });
   },
 });
 
 export default settingsSlice.reducer;
-export {
-  getProfile,
-  // uploadAvatar
-};
+export {getProfile, uploadAvatar};
