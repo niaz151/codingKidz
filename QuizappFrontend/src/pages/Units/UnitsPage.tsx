@@ -29,7 +29,7 @@ export const UnitsPage = () => {
           (response) => {
             console.log('RESPONSE DATA', response.data);
             let tempUnits: Unit[] = [];
-            response.data.units.map((unit: Unit) => {
+            response.data.unit.map((unit: Unit) => {
               tempUnits.push(unit);
             });
             setUnits(tempUnits);
