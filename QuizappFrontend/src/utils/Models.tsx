@@ -14,10 +14,14 @@ export type Topic = {
   trueFalseQuestions?: TrueFalseQuestion[];
 };
 
-export type MultipleChoiceQuestion = {
+export type Question = {
   id: number;
   topicId: number;
   question: string;
+  questionImage?: Buffer;
+}
+
+export interface MultipleChoiceQuestion extends Question {
   questionImage?: Buffer;
   correctAnswer: String;
   correctAnswerImage?: Buffer;
@@ -29,10 +33,6 @@ export type MultipleChoiceQuestion = {
   wrongAnswer2Image?: Buffer;
 };
 
-export type TrueFalseQuestion = {
-  id: number;
-  topicId: number;
-  question: string;
-  questionImage?: Buffer;
+export interface TFQuestion extends Question {
   correctAnswer: boolean;
 };

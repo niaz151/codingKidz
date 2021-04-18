@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Button} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
-import {Topic, MultipleChoiceQuestion, TrueFalseQuestion} from '../../../utils';
+import {Topic, MultipleChoiceQuestion, TrueFalseQuestion, Question} from '../../../utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -16,13 +16,24 @@ export const LessonPage = () => {
   const topic_num = route.params.topic_num;
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
   const [topics, setTopics] = useState<Topic[]>();
-  const [MC_Questions,setMC_Questions] = useState<MultipleChoiceQuestion[]>();
-  const [TF_Questions,setTF_Questions] = useState<TrueFalseQuestion[]>();
+  const [questions, setQuestions] = useState<Question[]>();
   const [currentQuestion, setCurrentQuestion] = useState<any>();
+  const [questionNum, setQuestionNum] = useState<number>(1);
 
-  function nextQuestion(){
-
+  function nextQuestion(){  
+    setQuestionNum(questionNum+1);
   }
+
+  function previousQuestion(){
+    setQuestionNum(questionNum-1);
+  }
+
+  function shuffleArray(array: Question[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+}
 
   async function getTopics(){
     return await axios
@@ -38,6 +49,7 @@ export const LessonPage = () => {
           tempTopics.push(topic);
         });
         setTopics(tempTopics);
+        console.log("Topics:", topics)
       },
       (error) => {
         console.log('fetching error', error);
@@ -54,19 +66,18 @@ export const LessonPage = () => {
     })
     .then(
       (response) => {
-        let tempTF_Questions: TrueFalseQuestion[] = [];
-        let tempMC_Questions: MultipleChoiceQuestion[] = [];
+
+        let tempQuestions: Question[] = [];
 
         response.data.trueFalseQuestions.map((question: TrueFalseQuestion) => {
-          console.log(question)
-          tempTF_Questions.push(question);
+          tempQuestions.push(question);
         });
         response.data.multipleChoiceQuestions.map((question: MultipleChoiceQuestion) => {
-          tempMC_Questions.push(question);
+          tempQuestions.push(question);
         });
 
-        setTF_Questions(tempTF_Questions);
-        setMC_Questions(tempMC_Questions);
+        setQuestions(tempQuestions);
+ 
       },
       (error) => {
         console.log('fetching error', error);

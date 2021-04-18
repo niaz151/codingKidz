@@ -12,7 +12,7 @@ import {
 } from 'react-native-responsive-screen';
 
 export const QuestionsPage = () => {
-
+ 
   const route:any = useRoute();
   const id = route.params.id;
   const navigation = useNavigation();

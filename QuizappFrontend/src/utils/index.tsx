@@ -11,6 +11,7 @@ export {Roles} from './Constants';
 export type {
   MultipleChoiceQuestion,
   Topic,
-  TrueFalseQuestion,
+  TFQuestion,
+  Question,
   Unit,
 } from './Models';
