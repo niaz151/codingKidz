@@ -9,7 +9,7 @@ import {readToken} from '../../utils';
 
 export const HomePage = () => {
   const accessToken = useAppSelector((state) => state.userReducer.accessToken);
-  const {email, roles} = readToken(accessToken);
+  const {email, roles} = readToken(accessToken!);
 
   return (
     <View style={styles.container}>
@@ -17,14 +17,16 @@ export const HomePage = () => {
         <Text style={[styles.welcomeText, styles.bold]}> WELCOME </Text> 
         <Text style={styles.welcomeText}> {email}</Text>
       </View>
+      {/*
       <View style={styles.roleWrap}>
         <Text style={[styles.welcomeText, styles.bold]}> YOU ARE A </Text> 
         <Text style={styles.welcomeText}> {roles}</Text>
       </View>
+      */}
       <View style={styles.languageWrap}>
         <View style={styles.new}>
           <Text style={[styles.languagePrompt, styles.bold]}>
-            WHAT LANGUAGE DO YOU WANT TO LEARN TODAY?
+            Let's test your knowledge of ... 
           </Text>
         </View>
       </View>
@@ -38,7 +40,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FF671D',
+    backgroundColor: '#FDF9DF',
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
