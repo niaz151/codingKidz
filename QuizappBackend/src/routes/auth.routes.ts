@@ -1,9 +1,8 @@
 import { Router } from "express";
 import { body } from "express-validator";
-
-import { Role } from "@prisma/client";
 import { AuthMiddleware, ErrorMiddleware } from "../middleware";
 import { AuthController } from "../controllers";
+import { AuthValidator } from "../validators";
 
 const authRouter = Router();
 
@@ -11,7 +10,7 @@ authRouter.post(
   "/signup",
   body("email").isEmail().normalizeEmail(),
   body("password"),
-  body("role").isIn(Object.values(Role)),
+  body("role").custom(AuthValidator.isValidRole),
   ErrorMiddleware.checkForValidationErrors,
   AuthController.signUp
 );

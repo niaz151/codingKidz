@@ -27,7 +27,7 @@ set -euo pipefail
 # install dependencies
 echo "Installing node dependencies..."
 cd /app
-yarn
+yarn --verbose
 
 # start 
 echo "Starting application!"

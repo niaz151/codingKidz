@@ -1,4 +1,4 @@
-import { User } from ".prisma/client";
+import { User } from "@prisma/client";
 import { db } from "../prisma";
 
 const isValidUserID = async (userId: User["id"]) => {

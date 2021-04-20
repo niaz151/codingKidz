@@ -1,6 +1,7 @@
 import express, { json, urlencoded } from "express";
 import helmet from "helmet";
 import compression from "compression";
+import cors from "cors";
 
 import { router } from "./src/routes";
 
@@ -19,6 +20,10 @@ app.use(compression());
 
 app.use(json());
 app.use(urlencoded({ extended: true }));
+
+// Allow Cross origin requests
+// TODO Configure to only accept requests from frontends https://daveceddia.com/access-control-allow-origin-cors-errors-in-react-express/
+app.use(cors());
 
 // Request Logger must be before routes are defined
 app.use(

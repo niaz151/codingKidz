@@ -78,7 +78,7 @@ const App = () => {
                 name="Settings"
                 component={SettingsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="settings" size={25} />,
+                  tabBarIcon: () => <Icon name="person" size={25} />,
                 }}
               />
             </Tab.Navigator>
