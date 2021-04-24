@@ -13,7 +13,6 @@ interface StateType {
   refreshToken: string | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  numLoginAttempts: number | null;
 }
 
 const initialState: StateType = {
@@ -43,7 +42,7 @@ const login = createAsyncThunk(
         },
         (error: AxiosError) => {
           console.log('REJECTING LOGIN WITH ERROR', error);
-          // THE BELOW LINE CREATES A NON-SERIALIZABLE ERROR WHEN 
+          // THE BELOW LINE CREATES A NON-SERIALIZABLE ERROR
           return thunkAPI.rejectWithValue(error);
         },
       );
@@ -164,7 +163,6 @@ const userSlice = createSlice({
       state.refreshToken = null;
       state.error = action.error.message ?? 'Unknown login error';
       state.status = 'failed';
-      state.numLoginAttempts = state.numLoginAttempts! + 1;
     });
 
     builder.addCase(register.pending, (state, _action) => {

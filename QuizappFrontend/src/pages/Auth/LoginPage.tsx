@@ -13,12 +13,13 @@ import {useAppDispatch} from '../../ducks/store';
 const LoginPage = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-  const [numFailedLogin, setNumFailedLogin] = useState<Number>(0);
-
+  const [numFailedLogin, setNumFailedLogin] = useState<number>(-1);
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
   const handleSubmit = async () => {
+    console.log(numFailedLogin);
+    setNumFailedLogin(numFailedLogin + 1);
     if (email && password) {
       return await dispatch(login({email, password}));
     } else {
@@ -60,7 +61,12 @@ const LoginPage = () => {
         }}>
         <Text style={styles.forgot}> REGISTER </Text>
       </TouchableOpacity>
-      <Text style={styles.forgot}> FORGOT PASSWORD? </Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Forgot');
+        }}>
+        <Text style={styles.forgot}> FORGOT PASSWORD </Text>
+      </TouchableOpacity>
     </>
   );
 
@@ -76,6 +82,9 @@ const LoginPage = () => {
   var failedAttempt = (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>
+        <View style={styles.loginWarning}>
+          <Text> login failed </Text>
+        </View>
         {CommonComponents}
       </View>
       <Text style={styles.privacy}> Terms and Privacy Policy </Text>
@@ -85,7 +94,9 @@ const LoginPage = () => {
   var forgotPassword = (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>
-        <View style={styles.loginWarning}></View>
+        <View style={styles.loginWarning}>
+          <Text> forgot password </Text>
+        </View>
         {CommonComponents}
       </View>
       <Text style={styles.privacy}> Terms and Privacy Policy </Text>
@@ -93,14 +104,16 @@ const LoginPage = () => {
   );
 
   // INITIAL PAGE LOAD
-  if (numFailedLogin == 0) {
+  if (numFailedLogin == -1) {
     return initialLoad;
   } else {
     // FAILED LOGIN ATTEMPT UPTO TWICE
-    if (numFailedLogin >= 2) {
+    if (numFailedLogin <= 2) {
+      return failedAttempt
     }
     // AFTER 3 FAILED ATTEMPTS SHOW FORGOT PASSWORD BUTTON
     else {
+      return forgotPassword
     }
   }
 };
