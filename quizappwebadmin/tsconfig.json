@@ -18,7 +18,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "import/no-anonymous-default-export": ["warn", {
+      "allowObject": true
+    }]
   },
   "include": [
     "src"

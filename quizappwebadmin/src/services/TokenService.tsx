@@ -1,6 +1,6 @@
-import {Buffer} from 'buffer';
+import { Buffer } from "buffer";
 
-type ROLES = 'STUDENT' | 'TEACHER' | 'ADMIN';
+type ROLES = "STUDENT" | "TEACHER" | "ADMIN";
 
 interface TokenContents {
   id: number;
@@ -13,7 +13,7 @@ interface TokenContents {
 const readToken = (token: string) => {
   try {
     return JSON.parse(
-      Buffer.from(token.split('.')[1], 'base64').toString(),
+      Buffer.from(token.split(".")[1], "base64").toString()
     ) as TokenContents;
   } catch (error) {
     throw new Error(error);
@@ -57,10 +57,12 @@ const isTokenExpired = (token: string) => {
 //   }
 // };
 
-export default {
+const TokenService = {
   readToken,
   isTokenExpired,
   // storeRefreshTokenInStorage,
   // getRefreshTokenFromStorage,
   // removeRefreshTokenFromStorage,
 };
+
+export default TokenService;

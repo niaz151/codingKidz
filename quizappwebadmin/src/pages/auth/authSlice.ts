@@ -31,18 +31,10 @@ const login = createAsyncThunk(
     thunkAPI
   ) => {
     return await axios
-      .post(
-        "http://localhost:8000/api/auth/login",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: {
-            "Access-Control-Allow-Origin": "*",
-          },
-        }
-      )
+      .post("http://localhost:8000/api/auth/login", {
+        email: email,
+        password: password,
+      })
       .then(
         async (response) => {
           // await TokenService.storeRefreshTokenInStorage(
