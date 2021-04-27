@@ -23,7 +23,7 @@ export const QuestionsPage = () => {
   useEffect(() => {
     const getQuestions = async () => {
       return await axios
-        .get(`http://localhost:8000/api/unit/${id}/topic/question`, {
+        .get(`http://localhost/api/unit/${id}/topic/question`, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },

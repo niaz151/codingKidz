@@ -20,7 +20,7 @@ export const UnitsPage = () => {
   useEffect(() => {
     const getUnits = async () => {
       return await axios
-        .get('http://localhost:8000/api/unit', {
+        .get('http://localhost/api/unit', {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
@@ -29,7 +29,7 @@ export const UnitsPage = () => {
           (response) => {
             console.log('RESPONSE DATA', response.data);
             let tempUnits: Unit[] = [];
-            response.data.units.map((unit: Unit) => {
+            response.data.unit.map((unit: Unit) => {
               tempUnits.push(unit);
             });
             setUnits(tempUnits);

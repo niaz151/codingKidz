@@ -6,7 +6,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import DropDownPicker from 'react-native-dropdown-picker';
-import axios from 'axios';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Roles} from '../../utils';
@@ -14,20 +13,13 @@ import {Roles} from '../../utils';
 import {register} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
 
-const RegisterPage = (props: {
-  setTokensInApp: (
-    newAccessToken: string,
-    newRefreshToken: string,
-  ) => Promise<void>;
-}) => {
+const RegisterPage = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [role, setRole] = useState<Roles>();
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
-  const {setTokensInApp} = props;
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {

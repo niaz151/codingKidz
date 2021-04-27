@@ -17,11 +17,18 @@ export const HomePage = () => {
         <Text style={[styles.welcomeText, styles.bold]}> WELCOME </Text>
         <Text style={styles.welcomeText}> {email}</Text>
       </View>
+      {/*
+      <View style={styles.roleWrap}>
+        <Text style={[styles.welcomeText, styles.bold]}> YOU ARE A </Text> 
+        <Text style={styles.welcomeText}> {roles}</Text>
+      </View>
+      */}
       <View style={styles.languageWrap}>
-        <Text style={[styles.languagePrompt, styles.bold]}>
-          {' '}
-          WHAT LANGUAGE DO YOU WANT TO LEARN TODAY?{' '}
-        </Text>
+        <View style={styles.new}>
+          <Text style={[styles.languagePrompt, styles.bold]}>
+            Let's test your knowledge of ...
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -33,31 +40,44 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#FF671D',
+    backgroundColor: '#FDF9DF',
     paddingLeft: 20,
     paddingRight: 20,
     paddingTop: 20,
   },
   welcomeWrap: {
-    height: 50,
+    height: 70,
     display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-around',
   },
   welcomeText: {
     fontSize: 20,
     color: 'black',
   },
-  languageWrap: {
-    height: hp('15%'),
+  roleWrap: {
+    marginTop: 20,
+    height: 70,
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-start',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  languageWrap: {
+    marginTop: 40,
+    width: wp('90%'),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     justifyContent: 'center',
   },
+  new: {
+    width: '75%',
+  },
   languagePrompt: {
-    fontSize: 20,
+    textAlign: 'center',
+    fontSize: 16,
     color: 'black',
     paddingLeft: 2,
   },

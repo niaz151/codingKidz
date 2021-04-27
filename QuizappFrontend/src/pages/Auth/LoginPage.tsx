@@ -13,11 +13,13 @@ import {useAppDispatch} from '../../ducks/store';
 const LoginPage = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
-
+  const [numFailedLogin, setNumFailedLogin] = useState<number>(-1);
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
   const handleSubmit = async () => {
+    console.log(numFailedLogin);
+    setNumFailedLogin(numFailedLogin + 1);
     if (email && password) {
       return await dispatch(login({email, password}));
     } else {
@@ -25,46 +27,93 @@ const LoginPage = () => {
     }
   };
 
-  return (
+  const CommonComponents = (
+    <>
+      <View style={styles.splashLogoImgWrap}>
+        <View style={styles.splashLogoCirclePortrait}>
+          <Image
+            source={require('../../assets/images/splash_logo.png')}
+            style={styles.splashImg}
+          />
+        </View>
+      </View>
+      <TextInput
+        label="Email"
+        value={email}
+        textContentType="username"
+        onChangeText={(text) => setEmail(text)}
+        style={styles.textInput}
+      />
+      <TextInput
+        label="Password"
+        textContentType="password"
+        value={password}
+        secureTextEntry={true}
+        onChangeText={(text) => setPassword(text)}
+        style={styles.textInput}
+      />
+      <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
+        SIGN IN
+      </Button>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Register');
+        }}>
+        <Text style={styles.forgot}> REGISTER </Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate('Forgot');
+        }}>
+        <Text style={styles.forgot}> FORGOT PASSWORD </Text>
+      </TouchableOpacity>
+    </>
+  );
+
+  const initialLoad = (
+    <View style={styles.loginContainer}>
+      <View style={styles.inputContainer}>{CommonComponents}</View>
+      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+    </View>
+  );
+
+  const failedAttempt = (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>
-        <View style={styles.splashLogoImgWrap}>
-          <View style={styles.splashLogoCirclePortrait}>
-            <Image
-              source={require('../../assets/images/splash_logo.png')}
-              style={styles.splashImg}
-            />
-          </View>
+        <View style={styles.loginWarning}>
+          <Text> login failed </Text>
         </View>
-        <TextInput
-          label="Email"
-          value={email}
-          textContentType="username"
-          onChangeText={(text) => setEmail(text)}
-          style={styles.textInput}
-        />
-        <TextInput
-          label="Password"
-          textContentType="password"
-          value={password}
-          secureTextEntry={true}
-          onChangeText={(text) => setPassword(text)}
-          style={styles.textInput}
-        />
-        <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
-          SIGN IN
-        </Button>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Register');
-          }}>
-          <Text style={styles.forgot}> REGISTER </Text>
-        </TouchableOpacity>
-        <Text style={styles.forgot}> FORGOT PASSWORD? </Text>
+        {CommonComponents}
       </View>
       <Text style={styles.privacy}> Terms and Privacy Policy </Text>
     </View>
   );
+
+  const forgotPassword = (
+    <View style={styles.loginContainer}>
+      <View style={styles.inputContainer}>
+        <View style={styles.loginWarning}>
+          <Text> forgot password </Text>
+        </View>
+        {CommonComponents}
+      </View>
+      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+    </View>
+  );
+
+  // INITIAL PAGE LOAD
+  if (numFailedLogin === -1) {
+    return initialLoad;
+  } else {
+    // FAILED LOGIN ATTEMPT UPTO TWICE
+    if (numFailedLogin <= 2) {
+      return failedAttempt;
+    }
+    // AFTER 3 FAILED ATTEMPTS SHOW FORGOT PASSWORD BUTTON
+    else {
+      return forgotPassword;
+    }
+  }
 };
 
 const styles = StyleSheet.create({
@@ -135,6 +184,11 @@ const styles = StyleSheet.create({
     bottom: hp('15%'),
     color: '#1B6A7A',
     fontSize: 14,
+  },
+  loginWarning: {
+    borderWidth: 1,
+    borderColor: 'yellow',
+    backgroundColor: 'yellow',
   },
 });
 

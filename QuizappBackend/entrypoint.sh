@@ -29,6 +29,10 @@ echo "Installing node dependencies..."
 cd /app
 yarn
 
+# Generate prisma definitions
+echo "Generating prisma types..."
+yarn prisma generate
+
 # start 
 echo "Starting application!"
 # pm2-runtime start pm2-config.json --no-daemon
