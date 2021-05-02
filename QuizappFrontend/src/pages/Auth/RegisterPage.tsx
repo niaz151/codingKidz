@@ -34,10 +34,6 @@ const RegisterPage = () => {
   return (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/images/mouse_sideways.png')}
-          style={styles.mouseImg}
-        />
         <Text style={styles.titleText}> REGISTER </Text>
         <TextInput
           label="Email"
@@ -52,14 +48,14 @@ const RegisterPage = () => {
             {label: 'Teacher', value: 'TEACHER'},
             {label: 'Admin', value: 'ADMIN'},
           ]}
-          containerStyle={styles.dropDown}
-          style={{backgroundColor: '#fafafa'}}
+          containerStyle={styles.dropDownContainer}
+          style={styles.dropDown}
           itemStyle={{
-            justifyContent: 'flex-start',
+            // justifyContent: 'flex-start',
           }}
           onChangeItem={(item) => setRole(item.value)}
           placeholder="Select A Role"
-          dropDownStyle={{backgroundColor: '#fafafa'}}
+          dropDownStyle={styles.dropDown}
         />
         <TextInput
           label="Password"
@@ -100,22 +96,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   titleText: {
-    alignSelf: 'flex-start',
-    marginLeft: wp('10%'),
     color: '#FF671D',
     fontSize: 22,
     fontWeight: '700',
-  },
-  mouseImg: {
-    height: hp('10%'),
-    width: '60%',
   },
   inputContainer: {
     height: hp('70%'),
     width: wp('100%'),
     marginTop: hp('-20%'),
     display: 'flex',
-    alignItems: 'flex-start',
+    alignItems: 'center',
     justifyContent: 'space-around',
   },
   textInput: {
@@ -124,13 +114,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#FF671D',
-    marginLeft: wp('10%'),
     backgroundColor: 'white',
   },
-  dropDown: {
+  dropDownContainer: {
     height: 40,
-    width: 200,
-    marginLeft: wp('10%'),
+    width: wp("80%"),
+  },
+  dropDown:{
+    backgroundColor: '#fafafa', 
+    width: wp("80%")
   },
   email: {},
   password: {},
@@ -138,7 +130,6 @@ const styles = StyleSheet.create({
     height: 50,
     width: 150,
     backgroundColor: '#FF671D',
-    marginLeft: wp('30%'),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -149,7 +140,6 @@ const styles = StyleSheet.create({
     color: '#FF671D',
     fontSize: 15,
     fontWeight: '700',
-    marginLeft: wp('29%'),
   },
   privacy: {
     position: 'absolute',

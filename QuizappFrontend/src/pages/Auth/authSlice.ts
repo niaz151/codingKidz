@@ -17,7 +17,6 @@ const initialState: StateType = {
   refreshToken: null,
   status: 'idle',
   error: null,
-  numLoginAttempts:0,
 };
 
 const login = createAsyncThunk(
