@@ -18,6 +18,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [nickname, setNickname] = useState<String>();
   const [role, setRole] = useState<Roles>();
   const [months, setMonths] = useState<any>(monthData);
   const [days, setDays] = useState<any>(dateData);
@@ -55,9 +56,7 @@ const RegisterPage = () => {
           ]}
           containerStyle={styles.dropDownContainer}
           style={styles.dropDown}
-          onChangeItem={(item) => setRole(item.value)}
           placeholder="Select A Role"
-          dropDownStyle={styles.dropDown}
         />
         <TextInput
           label="Password"
@@ -76,14 +75,12 @@ const RegisterPage = () => {
           style={[styles.textInput, styles.password]}
         />
         <View style={styles.dateContainer}>
-
           <DropDownPicker
             open={false}
             items={months}
             containerStyle={styles.dateDropDownContainer}
             placeholder="JAN"
           />
-
           <DropDownPicker
             open={false}
             value={value}
@@ -94,7 +91,6 @@ const RegisterPage = () => {
             containerStyle={styles.dateDropDownContainer}
             placeholder="01"
           />
-
           <DropDownPicker
             open={false}
             value={value}
@@ -105,18 +101,23 @@ const RegisterPage = () => {
             containerStyle={styles.dateDropDownContainer}
             placeholder="2000"
           />    
-
-
         </View>
-
+        <TextInput
+          label="Nickname"
+          textContentType="username"
+          value={nickname}
+          onChangeText={(text) => setNickname(text)}
+          style={[styles.textInput, styles.email, {marginTop:10}]}
+        />
         <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
           SIGN UP
         </Button>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text style={styles.forgot}> Existing User? Log In &#8594; </Text>
         </TouchableOpacity>
+        <Text style={styles.privacy}> Terms and Privacy Policy </Text>
       </View>
-      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+      
     </View>
   );
 };
@@ -223,13 +224,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   forgot: {
-    color: '#FF671D',
+    color: '#1B6A7A',
     fontSize: 15,
-    fontWeight: '700',
   },
   privacy: {
-    position: 'absolute',
-    bottom: hp('15%'),
     color: '#1B6A7A',
     fontSize: 14,
   },
