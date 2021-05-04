@@ -14,10 +14,15 @@ import {register} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
 
 const RegisterPage = () => {
+
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [role, setRole] = useState<Roles>();
+  const [months, setMonths] = useState<any>(monthData);
+  const [days, setDays] = useState<any>(dateData);
+  const [open, setOpen] = useState<boolean>(false);
+  const [value, setValue] = useState<any>(null);
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -50,9 +55,6 @@ const RegisterPage = () => {
           ]}
           containerStyle={styles.dropDownContainer}
           style={styles.dropDown}
-          itemStyle={{
-            // justifyContent: 'flex-start',
-          }}
           onChangeItem={(item) => setRole(item.value)}
           placeholder="Select A Role"
           dropDownStyle={styles.dropDown}
@@ -73,6 +75,40 @@ const RegisterPage = () => {
           onChangeText={(text) => setConfirmPassword(text)}
           style={[styles.textInput, styles.password]}
         />
+        <View style={styles.dateContainer}>
+
+          <DropDownPicker
+            open={false}
+            items={months}
+            containerStyle={styles.dateDropDownContainer}
+            placeholder="JAN"
+          />
+
+          <DropDownPicker
+            open={false}
+            value={value}
+            items={days}
+            setValue={setValue}
+            setItems={days}
+            setOpen={setOpen}
+            containerStyle={styles.dateDropDownContainer}
+            placeholder="01"
+          />
+
+          <DropDownPicker
+            open={false}
+            value={value}
+            items={days}
+            setValue={setValue}
+            setItems={days}
+            setOpen={setOpen}
+            containerStyle={styles.dateDropDownContainer}
+            placeholder="2000"
+          />    
+
+
+        </View>
+
         <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
           SIGN UP
         </Button>
@@ -84,6 +120,56 @@ const RegisterPage = () => {
     </View>
   );
 };
+
+
+const monthData = [
+  {label:"JAN", value:'01'},
+  {label:"FEB", value:'02'},
+  {label:"MAR", value:'03'},
+  {label:"APR", value:'04'},
+  {label:"MAY", value:'05'},
+  {label:"JUN", value:'06'},
+  {label:"JUL", value:'07'},
+  {label:"AUG", value:'08'},
+  {label:"SEP", value:'09'},
+  {label:"OCT", value:'10'},
+  {label:"NOV", value:'11'},
+  {label:"DEC", value:'12'},
+]
+
+const dateData = [
+  {label:"01", value:'01'},
+  {label:"02", value:'02'},
+  {label:"03", value:'03'},
+  {label:"04", value:'04'},
+  {label:"05", value:'05'},
+  {label:"06", value:'06'},
+  {label:"07", value:'07'},
+  {label:"08", value:'08'},
+  {label:"09", value:'09'},
+  {label:"10", value:'10'},
+  {label:"11", value:'11'},
+  {label:"12", value:'12'},
+  {label:"13", value:'13'},
+  {label:"14", value:'14'},
+  {label:"15", value:'15'},
+  {label:"16", value:'16'},
+  {label:"17", value:'17'},
+  {label:"18", value:'18'},
+  {label:"19", value:'19'},
+  {label:"20", value:'20'},
+  {label:"21", value:'21'},
+  {label:"22", value:'22'},
+  {label:"23", value:'23'},
+  {label:"24", value:'24'},
+  {label:"25", value:'25'},
+  {label:"26", value:'26'},
+  {label:"27", value:'27'},
+  {label:"28", value:'28'},
+  {label:"29", value:'29'},
+  {label:"30", value:'30'},
+  {label:"31", value:'31'},
+]
 
 const styles = StyleSheet.create({
   loginContainer: {
@@ -118,11 +204,11 @@ const styles = StyleSheet.create({
   },
   dropDownContainer: {
     height: 40,
-    width: wp("80%"),
+    width: wp('80%'),
   },
-  dropDown:{
-    backgroundColor: '#fafafa', 
-    width: wp("80%")
+  dropDown: {
+    backgroundColor: '#fafafa',
+    width: wp('80%'),
   },
   email: {},
   password: {},
@@ -146,6 +232,16 @@ const styles = StyleSheet.create({
     bottom: hp('15%'),
     color: '#1B6A7A',
     fontSize: 14,
+  },
+  dateContainer:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width:wp('85%'),
+  },
+  dateDropDownContainer: {
+    height: 40,
+    width: wp('25%'),
   },
 });
 
