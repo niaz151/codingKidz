@@ -33,7 +33,7 @@ const RegisterPage = () => {
     } else if (!password || !email || !role) {
       Alert.alert('Please fill out form');
     } else {
-      return await dispatch(register({email, password, role}));
+        return await dispatch(register({email, password, role}));
     }
   };
 

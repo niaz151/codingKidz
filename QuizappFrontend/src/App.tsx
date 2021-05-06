@@ -25,6 +25,7 @@ import {
   refreshTokens,
   restoreRefreshToken,
 } from './pages/Auth/authSlice';
+import ProfilePage from './pages/Auth/ProfilePage';
 
 Ionicon.loadFont();
 
@@ -40,6 +41,7 @@ const App = () => {
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FF671D'}} />
       <SafeAreaView style={styles.viewStyles}>
+      
         <NavigationContainer>
           {accessToken ? (
             <Tab.Navigator
@@ -86,6 +88,8 @@ const App = () => {
             <AuthStack />
           )}
         </NavigationContainer>
+
+
       </SafeAreaView>
     </>
   );

@@ -1,0 +1,143 @@
+import React, {useState} from 'react';
+import {View, Text, StyleSheet, Alert, Image} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {Button, TextInput, Avatar} from 'react-native-paper';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
+
+const ProfilePage = () => {
+  const [fname, setFname] = useState<string>('');
+  const [lname, setLname] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('');
+  const [dob, setDob] = useState<string>('');
+  const [gender, setGender] = useState<string>('');
+
+  return(
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <Text style={styles.titleText}> Profile </Text>
+        <Avatar.Image size={80} source={require('../../assets/images/user_icon_gray.png')} />
+        <TextInput
+          label="First Name"
+          textContentType="username"
+          value={fname}
+          onChangeText={(text) => setFname(text)}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Last Name"
+          value={lname}
+          textContentType="username"
+          onChangeText={(text) => setLname(text)}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Nickname"
+          value={nickname}
+          textContentType="newPassword"
+          onChangeText={(text) => setNickname(text)}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Date of Birth"
+          textContentType="username"
+          value={dob}
+          onChangeText={(text) => setDob(text)}
+          style={styles.textInput}
+        />
+        <TextInput
+          label="Gender"
+          textContentType="username"
+          value={gender}
+          onChangeText={(text) => setGender(text)}
+          style={styles.textInput}
+        />
+      </View>
+      
+    </View>
+  )
+
+};
+
+const styles = StyleSheet.create({
+  container: {
+    height: hp('100%'),
+    width: wp('100%'),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    backgroundColor: 'white',
+  },
+  loginContainer: {
+    height: hp('100%'),
+    width: wp('100%'),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    backgroundColor: 'white',
+  },
+  titleText: {
+    color: '#FF671D',
+    fontSize: 22,
+    fontWeight: '700',
+  },
+  inputContainer: {
+    height: hp('70%'),
+    width: wp('100%'),
+    marginTop: hp('-20%'),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  textInput: {
+    width: wp('80%'),
+    height: hp('5.8%'),
+    borderWidth: 1,
+    borderRadius: 10,
+    borderColor: '#FF671D',
+    backgroundColor: 'white',
+  },
+  dropDownContainer: {
+    height: 40,
+    width: wp('80%'),
+  },
+  dropDown: {
+    backgroundColor: '#fafafa',
+    width: wp('80%'),
+  },
+  btn: {
+    height: 50,
+    width: 150,
+    backgroundColor: '#FF671D',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    fontSize: 15,
+  },
+  forgot: {
+    color: '#1B6A7A',
+    fontSize: 15,
+  },
+  privacy: {
+    color: '#1B6A7A',
+    fontSize: 14,
+  },
+  dateContainer:{
+    display:'flex',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width:wp('85%'),
+  },
+  dateDropDownContainer: {
+    height: 40,
+    width: wp('25%'),
+  },
+});
+
+export default ProfilePage;
