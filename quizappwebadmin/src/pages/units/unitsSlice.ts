@@ -33,11 +33,9 @@ const getUnits = createAsyncThunk<
   }
 
   return await axios
-    .get('http://localhost:8000/api/unit', {
+    .get("http://localhost/api/unit", {
       headers: {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        Authorization: `Bearer ${accessToken}`,
       },
     })
     .then(

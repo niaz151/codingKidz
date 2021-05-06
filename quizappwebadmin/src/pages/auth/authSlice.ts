@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import axios, { AxiosError } from "axios";
 import { RootState } from "../../ducks/store";
-import { TokenService } from "../../services";
+// import { TokenService } from "../../services";
 import { Roles } from "../../utils/constants";
 
 interface StateType {
@@ -31,7 +31,7 @@ const login = createAsyncThunk(
     thunkAPI
   ) => {
     return await axios
-      .post("http://localhost:8000/api/auth/login", {
+      .post("http://localhost/api/auth/login", {
         email: email,
         password: password,
       })
@@ -67,7 +67,7 @@ const register = createAsyncThunk<
     thunkAPI
   ) => {
     return await axios
-      .post("http://localhost:8000/api/auth/signup", {
+      .post("http://localhost/api/auth/signup", {
         email: email,
         password: password,
         role: role,
@@ -116,7 +116,7 @@ const refreshTokens = createAsyncThunk<
 >("auth/refreshTokens", async (_, { getState }) => {
   const { refreshToken } = getState().auth;
   return await axios
-    .get("http://localhost:8000/api/auth/refreshToken", {
+    .get("http://localhost/api/auth/refreshToken", {
       headers: {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
@@ -137,18 +137,18 @@ const logout = createAsyncThunk("auth/logout", async (_, _thunkAPI) => {
   // return await TokenService.removeRefreshTokenFromStorage();
 });
 
-const restoreRefreshToken = createAsyncThunk(
-  "auth/restoreToken",
-  async (_, thunkAPI) => {
-    // const storedToken = await TokenService.getRefreshTokenFromStorage();
-    const storedToken = null;
-    if (storedToken) {
-      return storedToken;
-    } else {
-      return thunkAPI.rejectWithValue("No token stored");
-    }
-  }
-);
+// const restoreRefreshToken = createAsyncThunk(
+//   "auth/restoreToken",
+//   async (_, thunkAPI) => {
+//     // const storedToken = await TokenService.getRefreshTokenFromStorage();
+//     const storedToken = null;
+//     if (storedToken) {
+//       return storedToken;
+//     } else {
+//       return thunkAPI.rejectWithValue("No token stored");
+//     }
+//   }
+// );
 
 const authSlice = createSlice({
   name: "auth",

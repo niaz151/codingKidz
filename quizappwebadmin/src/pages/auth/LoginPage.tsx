@@ -1,35 +1,39 @@
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../ducks/hooks";
 import { login } from "./authSlice";
 
-type FormData = {
-  email: string;
-  password: string;
-};
-
 const LoginPage = () => {
   const dispatch = useAppDispatch();
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<FormData>();
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
 
-  const onSubmit = handleSubmit((data) => {
-    dispatch(login({ email: data.email, password: data.password }));
-  });
+  const onSubmit = () => {
+    if (email && password) {
+      dispatch(login({ email: email, password: password }));
+    }
+  };
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
+      <form>
         <label>Email</label>
-        <input {...(register("email"), { required: true })} />
+        <input
+          value={email}
+          onChange={(event) => {
+            setEmail(event.target.value);
+          }}
+        />
         <label>Password</label>
-        <input {...(register("password"), { required: true })} />
-        <input type="submit" value="Login" />
+        <input
+          type="password"
+          value={password}
+          onChange={(event) => {
+            setPassword(event.target.value);
+          }}
+        />
       </form>
+      <button onClick={onSubmit}>Login</button>
       <Link to="/register">
         <button>Go to Register</button>
       </Link>
