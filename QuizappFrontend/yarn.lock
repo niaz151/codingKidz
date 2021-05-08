@@ -10387,10 +10387,10 @@ react-native-document-picker@^5.0.3:
   resolved "https://registry.yarnpkg.com/react-native-document-picker/-/react-native-document-picker-5.0.3.tgz#f31f18ee7a90fb8ea94f301d7a5fdb069322dcd8"
   integrity sha512-OLTUB9SvY2J6bYZ6F/b4FKwDfEimP+sRsEP3OSp1oosYD4+G9C5J3CKiJ69B7CCXmA89Bi/QBr5j2lW9y9rWlQ==
 
-react-native-dropdown-picker@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-5.0.0.tgz#4bd925dd77490f3296bd0434ec5ea323a7a76669"
-  integrity sha512-UvdNPaucO5rlokUYmpxkmYJmoa7rXqguGagVAVvaJoajdVdN3aFsx42ixF9ytsnvPoa6Ln48UI3KRyPxpj55dw==
+react-native-dropdown-picker@^5.1.4:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/react-native-dropdown-picker/-/react-native-dropdown-picker-5.1.4.tgz#eab64fe1741ed6e12ebc41821077d7a4e793b363"
+  integrity sha512-WdpNhkaIbVdElijVLyDIpVDc3D08rIoJlojbitdTJLIZVEqU4CaAvsf8GLt5EStYFMacY5GvTCFKH5G1CbHV0A==
 
 react-native-flipper@^0.86.0:
   version "0.86.0"

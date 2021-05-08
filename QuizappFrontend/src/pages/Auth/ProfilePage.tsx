@@ -18,7 +18,7 @@ const ProfilePage = () => {
   return(
     <View style={styles.container}>
       <View style={styles.inputContainer}>
-        <Text style={styles.titleText}> Profile </Text>
+        <Text style={styles.titleText}> PROFILE </Text>
         <Avatar.Image size={80} source={require('../../assets/images/user_icon_gray.png')} />
         <TextInput
           label="First Name"
