@@ -2,7 +2,7 @@ version: "3"
 services:
   db:
     image: postgres:13.2-alpine
-    restart: always
+    restart: on-failure
     ports:
       - "5432:5432"
     environment:
@@ -10,13 +10,13 @@ services:
       - POSTGRES_PASSWORD=dbadmin
       - POSTGRES_DB=quizappdb
     volumes:
-      - ./docker-local/postgres-data:/var/lib/postgresql/data
+      - postgresdata:/var/lib/postgresql/data
     networks:
       - quizapp_net
 
   backend:
     image: node:15.14.0-alpine3.13
-    restart: always
+    restart: on-failure
     environment:
       - NODE_ENV=dev
       - PORT=8000
@@ -28,7 +28,7 @@ services:
       - /app/node_modules
     entrypoint: "/app/entrypoint.sh"
     ports:
-      - 8000:8000
+      - 8000
     depends_on:
       - db
     networks:
@@ -36,7 +36,7 @@ services:
 
   web:
     image: node:15.14.0-alpine3.13
-    restart: always
+    restart: on-failure
     environment:
       - NODE_ENV=dev
       - PORT=3000
@@ -45,7 +45,7 @@ services:
       - /app/node_modules
     entrypoint: "/app/entrypoint.sh"
     ports:
-      - 3000:3000
+      - 3000
     depends_on:
       - backend
     networks:
@@ -67,3 +67,6 @@ services:
 networks:
   quizapp_net:
     driver: bridge
+
+volumes:
+  postgresdata:

@@ -6,20 +6,22 @@ codingKIDZ Quizapp is an application to test knowledge of MIT Scratch
 [Docker Compose](https://docs.docker.com/compose/install/)
 - On macOS and Windows Compose will be installed along with the basic [Docker install](https://docs.docker.com/engine/install/) install
 
-
-
 # Install and Run
 ***Start the backend before starting the frontend***
-## Backend
+## Backend and Admin Panel
 ```bash
-cd QuizappBackend
 # Install Dependencies
 yarn
-# Start database and express server
+# Start database, express server, admin web server, and nginx
 docker-compose up
-# Connect to database and create tables defined in prisma schema, run on first install and after making any changes to the schema
+# Connect to database and create tables defined in prisma schema
+# run on first install and after making any changes to the schema
 yarn prisma migrate dev --preview-feature 
 ```
+
+Go to `localhost` in your browser to see the admin panel
+
+To make API calls use `localhost/api/...`
 
 ## Frontend
 ```bash
@@ -37,14 +39,22 @@ yarn [ios|android]
 [Typescript](typescriptlang.org/) is used across the stack to improve IDE experience and reduce bugs
 
 ## Backend
-Libraries
-- [Express.js](https://expressjs.com/): A minimalist Node.js framework
-- [Prisma](prisma.io/): Used to manage DB schema (`src/prisma/schema.prisma`), connection, and operations. Generates typescript definitions to be used throughout app for easy, safe DB communication
+- Server
+  - [Express.js](https://expressjs.com/): A minimalist Node.js framework
+  - [Prisma](prisma.io/): Used to manage DB schema (`src/prisma/schema.prisma`), connection, and operations. Generates typescript definitions to be used throughout app for easy, safe DB communication
+- Database
+  - PostgreSQL
+- Webserver: Nginx
+  - Reverse proxies connections to the backend server and web admin panel
 
 
-## Frontend
+## Mobile Frontend
 Libraries
 - [React Native](reactnative.dev/): Cross-platform native apps generated from a single javascript codebase
+
+## Web Admin Panel
+Libraries
+- [React](https://reactjs.org/): Web framework centered around creating reusable components
 
 # Folder Structure
 Explanation of important files and folders
@@ -93,6 +103,18 @@ QuizappFrontend
 │   └── utils # Misc constants and helper logic
 ├── tsconfig.json # Typescript rules
 └── yarn.lock
+```
+
+# Useful Commands to Know
+- Generate updated type definitions after making changes to prisma schema
+```bash
+yarn prisma generate
+```
+
+- Seed (populate) the database from `QuizappBackend/src/prisma/seed.ts`
+  - If this fails, maybe you forgot to create the tables using `yarn prisma migrate dev --preview-feature`
+```bash
+yarn prisma db seed --preview-feature
 ```
 
 <!-- # License
