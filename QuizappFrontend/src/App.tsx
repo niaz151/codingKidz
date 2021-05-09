@@ -41,7 +41,6 @@ const App = () => {
     <>
       <SafeAreaView style={{flex: 0, backgroundColor: '#FF671D'}} />
       <SafeAreaView style={styles.viewStyles}>
-      
         <NavigationContainer>
           {accessToken ? (
             <Tab.Navigator
@@ -88,8 +87,6 @@ const App = () => {
             <AuthStack />
           )}
         </NavigationContainer>
-
-
       </SafeAreaView>
     </>
   );
