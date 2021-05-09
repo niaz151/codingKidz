@@ -79,6 +79,7 @@ const RegisterPage = () => {
         />
 
         <DropDownPicker
+          showTickIcon={false}
           open={roleOpen!}
           value={role!}
           items={roleData}
@@ -86,10 +87,11 @@ const RegisterPage = () => {
           setItems={setRoleData}
           setOpen={setRoleOpen}
           style={styles.dropDown}
-          placeholder={"Select A Role"}
+          placeholder={"SELECT A ROLE"}
           searchable={false}
           listMode='SCROLLVIEW'
           containerStyle={{width: wp("80%")}}
+          textStyle={styles.roleText}
         />
 
         <TextInput
@@ -112,6 +114,8 @@ const RegisterPage = () => {
 
         <View style={styles.dateContainer}>
           <DropDownPicker
+            showTickIcon={false}
+            showTickIcon={false}
             open={monthOpen}
             value={month!}
             items={monthData}
@@ -119,15 +123,18 @@ const RegisterPage = () => {
             setItems={setMonthData}
             setOpen={setMonthOpen}
             style={styles.dateDropDownContainer}
-            placeholder={"Month"}
+            placeholder={"JAN"}
             searchable={false}
             listMode='SCROLLVIEW'
             containerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
+            textStyle={styles.dropDownText}
           />
 
           <DropDownPicker
+            showTickIcon={false}
+            showTickIcon={false}
             open={dateOpen!}
             value={date!}
             items={dateData}
@@ -135,15 +142,18 @@ const RegisterPage = () => {
             setItems={setDateData}
             setOpen={setDateOpen}
             style={styles.dateDropDownContainer}
-            placeholder={"Day"}
+            placeholder={"01"}
             searchable={false}
             listMode='SCROLLVIEW'
             containerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
+            textStyle={styles.dropDownText}
           />
 
           <DropDownPicker
+            showTickIcon={false}
+            showTickIcon={false}
             open={yearOpen!}
             value={year!}
             items={yearData}
@@ -151,12 +161,13 @@ const RegisterPage = () => {
             setItems={setYearData}
             setOpen={setYearOpen}
             style={styles.dateDropDownContainer}
-            placeholder={"Year"}
+            placeholder={"2000"}
             searchable={false}
             listMode='SCROLLVIEW'
             containerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
+            textStyle={styles.dropDownText}
           />
 
         </View>
@@ -217,7 +228,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#FF671D',
-    backgroundColor: 'white',
+    backgroundColor: '#FED500',
+  },
+  roleText:{
+    color:'#FF671D',
+    fontWeight:'600',
+    letterSpacing:1.5
   },
   btn: {
     height: 50,
@@ -249,11 +265,17 @@ const styles = StyleSheet.create({
     width: wp('26%'),
     borderWidth: 1,
     borderRadius: 10,
-    borderColor: '#FF671D',
-    backgroundColor: 'white',
+    borderColor: '#3FA6D3',
+    backgroundColor: '#3FA6D3',
+  },
+  dropDownText:{
+    color:'black',
+    fontWeight:'600',
+    letterSpacing:2
   },
   dateDropdownContainerStyle:{
-    width:wp("26%")
+    width:wp("26%"),
+    color:'black',
   },
   navContainer:{
     height: 140,
