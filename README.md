@@ -117,5 +117,7 @@ yarn prisma generate
 yarn prisma db seed --preview-feature
 ```
 
+If backend is stuck at `[4/4] Building fresh packages...`, run `docker ps -a` to find the container ID, then `docker stop [containerID]` (pro-tip you can just type in the first few characters of the ID), then from the project root `docker compose up -d` to start up the backend service again (assuming you already have another window dedicated to running `docker compose up`, it will show the backend starting up again in that window)
+
 <!-- # License
 [MIT](https://choosealicense.com/licenses/mit/) -->

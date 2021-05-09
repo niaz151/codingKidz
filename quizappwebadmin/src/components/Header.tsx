@@ -10,33 +10,28 @@ const Header = () => {
     dispatch(logout());
   };
   return (
-    <nav style={{ width: "100vw" }}>
-      <div>
-        <Link to="/">codingKIDZ</Link>
-        <div>
-          <ul>
-            {accessToken ? (
-              <>
-                <li>
-                  <NavLink exact activeClassName="active" to="/units">
-                    {" "}
-                    Units{" "}
-                  </NavLink>
-                </li>
-                <li>
-                  <button onClick={handleSignOut}>LOGOUT</button>
-                </li>
-              </>
-            ) : (
-              <li>
-                <NavLink exact activeClassName="active" to="/login">
-                  Login
-                </NavLink>
-              </li>
-            )}
-          </ul>
-        </div>
-      </div>
+    <nav>
+      <Link to="/">codingKIDZ</Link>
+      <ul>
+        {accessToken ? (
+          <>
+            <li>
+              <NavLink exact activeClassName="active" to="/units">
+                Units
+              </NavLink>
+            </li>
+            <li>
+              <button onClick={handleSignOut}>LOGOUT</button>
+            </li>
+          </>
+        ) : (
+          <li>
+            <NavLink exact activeClassName="active" to="/login">
+              Login
+            </NavLink>
+          </li>
+        )}
+      </ul>
     </nav>
   );
 };

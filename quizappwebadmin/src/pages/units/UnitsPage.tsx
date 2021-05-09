@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../ducks/hooks";
 import { getUnits } from "./unitsSlice";
+import { UnitContainer } from "./components";
 
 const UnitsPage = () => {
   const dispatch = useAppDispatch();
@@ -19,10 +20,13 @@ const UnitsPage = () => {
       {unitStatus === "idle" && <p>About to load units</p>}
       {unitStatus === "loading" && <p>Units are loading...</p>}
       {unitStatus === "failed" && <p>Error fetching units</p>}
-      {unitStatus === "succeeded" &&
-        units?.map((unit) => {
-          return <p>{unit.name}</p>;
-        })}
+      {unitStatus === "succeeded" && (
+        <div>
+          {units?.map((unit) => {
+            return <UnitContainer unit={unit} key={unit.id} />;
+          })}
+        </div>
+      )}
     </div>
   );
 };

@@ -40,6 +40,7 @@ services:
     environment:
       - NODE_ENV=dev
       - PORT=3000
+      - CHOKIDAR_USEPOLLING=true
     volumes:
       - ./quizappwebadmin:/app
       - /app/node_modules
