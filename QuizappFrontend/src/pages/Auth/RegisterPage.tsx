@@ -5,7 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
 import {Roles} from '../../utils';
 import {register} from './authSlice';
@@ -13,9 +13,11 @@ import {useAppDispatch} from '../../ducks/store';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const RegisterPage = () => {
+
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
+  const [showNav, setShowNav] = useState<boolean>(true);
 
   const [roleOpen, setRoleOpen] = useState();
   const [role, setRole] = useState();
@@ -32,14 +34,6 @@ const RegisterPage = () => {
     {label: 'FEB', value: '02'},
     {label: 'MAR', value: '03'},
     {label: 'APR', value: '04'},
-    {label: 'MAY', value: '05'},
-    {label: 'JUN', value: '06'},
-    {label: 'JUL', value: '07'},
-    {label: 'AUG', value: '08'},
-    {label: 'SEP', value: '09'},
-    {label: 'OCT', value: '10'},
-    {label: 'NOV', value: '11'},
-    {label: 'DEC', value: '12'},
   ]);
 
   const [dateOpen, setDateOpen] = useState(false);
@@ -49,33 +43,6 @@ const RegisterPage = () => {
     {label: '02', value: '02'},
     {label: '03', value: '03'},
     {label: '04', value: '04'},
-    {label: '05', value: '05'},
-    {label: '06', value: '06'},
-    {label: '07', value: '07'},
-    {label: '08', value: '08'},
-    {label: '09', value: '09'},
-    {label: '10', value: '10'},
-    {label: '11', value: '11'},
-    {label: '12', value: '12'},
-    {label: '13', value: '13'},
-    {label: '14', value: '14'},
-    {label: '15', value: '15'},
-    {label: '16', value: '16'},
-    {label: '17', value: '17'},
-    {label: '18', value: '18'},
-    {label: '19', value: '19'},
-    {label: '20', value: '20'},
-    {label: '21', value: '21'},
-    {label: '22', value: '22'},
-    {label: '23', value: '23'},
-    {label: '24', value: '24'},
-    {label: '25', value: '25'},
-    {label: '26', value: '26'},
-    {label: '27', value: '27'},
-    {label: '28', value: '28'},
-    {label: '29', value: '29'},
-    {label: '30', value: '30'},
-    {label: '31', value: '31'},
   ])
 
   const [yearOpen, setYearOpen] = useState(false);
@@ -85,7 +52,6 @@ const RegisterPage = () => {
     {label:"2019", value:"2019"}
   ]);
   
-
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
@@ -102,6 +68,7 @@ const RegisterPage = () => {
   return (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>
+        
         <Text style={styles.titleText}> REGISTER </Text>
         <TextInput
           label="Email"
@@ -122,6 +89,7 @@ const RegisterPage = () => {
           placeholder={"Select A Role"}
           searchable={false}
           listMode='SCROLLVIEW'
+          containerStyle={{width: wp("80%")}}
         />
 
         <TextInput
@@ -145,7 +113,7 @@ const RegisterPage = () => {
         <View style={styles.dateContainer}>
           <DropDownPicker
             open={monthOpen}
-            value={month}
+            value={month!}
             items={monthData}
             setValue={setMonth}
             setItems={setMonthData}
@@ -154,6 +122,9 @@ const RegisterPage = () => {
             placeholder={"Month"}
             searchable={false}
             listMode='SCROLLVIEW'
+            containerStyle={styles.dateDropdownContainerStyle}
+            onPress={() => setShowNav(false)}
+            onClose={() => setShowNav(true)}
           />
 
           <DropDownPicker
@@ -167,31 +138,43 @@ const RegisterPage = () => {
             placeholder={"Day"}
             searchable={false}
             listMode='SCROLLVIEW'
+            containerStyle={styles.dateDropdownContainerStyle}
+            onPress={() => setShowNav(false)}
+            onClose={() => setShowNav(true)}
           />
 
           <DropDownPicker
-            open={monthOpen!}
-            value={role!}
-            items={roleData}
-            setValue={setRole}
-            setItems={setRoleData}
-            setOpen={setMonthOpen}
+            open={yearOpen!}
+            value={year!}
+            items={yearData}
+            setValue={setYear}
+            setItems={setYearData}
+            setOpen={setYearOpen}
             style={styles.dateDropDownContainer}
             placeholder={"Year"}
             searchable={false}
             listMode='SCROLLVIEW'
+            containerStyle={styles.dateDropdownContainerStyle}
+            onPress={() => setShowNav(false)}
+            onClose={() => setShowNav(true)}
           />
 
         </View>
 
-        <View style={styles.dateContainer}></View>
-        <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
-          SIGN UP
-        </Button>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.forgot}> Existing User? Log In &#8594; </Text>
-        </TouchableOpacity>
-        <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+        <View style={styles.navContainer}>
+          {showNav?(
+            <>
+            <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
+              SIGN UP
+            </Button>
+            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+              <Text style={styles.forgot}> Existing User? Log In &#8594; </Text>
+            </TouchableOpacity>
+            <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+            </>
+          ): null}
+        </View>
+ 
       </View>
     </View>
   );
@@ -229,7 +212,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   dropDown: {
-    marginLeft: wp('10%'),
     width: wp('80%'),
     height: hp('5.8%'),
     borderWidth: 1,
@@ -239,7 +221,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     height: 50,
-    width: 150,
+    width: 170,
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
@@ -269,8 +251,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: '#FF671D',
     backgroundColor: 'white',
-    marginLeft:wp("27%")
   },
+  dateDropdownContainerStyle:{
+    width:wp("26%")
+  },
+  navContainer:{
+    height: 140,
+    borderColor:'black',
+    flexDirection:'column',
+    alignContent:'center',
+    justifyContent:'space-around'
+  }
 });
 
 export default RegisterPage;
