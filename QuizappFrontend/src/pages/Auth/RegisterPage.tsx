@@ -61,7 +61,8 @@ const RegisterPage = () => {
     } else if (!password || !email || !role) {
       Alert.alert('Please fill out form');
     } else {
-      return await dispatch(register({email, password, role}));
+      await dispatch(register({email, password, role}));
+      navigation.navigate('Profile')
     }
   };
 
@@ -178,7 +179,10 @@ const RegisterPage = () => {
             <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
               SIGN UP
             </Button>
-            <TouchableOpacity onPress={() => navigation.navigate('Login')}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate('Register');
+              }}>
               <Text style={styles.forgot}> Existing User? Log In &#8594; </Text>
             </TouchableOpacity>
             <Text style={styles.privacy}> Terms and Privacy Policy </Text>

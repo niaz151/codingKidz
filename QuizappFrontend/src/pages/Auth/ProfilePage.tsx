@@ -8,7 +8,11 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 
+import {useAppSelector} from '../../ducks/store';
+import {TokenService} from '../../services';
+
 const ProfilePage = () => {
+
   const [fname, setFname] = useState<string>('');
   const [lname, setLname] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
