@@ -15,7 +15,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col">
       <form>
         <label>Email</label>
         <input

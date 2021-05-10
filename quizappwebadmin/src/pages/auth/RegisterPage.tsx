@@ -60,7 +60,7 @@ const RegisterPage = () => {
           })}
         </select>
       </form>
-      <button onClick={onSubmit}>Login</button>
+      <button onClick={onSubmit}>Register</button>
       <Link to="/login">
         <button>Back to Login</button>
       </Link>
