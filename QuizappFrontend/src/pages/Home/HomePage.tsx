@@ -15,14 +15,8 @@ export const HomePage = () => {
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
         <Text style={[styles.welcomeText, styles.bold]}> WELCOME </Text>
-        <Text style={styles.welcomeText}> {email}</Text>
+        <Text style={styles.emailText}> {email}</Text>
       </View>
-      {/*
-      <View style={styles.roleWrap}>
-        <Text style={[styles.welcomeText, styles.bold]}> YOU ARE A </Text> 
-        <Text style={styles.welcomeText}> {roles}</Text>
-      </View>
-      */}
       <View style={styles.languageWrap}>
         <View style={styles.new}>
           <Text style={[styles.languagePrompt, styles.bold]}>
@@ -46,14 +40,18 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   welcomeWrap: {
-    height: 70,
+    height: hp("10%"),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-around',
   },
   welcomeText: {
-    fontSize: 20,
+    fontSize: hp("3%"),
+    color: 'black',
+  },
+  emailText: {
+    fontSize: hp("2.8%"),
     color: 'black',
   },
   roleWrap: {
@@ -65,6 +63,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   languageWrap: {
+    height: hp("70%"),
+    borderColor:'black',
+    borderWidth:1,
     marginTop: 40,
     width: wp('90%'),
     display: 'flex',
@@ -77,8 +78,7 @@ const styles = StyleSheet.create({
   },
   languagePrompt: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: hp("2.5%"),
     color: 'black',
-    paddingLeft: 2,
   },
 });

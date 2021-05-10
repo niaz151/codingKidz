@@ -13,9 +13,6 @@ const HomeStack = () => {
         component={HomePage}
         options={{
           title: '',
-          headerStyle: {
-            backgroundColor: '#FF671D',
-          },
         }}
       />
     </Stack.Navigator>

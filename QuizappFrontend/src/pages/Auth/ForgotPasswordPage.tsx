@@ -6,6 +6,13 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
+import PeekabooMouse from '../../assets/images/Screen_A_peekaboo_mouse-01.svg';
+import Svg, {
+  Circle,
+  Ellipse,
+  Path,
+  Defs,
+} from 'react-native-svg';
 
 const ForgotPasswordPage = () => {
   const navigation = useNavigation();
@@ -59,13 +66,12 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize: 22,
-    fontWeight: '500',
+    fontSize: 20,
+
   },
   subTitleText: {
     color: '#FF671D',
     fontSize: 18,
-    fontWeight: '500',
   },
   textInput: {
     width: wp('80%'),
