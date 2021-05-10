@@ -7,6 +7,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 import {useAppSelector} from '../../ducks/store';
 import {TokenService} from '../../services';
@@ -16,8 +17,15 @@ const ProfilePage = () => {
   const [fname, setFname] = useState<string>('');
   const [lname, setLname] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
-  const [dob, setDob] = useState<string>('');
-  const [gender, setGender] = useState<string>('');
+
+  const [genderOpen, setGenderOpen] = useState();
+  const [gender, setGender] = useState();
+  const [genderData, setGenderData] = useState([
+    {label: 'MALE', value: 'MALE'},
+    {label: 'FEMALE', value: 'FEMALE'},
+    {label: 'NON-BINARY', value: 'NON-BINARY'},
+    {label: 'Other', value: 'Other'},
+  ]);
 
   return(
     <View style={styles.container}>
@@ -45,20 +53,22 @@ const ProfilePage = () => {
           onChangeText={(text) => setNickname(text)}
           style={styles.textInput}
         />
-        <TextInput
-          label="Date of Birth"
-          textContentType="username"
-          value={dob}
-          onChangeText={(text) => setDob(text)}
-          style={styles.textInput}
+        <DropDownPicker
+          showTickIcon={false}
+          open={genderOpen!}
+          value={gender!}
+          items={genderData}
+          setValue={setGender}
+          setItems={setGenderData}
+          setOpen={setGenderOpen}
+          style={styles.dropDown}
+          placeholder={"GENDER"}
+          searchable={false}
+          listMode='SCROLLVIEW'
+          containerStyle={{width: wp("80%")}}
+          textStyle={styles.genderText}
         />
-        <TextInput
-          label="Gender"
-          textContentType="username"
-          value={gender}
-          onChangeText={(text) => setGender(text)}
-          style={styles.textInput}
-        />
+
       </View>
       
     </View>
@@ -141,6 +151,11 @@ const styles = StyleSheet.create({
   dateDropDownContainer: {
     height: 40,
     width: wp('25%'),
+  },
+  genderText:{
+    color:'#FF671D',
+    fontWeight:'600',
+    letterSpacing:1.5
   },
 });
 
