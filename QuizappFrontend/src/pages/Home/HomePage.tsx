@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import { Button } from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -11,6 +12,7 @@ export const HomePage = () => {
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {email} = TokenService.readToken(accessToken);
 
+
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
@@ -18,10 +20,18 @@ export const HomePage = () => {
         <Text style={styles.emailText}> {email}</Text>
       </View>
       <View style={styles.languageWrap}>
-        <View style={styles.new}>
-          <Text style={[styles.languagePrompt, styles.bold]}>
+        <View style={styles.languagePrompt}>
+          <Text style={styles.promptText}>
             Let's test your knowledge of ...
           </Text>
+        </View>
+        <View style={styles.languageList}> 
+          <Button mode="contained" style={styles.langugeTile}>
+            SCRATCH
+          </Button>
+          <Button mode="contained" style={styles.langugeTile}>
+            SCRATCH JR
+          </Button>
         </View>
       </View>
     </View>
@@ -29,9 +39,6 @@ export const HomePage = () => {
 };
 
 const styles = StyleSheet.create({
-  bold: {
-    fontWeight: '500',
-  },
   container: {
     flex: 1,
     backgroundColor: '#FDF9DF',
@@ -48,11 +55,12 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontSize: hp("3%"),
-    color: 'black',
+    color: '#FF671D',
   },
   emailText: {
     fontSize: hp("2.8%"),
     color: 'black',
+    fontWeight:'200'
   },
   roleWrap: {
     marginTop: 20,
@@ -63,22 +71,54 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   languageWrap: {
-    height: hp("70%"),
-    borderColor:'black',
-    borderWidth:1,
+    height: hp("65%"),
+    //borderColor:'black',
+    //borderWidth:1,
     marginTop: 40,
-    width: wp('90%'),
+    width: wp('100%'),
+    marginLeft:wp("-5%"),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  new: {
-    width: '75%',
-  },
   languagePrompt: {
-    textAlign: 'center',
-    fontSize: hp("2.5%"),
+    flex:1,
+    width: '100%',
     color: 'black',
+    //borderColor:'black',
+    //borderWidth:1,
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
   },
+  promptText: {
+    fontWeight: '500',
+    fontSize: hp("3%"),
+    color:'#3FA6D3',
+  },
+  languageList:{
+    flex:1,
+    width:'100%',
+    //borderColor:'black',
+    //borderWidth:1,
+    display:'flex',
+    paddingTop:20,
+    alignItems:'flex-start',
+    justifyContent:'space-around',
+    flexDirection:'row',
+    backgroundColor: '#FF671D',
+  },
+  langugeTile:{
+    height: 50,
+    width: 150,
+    backgroundColor: '#FF671D',
+    borderColor:'white',
+    borderWidth:2,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    fontSize: 15,
+  }
 });

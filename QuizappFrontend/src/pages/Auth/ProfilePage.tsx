@@ -31,7 +31,7 @@ const ProfilePage = () => {
     <View style={styles.container}>
       <View style={styles.inputContainer}>
         <Text style={styles.titleText}> PROFILE </Text>
-        <Avatar.Image size={80} source={require('../../assets/images/user_icon_gray.png')} />
+        <Avatar.Image size={120} source={require('../../assets/images/user_icon_gray.png')} />
         <TextInput
           label="First Name"
           textContentType="username"
@@ -97,7 +97,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize: 22,
+    fontSize: 30,
     fontWeight: '700',
   },
   inputContainer: {
