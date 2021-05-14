@@ -25,7 +25,7 @@ const SplashPage = () => {
         </View>
       </View>
       <View style={styles.splashCaptionWrap}>
-        <Text> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
+        <Text style={styles.text}> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
       </View>
       <View style={styles.btnWrap}>
         <TouchableOpacity
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   },
   splashLogoTitleOne: {
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 60,
     color: 'white',
   },
   splashLogoTitleTwo: {
-    fontSize: 30,
+    fontSize: 50,
     marginLeft: -10,
     color: 'white',
   },
@@ -100,13 +100,15 @@ const styles = StyleSheet.create({
   },
   splashCaptionWrap: {
     color: 'white',
-    fontSize: 20,
     fontWeight: 'bold',
     width: 250,
     marginTop: 50,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  text:{
+    fontSize:20,
   },
   splashBtnWrap: {
     display: 'flex',
@@ -143,8 +145,8 @@ const styles = StyleSheet.create({
     marginTop: hp('6%'),
   },
   btn: {
-    height: 50,
-    width: 110,
+    height: 60,
+    width: 150,
     borderColor: 'red',
     borderWidth: 2.5,
     borderRadius: 10,
@@ -165,9 +167,11 @@ const styles = StyleSheet.create({
   },
   yellowText: {
     color: '#F8EB30',
+    fontSize:20
   },
   orangeText: {
     color: '#FF671D',
+    fontSize:20
   },
 });
 

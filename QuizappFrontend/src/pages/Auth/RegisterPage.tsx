@@ -233,12 +233,12 @@ const RegisterPage = () => {
               <Button
                 mode="contained"
                 style={styles.signupButton}
-                onPress={handleSubmit}>
+                onPress={ () => handleSubmit }>
                 <Text style={styles.signupBtnText}>Sign Up</Text>
               </Button>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate('Register');
+                  navigation.navigate('Login');
                 }}>
                 <Text style={styles.forgot}>
                   {' '}
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#3FA6D3',
   },
   dropDownText: {
-    color: 'white',
+    color: 'black',
     fontWeight: '600',
     letterSpacing: 2,
     fontSize: 24,
