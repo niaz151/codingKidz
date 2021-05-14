@@ -53,7 +53,7 @@ const LoginPage = () => {
         style={styles.textInput}
       />
       <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
-        SIGN IN
+        <Text style={styles.btnText}>SIGN IN </Text>
       </Button>
       <TouchableOpacity
         onPress={() => {
@@ -142,13 +142,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   splashImg: {
-    height: 190,
-    width: 190,
+    height: 200,
+    width: 250,
   },
   splashLogoCirclePortrait: {
     borderRadius: 200,
-    width: 170,
-    height: 170,
+    width: 200,
+    height: 200,
     backgroundColor: '#FCFADD',
     borderWidth: 6,
     borderColor: '#F8EB30',
@@ -158,32 +158,34 @@ const styles = StyleSheet.create({
   },
   textInput: {
     width: wp('80%'),
-    height: 50,
+    height: 60,
     borderWidth: 1,
     borderRadius: 0,
     borderColor: '#FF671D',
     backgroundColor: 'white',
   },
   btn: {
-    height: 50,
-    width: 150,
+    height: 70,
+    width: 210,
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    fontSize: 15,
+  },
+  btnText:{
+    fontSize: 24,
   },
   forgot: {
     color: '#FF671D',
-    fontSize: 15,
+    fontSize: 22,
     fontWeight: '700',
   },
   privacy: {
     position: 'absolute',
     bottom: hp('15%'),
     color: '#1B6A7A',
-    fontSize: 14,
+    fontSize: 22,
   },
   loginWarning: {
     borderWidth: 1,
