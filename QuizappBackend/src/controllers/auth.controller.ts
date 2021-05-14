@@ -4,12 +4,13 @@ import { TokenService, UserService } from "../services";
 
 const signUp = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { email, password, role } = req.body;
+    const { email, password, role, birthday } = req.body;
 
     const { accessToken, refreshToken } = await AuthService.signup(
       email,
       password,
-      role
+      role,
+      new Date(birthday)
     );
 
     return res.json({

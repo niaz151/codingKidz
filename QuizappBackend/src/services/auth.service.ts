@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Profile, User } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { HttpException } from "../exceptions";
 import { db, ROLES } from "../prisma";
@@ -7,9 +7,12 @@ import { TokenService, UserService } from "./index";
 const signup = async (
   email: User["email"],
   password: User["password"],
-  role: ROLES
+  role: ROLES,
+  birthday: Profile["birthday"]
 ) => {
   const newUser = await UserService.createUser(email, password, role);
+  await UserService.createProfile(newUser.id, birthday);
+
   const accessToken = TokenService.createAccessToken({
     id: newUser.id,
     email: newUser.email,

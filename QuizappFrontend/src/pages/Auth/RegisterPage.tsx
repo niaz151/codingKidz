@@ -13,63 +13,113 @@ import {useAppDispatch} from '../../ducks/store';
 import DropDownPicker from 'react-native-dropdown-picker';
 
 const RegisterPage = () => {
-
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [showNav, setShowNav] = useState<boolean>(true);
 
-  const [roleOpen, setRoleOpen] = useState();
-  const [role, setRole] = useState();
-  const [roleData, setRoleData] = useState([
-    {label: 'ADMIN', value: 'ADMIN'},
-    {label: 'TEACHER', value: 'TEACHER'},
-    {label: 'STUDENT', value: 'STUDENT'},
-  ]);
+  const [roleOpen, setRoleOpen] = useState(false);
+  const onRoleOpen = () => {
+    setDateOpen(false);
+    setMonthOpen(false);
+    setYearOpen(false);
+  };
+  const [role, setRole] = useState<Roles | null>(null);
+  const [roleData, setRoleData] = useState(
+    Object.keys(Roles).map((r) => {
+      return {label: r, value: r};
+    }),
+  );
+
+  const MONTHS = [
+    'JAN',
+    'FEB',
+    'MAR',
+    'APR',
+    'MAY',
+    'JUN',
+    'JUL',
+    'AUG',
+    'SEP',
+    'OCT',
+    'NOV',
+    'DEC',
+  ];
 
   const [monthOpen, setMonthOpen] = useState(false);
-  const [month, setMonth] = useState(null);
-  const [monthData, setMonthData] = useState([
-    {label: 'JAN', value: '01'},
-    {label: 'FEB', value: '02'},
-    {label: 'MAR', value: '03'},
-    {label: 'APR', value: '04'},
-  ]);
+  // Close all other dropdowns when opening
+  const onMonthOpen = () => {
+    setRoleOpen(false);
+    setDateOpen(false);
+    setYearOpen(false);
+  };
+  const [month, setMonth] = useState<string | null>(null);
+  const [monthData, setMonthData] = useState(
+    MONTHS.map((m, i) => {
+      return {label: m, value: String(i)};
+    }),
+  );
 
   const [dateOpen, setDateOpen] = useState(false);
-  const [date,setDate] = useState(null);
-  const [dateData, setDateData] = useState([
-    {label: '01', value: '01'},
-    {label: '02', value: '02'},
-    {label: '03', value: '03'},
-    {label: '04', value: '04'},
-  ])
+  // Close all other dropdowns when opening
+  const onDateOpen = () => {
+    setRoleOpen(false);
+    setMonthOpen(false);
+    setYearOpen(false);
+  };
+  const [date, setDate] = useState<string | null>(null);
+  const [dateData, setDateData] = useState(
+    [...Array(31).keys()].map((d) => {
+      return {label: String(d + 1), value: String(d + 1)};
+    }),
+  );
 
   const [yearOpen, setYearOpen] = useState(false);
-  const [year, setYear] = useState(null);
-  const [yearData, setYearData] = useState([
-    {label:"2020", value:"2020"},
-    {label:"2019", value:"2019"}
-  ]);
-  
+  // Close all other dropdowns when opening
+  const onYearOpen = () => {
+    setRoleOpen(false);
+    setDateOpen(false);
+    setMonthOpen(false);
+  };
+  const [year, setYear] = useState<string | null>(null);
+  const [yearData, setYearData] = useState(
+    [...Array(new Date().getFullYear()).keys()]
+      .map((y) => {
+        return {label: String(y), value: String(y)};
+      })
+      .reverse(),
+  );
+
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
 
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
       Alert.alert('Password must match!');
-    } else if (!password || !email || !role) {
+    } else if (!password || !email || !role || !date || !month || !year) {
       Alert.alert('Please fill out form');
     } else {
-      await dispatch(register({email, password, role}));
-      navigation.navigate('Profile')
+      console.log('about to send', {
+        email: email,
+        password: password,
+        role: role,
+        birthday: `${month} ${date} ${year}`,
+      });
+
+      await dispatch(
+        register({
+          email: email,
+          password: password,
+          role: role,
+          birthday: new Date(`${month} ${date} ${year}`),
+        }),
+      );
     }
   };
 
   return (
-    <View style={styles.loginContainer}>
+    <View style={styles.registerContainer}>
       <View style={styles.inputContainer}>
-        
         <Text style={styles.titleText}> REGISTER </Text>
         <TextInput
           label="Email"
@@ -77,21 +127,25 @@ const RegisterPage = () => {
           value={email}
           onChangeText={(text) => setEmail(text)}
           style={[styles.textInput]}
+          autoCompleteType="email"
+          keyboardType="email-address"
+          autoCorrect={false}
         />
 
         <DropDownPicker
           showTickIcon={false}
-          open={roleOpen!}
-          value={role!}
-          items={roleData}
-          setValue={setRole}
-          setItems={setRoleData}
+          open={roleOpen}
+          onOpen={onRoleOpen}
           setOpen={setRoleOpen}
+          value={role}
+          setValue={setRole}
+          items={roleData}
+          setItems={setRoleData}
           style={styles.dropDown}
-          placeholder={"SELECT A ROLE"}
+          placeholder={'Select Your Role'}
           searchable={false}
-          listMode='SCROLLVIEW'
-          containerStyle={{width: wp("80%")}}
+          listMode="FLATLIST"
+          containerStyle={{width: wp('80%')}}
           textStyle={styles.roleText}
         />
 
@@ -100,6 +154,7 @@ const RegisterPage = () => {
           value={password}
           textContentType="newPassword"
           secureTextEntry={true}
+          autoCompleteType="password"
           onChangeText={(text) => setPassword(text)}
           style={[styles.textInput]}
         />
@@ -116,17 +171,17 @@ const RegisterPage = () => {
         <View style={styles.dateContainer}>
           <DropDownPicker
             showTickIcon={false}
-            showTickIcon={false}
             open={monthOpen}
-            value={month!}
-            items={monthData}
+            onOpen={onMonthOpen}
+            value={month}
             setValue={setMonth}
+            items={monthData}
             setItems={setMonthData}
             setOpen={setMonthOpen}
             style={styles.dateDropDownContainer}
-            placeholder={"JAN"}
+            placeholder={'Month'}
             searchable={false}
-            listMode='SCROLLVIEW'
+            listMode="SCROLLVIEW"
             containerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
@@ -135,17 +190,17 @@ const RegisterPage = () => {
 
           <DropDownPicker
             showTickIcon={false}
-            showTickIcon={false}
-            open={dateOpen!}
-            value={date!}
-            items={dateData}
-            setValue={setDate}
-            setItems={setDateData}
+            open={dateOpen}
             setOpen={setDateOpen}
+            onOpen={onDateOpen}
+            value={date}
+            setValue={setDate}
+            items={dateData}
+            setItems={setDateData}
             style={styles.dateDropDownContainer}
-            placeholder={"01"}
+            placeholder={'Day'}
             searchable={false}
-            listMode='SCROLLVIEW'
+            listMode="FLATLIST"
             containerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
@@ -154,49 +209,53 @@ const RegisterPage = () => {
 
           <DropDownPicker
             showTickIcon={false}
-            showTickIcon={false}
-            open={yearOpen!}
-            value={year!}
+            open={yearOpen}
+            onOpen={onYearOpen}
+            value={year}
             items={yearData}
             setValue={setYear}
             setItems={setYearData}
             setOpen={setYearOpen}
             style={styles.dateDropDownContainer}
-            placeholder={"2000"}
+            placeholder={'Year'}
             searchable={false}
-            listMode='SCROLLVIEW'
+            listMode="FLATLIST"
             containerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
             textStyle={styles.dropDownText}
           />
-
         </View>
 
         <View style={styles.navContainer}>
-          {showNav?(
+          {showNav ? (
             <>
-            <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
-              SIGN UP
-            </Button>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('Register');
-              }}>
-              <Text style={styles.forgot}> Existing User? Log In &#8594; </Text>
-            </TouchableOpacity>
-            <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+              <Button
+                mode="contained"
+                style={styles.signupButton}
+                onPress={handleSubmit}>
+                <Text style={styles.signupBtnText}>Sign Up</Text>
+              </Button>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('Register');
+                }}>
+                <Text style={styles.forgot}>
+                  {' '}
+                  Existing User? Log In &#8594;{' '}
+                </Text>
+              </TouchableOpacity>
+              <Text style={styles.privacy}> Terms and Privacy Policy </Text>
             </>
-          ): null}
+          ) : null}
         </View>
- 
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  loginContainer: {
+  registerContainer: {
     height: hp('100%'),
     width: wp('100%'),
     display: 'flex',
@@ -207,7 +266,7 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize: 22,
+    fontSize: 48,
     fontWeight: '700',
   },
   inputContainer: {
@@ -222,9 +281,10 @@ const styles = StyleSheet.create({
     width: wp('80%'),
     height: hp('5.8%'),
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 5,
     borderColor: '#FF671D',
     backgroundColor: 'white',
+    fontSize: 24,
   },
   dropDown: {
     width: wp('80%'),
@@ -234,12 +294,13 @@ const styles = StyleSheet.create({
     borderColor: '#FF671D',
     backgroundColor: '#FED500',
   },
-  roleText:{
-    color:'#FF671D',
-    fontWeight:'600',
-    letterSpacing:1.5
+  roleText: {
+    color: '#FF671D',
+    fontWeight: '600',
+    letterSpacing: 1.5,
+    fontSize: 24,
   },
-  btn: {
+  signupButton: {
     height: 50,
     width: 170,
     backgroundColor: '#FF671D',
@@ -248,6 +309,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     fontSize: 15,
+  },
+  signupBtnText: {
+    fontSize: 24,
   },
   forgot: {
     color: '#1B6A7A',
@@ -260,9 +324,9 @@ const styles = StyleSheet.create({
   dateContainer: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
     justifyContent: 'space-around',
-    width:wp("80%")
+    width: wp('80%'),
   },
   dateDropDownContainer: {
     height: hp('5.8%'),
@@ -272,22 +336,24 @@ const styles = StyleSheet.create({
     borderColor: '#3FA6D3',
     backgroundColor: '#3FA6D3',
   },
-  dropDownText:{
-    color:'black',
-    fontWeight:'600',
-    letterSpacing:2
+  dropDownText: {
+    color: 'white',
+    fontWeight: '600',
+    letterSpacing: 2,
+    fontSize: 24,
   },
-  dateDropdownContainerStyle:{
-    width:wp("26%"),
-    color:'black',
+  dateDropdownContainerStyle: {
+    width: wp('26%'),
+    color: 'black',
   },
-  navContainer:{
+  navContainer: {
     height: 140,
-    borderColor:'black',
-    flexDirection:'column',
-    alignContent:'center',
-    justifyContent:'space-around'
-  }
+    borderColor: 'black',
+    flexDirection: 'column',
+    alignContent: 'center',
+    justifyContent: 'space-between',
+    // marginTop: 50,
+  },
 });
 
 export default RegisterPage;

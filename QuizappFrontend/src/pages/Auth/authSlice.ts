@@ -49,21 +49,33 @@ const login = createAsyncThunk(
 
 const register = createAsyncThunk<
   {accessToken: string; refreshToken: string},
-  {email: string; password: string; role: Roles},
+  {email: string; password: string; role: Roles; birthday: Date},
   {
     rejectValue: string;
   }
 >(
   'user/register',
   async (
-    {email, password, role}: {email: string; password: string; role: Roles},
+    {
+      email,
+      password,
+      role,
+      birthday,
+    }: {email: string; password: string; role: Roles; birthday: Date},
     thunkAPI,
   ) => {
+    console.log('ABOUT TO SEND', {
+      email: email,
+      password: password,
+      role: role,
+      birthday: birthday,
+    });
     return await axios
       .post('http://localhost/api/auth/signup', {
         email: email,
         password: password,
         role: role,
+        birthday: birthday,
       })
       .then(
         async (response) => {

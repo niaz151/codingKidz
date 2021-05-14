@@ -1,4 +1,4 @@
-import { User } from "@prisma/client";
+import { Profile, User } from "@prisma/client";
 import { HttpException } from "../exceptions";
 import { db, ROLES } from "../prisma";
 import bcrypt from "bcrypt";
@@ -81,20 +81,16 @@ const deleteUser = async (userId: User["id"]) => {
   return user;
 };
 
-const uploadAvatar = async (userId: User["id"], avatar: Buffer) => {
+const createProfile = async (
+  userId: User["id"],
+  birthday: Profile["birthday"]
+) => {
   return await db.user.update({
-    where: {
-      id: userId,
-    },
+    where: { id: userId },
     data: {
       profile: {
-        upsert: {
-          create: {
-            avatar: avatar,
-          },
-          update: {
-            avatar: avatar,
-          },
+        create: {
+          birthday: birthday,
         },
       },
     },
@@ -115,6 +111,24 @@ const getProfile = async (userId: User["id"]) => {
   });
 };
 
+const uploadAvatar = async (userId: User["id"], avatar: Buffer) => {
+  return await db.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      profile: {
+        update: {
+          avatar: avatar,
+        },
+      },
+    },
+    include: {
+      profile: true,
+    },
+  });
+};
+
 export default {
   findAllUsers,
   findUserByEmail,
@@ -123,5 +137,6 @@ export default {
   updatePassword,
   deleteUser,
   uploadAvatar,
+  createProfile,
   getProfile,
 };

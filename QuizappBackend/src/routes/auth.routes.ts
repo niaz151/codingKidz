@@ -11,6 +11,7 @@ authRouter.post(
   body("email").isEmail().normalizeEmail(),
   body("password"),
   body("role").custom(AuthValidator.isValidRole),
+  body("birthday").isDate(),
   ErrorMiddleware.checkForValidationErrors,
   AuthController.signUp
 );
