@@ -27,10 +27,10 @@ export const HomePage = () => {
         </View>
         <View style={styles.languageList}> 
           <Button mode="contained" style={styles.langugeTile}>
-            SCRATCH
+            <Text style={styles.btnText}> SCRATCH </Text>
           </Button>
           <Button mode="contained" style={styles.langugeTile}>
-            SCRATCH JR
+            <Text style={styles.btnText}> SCRATCH JR </Text>
           </Button>
         </View>
       </View>
@@ -62,21 +62,13 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight:'200'
   },
-  roleWrap: {
-    marginTop: 20,
-    height: 70,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
   languageWrap: {
-    height: hp("65%"),
+    height: hp("80%"),
     //borderColor:'black',
     //borderWidth:1,
     marginTop: 40,
     width: wp('100%'),
-    marginLeft:wp("-5%"),
+    marginLeft:wp("-2.5%"),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -103,15 +95,15 @@ const styles = StyleSheet.create({
     //borderColor:'black',
     //borderWidth:1,
     display:'flex',
-    paddingTop:20,
+    paddingTop:50,
     alignItems:'flex-start',
     justifyContent:'space-around',
     flexDirection:'row',
     backgroundColor: '#FF671D',
   },
   langugeTile:{
-    height: 50,
-    width: 150,
+    height: 65,
+    width: 170,
     backgroundColor: '#FF671D',
     borderColor:'white',
     borderWidth:2,
@@ -119,6 +111,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    fontSize: 15,
+  },
+  btnText:{
+    fontSize:18
   }
 });
