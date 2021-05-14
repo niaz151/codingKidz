@@ -22,8 +22,14 @@ const TopicContainer = (props: Props) => {
       {topic.multipleChoiceQuestions?.map((question) => {
         return <MCQuestionContainer question={question} key={question.id} />;
       })}
-      {showMCForm ? <MCForm /> :<button onClick={() => setShowMCForm(true)}>Add Multiple Choice Question</button>}
-      
+      {showMCForm ? (
+        <MCForm />
+      ) : (
+        <button onClick={() => setShowMCForm(true)}>
+          Add Multiple Choice Question
+        </button>
+      )}
+
       <p>True False Questions</p>
       {topic.trueFalseQuestions?.map((question) => {
         return <TFQuestionContainer question={question} key={question.id} />;

@@ -27,7 +27,7 @@ const RegisterPage = () => {
   const [role, setRole] = useState<Roles | null>(null);
   const [roleData, setRoleData] = useState(
     Object.keys(Roles).map((r) => {
-      return {label: r, value: r};
+      return {label: r, value: r.toUpperCase()};
     }),
   );
 
@@ -53,10 +53,10 @@ const RegisterPage = () => {
     setDateOpen(false);
     setYearOpen(false);
   };
-  const [month, setMonth] = useState<string | null>(null);
+  const [month, setMonth] = useState<number | null>(null);
   const [monthData, setMonthData] = useState(
     MONTHS.map((m, i) => {
-      return {label: m, value: String(i)};
+      return {label: m, value: i};
     }),
   );
 
@@ -67,10 +67,10 @@ const RegisterPage = () => {
     setMonthOpen(false);
     setYearOpen(false);
   };
-  const [date, setDate] = useState<string | null>(null);
+  const [date, setDate] = useState<number | null>(null);
   const [dateData, setDateData] = useState(
     [...Array(31).keys()].map((d) => {
-      return {label: String(d + 1), value: String(d + 1)};
+      return {label: String(d + 1), value: d + 1};
     }),
   );
 
@@ -81,11 +81,11 @@ const RegisterPage = () => {
     setDateOpen(false);
     setMonthOpen(false);
   };
-  const [year, setYear] = useState<string | null>(null);
+  const [year, setYear] = useState<number | null>(null);
   const [yearData, setYearData] = useState(
     [...Array(new Date().getFullYear()).keys()]
       .map((y) => {
-        return {label: String(y), value: String(y)};
+        return {label: String(y), value: y};
       })
       .reverse(),
   );
@@ -103,7 +103,7 @@ const RegisterPage = () => {
         email: email,
         password: password,
         role: role,
-        birthday: `${month} ${date} ${year}`,
+        birthday: new Date(year, month, date),
       });
 
       await dispatch(
@@ -111,7 +111,7 @@ const RegisterPage = () => {
           email: email,
           password: password,
           role: role,
-          birthday: new Date(`${month} ${date} ${year}`),
+          birthday: new Date(year, month, date),
         }),
       );
     }
@@ -212,8 +212,8 @@ const RegisterPage = () => {
             open={yearOpen}
             onOpen={onYearOpen}
             value={year}
-            items={yearData}
             setValue={setYear}
+            items={yearData}
             setItems={setYearData}
             setOpen={setYearOpen}
             style={styles.dateDropDownContainer}
