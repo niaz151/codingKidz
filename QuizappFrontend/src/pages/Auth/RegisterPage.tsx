@@ -266,11 +266,11 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize: 48,
+    fontSize: 40,
     fontWeight: '700',
   },
   inputContainer: {
-    height: hp('70%'),
+    height: hp('80%'),
     width: wp('100%'),
     marginTop: hp('-20%'),
     display: 'flex',
@@ -301,25 +301,28 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   signupButton: {
-    height: 50,
-    width: 170,
+    height: 70,
+    width: 210,
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
     fontSize: 15,
+    marginLeft:wp("1%")
   },
   signupBtnText: {
     fontSize: 24,
   },
   forgot: {
+    marginTop:20,
     color: '#1B6A7A',
-    fontSize: 15,
+    fontSize: 22,
   },
   privacy: {
+    marginTop:20,
     color: '#1B6A7A',
-    fontSize: 14,
+    fontSize: 22,
   },
   dateContainer: {
     display: 'flex',
