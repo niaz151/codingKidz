@@ -39,7 +39,6 @@ export const UnitsPage = () => {
           },
         );
     };
-
     getUnits();
   }, [accessToken]);
 

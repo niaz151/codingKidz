@@ -7,6 +7,7 @@ import {
 } from 'react-native-responsive-screen';
 import {useAppSelector} from '../../ducks/store';
 import {TokenService} from '../../services';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export const HomePage = () => {
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
@@ -26,12 +27,12 @@ export const HomePage = () => {
           </Text>
         </View>
         <View style={styles.languageList}> 
-          <Button mode="contained" style={styles.langugeTile}>
+          <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
             <Text style={styles.btnText}> SCRATCH </Text>
-          </Button>
-          <Button mode="contained" style={styles.langugeTile}>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
             <Text style={styles.btnText}> SCRATCH JR </Text>
-          </Button>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
   },
   promptText: {
     fontWeight: '500',
-    fontSize: hp("3%"),
+    fontSize: 30,
     color:'#3FA6D3',
   },
   languageList:{
@@ -113,6 +114,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   btnText:{
-    fontSize:18
+    fontSize:18,
+    color:'white',
+    fontWeight:'600'
   }
 });
