@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputContainer: {
-    height: hp('70%'),
+    height: hp('60%'),
     width: wp('100%'),
     display: 'flex',
     alignItems: 'center',
