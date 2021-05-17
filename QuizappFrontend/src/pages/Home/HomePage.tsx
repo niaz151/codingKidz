@@ -73,9 +73,6 @@ const styles = StyleSheet.create({
   },
   languageWrap: {
     height: hp("80%"),
-    //borderColor:'black',
-    //borderWidth:1,
-    marginTop: 40,
     width: wp('100%'),
     marginLeft:wp("-2.5%"),
     display: 'flex',
@@ -104,7 +101,7 @@ const styles = StyleSheet.create({
     //borderColor:'black',
     //borderWidth:1,
     display:'flex',
-    alignItems:'center',
+    alignItems:'flex-start',
     justifyContent:'space-around',
     flexDirection:'row',
     backgroundColor: '#FF671D',
@@ -141,7 +138,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginTop:hp("-5%"),
+    marginTop:50,
   },
   btnText:{
     fontSize:18,
