@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import { Button } from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
@@ -40,6 +40,9 @@ export const HomePage = () => {
           <Text style={styles.btnText}> SCRATCH JR </Text>
         </TouchableOpacity>
 
+        <Image 
+          source={require('../../assets/images/Screen_E_Whiskers.png')} 
+          style={styles.whiskers} />
       </View>
     
       </View>
@@ -144,5 +147,11 @@ const styles = StyleSheet.create({
     fontSize:18,
     color:'white',
     fontWeight:'600'
+  },
+  whiskers:{
+    position:'absolute',
+    height: 400,
+    width:400,
+    left:wp("28%")
   }
 });
