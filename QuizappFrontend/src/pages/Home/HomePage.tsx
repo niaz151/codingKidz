@@ -132,8 +132,8 @@ const styles = StyleSheet.create({
     marginTop:hp("-7"),
   },
   langugeTile:{
-    height: 65,
-    width: 170,
+    height: 75,
+    width: 190,
     backgroundColor: '#FF671D',
     borderColor:'white',
     borderWidth:2,
