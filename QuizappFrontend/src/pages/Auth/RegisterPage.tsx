@@ -12,11 +12,14 @@ import {register} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
 import DropDownPicker from 'react-native-dropdown-picker';
 
+
 const RegisterPage = () => {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [showNav, setShowNav] = useState<boolean>(true);
+
+ 
 
   const [roleOpen, setRoleOpen] = useState(false);
   const onRoleOpen = () => {
