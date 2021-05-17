@@ -142,10 +142,11 @@ const RegisterPage = () => {
           items={roleData}
           setItems={setRoleData}
           style={styles.dropDown}
-          placeholder={'Select Your Role'}
+          placeholder={'SELECT A ROLE'}
+          placeholderStyle={styles.rolePlaceholder}
           searchable={false}
           listMode="FLATLIST"
-          containerStyle={{width: wp('80%')}}
+          containerStyle={{width: wp('60%')}}
           textStyle={styles.roleText}
         />
 
@@ -182,7 +183,8 @@ const RegisterPage = () => {
             placeholder={'Month'}
             searchable={false}
             listMode="SCROLLVIEW"
-            containerStyle={styles.dateDropdownContainerStyle}
+            containerStyle={styles.dateContainerStyle}
+            dropDownContainerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
             textStyle={styles.dropDownText}
@@ -201,7 +203,8 @@ const RegisterPage = () => {
             placeholder={'Day'}
             searchable={false}
             listMode="FLATLIST"
-            containerStyle={styles.dateDropdownContainerStyle}
+            containerStyle={styles.dateContainerStyle}
+            dropDownContainerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
             textStyle={styles.dropDownText}
@@ -220,7 +223,8 @@ const RegisterPage = () => {
             placeholder={'Year'}
             searchable={false}
             listMode="FLATLIST"
-            containerStyle={styles.dateDropdownContainerStyle}
+            containerStyle={styles.dateContainerStyle}
+            dropDownContainerStyle={styles.dateDropdownContainerStyle}
             onPress={() => setShowNav(false)}
             onClose={() => setShowNav(true)}
             textStyle={styles.dropDownText}
@@ -234,7 +238,7 @@ const RegisterPage = () => {
                 mode="contained"
                 style={styles.signupButton}
                 onPress={ () => handleSubmit }>
-                <Text style={styles.signupBtnText}>Sign Up</Text>
+                <Text style={styles.signupBtnText}>WELCOME!</Text>
               </Button>
               <TouchableOpacity
                 onPress={() => {
@@ -266,8 +270,9 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize: 40,
-    fontWeight: '700',
+    fontSize:30,
+    fontWeight:'500',
+    letterSpacing:2
   },
   inputContainer: {
     height: hp('80%'),
@@ -278,16 +283,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textInput: {
-    width: wp('80%'),
-    height: hp('5.8%'),
+    overflow:'hidden',
+    width: wp('60%'),
+    height: 70,
+    borderTopLeftRadius:15,
+    borderTopRightRadius:15,
+    borderRadius: 15,
     borderWidth: 1,
-    borderRadius: 5,
     borderColor: '#FF671D',
     backgroundColor: 'white',
     fontSize: 24,
   },
   dropDown: {
-    width: wp('80%'),
+    width: wp('60%'),
     height: hp('5.8%'),
     borderWidth: 1,
     borderRadius: 10,
@@ -300,9 +308,14 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     fontSize: 24,
   },
+  rolePlaceholder:{
+    marginLeft:wp("12%"),
+    letterSpacing:5,
+    fontSize:28,
+  },
   signupButton: {
     height: 70,
-    width: 210,
+    width: wp("30%"),
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
@@ -312,10 +325,12 @@ const styles = StyleSheet.create({
     marginLeft:wp("1%")
   },
   signupBtnText: {
-    fontSize: 24,
+    fontSize: 25,
+    fontWeight:'600',
+    letterSpacing:2,
   },
   forgot: {
-    marginTop:20,
+    marginTop:50,
     color: '#1B6A7A',
     fontSize: 22,
   },
@@ -333,21 +348,24 @@ const styles = StyleSheet.create({
   },
   dateDropDownContainer: {
     height: hp('5.8%'),
-    width: wp('26%'),
+    width: wp('25%'),
     borderWidth: 1,
     borderRadius: 10,
     borderColor: '#3FA6D3',
     backgroundColor: '#3FA6D3',
   },
   dropDownText: {
-    color: 'black',
+    color: 'white',
     fontWeight: '600',
     letterSpacing: 2,
     fontSize: 24,
   },
-  dateDropdownContainerStyle: {
-    width: wp('26%'),
-    color: 'black',
+  dateContainerStyle: {
+    width: wp('25%'),
+  },
+  dateDropdownContainerStyle:{
+    backgroundColor: '#3FA6D3',
+    borderWidth:0
   },
   navContainer: {
     height: 140,
@@ -355,7 +373,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignContent: 'center',
     justifyContent: 'space-between',
-    // marginTop: 50,
   },
 });
 
