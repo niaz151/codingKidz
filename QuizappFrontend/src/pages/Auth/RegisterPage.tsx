@@ -96,16 +96,18 @@ const RegisterPage = () => {
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
       Alert.alert('Password must match!');
-    } else if (!password || !email || !role || !date || !month || !year) {
+    } 
+    else if (!password || !email || !role || !date || !month || !year) {
       Alert.alert('Please fill out form');
-    } else {
+    } 
+    else {
       console.log('about to send', {
         email: email,
         password: password,
         role: role,
         birthday: new Date(year, month, date),
       });
-
+      
       await dispatch(
         register({
           email: email,
@@ -115,6 +117,7 @@ const RegisterPage = () => {
         }),
       );
     }
+    navigation.navigate('Profile')
   };
 
   return (
@@ -237,7 +240,7 @@ const RegisterPage = () => {
               <Button
                 mode="contained"
                 style={styles.signupButton}
-                onPress={ () => handleSubmit }>
+                onPress={() => handleSubmit()}>
                 <Text style={styles.signupBtnText}>WELCOME!</Text>
               </Button>
               <TouchableOpacity
