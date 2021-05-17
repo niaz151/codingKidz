@@ -18,8 +18,8 @@ const ProfilePage = () => {
   const [lname, setLname] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
 
-  // const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  // const {email} = TokenService.readToken(accessToken!);
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  const {email} = TokenService.readToken(accessToken);
 
   const [genderOpen, setGenderOpen] = useState();
   const [gender, setGender] = useState();

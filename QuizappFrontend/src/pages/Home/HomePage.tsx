@@ -12,7 +12,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 export const HomePage = () => {
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {email} = TokenService.readToken(accessToken);
-
+  console.log('Access Token:', accessToken);
 
   return (
     <View style={styles.container}>
@@ -25,15 +25,23 @@ export const HomePage = () => {
           <Text style={styles.promptText}>
             Let's test your knowledge of ...
           </Text>
+        </View>  
+      <View style={styles.languageList}> 
+
+        <View style={styles.semiWrap}>
+          <TouchableOpacity style={styles.semiView} onPress={() => {}}></TouchableOpacity>
+          <TouchableOpacity style={styles.semiView} onPress={() => {}}></TouchableOpacity>
         </View>
-        <View style={styles.languageList}> 
-          <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
-            <Text style={styles.btnText}> SCRATCH </Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
-            <Text style={styles.btnText}> SCRATCH JR </Text>
-          </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
+          <Text style={styles.btnText}> SCRATCH </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
+          <Text style={styles.btnText}> SCRATCH JR </Text>
+        </TouchableOpacity>
+
+      </View>
+    
       </View>
     </View>
   );
@@ -96,11 +104,32 @@ const styles = StyleSheet.create({
     //borderColor:'black',
     //borderWidth:1,
     display:'flex',
-    paddingTop:50,
-    alignItems:'flex-start',
+    alignItems:'center',
     justifyContent:'space-around',
     flexDirection:'row',
     backgroundColor: '#FF671D',
+  },
+  semiWrap:{
+    position:'absolute',
+    top:0,
+    left:0,
+    right:0,
+    height: hp("10%"),
+    width:wp("100%"),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  semiView:{
+    height: 200,
+    width: 200,
+    backgroundColor: '#FF671D',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    marginTop:hp("-7"),
   },
   langugeTile:{
     height: 65,
@@ -112,6 +141,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    marginTop:hp("-5%"),
   },
   btnText:{
     fontSize:18,
