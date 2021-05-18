@@ -29,13 +29,8 @@ const LoginPage = () => {
 
   const CommonComponents = (
     <>
-      <View style={styles.splashLogoImgWrap}>
-        <View style={styles.splashLogoCirclePortrait}>
-          <Image
-            source={require('../../assets/images/splash_logo.png')}
-            style={styles.splashImg}
-          />
-        </View>
+      <View style={styles.loginTitleWrap}>
+        <Text style={styles.loginTitleText}> LOGIN INFO </Text>
       </View>
       <TextInput
         label="Email"
@@ -53,27 +48,33 @@ const LoginPage = () => {
         style={styles.textInput}
       />
       <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
-        SIGN IN
+        <Text style={styles.btnText}>SIGN IN </Text>
       </Button>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Register');
-        }}>
-        <Text style={styles.forgot}> REGISTER </Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => {
-          navigation.navigate('Forgot');
-        }}>
-        <Text style={styles.forgot}> FORGOT PASSWORD </Text>
-      </TouchableOpacity>
+      
+      <View style={styles.navContainer}>
+        <TouchableOpacity
+          style={[styles.navOpacity, styles.navRegister]}
+          onPress={() => {
+            navigation.navigate('Register');
+          }}>
+          <Text style={styles.forgot}> REGISTER </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.navOpacity, styles.navForgot]}
+          onPress={() => {
+            navigation.navigate('Forgot');
+          }}>
+          <Text style={styles.forgot}> FORGOT PASSWORD </Text>
+        </TouchableOpacity>
+      </View>
+      
     </>
   );
 
   const initialLoad = (
     <View style={styles.loginContainer}>
       <View style={styles.inputContainer}>{CommonComponents}</View>
-      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+      {/* <Text style={styles.privacy}> Terms and Privacy Policy </Text> */}
     </View>
   );
 
@@ -85,7 +86,7 @@ const LoginPage = () => {
         </View>
         {CommonComponents}
       </View>
-      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+      {/* <Text style={styles.privacy}> Terms and Privacy Policy </Text> */}
     </View>
   );
 
@@ -97,7 +98,7 @@ const LoginPage = () => {
         </View>
         {CommonComponents}
       </View>
-      <Text style={styles.privacy}> Terms and Privacy Policy </Text>
+      {/* <Text style={styles.privacy}> Terms and Privacy Policy </Text> */}
     </View>
   );
 
@@ -134,62 +135,77 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: hp('-10%'),
   },
-  splashLogoImgWrap: {
-    height: 170,
-    width: 170,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  loginTitleWrap:{
+
   },
-  splashImg: {
-    height: 190,
-    width: 190,
-  },
-  splashLogoCirclePortrait: {
-    borderRadius: 200,
-    width: 170,
-    height: 170,
-    backgroundColor: '#FCFADD',
-    borderWidth: 6,
-    borderColor: '#F8EB30',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  loginTitleText:{
+    fontSize:25,
+    fontWeight:'200',
+    letterSpacing:2
   },
   textInput: {
-    width: wp('80%'),
-    height: 50,
+    overflow:'hidden',
+    width: wp('55%'),
+    height: 70,
     borderWidth: 1,
-    borderRadius: 0,
+    borderTopWidth:1,
+    borderTopLeftRadius:15,
+    borderTopRightRadius:15,
+    borderRadius: 15,
     borderColor: '#FF671D',
     backgroundColor: 'white',
   },
   btn: {
-    height: 50,
-    width: 150,
+    height: 70,
+    width: wp("55%"),
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    fontSize: 15,
+  },
+  btnText:{
+    fontSize: 28,
+  },
+  navOpacity:{
+    height: 70,
+    width: wp("30%"),
+    borderRadius:18,
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+  },
+  navRegister:{
+    backgroundColor:'#FED500'
+  },
+  navForgot:{
+    backgroundColor:'#3FA6D3',
   },
   forgot: {
-    color: '#FF671D',
-    fontSize: 15,
+    color: 'white',
+    fontSize: 20,
     fontWeight: '700',
   },
   privacy: {
     position: 'absolute',
     bottom: hp('15%'),
     color: '#1B6A7A',
-    fontSize: 14,
+    fontSize: 22,
   },
   loginWarning: {
     borderWidth: 1,
     borderColor: 'yellow',
     backgroundColor: 'yellow',
   },
+  navContainer:{
+    height: hp("20%"),
+    width: wp("70%"),
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'flex-end',
+    justifyContent:'space-between'
+  },
+
 });
 
 export default LoginPage;

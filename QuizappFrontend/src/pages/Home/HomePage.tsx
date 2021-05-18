@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import { Button } from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
@@ -7,11 +7,12 @@ import {
 } from 'react-native-responsive-screen';
 import {useAppSelector} from '../../ducks/store';
 import {TokenService} from '../../services';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export const HomePage = () => {
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {email} = TokenService.readToken(accessToken);
-
+  console.log('Access Token:', accessToken);
 
   return (
     <View style={styles.container}>
@@ -24,15 +25,26 @@ export const HomePage = () => {
           <Text style={styles.promptText}>
             Let's test your knowledge of ...
           </Text>
+        </View>  
+      <View style={styles.languageList}> 
+
+        <View style={styles.semiWrap}>
+          <TouchableOpacity style={styles.semiView} onPress={() => {}}></TouchableOpacity>
+          <TouchableOpacity style={styles.semiView} onPress={() => {}}></TouchableOpacity>
         </View>
-        <View style={styles.languageList}> 
-          <Button mode="contained" style={styles.langugeTile}>
-            SCRATCH
-          </Button>
-          <Button mode="contained" style={styles.langugeTile}>
-            SCRATCH JR
-          </Button>
-        </View>
+
+        <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
+          <Text style={styles.btnText}> SCRATCH </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
+          <Text style={styles.btnText}> SCRATCH JR </Text>
+        </TouchableOpacity>
+
+        <Image 
+          source={require('../../assets/images/Screen_E_Whiskers.png')} 
+          style={styles.whiskers} />
+      </View>
+    
       </View>
     </View>
   );
@@ -62,21 +74,10 @@ const styles = StyleSheet.create({
     color: 'black',
     fontWeight:'200'
   },
-  roleWrap: {
-    marginTop: 20,
-    height: 70,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
   languageWrap: {
-    height: hp("65%"),
-    //borderColor:'black',
-    //borderWidth:1,
-    marginTop: 40,
+    height: hp("80%"),
     width: wp('100%'),
-    marginLeft:wp("-5%"),
+    marginLeft:wp("-2.5%"),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
   },
   promptText: {
     fontWeight: '500',
-    fontSize: hp("3%"),
+    fontSize: 30,
     color:'#3FA6D3',
   },
   languageList:{
@@ -103,15 +104,36 @@ const styles = StyleSheet.create({
     //borderColor:'black',
     //borderWidth:1,
     display:'flex',
-    paddingTop:20,
     alignItems:'flex-start',
     justifyContent:'space-around',
     flexDirection:'row',
     backgroundColor: '#FF671D',
   },
+  semiWrap:{
+    position:'absolute',
+    top:0,
+    left:0,
+    right:0,
+    height: hp("10%"),
+    width:wp("100%"),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around',
+  },
+  semiView:{
+    height: 200,
+    width: 200,
+    backgroundColor: '#FF671D',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 100,
+    marginTop:hp("-7"),
+  },
   langugeTile:{
-    height: 50,
-    width: 150,
+    height: 75,
+    width: 190,
     backgroundColor: '#FF671D',
     borderColor:'white',
     borderWidth:2,
@@ -119,6 +141,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    fontSize: 15,
+    marginTop:50,
+  },
+  btnText:{
+    fontSize:18,
+    color:'white',
+    fontWeight:'600'
+  },
+  whiskers:{
+    position:'absolute',
+    height: 400,
+    width:400,
+    left:wp("28%")
   }
 });

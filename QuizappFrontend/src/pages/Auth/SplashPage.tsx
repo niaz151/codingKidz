@@ -25,13 +25,13 @@ const SplashPage = () => {
         </View>
       </View>
       <View style={styles.splashCaptionWrap}>
-        <Text> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
+        <Text style={styles.text}> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
       </View>
       <View style={styles.btnWrap}>
         <TouchableOpacity
           style={[styles.btn, styles.loginBtn]}
           onPress={() => navigation.navigate('Login')}>
-          <Text style={styles.yellowText}> LOGIN </Text>
+          <Text style={styles.yellowText}> LOG IN </Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('Register')}
@@ -66,11 +66,11 @@ const styles = StyleSheet.create({
   },
   splashLogoTitleOne: {
     fontWeight: 'bold',
-    fontSize: 30,
+    fontSize: 60,
     color: 'white',
   },
   splashLogoTitleTwo: {
-    fontSize: 30,
+    fontSize: 50,
     marginLeft: -10,
     color: 'white',
   },
@@ -83,15 +83,16 @@ const styles = StyleSheet.create({
     marginTop: 3,
   },
   splashImg: {
-    height: 300,
-    width: 300,
+    height: 500,
+    width: 500,
+    marginTop:30
   },
   splashLogoCirclePortrait: {
     borderRadius: 200,
-    width: 270,
-    height: 270,
+    width: 380,
+    height: 380,
     backgroundColor: '#FCFADD',
-    borderWidth: 10,
+    borderWidth: 20,
     borderColor: '#F8EB30',
     marginTop: 3,
     display: 'flex',
@@ -100,42 +101,20 @@ const styles = StyleSheet.create({
   },
   splashCaptionWrap: {
     color: 'white',
-    fontSize: 20,
     fontWeight: 'bold',
     width: 250,
-    marginTop: 50,
+    marginTop: 100,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  splashBtnWrap: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-    height: 70,
-    width: 300,
-    marginTop: 3,
-  },
-  splashBtn: {
-    height: 50,
-    width: 120,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    fontWeight: 'bold',
-  },
-  splashBtnOne: {
-    borderWidth: 3,
-    borderColor: '#F8EB30',
-    color: '#F8EB30',
-  },
-  splashBtnTwo: {
-    color: '#FF671D',
-    backgroundColor: '#F8EB30',
+  text:{
+    fontSize:25,
+    color: 'white',
+    fontWeight:'600'
   },
   btnWrap: {
-    width: 350,
+    width:500,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -143,11 +122,11 @@ const styles = StyleSheet.create({
     marginTop: hp('6%'),
   },
   btn: {
-    height: 50,
-    width: 110,
+    height: 80,
+    width: 180,
     borderColor: 'red',
     borderWidth: 2.5,
-    borderRadius: 10,
+    borderRadius: 20,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -165,9 +144,13 @@ const styles = StyleSheet.create({
   },
   yellowText: {
     color: '#F8EB30',
+    fontSize:28,
+    fontWeight:'600'
   },
   orangeText: {
     color: '#FF671D',
+    fontSize:28,
+    fontWeight:'600'
   },
 });
 

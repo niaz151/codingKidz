@@ -18,6 +18,9 @@ const ProfilePage = () => {
   const [lname, setLname] = useState<string>('');
   const [nickname, setNickname] = useState<string>('');
 
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  const {email} = TokenService.readToken(accessToken);
+
   const [genderOpen, setGenderOpen] = useState();
   const [gender, setGender] = useState();
   const [genderData, setGenderData] = useState([
@@ -65,12 +68,10 @@ const ProfilePage = () => {
           placeholder={"GENDER"}
           searchable={false}
           listMode='SCROLLVIEW'
-          containerStyle={{width: wp("80%")}}
+          containerStyle={{width: wp("60%")}}
           textStyle={styles.genderText}
         />
-
       </View>
-      
     </View>
   )
 
@@ -97,8 +98,9 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize: 30,
-    fontWeight: '700',
+    fontSize:30,
+    fontWeight:'500',
+    letterSpacing:1
   },
   inputContainer: {
     height: hp('70%'),
@@ -109,7 +111,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textInput: {
-    width: wp('80%'),
+    width: wp('60%'),
     height: hp('5.8%'),
     borderWidth: 1,
     borderRadius: 10,
@@ -117,12 +119,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   dropDownContainer: {
-    height: 40,
-    width: wp('80%'),
+    height: 80,
+    width: wp('60%'),
   },
   dropDown: {
+    height: 70,
     backgroundColor: '#fafafa',
-    width: wp('80%'),
+    width: wp('60%'),
   },
   btn: {
     height: 50,
@@ -146,7 +149,7 @@ const styles = StyleSheet.create({
     display:'flex',
     flexDirection:'row',
     justifyContent:'space-between',
-    width:wp('85%'),
+    width:wp('60%'),
   },
   dateDropDownContainer: {
     height: 40,
