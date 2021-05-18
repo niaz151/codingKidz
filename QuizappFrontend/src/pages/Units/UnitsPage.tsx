@@ -27,12 +27,13 @@ export const UnitsPage = () => {
         })
         .then(
           (response) => {
-            console.log('RESPONSE DATA', response.data);
+            console.log('Response Effect:', response.data);
             let tempUnits: Unit[] = [];
-            response.data.unit.map((unit: Unit) => {
+            response.data.units.map((unit: Unit) => {
               tempUnits.push(unit);
             });
             setUnits(tempUnits);
+            console.log("Units Effect: ", units)
           },
           (error) => {
             console.log('fetching error', error);
@@ -62,6 +63,8 @@ export const UnitsPage = () => {
       </View>
     );
   };
+
+  console.log("Units: ", units)
 
   return (
     <View style={styles.container}>
