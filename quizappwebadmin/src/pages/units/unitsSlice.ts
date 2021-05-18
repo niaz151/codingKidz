@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { RootState } from "../../ducks/store";
 import { TokenService } from "../../services";
-import { Unit } from "../../utils/models";
+import { Unit, Topic, MultipleChoiceQuestion } from "../../utils/models";
 
 interface StateType {
   units: Unit[] | null;
@@ -50,13 +50,63 @@ const getUnits = createAsyncThunk<
     );
 });
 
+const createMultipleChoiceQuestion = createAsyncThunk<
+  Topic,
+  {
+    unitId: Unit["id"];
+    topicId: Topic["id"];
+    question: MultipleChoiceQuestion;
+  },
+  {
+    state: RootState;
+  }
+>(
+  "units/createMultipleChoiceQuestion",
+  async ({ unitId, topicId, question }, { getState, rejectWithValue }) => {
+    const { accessToken } = getState().auth;
+    const userId = accessToken
+      ? TokenService.readToken(accessToken).id
+      : undefined;
+
+    if (!userId) {
+      return rejectWithValue("Undefined user id");
+    }
+
+    return await axios
+      .post(
+        `http://localhost/api/unit/${unitId}/topic/${topicId}/question/multiplechoice`,
+        {
+          question: question.question,
+          correctAnswer: question.correctAnswer,
+          wrongAnswer0: question.wrongAnswer0,
+          wrongAnswer1: question.wrongAnswer1,
+          wrongAnswer2: question.wrongAnswer2,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(
+        async (response) => {
+          const updatedTopic = response.data.updatedTopic;
+
+          return updatedTopic;
+        },
+        (error: AxiosError) => {
+          return rejectWithValue(error);
+        }
+      );
+  }
+);
+
 const unitsSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(getUnits.pending, (state, _action) => {
-      state.units = null;
       state.error = null;
       state.status = "loading";
     });
@@ -72,6 +122,17 @@ const unitsSlice = createSlice({
       state.error = action.error.message ?? "Unknown login error";
       state.status = "failed";
     });
+
+    builder.addCase(createMultipleChoiceQuestion.pending, (state, _action) => {
+      state.error = null;
+      state.status = "loading";
+    })
+
+    builder.addCase(createMultipleChoiceQuestion.fulfilled, (state, action) => {
+      state.units.topics = {...state.units.topics.filter(topic => topic.id !== action.payload.id), action.payload};
+      state.error = null;
+      state.status = "succeeded";
+    })
   },
 });
 
