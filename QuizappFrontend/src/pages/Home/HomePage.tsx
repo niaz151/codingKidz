@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import { Button } from 'react-native-paper';
 import {
@@ -8,11 +8,16 @@ import {
 import {useAppSelector} from '../../ducks/store';
 import {TokenService} from '../../services';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import axios from 'axios';
+import {Unit} from '../../utils';
+import {useNavigation} from '@react-navigation/native';
 
 export const HomePage = () => {
+
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {email} = TokenService.readToken(accessToken);
-  console.log('Access Token:', accessToken);
+  const [units, setUnits] = useState<Unit[]>();
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -33,10 +38,18 @@ export const HomePage = () => {
           <TouchableOpacity style={styles.semiView} onPress={() => {}}></TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
+        <TouchableOpacity 
+          style={styles.langugeTile} 
+          onPress={() => {
+            navigation.navigate('Units')
+        }}>
           <Text style={styles.btnText}> SCRATCH </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.langugeTile} onPress={() => {}}>
+
+        <TouchableOpacity 
+          style={styles.langugeTile} 
+          onPress={() => {
+        }}>
           <Text style={styles.btnText}> SCRATCH JR </Text>
         </TouchableOpacity>
 
@@ -152,6 +165,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     height: 400,
     width:400,
+    top:30,
     left:wp("28%")
   }
 });
