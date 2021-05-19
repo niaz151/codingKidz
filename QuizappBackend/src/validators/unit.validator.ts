@@ -1,5 +1,15 @@
-import { Topic, Unit } from "@prisma/client";
+import { Language, Topic, Unit } from "@prisma/client";
 import { db } from "../prisma";
+
+const isValidLanguageID = async (languageId: Language["id"]) => {
+  const language = await db.language.findUnique({
+    where: { id: Number(languageId) },
+  });
+
+  if (!language) throw new Error("Language does not exist");
+
+  return true;
+};
 
 const isValidUnitID = async (unitId: Unit["id"]) => {
   const unit = await db.unit.findUnique({ where: { id: Number(unitId) } });
@@ -22,4 +32,4 @@ const isValidTopicID = async (topicId: Topic["id"]) => {
   return true;
 };
 
-export default { isValidUnitID, isValidTopicID };
+export default { isValidLanguageID, isValidUnitID, isValidTopicID };

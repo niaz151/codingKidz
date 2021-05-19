@@ -28,10 +28,11 @@ const createTrueFalseQuestion = async (
   next: NextFunction
 ) => {
   try {
-    const { topicId } = req.params;
+    const { unitId, topicId } = req.params;
     const { question, questionImage, correctAnswer } = req.body;
 
     const updatedTopic = await QuestionService.createTrueFalseQuestion(
+      Number(unitId),
       Number(topicId),
       {
         question: question,

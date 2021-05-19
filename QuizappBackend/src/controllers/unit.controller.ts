@@ -3,8 +3,13 @@ import { UnitService } from "../services";
 
 const createUnit = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    const { languageId } = req.params;
     const { name, number } = req.body;
-    const newUnit = await UnitService.createUnit(name, number);
+    const newUnit = await UnitService.createUnit(
+      Number(languageId),
+      name,
+      number
+    );
 
     return res.status(201).json({
       message: "Succesfully created unit",
@@ -30,7 +35,8 @@ const getUnitByID = async (req: Request, res: Response, next: NextFunction) => {
 
 const listUnits = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const units = await UnitService.listUnits();
+    const { languageId } = req.params;
+    const units = await UnitService.listUnits(Number(languageId));
 
     return res.status(201).json({
       message: "Succesfully fetched units",
@@ -43,10 +49,11 @@ const listUnits = async (req: Request, res: Response, next: NextFunction) => {
 
 const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { unitId } = req.params;
+    const { languageId, unitId } = req.params;
     const { newName, newNumber, newTopics } = req.body;
 
     const updatedUnit = await UnitService.updateUnit({
+      languageId: Number(languageId),
       id: Number(unitId),
       name: newName,
       number: newNumber,
@@ -63,8 +70,11 @@ const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUnit = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { unitId } = req.params;
-    const deleteUnit = await UnitService.deleteUnit(Number(unitId));
+    const { languageId, unitId } = req.params;
+    const deleteUnit = await UnitService.deleteUnit(
+      Number(languageId),
+      Number(unitId)
+    );
 
     return res.status(200).json({
       deletedData: deleteUnit,
