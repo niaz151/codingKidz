@@ -69,7 +69,9 @@ export const UnitsPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}> LET'S LEARN SCRATCH! </Text>
+        <Text style={styles.titleText}>
+          {`LET'S LEARN SCRATCH!`}
+        </Text>
       </View>
       {units ? (
         <View style={styles.unitsList}>
@@ -89,15 +91,6 @@ export const UnitsPage = () => {
           <Text>Loading units...</Text>
         </View>
       )}
-
-      {/*
-      <Button
-        onPress={() => {
-          dispatch(logout());
-        }}>
-        Logout
-      </Button>
-      */}
     </View>
   );
 };
@@ -105,48 +98,50 @@ export const UnitsPage = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#FF671D',
+    backgroundColor:'#FFF8DE'
   },
   title: {
     height: hp('10%'),
     width: wp('100%'),
+    borderColor:'black',
+    borderWidth:1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginTop:40,
   },
   titleText: {
     color: 'black',
-    fontSize: 25,
+    fontSize: 60,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
   unitsList: {
+    borderColor:'black',
+    borderWidth:1,
     height: hp('70%'),
-    width: wp('100%'),
+    width: wp('70%'),
+    marginLeft:wp("15%"),
     flex: 1,
-    color: 'white',
     flexWrap: 'wrap',
     flexDirection: 'row',
     display: 'flex',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
     alignItems: 'center',
   },
   unitTileContainer: {
     borderWidth: 1.5,
     borderColor: 'black',
-    borderRadius: 5,
-    height: hp('15%'),
-    maxHeight: 60,
-    width: wp('35%'),
-    maxWidth: 150,
-    flexBasis: '40%',
+    borderRadius: 20,
+    height: hp('8%'),
+    width: wp('30%'),
     marginTop: hp('10%'),
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   unitTileText: {
-    fontSize: 20,
+    fontSize: 28,
     color: 'black',
   },
 };

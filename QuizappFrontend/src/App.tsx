@@ -43,8 +43,12 @@ const App = () => {
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
           {accessToken ? (
+
             <Tab.Navigator
               tabBarOptions={{
+                style:{
+                  height: hp("8%")
+                },
                 labelStyle: {
                   color: 'black',
                   fontSize: 14,

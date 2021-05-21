@@ -27,6 +27,9 @@ const LoginPage = () => {
     }
   };
 
+  const colorArr = ['#FED500','#B767A9','#4DB84D','#F68B24','#3FA6D3'];
+  const colorArrLength = colorArr.length;
+
   const CommonComponents = (
     <>
       <View style={styles.loginTitleWrap}>
@@ -134,9 +137,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-around',
     marginTop: hp('-10%'),
-  },
-  loginTitleWrap:{
-
   },
   loginTitleText:{
     fontSize:25,
