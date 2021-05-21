@@ -6,10 +6,12 @@ import {combineReducers} from '@reduxjs/toolkit';
 
 import authReducer from '../pages/Auth/authSlice';
 import settingsReducer from '../pages/Settings/settingsSlice';
+import languagesReducer from '../pages/Units/languagesSlice';
 
 const rootReducer = combineReducers({
   authReducer: authReducer,
   settingsReducer: settingsReducer,
+  languagesReducer: languagesReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

@@ -26,6 +26,8 @@ import {
   restoreRefreshToken,
 } from './pages/Auth/authSlice';
 import ProfilePage from './pages/Auth/ProfilePage';
+import {Unit} from './utils';
+import {Language} from './utils/Models';
 
 Ionicon.loadFont();
 
@@ -35,7 +37,16 @@ const App = () => {
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const refreshToken = useAppSelector((state) => state.authReducer.accessToken);
 
-  const Tab = createBottomTabNavigator();
+  type RootStackParamList = {
+    Home: undefined;
+    Units: {
+      language: Language;
+    };
+    Notifications: undefined;
+    Settings: undefined;
+  };
+
+  const Tab = createBottomTabNavigator<RootStackParamList>();
 
   return (
     <>

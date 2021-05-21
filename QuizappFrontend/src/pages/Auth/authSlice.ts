@@ -64,12 +64,6 @@ const register = createAsyncThunk<
     }: {email: string; password: string; role: Roles; birthday: Date},
     thunkAPI,
   ) => {
-    console.log('ABOUT TO SEND', {
-      email: email,
-      password: password,
-      role: role,
-      birthday: birthday,
-    });
     return await axios
       .post('http://localhost/api/auth/signup', {
         email: email,

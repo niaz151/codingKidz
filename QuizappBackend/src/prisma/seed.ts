@@ -3,12 +3,19 @@ import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
-async function main() {
-  await createUsers();
+export const seed = async () => {
+  try {
+    await createUsers();
   await generateData();
-}
+  } catch (error) {
+    console.error(error);
+    process.exit(1);
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
-async function createUsers() {
+const createUsers = async () => {
   // Create a user of each type
   const student = await prisma.user.upsert({
     where: { email: "student@test.com" },
@@ -40,9 +47,9 @@ async function createUsers() {
   });
 
   console.log("Created users", { student, teacher, admin });
-}
+};
 
-async function generateData() {
+const generateData = async () => {
   console.log("Generating Scratch outline...");
   await prisma.language.create({
     data: {
@@ -126,13 +133,4 @@ async function generateData() {
       },
     },
   });
-}
-
-main()
-  .catch((e) => {
-    console.error(e);
-    process.exit(1);
-  })
-  .finally(async () => {
-    await prisma.$disconnect();
-  });
+};

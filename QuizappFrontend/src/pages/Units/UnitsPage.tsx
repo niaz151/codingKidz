@@ -15,33 +15,6 @@ export const UnitsPage = () => {
   const navigation = useNavigation();
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  const [units, setUnits] = useState<Unit[]>();
-
-  useEffect(() => {
-    const getUnits = async () => {
-      return await axios
-        .get('http://localhost/api/unit', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then(
-          (response) => {
-            console.log('Response Effect:', response.data);
-            let tempUnits: Unit[] = [];
-            response.data.units.map((unit: Unit) => {
-              tempUnits.push(unit);
-            });
-            setUnits(tempUnits);
-            console.log("Units Effect: ", units)
-          },
-          (error) => {
-            console.log('fetching error', error);
-          },
-        );
-    };
-    getUnits();
-  }, [accessToken]);
 
   const UnitTile = (_props: {
     unit_name: String;
@@ -64,7 +37,7 @@ export const UnitsPage = () => {
     );
   };
 
-  console.log("Units: ", units)
+  console.log('Units: ', units);
 
   return (
     <View style={styles.container}>

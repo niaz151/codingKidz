@@ -17,6 +17,12 @@ export type Profile = {
   userId: User['id'];
 };
 
+export type Language = {
+  id: number;
+  name: string;
+  units?: Unit[];
+};
+
 export type Unit = {
   id: number;
   name: string;
