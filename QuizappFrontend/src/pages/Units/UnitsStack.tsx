@@ -1,9 +1,16 @@
 import React from 'react';
 
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
 import {LessonPage} from './Lessons/LessonPage';
 import {QuestionsPage} from './Questions/QuestionsPage';
+import {Language, Topic, Unit} from '../../utils/Models';
+
+export type UnitsStackParamList = {
+  Units: {language: Language};
+  Lessons: {unit: Unit};
+  Quiz: {topic: Topic};
+};
 
 const Stack = createStackNavigator();
 

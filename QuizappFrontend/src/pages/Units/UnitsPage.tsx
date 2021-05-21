@@ -10,9 +10,17 @@ import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Unit} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
+import {StackScreenProps} from '@react-navigation/stack';
+import {UnitsStackParamList} from './UnitsStack';
 
-export const UnitsPage = () => {
-  const navigation = useNavigation();
+type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
+
+export const UnitsPage = (props: Props) => {
+  const {navigation, route} = props;
+  const {language} = route.params;
+  const languages = useAppSelector((state) => state.languagesReducer.languages);
+  const units = languages?.filter((l) => l.id === language.id)[0].units;
+
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
 
@@ -36,8 +44,6 @@ export const UnitsPage = () => {
       </View>
     );
   };
-
-  console.log('Units: ', units);
 
   return (
     <View style={styles.container}>

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, NavigatorScreenParams} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   widthPercentageToDP as wp,
@@ -31,22 +31,22 @@ import {Language} from './utils/Models';
 
 Ionicon.loadFont();
 
+export type RootTabParamList = {
+  Home: NavigatorScreenParams<undefined>;
+  Units: {
+    language: Language;
+  };
+  Notifications: undefined;
+  Settings: undefined;
+};
+
 const App = () => {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector((state) => state.authReducer.status);
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const refreshToken = useAppSelector((state) => state.authReducer.accessToken);
 
-  type RootStackParamList = {
-    Home: undefined;
-    Units: {
-      language: Language;
-    };
-    Notifications: undefined;
-    Settings: undefined;
-  };
-
-  const Tab = createBottomTabNavigator<RootStackParamList>();
+  const Tab = createBottomTabNavigator<RootTabParamList>();
 
   return (
     <>

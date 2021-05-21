@@ -10,10 +10,22 @@ import {TokenService} from '../../services';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import axios from 'axios';
 import {Unit} from '../../utils';
-import {useNavigation} from '@react-navigation/native';
+import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {getLanguages} from '../Units/languagesSlice';
+import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
+import {HomeStackParamList} from './HomeStack';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {RootTabParamList} from '../../App';
 
-export const HomePage = () => {
+type Props = StackScreenProps<HomeStackParamList, 'Home'>;
+
+type HomeScreenNavigationProp = CompositeNavigationProp<
+  StackNavigationProp<HomeStackParamList>,
+  BottomTabNavigationProp<RootTabParamList, 'Home'>
+>;
+
+export const HomePage = (props: Props) => {
+  const {navigation} = props;
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {email} = TokenService.readToken(accessToken);
@@ -21,7 +33,6 @@ export const HomePage = () => {
   const languagesStatus = useAppSelector(
     (state) => state.languagesReducer.status,
   );
-  const navigation = useNavigation();
 
   useEffect(() => {
     if (languagesStatus === 'idle') {
@@ -55,7 +66,9 @@ export const HomePage = () => {
               <TouchableOpacity
                 key={language.id}
                 style={styles.langugeTile}
-                onPress={() => {}}>
+                onPress={() => {
+                  navigation.navigate('Units');
+                }}>
                 <Text style={styles.btnText}> {language.name} </Text>
               </TouchableOpacity>
             );
