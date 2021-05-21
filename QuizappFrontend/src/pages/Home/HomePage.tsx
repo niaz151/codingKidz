@@ -110,10 +110,12 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 30,
     color:'#3FA6D3',
+    marginTop:hp("-10%")
   },
   languageList:{
     flex:1,
     width:'100%',
+    marginTop:hp("-10%"),
     //borderColor:'black',
     //borderWidth:1,
     display:'flex',
