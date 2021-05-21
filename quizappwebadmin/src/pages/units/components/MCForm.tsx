@@ -13,6 +13,13 @@ const MCForm = (props: Props) => {
   const [wrongAnswer1, setWrongAnswer1] = useState<string>();
   const [wrongAnswer2, setWrongAnswer2] = useState<string>();
 
+  const onSubmit = () => {
+    // Ensure all fields are filled before submitting
+    if(!(question && correctAnswer && wrongAnswer0 && wrongAnswer1 && wrongAnswer2)) {
+      
+    }
+  }
+
   return (
     <>
       <form>

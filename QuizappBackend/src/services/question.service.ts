@@ -2,6 +2,7 @@ import {
   MultipleChoiceQuestion,
   Topic,
   TrueFalseQuestion,
+  Unit,
 } from "@prisma/client";
 import { db } from "../prisma";
 
@@ -25,6 +26,7 @@ const getQuestionsByTopicID = async (topicId: Topic["id"]) => {
 };
 
 const createTrueFalseQuestion = async (
+  unitId: Unit["id"],
   topicId: Topic["id"],
   question: Pick<TrueFalseQuestion, "question" | "correctAnswer"> &
     Partial<Pick<TrueFalseQuestion, "questionImage">>
@@ -43,6 +45,7 @@ const createTrueFalseQuestion = async (
       },
     },
     include: {
+      multipleChoiceQuestions: true,
       trueFalseQuestions: true,
     },
   });
@@ -86,6 +89,7 @@ const createMultipleChoiceQuestion = async (
     },
     include: {
       multipleChoiceQuestions: true,
+      trueFalseQuestions: true,
     },
   });
 };
@@ -117,5 +121,5 @@ export default {
   getQuestionsByTopicID,
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
-  deleteQuestion
+  deleteQuestion,
 };

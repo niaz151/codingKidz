@@ -22,26 +22,34 @@ model Token {
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
+  id       Int      @id @default(autoincrement())
+  email    String   @unique
   password String
   roles    Role[]
-  profile Profile?
+  profile  Profile?
 }
 
 model Profile {
-  id       Int    @id @default(autoincrement())
-  user User @relation(fields: [userId], references: [id])
-  userId Int
-  avatar Bytes?
+  id       Int      @id @default(autoincrement())
+  user     User     @relation(fields: [userId], references: [id])
+  userId   Int
+  avatar   Bytes?
   birthday DateTime
 }
 
+model Language {
+  id    Int    @id @default(autoincrement())
+  name  String
+  units Unit[]
+}
+
 model Unit {
-  id     Int     @id @default(autoincrement())
-  name   String
-  number Int
-  topics Topic[]
+  id         Int      @id @default(autoincrement())
+  name       String
+  number     Int
+  language   Language @relation(fields: [languageId], references: [id])
+  languageId Int
+  topics     Topic[]
 }
 
 model Topic {

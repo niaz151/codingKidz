@@ -1,19 +1,19 @@
 import { Router } from "express";
-import { body, param, validationResult } from "express-validator";
+import { body, param } from "express-validator";
 
 import { AuthMiddleware, ErrorMiddleware } from "../middleware";
 import {
+  LanguageController,
   QuestionController,
   TopicController,
   UnitController,
 } from "../controllers";
 
-import { db } from "../prisma";
 import { UnitValidator } from "../validators";
 
-const unitRouter = Router();
+const languageRouter = Router();
 
-unitRouter
+languageRouter
   .route("/")
   // Require access token for all DB interaction
   .all(AuthMiddleware.hasValidAccessToken, (_, __, next) => {
@@ -30,8 +30,34 @@ unitRouter
     next();
   });
 
-unitRouter
+languageRouter
   .route("/")
+  .get(LanguageController.getLanguages)
+  .post(
+    body("name"),
+    ErrorMiddleware.checkForValidationErrors,
+    LanguageController.createLanguage
+  );
+
+languageRouter
+  .route("/:languageId")
+  .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
+    ErrorMiddleware.checkForValidationErrors
+  )
+  .post(
+    body("name"),
+    ErrorMiddleware.checkForValidationErrors,
+    LanguageController.updateLanguage
+  )
+  .delete(LanguageController.deleteLanguage);
+
+languageRouter
+  .route("/:languageId/unit")
+  .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
+    ErrorMiddleware.checkForValidationErrors
+  )
   // Get all units
   .get(UnitController.listUnits)
   // Create Unit
@@ -42,9 +68,10 @@ unitRouter
     UnitController.createUnit
   );
 
-unitRouter
-  .route("/:unitId")
+languageRouter
+  .route("/:languageId/unit/:unitId")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     ErrorMiddleware.checkForValidationErrors
   )
@@ -61,9 +88,10 @@ unitRouter
   // Delete unit and related topics and questions
   .delete(UnitController.deleteUnit);
 
-unitRouter
-  .route("/:unitId/topic/")
+languageRouter
+  .route("/:languageId/unit/:unitId/topic/")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     ErrorMiddleware.checkForValidationErrors
   )
@@ -75,9 +103,10 @@ unitRouter
     TopicController.createTopic
   );
 
-unitRouter
-  .route("/:unitId/topic/:topicId")
+languageRouter
+  .route("/:languageId/unit/:unitId/topic/:topicId")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     param("topicId").custom(UnitValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
@@ -87,9 +116,10 @@ unitRouter
   // Delete a specific topic
   .delete(TopicController.deleteTopic);
 
-unitRouter
-  .route("/:unitId/topic/:topicId/question")
+languageRouter
+  .route("/:languageId/unit/:unitId/topic/:topicId/question")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     param("topicId").custom(UnitValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
@@ -97,9 +127,10 @@ unitRouter
   // Get questions for a specific topic
   .get(QuestionController.getQuestionsByTopicID);
 
-unitRouter
-  .route("/:unitId/topic/:topicId/question/multiplechoice")
+languageRouter
+  .route("/:languageId/unit/:unitId/topic/:topicId/question/multiplechoice")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     param("topicId").custom(UnitValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
@@ -120,9 +151,10 @@ unitRouter
     QuestionController.createMultipleChoiceQuestion
   );
 
-unitRouter
-  .route("/:unitId/topic/:topicId/question/truefalse")
+languageRouter
+  .route("/:languageId/unit/:unitId/topic/:topicId/question/truefalse")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     param("topicId").custom(UnitValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
@@ -136,9 +168,10 @@ unitRouter
     QuestionController.createTrueFalseQuestion
   );
 
-unitRouter
-  .route("/:unitId/topic/:topicId/question/:questionId")
+languageRouter
+  .route("/:languageId/unit/:unitId/topic/:topicId/question/:questionId")
   .all(
+    param("languageId").custom(UnitValidator.isValidLanguageID),
     param("unitId").custom(UnitValidator.isValidUnitID),
     param("topicId").custom(UnitValidator.isValidTopicID),
     param("questionId").isInt(),
@@ -147,4 +180,4 @@ unitRouter
   // Delete question
   .delete(QuestionController.deleteQuestion);
 
-export default unitRouter;
+export default languageRouter;

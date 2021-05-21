@@ -43,211 +43,89 @@ async function createUsers() {
 }
 
 async function generateData() {
-  
-  const loopsUnit = await prisma.unit.upsert({
-    where: {
-      id: 1,
-    },
-    update: {
-      name: "Loops", 
-      number: 1
-    },
-    create: {
-      id: 1,
-      name: "Loops",
-      number: 1,
-    },
-  });
-  
-  console.log("Created Loops Unit", loopsUnit);
-  
-  const loopsIIUnit = await prisma.unit.upsert({
-    where: {
-      id: 2,
-    },
-    update: {
-      name: "Variables", 
-      number: 2,
-    },
-    create: {
-      id: 2,
-      name: "Variables",
-      number: 1,
-    },
-  });
-
-  console.log("Created Loops II Unit", loopsIIUnit);
-
-
-  const recursionUnit = await prisma.unit.upsert({
-    where: {
-      id: 3,
-    },
-    update: {
-      name: "Recursion", 
-      number: 3
-    },
-    create: {
-      id: 3,
-      name: "Recursion",
-      number: 1,
+  console.log("Generating Scratch outline...");
+  await prisma.language.create({
+    data: {
+      name: "Scratch",
+      units: {
+        create: [...Array(10).keys()].map((unitval) => {
+          return {
+            name: `Unit ${unitval}`,
+            number: unitval,
+            topics: {
+              create: [...Array(10).keys()].map((topicval) => {
+                return {
+                  name: `Topic ${topicval}`,
+                  number: topicval,
+                  multipleChoiceQuestions: {
+                    create: [...Array(40).keys()].map((questionval) => {
+                      return {
+                        question: `Question ${questionval}`,
+                        correctAnswer: `Correct ${questionval}`,
+                        wrongAnswer0: `Wrong 0 ${questionval}`,
+                        wrongAnswer1: `Wrong 1 ${questionval}`,
+                        wrongAnswer2: `Wrong 2 ${questionval}`,
+                      };
+                    }),
+                  },
+                  trueFalseQuestions: {
+                    create: [...Array(40).keys()].map((questionval) => {
+                      return {
+                        question: `Question ${questionval}`,
+                        correctAnswer: questionval % 2 === 0,
+                      };
+                    }),
+                  },
+                };
+              }),
+            },
+          };
+        }),
+      },
     },
   });
 
-  console.log("Created Recursion Unit", recursionUnit);
-
-  const testingUnit = await prisma.unit.upsert({
-    where: {
-      id: 4,
-    },
-    update: {
-      name: "Testing", 
-      number: 4
-    },
-    create: {
-      id: 4,
-      name: "Testing",
-      number: 1,
-    },
-  });
-
-  console.log("Created Testing Unit", testingUnit);
- 
-
-  const loops1Topic = await prisma.topic.upsert({
-    where: {
-      id: 1,
-    },
-    update: {},
-    create: {
-      id: 1,
-      name: "Loops I",
-      number: 1,
-      unitId: 1,
-    },
-  });
-
-  console.log("Created topic", loops1Topic);
-
-  const loops2Topic = await prisma.topic.upsert({
-    where: {
-      id: 2,
-    },
-    update: {},
-    create: {
-      id: 2,
-      name: "Loops II",
-      number: 2,
-      unitId: 1,
+  console.log("Generating Scratch JR outline...");
+  await prisma.language.create({
+    data: {
+      name: "Scratch JR",
+      units: {
+        create: [...Array(10).keys()].map((unitval) => {
+          return {
+            name: `Unit ${unitval}`,
+            number: unitval,
+            topics: {
+              create: [...Array(10).keys()].map((topicval) => {
+                return {
+                  name: `Topic ${topicval}`,
+                  number: topicval,
+                  multipleChoiceQuestions: {
+                    create: [...Array(40).keys()].map((questionval) => {
+                      return {
+                        question: `Question ${questionval}`,
+                        correctAnswer: `Correct ${questionval}`,
+                        wrongAnswer0: `Wrong 0 ${questionval}`,
+                        wrongAnswer1: `Wrong 1 ${questionval}`,
+                        wrongAnswer2: `Wrong 2 ${questionval}`,
+                      };
+                    }),
+                  },
+                  trueFalseQuestions: {
+                    create: [...Array(40).keys()].map((questionval) => {
+                      return {
+                        question: `Question ${questionval}`,
+                        correctAnswer: questionval % 2 === 0,
+                      };
+                    }),
+                  },
+                };
+              }),
+            },
+          };
+        }),
+      },
     },
   });
-
-  console.log("Created topic", loops2Topic);
-
-  const loops1MCQuestion1 = await prisma.multipleChoiceQuestion.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
-      id: 1,
-      question: "Where is the forever block?",
-      correctAnswer: "Control",
-      wrongAnswer0: "Sound",
-      wrongAnswer1: "Operators",
-      wrongAnswer2: "Motion",
-      topicId: 1,
-    },
-  });
-
-  const loops1MCQuestion2 = await prisma.multipleChoiceQuestion.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
-      id: 2,
-      question: "What is the maximum value you can put into repeat?",
-      correctAnswer: "10",
-      wrongAnswer0: "100",
-      wrongAnswer1: "1000000",
-      wrongAnswer2: "Whatever you want!",
-      topicId: 1,
-    },
-  });
-
-  const loops1TFQuestion1 = await prisma.trueFalseQuestion.upsert({
-    where: { id: 1 },
-    update: {},
-    create: {
-      id: 1,
-      question: "Forever is a control block",
-      correctAnswer: true,
-      topicId: 1,
-    },
-  });
-
-  const loops1TFQuestion2 = await prisma.trueFalseQuestion.upsert({
-    where: { id: 2 },
-    update: {},
-    create: {
-      id: 2,
-      question: "You cannot use a variable in repeat",
-      correctAnswer: false,
-      topicId: 1,
-    },
-  });
-
-  console.log("Created questions", loops1MCQuestion1, loops1MCQuestion2, loops1TFQuestion1, loops1TFQuestion2);
-
-  const loops2MCQuestion1 = await prisma.multipleChoiceQuestion.upsert({
-    where: { id: 4 },
-    update: {},
-    create: {
-      id: 3,
-      question: "Which block do you use to run code indefinitely?",
-      correctAnswer: "Forever",
-      wrongAnswer0: "Repeat",
-      wrongAnswer1: "Wait",
-      wrongAnswer2: "Move",
-      topicId: 2,
-    },
-  });
-
-  const loops2MCQuestion2 = await prisma.multipleChoiceQuestion.upsert({
-    where: { id: 4 },
-    update: {},
-    create: {
-      id: 4,
-      question: "What set of blocks could make one square?",
-      correctAnswer: "Repeat, Move, Turn, Pen Down",
-      wrongAnswer0: "Forever, Move, Turn, Pen Up",
-      wrongAnswer1: "Glide, Point in Direction, Set Y, If",
-      wrongAnswer2: "Blah, blah blah",
-      topicId: 2,
-    },
-  });
-
-  const loops2TFQuestion1 = await prisma.trueFalseQuestion.upsert({
-    where: { id: 3 },
-    update: {},
-    create: {
-      id: 3,
-      question: "Forever is a motion block",
-      correctAnswer: false,
-      topicId: 2,
-    },
-  });
-
-  const loops2TFQuestion2 = await prisma.trueFalseQuestion.upsert({
-    where: { id: 3 },
-    update: {},
-    create: {
-      id: 4,
-      question: "You can use a variable in repeat",
-      correctAnswer: true,
-      topicId: 2,
-    },
-  });
-
-
-  console.log("Created questions", loops2MCQuestion1, loops2MCQuestion2, loops2TFQuestion1, loops2TFQuestion2);
 }
 
 main()

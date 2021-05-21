@@ -9,10 +9,8 @@ const getQuestionsByTopicID = async (
   try {
     const { topicId } = req.params;
 
-    const {
-      trueFalseQuestions,
-      multipleChoiceQuestions,
-    } = await QuestionService.getQuestionsByTopicID(Number(topicId));
+    const { trueFalseQuestions, multipleChoiceQuestions } =
+      await QuestionService.getQuestionsByTopicID(Number(topicId));
 
     return res.json({
       message: "Succesfully fetched questions",
@@ -30,10 +28,11 @@ const createTrueFalseQuestion = async (
   next: NextFunction
 ) => {
   try {
-    const { topicId } = req.params;
+    const { unitId, topicId } = req.params;
     const { question, questionImage, correctAnswer } = req.body;
 
-    const updatedUnit = await QuestionService.createTrueFalseQuestion(
+    const updatedTopic = await QuestionService.createTrueFalseQuestion(
+      Number(unitId),
       Number(topicId),
       {
         question: question,
@@ -44,7 +43,7 @@ const createTrueFalseQuestion = async (
 
     return res.status(200).json({
       message: "Successfully created question",
-      updatedUnit: updatedUnit,
+      updatedTopic: updatedTopic,
     });
   } catch (error) {
     return next(error);
@@ -87,6 +86,11 @@ const createMultipleChoiceQuestion = async (
         wrongAnswer2Image: wrongAnswer2Image,
       }
     );
+
+    return res.status(200).json({
+      message: "Successfully created question",
+      updatedTopic: updatedTopic,
+    });
   } catch (error) {
     return next(error);
   }
@@ -117,5 +121,5 @@ export default {
   getQuestionsByTopicID,
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
-  deleteQuestion
+  deleteQuestion,
 };
