@@ -22,11 +22,19 @@ const UnitsStack = () => {
         name="Units"
         component={UnitsPage}
         options={{
-          title: '',
-          headerLeft: null as any,
-          headerStyle: {
-            backgroundColor: '#FF671D',
+          headerTitle: 'SCRATCH',
+          headerTitleStyle:{
+            fontSize:30,
+            fontWeight:'500',
           },
+          headerStyle: {
+            backgroundColor: '#FED500',
+            height: 80,
+          },
+          headerTitleContainerStyle:{
+            borderWidth:1,
+            borderColor:'black',
+          }
         }}
       />
       <Stack.Screen

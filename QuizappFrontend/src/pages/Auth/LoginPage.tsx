@@ -27,6 +27,9 @@ const LoginPage = () => {
     }
   };
 
+  const colorArr = ['#FED500', '#B767A9', '#4DB84D', '#F68B24', '#3FA6D3'];
+  const colorArrLength = colorArr.length;
+
   const CommonComponents = (
     <>
       <View style={styles.loginTitleWrap}>
@@ -50,7 +53,7 @@ const LoginPage = () => {
       <Button mode="contained" style={styles.btn} onPress={handleSubmit}>
         <Text style={styles.btnText}>SIGN IN </Text>
       </Button>
-      
+
       <View style={styles.navContainer}>
         <TouchableOpacity
           style={[styles.navOpacity, styles.navRegister]}
@@ -67,7 +70,6 @@ const LoginPage = () => {
           <Text style={styles.forgot}> FORGOT PASSWORD </Text>
         </TouchableOpacity>
       </View>
-      
     </>
   );
 
@@ -135,51 +137,48 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     marginTop: hp('-10%'),
   },
-  loginTitleWrap:{
-
-  },
-  loginTitleText:{
-    fontSize:25,
-    fontWeight:'200',
-    letterSpacing:2
+  loginTitleText: {
+    fontSize: 25,
+    fontWeight: '200',
+    letterSpacing: 2,
   },
   textInput: {
-    overflow:'hidden',
+    overflow: 'hidden',
     width: wp('55%'),
     height: 70,
     borderWidth: 1,
-    borderTopWidth:1,
-    borderTopLeftRadius:15,
-    borderTopRightRadius:15,
+    borderTopWidth: 1,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
     borderRadius: 15,
     borderColor: '#FF671D',
     backgroundColor: 'white',
   },
   btn: {
     height: 70,
-    width: wp("55%"),
+    width: wp('55%'),
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
   },
-  btnText:{
+  btnText: {
     fontSize: 28,
   },
-  navOpacity:{
+  navOpacity: {
     height: 70,
-    width: wp("30%"),
-    borderRadius:18,
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center',
+    width: wp('30%'),
+    borderRadius: 18,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  navRegister:{
-    backgroundColor:'#FED500'
+  navRegister: {
+    backgroundColor: '#FED500',
   },
-  navForgot:{
-    backgroundColor:'#3FA6D3',
+  navForgot: {
+    backgroundColor: '#3FA6D3',
   },
   forgot: {
     color: 'white',
@@ -197,15 +196,14 @@ const styles = StyleSheet.create({
     borderColor: 'yellow',
     backgroundColor: 'yellow',
   },
-  navContainer:{
-    height: hp("20%"),
-    width: wp("70%"),
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'flex-end',
-    justifyContent:'space-between'
+  navContainer: {
+    height: hp('20%'),
+    width: wp('70%'),
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    justifyContent: 'space-between',
   },
-
 });
 
 export default LoginPage;
