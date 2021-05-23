@@ -23,18 +23,18 @@ const UnitsStack = () => {
         component={UnitsPage}
         options={{
           headerTitle: 'SCRATCH',
-          headerTitleStyle:{
-            fontSize:30,
-            fontWeight:'500',
+          headerTitleStyle: {
+            fontSize: 30,
+            fontWeight: '500',
           },
           headerStyle: {
             backgroundColor: '#FED500',
             height: 80,
           },
-          headerTitleContainerStyle:{
-            borderWidth:1,
-            borderColor:'black',
-          }
+          headerTitleContainerStyle: {
+            borderWidth: 1,
+            borderColor: 'black',
+          },
         }}
       />
       <Stack.Screen
@@ -43,7 +43,12 @@ const UnitsStack = () => {
         options={{
           title: '',
           headerStyle: {
-            backgroundColor: '#FF671D',
+            backgroundColor: '#FED500',
+            height: 80,
+          },
+          headerTitleContainerStyle: {
+            borderWidth: 1,
+            borderColor: 'black',
           },
         }}
       />
