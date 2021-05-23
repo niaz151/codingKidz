@@ -54,8 +54,12 @@ const App = () => {
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
           {accessToken ? (
+
             <Tab.Navigator
               tabBarOptions={{
+                style:{
+                  height: hp("8%")
+                },
                 labelStyle: {
                   color: 'black',
                   fontSize: 14,
@@ -66,28 +70,28 @@ const App = () => {
                 name="Home"
                 component={HomeStack}
                 options={{
-                  tabBarIcon: () => <Icon name="home" size={25} />,
+                  tabBarIcon: () => <Icon name="home" size={40}  style={{marginLeft:-10}}/>,
                 }}
               />
               <Tab.Screen
                 name="Units"
                 component={UnitsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="library" size={25} />,
+                  tabBarIcon: () => <Icon name="library" size={40}  style={{marginLeft:-10}}/>,
                 }}
               />
               <Tab.Screen
                 name="Notifications"
                 component={NotificationsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="notifications" size={25} />,
+                  tabBarIcon: () => <Icon name="notifications" size={40}  style={{marginLeft:-10}} />,
                 }}
               />
               <Tab.Screen
                 name="Settings"
                 component={SettingsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="person" size={25} />,
+                  tabBarIcon: () => <Icon name="person" size={40}  style={{marginLeft:-10}} />,
                 }}
               />
             </Tab.Navigator>
