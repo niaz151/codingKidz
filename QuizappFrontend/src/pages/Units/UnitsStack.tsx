@@ -1,18 +1,19 @@
 import React from 'react';
 
-import {createStackNavigator, StackScreenProps} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
-import {LessonPage} from './Lessons/LessonPage';
-import {QuestionsPage} from './Questions/QuestionsPage';
-import {Language, Topic, Unit} from '../../utils/Models';
+import TopicsPage from './Topics/TopicsPage';
+import {QuizPage} from './Quiz/QuizPage';
+
+import {Language, Topic, Unit} from '../../utils';
 
 export type UnitsStackParamList = {
   Units: {language: Language};
-  Lessons: {unit: Unit};
+  Topics: {unit: Unit};
   Quiz: {topic: Topic};
 };
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<UnitsStackParamList>();
 
 const UnitsStack = () => {
   return (
@@ -29,8 +30,18 @@ const UnitsStack = () => {
         }}
       />
       <Stack.Screen
-        name="Lessons"
-        component={LessonPage}
+        name="Topics"
+        component={TopicsPage}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#FF671D',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={QuizPage}
         options={{
           title: '',
           headerStyle: {

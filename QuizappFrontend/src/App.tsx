@@ -1,7 +1,10 @@
 import 'react-native-gesture-handler';
 import {StyleSheet} from 'react-native';
 import React, {useEffect} from 'react';
-import {NavigationContainer, NavigatorScreenParams} from '@react-navigation/native';
+import {
+  NavigationContainer,
+  NavigatorScreenParams,
+} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   widthPercentageToDP as wp,
@@ -15,7 +18,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {
   AuthStack,
   UnitsStack,
-  HomeStack,
+  HomePage,
   SettingsStack,
   NotificationsStack,
 } from './pages';
@@ -25,19 +28,15 @@ import {
   refreshTokens,
   restoreRefreshToken,
 } from './pages/Auth/authSlice';
-import ProfilePage from './pages/Auth/ProfilePage';
-import {Unit} from './utils';
-import {Language} from './utils/Models';
+import {Unit, Language} from './utils';
 
 Ionicon.loadFont();
 
 export type RootTabParamList = {
-  Home: NavigatorScreenParams<undefined>;
-  Units: {
-    language: Language;
-  };
-  Notifications: undefined;
-  Settings: undefined;
+  HomeTab: undefined;
+  UnitsTab: undefined;
+  NotificationsTab: undefined;
+  SettingsTab: undefined;
 };
 
 const App = () => {
@@ -63,28 +62,28 @@ const App = () => {
                 showLabel: false,
               }}>
               <Tab.Screen
-                name="Home"
-                component={HomeStack}
+                name="HomeTab"
+                component={HomePage}
                 options={{
                   tabBarIcon: () => <Icon name="home" size={25} />,
                 }}
               />
               <Tab.Screen
-                name="Units"
+                name="UnitsTab"
                 component={UnitsStack}
                 options={{
                   tabBarIcon: () => <Icon name="library" size={25} />,
                 }}
               />
               <Tab.Screen
-                name="Notifications"
+                name="NotificationsTab"
                 component={NotificationsStack}
                 options={{
                   tabBarIcon: () => <Icon name="notifications" size={25} />,
                 }}
               />
               <Tab.Screen
-                name="Settings"
+                name="SettingsTab"
                 component={SettingsStack}
                 options={{
                   tabBarIcon: () => <Icon name="person" size={25} />,

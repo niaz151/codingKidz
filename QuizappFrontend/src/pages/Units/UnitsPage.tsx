@@ -18,28 +18,18 @@ type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
-  const languages = useAppSelector((state) => state.languagesReducer.languages);
-  const units = languages?.filter((l) => l.id === language.id)[0].units;
 
-  const dispatch = useAppDispatch();
-  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-
-  const UnitTile = (_props: {
-    unit_name: String;
-    unit_id: Number;
-    topic_num: Number;
-  }) => {
-    const {unit_name, unit_id, topic_num} = _props;
+  const UnitTile = (_props: {unit: Unit}) => {
+    const {unit} = _props;
     return (
       <View style={styles.unitTileContainer}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Lessons', {
-              unit_id: unit_id,
-              topic_num: topic_num,
+            navigation.navigate('Topics', {
+              unit: unit,
             })
           }>
-          <Text style={styles.unitTileText}>{unit_name}</Text>
+          <Text style={styles.unitTileText}>{unit.name}</Text>
         </TouchableOpacity>
       </View>
     );
@@ -48,19 +38,14 @@ export const UnitsPage = (props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.title}>
-        <Text style={styles.titleText}> LET'S LEARN SCRATCH! </Text>
+        <Text style={styles.titleText}>
+          LET'S LEARN {language.name.toUpperCase()}!
+        </Text>
       </View>
-      {units ? (
+      {language ? (
         <View style={styles.unitsList}>
-          {units.map((unit, index) => {
-            return (
-              <UnitTile
-                unit_name={unit.name}
-                unit_id={unit.id}
-                topic_num={index + 1}
-                key={index}
-              />
-            );
+          {language.units?.map((unit) => {
+            return <UnitTile unit={unit} key={unit.id} />;
           })}
         </View>
       ) : (
@@ -68,15 +53,6 @@ export const UnitsPage = (props: Props) => {
           <Text>Loading units...</Text>
         </View>
       )}
-
-      {/*
-      <Button
-        onPress={() => {
-          dispatch(logout());
-        }}>
-        Logout
-      </Button>
-      */}
     </View>
   );
 };

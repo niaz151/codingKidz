@@ -1,18 +1,17 @@
 import {Buffer} from 'buffer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-type ROLES = 'STUDENT' | 'TEACHER' | 'ADMIN';
+import {Role} from '../utils';
 
 interface TokenContents {
   id: number;
   email: string;
-  roles: ROLES[];
+  roles: Role[];
   iat: number;
   exp: number;
 }
 
 const readToken = (token: string) => {
-  console.log("TOKEN: ", token)
+  console.log('TOKEN: ', token);
   try {
     return JSON.parse(
       Buffer.from(token.split('.')[1], 'base64').toString(),

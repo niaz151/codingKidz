@@ -3,7 +3,7 @@ import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axios, {AxiosError} from 'axios';
 import {RootState} from '../../ducks/store';
 import {TokenService} from '../../services';
-import {Roles} from '../../utils';
+import { Role } from '../../utils';
 
 interface StateType {
   accessToken: string | null;
@@ -49,7 +49,7 @@ const login = createAsyncThunk(
 
 const register = createAsyncThunk<
   {accessToken: string; refreshToken: string},
-  {email: string; password: string; role: Roles; birthday: Date},
+  {email: string; password: string; role: Role; birthday: Date},
   {
     rejectValue: string;
   }
@@ -61,7 +61,7 @@ const register = createAsyncThunk<
       password,
       role,
       birthday,
-    }: {email: string; password: string; role: Roles; birthday: Date},
+    }: {email: string; password: string; role: Role; birthday: Date},
     thunkAPI,
   ) => {
     return await axios

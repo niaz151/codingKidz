@@ -12,23 +12,18 @@ import axios from 'axios';
 import {Unit} from '../../utils';
 import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {getLanguages} from '../Units/languagesSlice';
-import {StackNavigationProp, StackScreenProps} from '@react-navigation/stack';
-import {HomeStackParamList} from './HomeStack';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {RootTabParamList} from '../../App';
 
-type Props = StackScreenProps<HomeStackParamList, 'Home'>;
+type Props = {
+  navigation: BottomTabNavigationProp<RootTabParamList, 'HomeTab'>;
+};
 
-type HomeScreenNavigationProp = CompositeNavigationProp<
-  StackNavigationProp<HomeStackParamList>,
-  BottomTabNavigationProp<RootTabParamList, 'Home'>
->;
-
-export const HomePage = (props: Props) => {
+const HomePage = (props: Props) => {
   const {navigation} = props;
   const dispatch = useAppDispatch();
-  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  const {email} = TokenService.readToken(accessToken);
+  const _accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  const {email} = TokenService.readToken(_accessToken);
   const languages = useAppSelector((state) => state.languagesReducer.languages);
   const languagesStatus = useAppSelector(
     (state) => state.languagesReducer.status,
@@ -67,7 +62,10 @@ export const HomePage = (props: Props) => {
                 key={language.id}
                 style={styles.langugeTile}
                 onPress={() => {
-                  navigation.navigate('Units');
+                  navigation.navigate('UnitsTab', {
+                    screen: 'Units',
+                    params: {language: language},
+                  });
                 }}>
                 <Text style={styles.btnText}> {language.name} </Text>
               </TouchableOpacity>
@@ -190,3 +188,5 @@ const styles = StyleSheet.create({
     left: wp('28%'),
   },
 });
+
+export default HomePage;

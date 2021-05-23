@@ -3,7 +3,7 @@ import axios, {AxiosError} from 'axios';
 import {RootState} from '../../ducks/store';
 
 import {TokenService} from '../../services';
-import { Language } from '../../utils/Models';
+import {Language} from '../../utils';
 
 interface StateType {
   languages: Language[] | null;

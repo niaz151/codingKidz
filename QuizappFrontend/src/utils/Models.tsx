@@ -1,4 +1,4 @@
-enum Role {
+export enum Role {
   STUDENT = 'STUDENT',
   TEACHER = 'TEACHER',
   ADMIN = 'ADMIN',
@@ -39,7 +39,7 @@ export type Topic = {
   trueFalseQuestions?: TrueFalseQuestion[];
 };
 
-export type Question = {
+type Question = {
   id: number;
   topicId: number;
   question: string;
