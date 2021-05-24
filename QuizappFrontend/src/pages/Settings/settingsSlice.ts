@@ -8,7 +8,7 @@ import {Buffer} from 'buffer';
 
 import axios, {AxiosError} from 'axios';
 import {RootState} from '../../ducks/store';
-import {Profile, User} from '../../utils/Models';
+import {Profile, User} from '../../utils';
 import {TokenService} from '../../services';
 
 interface StateType {

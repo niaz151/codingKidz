@@ -102,7 +102,7 @@ const createMultipleChoiceQuestion = createAsyncThunk<
 );
 
 const unitsSlice = createSlice({
-  name: "user",
+  name: "units",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -126,13 +126,13 @@ const unitsSlice = createSlice({
     builder.addCase(createMultipleChoiceQuestion.pending, (state, _action) => {
       state.error = null;
       state.status = "loading";
-    })
+    });
 
     builder.addCase(createMultipleChoiceQuestion.fulfilled, (state, action) => {
-      state.units.topics = {...state.units.topics.filter(topic => topic.id !== action.payload.id), action.payload};
       state.error = null;
-      state.status = "succeeded";
-    })
+      // trigger refresh of questions
+      state.status = "idle";
+    });
   },
 });
 

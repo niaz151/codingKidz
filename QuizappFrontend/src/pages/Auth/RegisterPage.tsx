@@ -7,11 +7,10 @@ import {
 } from 'react-native-responsive-screen';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useNavigation} from '@react-navigation/native';
-import {Roles} from '../../utils';
 import {register} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
 import DropDownPicker from 'react-native-dropdown-picker';
-
+import {Role} from '../../utils';
 
 const RegisterPage = () => {
   const [email, setEmail] = useState<string>();
@@ -19,17 +18,15 @@ const RegisterPage = () => {
   const [confirmPassword, setConfirmPassword] = useState<string>();
   const [showNav, setShowNav] = useState<boolean>(true);
 
- 
-
   const [roleOpen, setRoleOpen] = useState(false);
   const onRoleOpen = () => {
     setDateOpen(false);
     setMonthOpen(false);
     setYearOpen(false);
   };
-  const [role, setRole] = useState<Roles | null>(null);
+  const [role, setRole] = useState<Role | null>(null);
   const [roleData, setRoleData] = useState(
-    Object.keys(Roles).map((r) => {
+    Object.keys(Role).map((r) => {
       return {label: r, value: r.toUpperCase()};
     }),
   );
@@ -99,18 +96,16 @@ const RegisterPage = () => {
   const handleSubmit = async () => {
     if (password !== confirmPassword) {
       Alert.alert('Password must match!');
-    } 
-    else if (!password || !email || !role || !date || !month || !year) {
+    } else if (!password || !email || !role || !date || !month || !year) {
       Alert.alert('Please fill out form');
-    } 
-    else {
+    } else {
       console.log('about to send', {
         email: email,
         password: password,
         role: role,
         birthday: new Date(year, month, date),
       });
-      
+
       await dispatch(
         register({
           email: email,
@@ -120,7 +115,7 @@ const RegisterPage = () => {
         }),
       );
     }
-    navigation.navigate('Profile')
+    navigation.navigate('Profile');
   };
 
   return (
@@ -276,9 +271,9 @@ const styles = StyleSheet.create({
   },
   titleText: {
     color: '#FF671D',
-    fontSize:30,
-    fontWeight:'500',
-    letterSpacing:2
+    fontSize: 30,
+    fontWeight: '500',
+    letterSpacing: 2,
   },
   inputContainer: {
     height: hp('80%'),
@@ -289,11 +284,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textInput: {
-    overflow:'hidden',
+    overflow: 'hidden',
     width: wp('60%'),
     height: 70,
-    borderTopLeftRadius:15,
-    borderTopRightRadius:15,
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: '#FF671D',
@@ -314,34 +309,34 @@ const styles = StyleSheet.create({
     letterSpacing: 1.5,
     fontSize: 24,
   },
-  rolePlaceholder:{
-    marginLeft:wp("12%"),
-    letterSpacing:5,
-    fontSize:28,
+  rolePlaceholder: {
+    marginLeft: wp('12%'),
+    letterSpacing: 5,
+    fontSize: 28,
   },
   signupButton: {
     height: 70,
-    width: wp("30%"),
+    width: wp('30%'),
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
     fontSize: 15,
-    marginLeft:wp("1%")
+    marginLeft: wp('1%'),
   },
   signupBtnText: {
     fontSize: 25,
-    fontWeight:'600',
-    letterSpacing:2,
+    fontWeight: '600',
+    letterSpacing: 2,
   },
   forgot: {
-    marginTop:50,
+    marginTop: 50,
     color: '#1B6A7A',
     fontSize: 22,
   },
   privacy: {
-    marginTop:20,
+    marginTop: 20,
     color: '#1B6A7A',
     fontSize: 22,
   },
@@ -369,9 +364,9 @@ const styles = StyleSheet.create({
   dateContainerStyle: {
     width: wp('25%'),
   },
-  dateDropdownContainerStyle:{
+  dateDropdownContainerStyle: {
     backgroundColor: '#3FA6D3',
-    borderWidth:0
+    borderWidth: 0,
   },
   navContainer: {
     height: 140,

@@ -10,80 +10,42 @@ import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Unit} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
+import {StackScreenProps} from '@react-navigation/stack';
+import {UnitsStackParamList} from './UnitsStack';
 
-export const UnitsPage = () => {
-  const navigation = useNavigation();
-  const dispatch = useAppDispatch();
-  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  const [units, setUnits] = useState<Unit[]>();
+type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
-  useEffect(() => {
-    const getUnits = async () => {
-      return await axios
-        .get('http://localhost/api/unit', {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        })
-        .then(
-          (response) => {
-            console.log('Response Effect:', response.data);
-            let tempUnits: Unit[] = [];
-            response.data.units.map((unit: Unit) => {
-              tempUnits.push(unit);
-            });
-            setUnits(tempUnits);
-            console.log("Units Effect: ", units)
-          },
-          (error) => {
-            console.log('fetching error', error);
-          },
-        );
-    };
-    getUnits();
-  }, [accessToken]);
+export const UnitsPage = (props: Props) => {
+  const {navigation, route} = props;
+  const {language} = route.params;
 
-  const UnitTile = (_props: {
-    unit_name: String;
-    unit_id: Number;
-    topic_num: Number;
-  }) => {
-    const {unit_name, unit_id, topic_num} = _props;
+  const UnitTile = (_props: {unit: Unit}) => {
+    const {unit} = _props;
     return (
       <View style={styles.unitTileContainer}>
         <TouchableOpacity
           onPress={() =>
-            navigation.navigate('Lessons', {
-              unit_id: unit_id,
-              topic_num: topic_num,
+            navigation.navigate('Topics', {
+              unit: unit,
             })
           }>
-          <Text style={styles.unitTileText}>{unit_name}</Text>
+          <Text style={styles.unitTileText}>{unit.name}</Text>
         </TouchableOpacity>
       </View>
     );
   };
 
-  console.log("Units: ", units)
-
   return (
     <View style={styles.container}>
       <View style={styles.title}>
         <Text style={styles.titleText}>
-          {`LET'S LEARN SCRATCH!`}
+          LET'S LEARN {language.name.toUpperCase()}!
         </Text>
       </View>
-      {units ? (
+      {language ? (
         <View style={styles.unitsList}>
-          {units.map((unit, index) => {
-            return (
-              <UnitTile
-                unit_name={unit.name}
-                unit_id={unit.id}
-                topic_num={index + 1}
-                key={index}
-              />
-            );
+          {language.units?.map((unit) => {
+            return <UnitTile unit={unit} key={unit.id} />;
           })}
         </View>
       ) : (
@@ -98,17 +60,17 @@ export const UnitsPage = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor:'#FFF8DE'
+    backgroundColor: '#FFF8DE',
   },
   title: {
     height: hp('10%'),
     width: wp('100%'),
-    borderColor:'black',
-    borderWidth:1,
+    borderColor: 'black',
+    borderWidth: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop:40,
+    marginTop: 40,
   },
   titleText: {
     color: 'black',
@@ -117,11 +79,11 @@ const styles = {
     letterSpacing: 1,
   },
   unitsList: {
-    borderColor:'black',
-    borderWidth:1,
+    borderColor: 'black',
+    borderWidth: 1,
     height: hp('70%'),
     width: wp('70%'),
-    marginLeft:wp("15%"),
+    marginLeft: wp('15%'),
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',

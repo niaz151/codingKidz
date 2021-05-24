@@ -2,10 +2,18 @@ import React from 'react';
 
 import {createStackNavigator} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
-import {LessonPage} from './Lessons/LessonPage';
-import {QuestionsPage} from './Questions/QuestionsPage';
+import TopicsPage from './Topics/TopicsPage';
+import {QuizPage} from './Quiz/QuizPage';
 
-const Stack = createStackNavigator();
+import {Language, Topic, Unit} from '../../utils';
+
+export type UnitsStackParamList = {
+  Units: {language: Language};
+  Topics: {unit: Unit};
+  Quiz: {topic: Topic};
+};
+
+const Stack = createStackNavigator<UnitsStackParamList>();
 
 const UnitsStack = () => {
   return (
@@ -15,23 +23,38 @@ const UnitsStack = () => {
         component={UnitsPage}
         options={{
           headerTitle: 'SCRATCH',
-          headerTitleStyle:{
-            fontSize:30,
-            fontWeight:'500',
+          headerTitleStyle: {
+            fontSize: 30,
+            fontWeight: '500',
           },
           headerStyle: {
             backgroundColor: '#FED500',
             height: 80,
           },
-          headerTitleContainerStyle:{
-            borderWidth:1,
-            borderColor:'black',
-          }
+          headerTitleContainerStyle: {
+            borderWidth: 1,
+            borderColor: 'black',
+          },
         }}
       />
       <Stack.Screen
-        name="Lessons"
-        component={LessonPage}
+        name="Topics"
+        component={TopicsPage}
+        options={{
+          title: '',
+          headerStyle: {
+            backgroundColor: '#FED500',
+            height: 80,
+          },
+          headerTitleContainerStyle: {
+            borderWidth: 1,
+            borderColor: 'black',
+          },
+        }}
+      />
+      <Stack.Screen
+        name="Quiz"
+        component={QuizPage}
         options={{
           title: '',
           headerStyle: {

@@ -1,4 +1,4 @@
-enum Role {
+export enum Role {
   STUDENT = 'STUDENT',
   TEACHER = 'TEACHER',
   ADMIN = 'ADMIN',
@@ -17,6 +17,12 @@ export type Profile = {
   userId: User['id'];
 };
 
+export type Language = {
+  id: number;
+  name: string;
+  units?: Unit[];
+};
+
 export type Unit = {
   id: number;
   name: string;
@@ -33,7 +39,7 @@ export type Topic = {
   trueFalseQuestions?: TrueFalseQuestion[];
 };
 
-export type Question = {
+type Question = {
   id: number;
   topicId: number;
   question: string;
