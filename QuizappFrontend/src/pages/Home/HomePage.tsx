@@ -19,6 +19,10 @@ export const HomePage = () => {
   const [units, setUnits] = useState<Unit[]>();
   const navigation = useNavigation();
 
+  useEffect( () => {
+    
+  })
+
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>

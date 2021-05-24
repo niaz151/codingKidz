@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {login} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
+import '../../assets/images/Screen_D_Line.jpg';
 
 const LoginPage = () => {
   const navigation = useNavigation();
@@ -32,6 +33,12 @@ const LoginPage = () => {
 
   const CommonComponents = (
     <>
+      <View style={styles.titleGraphic}>
+        <Image
+          source={require('../../assets/images/Screen_D_Line.jpg')}
+          style={styles.splashImg}
+        />
+      </View>
       <View style={styles.loginTitleWrap}>
         <Text style={styles.loginTitleText}> LOGIN INFO </Text>
       </View>
@@ -76,7 +83,9 @@ const LoginPage = () => {
 
   const initialLoad = (
     <View style={styles.loginContainer}>
-      <View style={styles.inputContainer}>{CommonComponents}</View>
+      <View style={styles.inputContainer}>
+        {CommonComponents}
+      </View>
       {/* <Text style={styles.privacy}> Terms and Privacy Policy </Text> */}
     </View>
   );
@@ -121,6 +130,16 @@ const LoginPage = () => {
 };
 
 const styles = StyleSheet.create({
+  titleGraphic:{
+    width: wp("100%"),
+    height:80,
+    backgroundColor:'#FED500'
+  },
+  splashImg:{
+    marginTop:hp("-5%"),
+    height: 900,
+    width: 850,
+  },
   loginContainer: {
     height: hp('100%'),
     width: wp('100%'),
@@ -131,7 +150,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   inputContainer: {
-    height: hp('60%'),
+    height: hp('70%'),
     width: wp('100%'),
     display: 'flex',
     alignItems: 'center',
