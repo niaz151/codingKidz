@@ -29,6 +29,11 @@ echo "Installing node dependencies..."
 cd /app
 yarn
 
+# migrate database (will pass if no changes made)
+echo "Migrating database..."
+yarn prisma migrate dev --preview-feature
+
+
 # Generate prisma definitions
 echo "Generating prisma types..."
 yarn prisma generate

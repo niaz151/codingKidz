@@ -25,7 +25,7 @@ const SplashPage = () => {
         </View>
       </View>
       <View style={styles.splashCaptionWrap}>
-        <Text style={styles.text}> lorem ipsum dolor sit amet, cosnectetur adipiscing elit. </Text>
+        <Text style={styles.text}> Ready, Set, Code! </Text>
       </View>
       <View style={styles.btnWrap}>
         <TouchableOpacity
