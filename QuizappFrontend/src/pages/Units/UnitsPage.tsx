@@ -41,7 +41,7 @@ export const UnitsPage = (props: Props) => {
           style={styles.touchableStyles}
         >
           <Text style={styles.unitTileText}>{unit.name}</Text>
-          <Text style={styles.unitTileIcon}> v </Text>
+          <Text style={styles.unitTileIcon}> &#9660; </Text>
         </TouchableOpacity>
       </View>
     );
@@ -77,8 +77,8 @@ const styles = {
   title: {
     height: hp('20%'),
     width: wp('80%'),
-    borderColor: 'black',
-    borderWidth: 1,
+    //borderColor: 'black',
+    //borderWidth: 1,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -107,7 +107,7 @@ const styles = {
     alignItems: 'center',
   },
   unitTileContainer: {
-    borderWidth: 1.5,
+    borderWidth: 2,
     borderColor: 'black',
     borderRadius: 20,
     height: 90,
@@ -120,16 +120,17 @@ const styles = {
   unitTileText: {
     fontSize: 40,
     color: 'white',
-    width: '75%',
+    width: '70%',
     //borderColor:'black',
     //borderWidth:1,
     textAlign:'center'
   },
   unitTileIcon:{
-    width: '25%',
+    width: '30%',
     //borderColor:'black',
     //borderWidth:1,
     textAlign:'center',
-    fontSize:28
+    fontSize:28,
+    color:'white'
   },
 };
