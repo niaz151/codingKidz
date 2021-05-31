@@ -8,6 +8,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {
   MultipleChoiceQuestion,
   Question,
+  shuffleArray,
   TrueFalseQuestion,
 } from '../../../utils';
 import {
@@ -17,46 +18,58 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
 import {Button} from 'react-native-paper';
+import MultipleChoiceQuestionContainer from './components/MultipleChoiceQuestionContainer';
+import TrueFalseQuestionContainer from './components/TrueFalseQuestionContainer';
+import QuestionContainer from './components/QuestionContainer';
+
+const QUESTIONS_PER_QUIZ = 10;
 
 type Props = StackScreenProps<UnitsStackParamList, 'Quiz'>;
 
 export const QuizPage = (props: Props) => {
   const {navigation, route} = props;
   const {topic} = route.params;
+  const [lives, setLives] = useState(3);
+  const [questionNum, setQuestionNum] = useState(0);
 
-  // const nextQuestion = () => {
-  //   setQuestionNum(questionNum + 1);
-  // };
+  const loseLife = setLives((l) => l - 1);
 
-  // const previousQuestion = () => {
-  //   setQuestionNum(questionNum - 1);
-  // };
+  const nextQuestion = () => {
+    setQuestionNum((num) => num + 1);
+  };
 
-  // const shuffleArray = (array: Question[]) => {
-  //   for (let i = array.length - 1; i > 0; i--) {
-  //     const j = Math.floor(Math.random() * (i + 1));
-  //     [array[i], array[j]] = [array[j], array[i]];
-  //   }
-  // };
+  const previousQuestion = () => {
+    setQuestionNum((num) => num - 1);
+  };
+
+  const selectedQuestions = shuffleArray<
+    MultipleChoiceQuestion | TrueFalseQuestion
+  >(topic.multipleChoiceQuestions?.concat(topic.trueFalseQuestions)).slice(
+    0,
+    QUESTIONS_PER_QUIZ,
+  );
+
+  const returnToLessons = () => {
+    navigation.goBack();
+  };
 
   return (
     <View>
-      <ScrollView>
-        <Text>Multiple Choice Questions:</Text>
-        {topic.multipleChoiceQuestions?.map((question) => {
-          return <Text key={question.id}>{question.question}</Text>;
-        })}
-        <Text>True False Questions:</Text>
-        {topic.trueFalseQuestions?.map((question) => {
-          return <Text key={question.id}>{question.question}</Text>;
-        })}
-        <Button
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          Back to Topics
-        </Button>
-      </ScrollView>
+      {lives > 0 ? (
+        questionNum < selectedQuestions.length ? (
+          <QuestionContainer question={selectedQuestions[questionNum]} />
+        ) : (
+          <View>
+            <Text>You Passed</Text>
+            <Button onPress={returnToLessons}>Return to Lessons</Button>
+          </View>
+        )
+      ) : (
+        <View>
+          <Text>You Failed</Text>
+          <Button onPress={returnToLessons}>Return to Lessons</Button>
+        </View>
+      )}
     </View>
   );
 };
