@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Text, View} from 'react-native';
+import {Text, View, ScrollView} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -43,11 +43,11 @@ export const UnitsPage = (props: Props) => {
         </Text>
       </View>
       {language ? (
-        <View style={styles.unitsList}>
+        <ScrollView contentContainerStyle={styles.unitsList}>
           {language.units?.map((unit) => {
             return <UnitTile unit={unit} key={unit.id} />;
           })}
-        </View>
+        </ScrollView>
       ) : (
         <View>
           <Text>Loading units...</Text>
@@ -79,11 +79,8 @@ const styles = {
     letterSpacing: 1,
   },
   unitsList: {
-    borderColor: 'black',
-    borderWidth: 1,
-    height: hp('70%'),
     width: wp('70%'),
-    marginLeft: wp('15%'),
+    marginLeft:wp("15%"),
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',

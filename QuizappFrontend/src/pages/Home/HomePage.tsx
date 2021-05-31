@@ -37,11 +37,7 @@ const HomePage = (props: Props) => {
   }, [dispatch, languagesStatus]);
 
   console.log('languages', languages);
-
-  useEffect( () => {
-    
-  })
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
