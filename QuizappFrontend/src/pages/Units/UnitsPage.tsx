@@ -4,7 +4,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, Alert} from 'react-native';
 import axios from 'axios';
 import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
@@ -13,6 +13,7 @@ import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
 import { Icon } from 'react-native-elements';
+import { NumberProp } from 'react-native-svg';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
@@ -20,10 +21,18 @@ export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
 
+  const colors = ['#FDD400', '#F06680', '#3FA5D2', '#B667A8', '#4DB74D', '#FF671D']
+
+  function getRandomInt(min: number, max: number) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+  }
+
   const UnitTile = (_props: {unit: Unit}) => {
     const {unit} = _props;
     return (
-      <View style={styles.unitTileContainer}>
+      <View style={[styles.unitTileContainer, {backgroundColor:`${colors[getRandomInt(0, colors.length)]}`}]}>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Topics', {
@@ -63,11 +72,11 @@ export const UnitsPage = (props: Props) => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: '#FFF8DE',
+    backgroundColor: '#FFF7DD',
   },
   title: {
-    height: hp('10%'),
-    width: wp('100%'),
+    height: hp('20%'),
+    width: wp('80%'),
     borderColor: 'black',
     borderWidth: 1,
     display: 'flex',
@@ -82,8 +91,8 @@ const styles = {
     justifyContent:'center'
   },
   titleText: {
-    color: 'black',
-    fontSize: 60,
+    color:'#FF671D',
+    fontSize: 72,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
@@ -101,7 +110,7 @@ const styles = {
     borderWidth: 1.5,
     borderColor: 'black',
     borderRadius: 20,
-    height: hp('8%'),
+    height: 90,
     width: wp('30%'),
     marginTop: hp('10%'),
     display: 'flex',
@@ -109,8 +118,8 @@ const styles = {
     justifyContent: 'center',
   },
   unitTileText: {
-    fontSize: 28,
-    color: 'black',
+    fontSize: 40,
+    color: 'white',
     width: '75%',
     //borderColor:'black',
     //borderWidth:1,

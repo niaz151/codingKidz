@@ -26,11 +26,11 @@ const UnitsStack = () => {
         options={{
           headerTitle: 'SCRATCH',
           headerTitleStyle: {
-            fontSize: 30,
+            fontSize: 36,
             fontWeight: '500',
           },
           headerStyle: {
-            backgroundColor: '#FED500',
+            backgroundColor: '#FDD400',
             height: 100,
           },
           headerTitleContainerStyle: {
