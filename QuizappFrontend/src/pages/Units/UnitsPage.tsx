@@ -12,6 +12,7 @@ import {Unit} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
+import { Icon } from 'react-native-elements';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
@@ -27,9 +28,11 @@ export const UnitsPage = (props: Props) => {
           onPress={() =>
             navigation.navigate('Topics', {
               unit: unit,
-            })
-          }>
+          })}
+          style={styles.touchableStyles}
+        >
           <Text style={styles.unitTileText}>{unit.name}</Text>
+          <Text style={styles.unitTileIcon}> v </Text>
         </TouchableOpacity>
       </View>
     );
@@ -43,7 +46,7 @@ export const UnitsPage = (props: Props) => {
         </Text>
       </View>
       {language ? (
-        <ScrollView contentContainerStyle={styles.unitsList}>
+        <ScrollView contentContainerStyle={styles.unitsList} >
           {language.units?.map((unit) => {
             return <UnitTile unit={unit} key={unit.id} />;
           })}
@@ -71,6 +74,12 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 40,
+  },
+  touchableStyles:{
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center'
   },
   titleText: {
     color: 'black',
@@ -102,5 +111,16 @@ const styles = {
   unitTileText: {
     fontSize: 28,
     color: 'black',
+    width: '75%',
+    //borderColor:'black',
+    //borderWidth:1,
+    textAlign:'center'
+  },
+  unitTileIcon:{
+    width: '25%',
+    //borderColor:'black',
+    //borderWidth:1,
+    textAlign:'center',
+    fontSize:28
   },
 };

@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {Button} from 'react-native-paper';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,9 +7,6 @@ import {
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {TokenService} from '../../services';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import axios from 'axios';
-import {Unit} from '../../utils';
-import {CompositeNavigationProp, useNavigation} from '@react-navigation/native';
 import {getLanguages} from '../Units/languagesSlice';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {RootTabParamList} from '../../App';

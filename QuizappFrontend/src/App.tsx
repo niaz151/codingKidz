@@ -57,7 +57,7 @@ const App = () => {
             <Tab.Navigator
               tabBarOptions={{
                 style:{
-                  height: hp("8%")
+                  height: 100
                 },
                 labelStyle: {
                   color: 'black',

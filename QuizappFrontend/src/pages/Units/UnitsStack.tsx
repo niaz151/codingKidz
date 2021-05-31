@@ -1,10 +1,12 @@
 import React from 'react';
-
 import {createStackNavigator} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
 import TopicsPage from './Topics/TopicsPage';
 import {QuizPage} from './Quiz/QuizPage';
-
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 import {Language, Topic, Unit} from '../../utils';
 
 export type UnitsStackParamList = {
@@ -29,7 +31,7 @@ const UnitsStack = () => {
           },
           headerStyle: {
             backgroundColor: '#FED500',
-            height: 80,
+            height: 100,
           },
           headerTitleContainerStyle: {
             borderWidth: 1,
@@ -44,7 +46,7 @@ const UnitsStack = () => {
           title: '',
           headerStyle: {
             backgroundColor: '#FED500',
-            height: 80,
+            height: 100,
           },
           headerTitleContainerStyle: {
             borderWidth: 1,
@@ -59,6 +61,7 @@ const UnitsStack = () => {
           title: '',
           headerStyle: {
             backgroundColor: '#FF671D',
+            height: 100,
           },
         }}
       />
