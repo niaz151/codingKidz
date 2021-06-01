@@ -19,7 +19,6 @@ const LoginPage = () => {
   const [password, setPassword] = useState<string>();
 
   const handleSubmit = async () => {
-    console.log(numFailedLogin);
     setNumFailedLogin(numFailedLogin + 1);
     if (email && password) {
       return await dispatch(login({email, password}));

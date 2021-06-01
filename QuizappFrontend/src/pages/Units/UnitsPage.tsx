@@ -123,7 +123,8 @@ const styles = {
     width: '70%',
     //borderColor:'black',
     //borderWidth:1,
-    textAlign:'center'
+    textAlign:'center',
+    paddingLeft:'10%',
   },
   unitTileIcon:{
     width: '30%',
@@ -133,4 +134,13 @@ const styles = {
     fontSize:28,
     color:'white'
   },
+  elipse:{
+    height:200,
+    width: 400,
+    borderRadius: 50,
+    transform: 'rotate(-10deg)',
+    borderColor:'black',
+    borderWidth:1,
+    backgroundColor:'#e1ecf4',
+  }
 };

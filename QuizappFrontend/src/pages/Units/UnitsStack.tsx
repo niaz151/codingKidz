@@ -1,8 +1,9 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
 import TopicsPage from './Topics/TopicsPage';
 import {QuizPage} from './Quiz/QuizPage';
+import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -18,6 +19,9 @@ export type UnitsStackParamList = {
 const Stack = createStackNavigator<UnitsStackParamList>();
 
 const UnitsStack = () => {
+
+  const navigation = useNavigation();
+
   return (
     <Stack.Navigator initialRouteName="Units">
       <Stack.Screen
@@ -28,22 +32,38 @@ const UnitsStack = () => {
           headerTitleStyle: {
             fontSize: 36,
             fontWeight: '500',
+            color:'#FF671D',
+            fontWeight:"600",
           },
           headerStyle: {
             backgroundColor: '#FDD400',
             height: 100,
+            //borderColor:'black',
+            //borderWidth:1,
           },
           headerTitleContainerStyle: {
-            borderWidth: 1,
-            borderColor: 'black',
+            //borderWidth: 1,
+            //borderColor: 'black',
           },
+          headerLeft: (props) => (
+            <HeaderBackButton
+              {...props}
+              onPress={() => {navigation.navigate('Home')}}
+            />
+          ),
+          headerBackTitle:'Languages'
+
         }}
       />
       <Stack.Screen
         name="Topics"
         component={TopicsPage}
         options={{
-          title: '',
+          title: 'Test',
+          headerTitleStyle: {
+            fontSize: 36,
+            fontWeight: '500',
+          },
           headerStyle: {
             backgroundColor: '#FED500',
             height: 100,
