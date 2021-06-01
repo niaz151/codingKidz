@@ -31,13 +31,12 @@ const UnitsStack = () => {
           headerTitle: 'SCRATCH',
           headerTitleStyle: {
             fontSize: 36,
-            fontWeight: '500',
             color:'#FF671D',
             fontWeight:"600",
           },
           headerStyle: {
             backgroundColor: '#FDD400',
-            height: 100,
+            height: 100, 
             //borderColor:'black',
             //borderWidth:1,
           },

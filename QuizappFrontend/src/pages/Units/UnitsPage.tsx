@@ -49,6 +49,7 @@ export const UnitsPage = (props: Props) => {
 
   return (
     <View style={styles.container}>
+
       <View style={styles.title}>
         <Text style={styles.titleText}>
           LET'S LEARN {language.name.toUpperCase()}!
