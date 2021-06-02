@@ -1,4 +1,6 @@
 import React from 'react';
+import { View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 import {TrueFalseQuestion, shuffleArray} from '../../../../utils';
 
 type Props = {
@@ -21,11 +23,11 @@ const TrueFalseQuestionContainer = (props: Props) => {
   };
 
   return (
-    <div>
-      <p>{question.question}</p>
-      <button onClick={selectedTrue}>True</button>
-      <button onClick={selectedFalse}>False</button>
-    </div>
+    <View>
+      <Text>{question.question}</Text>
+      <Button onPress={selectedTrue}>True</Button>
+      <Button onPress={selectedFalse}>False</Button>
+    </View>
   );
 };
 

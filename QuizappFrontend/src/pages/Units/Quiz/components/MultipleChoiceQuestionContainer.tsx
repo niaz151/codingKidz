@@ -1,4 +1,6 @@
 import React from 'react';
+import {View} from 'react-native';
+import {Button, Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, shuffleArray} from '../../../../utils';
 
 type Props = {
@@ -20,12 +22,12 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
   };
 
   return (
-    <div>
-      <p>{question.question}</p>
+    <View>
+      <Text>{question.question}</Text>
       {shuffledAnswers.map((answer) => {
-        <button onClick={() => checkAnswer(answer)}>{answer}</button>;
+        <Button onPress={() => checkAnswer(answer)}>{answer}</Button>;
       })}
-    </div>
+    </View>
   );
 };
 

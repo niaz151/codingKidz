@@ -1,7 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Button, TouchableOpacity} from 'react-native';
-import {useRoute} from '@react-navigation/native';
-import axios from 'axios';
+import React, {useEffect} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {
   Topic,
   MultipleChoiceQuestion,

@@ -26,9 +26,24 @@ const RegisterPage = () => {
   };
   const [role, setRole] = useState<Role | null>(null);
   const [roleData, setRoleData] = useState(
-    Object.keys(Role).map((r) => {
-      return {label: r, value: r.toUpperCase()};
-    }),
+    // TODO un-hardcode this
+    // Object.keys(Role).map((r) => {
+    //   return {label: r, value: r.toUpperCase()};
+    // }),
+    [
+      {
+        label: 'ADMIN',
+        value: 'ADMIN',
+      },
+      {
+        label: 'TEACHER',
+        value: 'TEACHER',
+      },
+      {
+        label: 'STUDENT',
+        value: 'STUDENT',
+      },
+    ],
   );
 
   const MONTHS = [
@@ -99,13 +114,6 @@ const RegisterPage = () => {
     } else if (!password || !email || !role || !date || !month || !year) {
       Alert.alert('Please fill out form');
     } else {
-      console.log('about to send', {
-        email: email,
-        password: password,
-        role: role,
-        birthday: new Date(year, month, date),
-      });
-
       await dispatch(
         register({
           email: email,

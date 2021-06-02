@@ -29,22 +29,27 @@ type Props = StackScreenProps<UnitsStackParamList, 'Quiz'>;
 export const QuizPage = (props: Props) => {
   const {navigation, route} = props;
   const {topic} = route.params;
+  const {multipleChoiceQuestions, trueFalseQuestions} = topic;
   const [lives, setLives] = useState(3);
   const [questionNum, setQuestionNum] = useState(0);
 
-  const loseLife = setLives((l) => l - 1);
+  useEffect(() => {
+    console.log('rendering quiz');
+  }, []);
 
-  const nextQuestion = () => {
-    setQuestionNum((num) => num + 1);
-  };
+  // const loseLife = setLives((l) => l - 1);
 
-  const previousQuestion = () => {
-    setQuestionNum((num) => num - 1);
-  };
+  // const nextQuestion = () => {
+  //   setQuestionNum((num) => num + 1);
+  // };
+
+  // const previousQuestion = () => {
+  //   setQuestionNum((num) => num - 1);
+  // };
 
   const selectedQuestions = shuffleArray<
     MultipleChoiceQuestion | TrueFalseQuestion
-  >(topic.multipleChoiceQuestions?.concat(topic.trueFalseQuestions)).slice(
+  >(multipleChoiceQuestions!.concat(trueFalseQuestions!)).slice(
     0,
     QUESTIONS_PER_QUIZ,
   );
