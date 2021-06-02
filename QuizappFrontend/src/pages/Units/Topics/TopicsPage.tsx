@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Button, TouchableOpacity} from 'react-native';
+import {View, Text, Button, TouchableOpacity, ScrollView} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
 import {
@@ -41,9 +41,11 @@ const TopicsPage = (props: Props) => {
 
   return (
     <View style={styles.containerStyle}>
-      {unit.topics?.map((topic) => {
-        return <TopicTile topic={topic} key={topic.id} />;
-      })}
+      <ScrollView contentContainerStyle={styles.topicListContainer}>
+        {unit.topics?.map((topic) => {
+          return <TopicTile topic={topic} key={topic.id} />;
+        })}
+      </ScrollView>
     </View>
   );
 };
@@ -56,18 +58,19 @@ const styles = {
     width: wp('100%'),
     backgroundColor: '#FFF7DD',
   },
-  titleContainer: {
-    height: hp('8%'),
-    maxHeight: 70,
-    width: wp('100%'),
-    backgroundColor: 'white',
+  topicListContainer:{
+    borderColor:'red',
+    borderWidth:1,
+    width: wp('90%'),
+    marginTop:hp("20%"),
+    marginLeft:wp("5%"),
+    height: 400,
+    overflow:'scroll',
+    flexWrap: 'wrap',
+    flexDirection: 'row',
     display: 'flex',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    justifyContent: 'center',
-  },
-  titleText: {
-    fontSize: 15,
-    color: 'black',
   },
   topicTileContainer: {
     borderWidth: 1.5,
@@ -75,8 +78,8 @@ const styles = {
     borderRadius: 5,
     height: hp('15%'),
     maxHeight: 60,
-    width: wp('35%'),
-    maxWidth: 150,
+    width: wp('40%'),
+    maxWidth: 200,
     flexBasis: '40%',
     marginTop: hp('10%'),
     display: 'flex',
@@ -84,7 +87,7 @@ const styles = {
     justifyContent: 'center',
   },
   topicTileText: {
-    fontSize: 20,
+    fontSize: 40,
     color: 'black',
   },
 };

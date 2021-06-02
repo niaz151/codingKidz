@@ -20,6 +20,10 @@ const ForgotPasswordPage = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.lightGuard}>
+        <View style={styles.deepGuard}>
+        </View>
+      </View>
       <View style={styles.wrapper}>
         <View style={styles.titleWrap}>
           <Text style={styles.titleText}>FORGOT PASSWORD?</Text>
@@ -33,7 +37,7 @@ const ForgotPasswordPage = () => {
           style={styles.textInput}
         />
         <Button mode="contained" style={styles.btn}>
-          SEND
+          <Text style={styles.btnText}> Send </Text>
         </Button>
       </View>
     </View>
@@ -43,10 +47,8 @@ const ForgotPasswordPage = () => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderWidth: 1,
-    borderColor: 'black',
     marginTop: hp('-10%'),
-    height: hp('100%'),
+    height: hp('105%'),
     width: wp('100%'),
     display: 'flex',
     alignItems: 'center',
@@ -57,6 +59,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-around',
+    marginTop:hp("-10%"),
   },
   titleWrap: {
     height: 80,
@@ -65,32 +68,56 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   titleText: {
-    color: '#FF671D',
     fontSize: 20,
+    letterSpacing:1,
+    fontWeight:'300',
 
   },
   subTitleText: {
-    color: '#FF671D',
     fontSize: 18,
+    letterSpacing:1,
+    fontWeight:'300',
+    marginTop:5,
   },
   textInput: {
-    width: wp('80%'),
-    height: 50,
+    width: wp('50%'),
+    height: 60,
     borderWidth: 1,
-    borderRadius: 0,
+    borderTopWidth: 1,
+    borderRadius: 15,
     borderColor: '#FF671D',
     backgroundColor: 'white',
+    overflow: 'hidden',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   btn: {
-    height: 50,
-    width: 150,
+    height: 60,
+    width: wp('35%'),
     backgroundColor: '#FF671D',
     display: 'flex',
+    marginTop:-10,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    fontSize: 15,
   },
+  btnText:{
+    fontSize: 20,
+  },
+  lightGuard:{
+    position:'absolute',
+    bottom:0,
+    backgroundColor:'#FEDD45',
+    height: hp("35%"),
+    width: wp("100%")
+  },
+  deepGuard:{
+    position:'absolute',
+    bottom:0,
+    backgroundColor:'#FDD503',
+    height: hp("15%"),
+    width: wp("100%")
+  }
 });
 
 export default ForgotPasswordPage;
