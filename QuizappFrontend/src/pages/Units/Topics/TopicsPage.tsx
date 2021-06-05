@@ -1,12 +1,7 @@
-<<<<<<< HEAD
 import React, {useEffect, useState} from 'react';
 import {View, Text, Button, TouchableOpacity, ScrollView} from 'react-native';
 import {useRoute} from '@react-navigation/native';
 import axios from 'axios';
-=======
-import React, {useEffect} from 'react';
-import {View, Text, TouchableOpacity} from 'react-native';
->>>>>>> 74b6e51be114f4bd5cd222a59936e7ceeb2330d3
 import {
   Topic,
   MultipleChoiceQuestion,
