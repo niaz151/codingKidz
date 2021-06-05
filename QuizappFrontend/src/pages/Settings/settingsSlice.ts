@@ -97,7 +97,6 @@ const uploadAvatar = createAsyncThunk<
         return response.data.profile.profile as Profile;
       },
       (error: AxiosError) => {
-        console.log('REJECTING LOGIN WITH ERROR', error);
         return rejectWithValue(error);
       },
     );

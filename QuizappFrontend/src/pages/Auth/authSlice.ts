@@ -40,7 +40,7 @@ const login = createAsyncThunk(
         },
         (error: AxiosError) => {
           console.log('REJECTING LOGIN WITH ERROR', error);
-          // THE BELOW LINE CREATES A NON-SERIALIZABLE ERROR
+          // TODO: THE BELOW LINE CREATES A NON-SERIALIZABLE ERROR
           return thunkAPI.rejectWithValue(error);
         },
       );

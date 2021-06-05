@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -12,8 +11,8 @@ import {Unit} from '../../utils';
 import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
-import { Icon } from 'react-native-elements';
-import { NumberProp } from 'react-native-svg';
+import {Icon} from 'react-native-elements';
+import {NumberProp} from 'react-native-svg';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
@@ -21,7 +20,14 @@ export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
 
-  const colors = ['#FDD400', '#F06680', '#3FA5D2', '#B667A8', '#4DB74D', '#FF671D']
+  const colors = [
+    '#FDD400',
+    '#F06680',
+    '#3FA5D2',
+    '#B667A8',
+    '#4DB74D',
+    '#FF671D',
+  ];
 
   function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
@@ -32,14 +38,18 @@ export const UnitsPage = (props: Props) => {
   const UnitTile = (_props: {unit: Unit}) => {
     const {unit} = _props;
     return (
-      <View style={[styles.unitTileContainer, {backgroundColor:`${colors[getRandomInt(0, colors.length)]}`}]}>
+      <View
+        style={[
+          styles.unitTileContainer,
+          {backgroundColor: `${colors[getRandomInt(0, colors.length)]}`},
+        ]}>
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Topics', {
               unit: unit,
-          })}
-          style={styles.touchableStyles}
-        >
+            })
+          }
+          style={styles.touchableStyles}>
           <Text style={styles.unitTileText}>{unit.name}</Text>
           <Text style={styles.unitTileIcon}> &#9660; </Text>
         </TouchableOpacity>
@@ -49,14 +59,13 @@ export const UnitsPage = (props: Props) => {
 
   return (
     <View style={styles.container}>
-
       <View style={styles.title}>
         <Text style={styles.titleText}>
           LET'S LEARN {language.name.toUpperCase()}!
         </Text>
       </View>
       {language ? (
-        <ScrollView contentContainerStyle={styles.unitsList} >
+        <ScrollView contentContainerStyle={styles.unitsList}>
           {language.units?.map((unit) => {
             return <UnitTile unit={unit} key={unit.id} />;
           })}
@@ -85,21 +94,21 @@ const styles = {
     justifyContent: 'center',
     marginTop: 40,
   },
-  touchableStyles:{
-    display:'flex',
-    flexDirection:'row',
-    alignItems:'center',
-    justifyContent:'center'
+  touchableStyles: {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   titleText: {
-    color:'#FF671D',
+    color: '#FF671D',
     fontSize: 72,
     fontWeight: 'bold',
     letterSpacing: 1,
   },
   unitsList: {
     width: wp('70%'),
-    marginLeft:wp("15%"),
+    marginLeft: wp('15%'),
     flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -124,24 +133,24 @@ const styles = {
     width: '70%',
     //borderColor:'black',
     //borderWidth:1,
-    textAlign:'center',
-    paddingLeft:'10%',
+    textAlign: 'center',
+    paddingLeft: '10%',
   },
-  unitTileIcon:{
+  unitTileIcon: {
     width: '30%',
     //borderColor:'black',
     //borderWidth:1,
-    textAlign:'center',
-    fontSize:28,
-    color:'white'
+    textAlign: 'center',
+    fontSize: 28,
+    color: 'white',
   },
-  elipse:{
-    height:200,
+  elipse: {
+    height: 200,
     width: 400,
     borderRadius: 50,
     transform: 'rotate(-10deg)',
-    borderColor:'black',
-    borderWidth:1,
-    backgroundColor:'#e1ecf4',
-  }
+    borderColor: 'black',
+    borderWidth: 1,
+    backgroundColor: '#e1ecf4',
+  },
 };

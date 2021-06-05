@@ -27,13 +27,10 @@ const HomePage = (props: Props) => {
 
   useEffect(() => {
     if (languagesStatus === 'idle') {
-      console.log('about to get languages');
       dispatch(getLanguages({}));
     }
   }, [dispatch, languagesStatus]);
 
-  console.log('languages', languages);
-  
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>

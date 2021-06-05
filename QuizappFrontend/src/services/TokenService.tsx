@@ -11,7 +11,6 @@ interface TokenContents {
 }
 
 const readToken = (token: string) => {
-  console.log('TOKEN: ', token);
   try {
     return JSON.parse(
       Buffer.from(token.split('.')[1], 'base64').toString(),

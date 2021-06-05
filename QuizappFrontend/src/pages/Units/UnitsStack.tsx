@@ -19,7 +19,6 @@ export type UnitsStackParamList = {
 const Stack = createStackNavigator<UnitsStackParamList>();
 
 const UnitsStack = () => {
-
   const navigation = useNavigation();
 
   return (
@@ -31,12 +30,12 @@ const UnitsStack = () => {
           headerTitle: 'SCRATCH',
           headerTitleStyle: {
             fontSize: 36,
-            color:'#FF671D',
-            fontWeight:"600",
+            color: '#FF671D',
+            fontWeight: '600',
           },
           headerStyle: {
             backgroundColor: '#FDD400',
-            height: 100, 
+            height: 100,
             //borderColor:'black',
             //borderWidth:1,
           },
@@ -47,11 +46,12 @@ const UnitsStack = () => {
           headerLeft: (props) => (
             <HeaderBackButton
               {...props}
-              onPress={() => {navigation.navigate('Home')}}
+              onPress={() => {
+                navigation.goBack();
+              }}
             />
           ),
-          headerBackTitle:'Languages'
-
+          headerBackTitle: 'Languages',
         }}
       />
       <Stack.Screen
