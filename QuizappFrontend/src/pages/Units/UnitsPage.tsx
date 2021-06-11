@@ -20,14 +20,27 @@ export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
 
-  const colors = [
-    '#FDD400',
-    '#F06680',
-    '#3FA5D2',
-    '#B667A8',
-    '#4DB74D',
+  var colors = [
+    '#3FA6D3',
+    '#3D5CAA',
+    '#B767A9',
+    '#FED500',
+    '#FBAA1F',
+    '#4EBFE6',
+    '#4DB84D',
+    '#F68B24',
+    '#F16680',
     '#FF671D',
   ];
+
+  function getRandomColor(){
+    let temp_colors = colors;
+    var random_int = getRandomInt(0, temp_colors.length);
+    const random_color = temp_colors[random_int];
+    temp_colors.splice(random_int,1);
+    colors = temp_colors;
+    return random_color;
+  }
 
   function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
@@ -41,7 +54,7 @@ export const UnitsPage = (props: Props) => {
       <View
         style={[
           styles.unitTileContainer,
-          {backgroundColor: `${colors[getRandomInt(0, colors.length)]}`},
+          {backgroundColor: `${getRandomColor()}`},
         ]}>
         <TouchableOpacity
           onPress={() =>
