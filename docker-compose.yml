@@ -28,7 +28,7 @@ services:
       - /app/node_modules
     entrypoint: "/app/entrypoint.sh"
     ports:
-      - 8000
+      - 8000:8000
     depends_on:
       - db
     networks:
@@ -46,21 +46,8 @@ services:
       - /app/node_modules
     entrypoint: "/app/entrypoint.sh"
     ports:
-      - 3000
+      - 3000:3000
     depends_on:
-      - backend
-    networks:
-      - quizapp_net
-
-  webserver:
-    image: nginx:mainline-alpine
-    ports:
-      - 80:80
-    volumes:
-      - ./docker-local/nginx/fb.conf:/etc/nginx/conf.d/default.conf
-      - ./docker-local/nginx/logs:/var/log/nginx
-    depends_on:
-      - web
       - backend
     networks:
       - quizapp_net

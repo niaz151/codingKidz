@@ -25,6 +25,7 @@ export type Language = {
 
 export type Unit = {
   id: number;
+  languageId: Language['id'];
   name: string;
   number: number;
   topics?: Topic[];
@@ -32,7 +33,7 @@ export type Unit = {
 
 export type Topic = {
   id: number;
-  unitId: number;
+  unitId: Unit['id'];
   name: string;
   number: number;
   multipleChoiceQuestions?: MultipleChoiceQuestion[];
@@ -41,7 +42,7 @@ export type Topic = {
 
 type Question = {
   id: number;
-  topicId: number;
+  topicId: Topic['id'];
   question: string;
   questionImage?: Buffer;
 };

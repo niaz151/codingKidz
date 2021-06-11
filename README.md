@@ -21,7 +21,7 @@ yarn prisma migrate dev --preview-feature
 
 Go to `localhost` in your browser to see the admin panel
 
-To make API calls use `localhost/api/...`
+To make API calls use `localhost:8000/api/...`
 
 ## Frontend
 ```bash

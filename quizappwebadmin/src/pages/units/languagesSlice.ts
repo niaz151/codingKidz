@@ -2,27 +2,32 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import { RootState } from "../../ducks/store";
 import { TokenService } from "../../services";
-import { Unit, Topic, MultipleChoiceQuestion } from "../../utils/models";
+import {
+  Unit,
+  Topic,
+  MultipleChoiceQuestion,
+  Language,
+} from "../../utils/models";
 
 interface StateType {
-  units: Unit[] | null;
+  languages: Language[] | null;
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
 }
 
 const initialState: StateType = {
-  units: null,
+  languages: null,
   status: "idle",
   error: null,
 };
 
-const getUnits = createAsyncThunk<
-  Unit[],
+const getLanguages = createAsyncThunk<
+  Language[],
   {},
   {
     state: RootState;
   }
->("units/getProfile", async (_foo, { getState, rejectWithValue }) => {
+>("languages/getLanguages", async (_foo, { getState, rejectWithValue }) => {
   const { accessToken } = getState().auth;
   const userId = accessToken
     ? TokenService.readToken(accessToken).id
@@ -33,16 +38,16 @@ const getUnits = createAsyncThunk<
   }
 
   return await axios
-    .get("http://localhost/api/unit", {
+    .get("http://localhost:8000/api/language", {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
     .then(
       async (response) => {
-        const units: Unit[] = response.data.units;
+        const languages: Language[] = response.data.languages;
 
-        return units;
+        return languages;
       },
       (error: AxiosError) => {
         return rejectWithValue(error);
@@ -53,6 +58,7 @@ const getUnits = createAsyncThunk<
 const createMultipleChoiceQuestion = createAsyncThunk<
   Topic,
   {
+    languageId: Language["id"];
     unitId: Unit["id"];
     topicId: Topic["id"];
     question: MultipleChoiceQuestion;
@@ -62,7 +68,10 @@ const createMultipleChoiceQuestion = createAsyncThunk<
   }
 >(
   "units/createMultipleChoiceQuestion",
-  async ({ unitId, topicId, question }, { getState, rejectWithValue }) => {
+  async (
+    { languageId, unitId, topicId, question },
+    { getState, rejectWithValue }
+  ) => {
     const { accessToken } = getState().auth;
     const userId = accessToken
       ? TokenService.readToken(accessToken).id
@@ -74,7 +83,7 @@ const createMultipleChoiceQuestion = createAsyncThunk<
 
     return await axios
       .post(
-        `http://localhost/api/unit/${unitId}/topic/${topicId}/question/multiplechoice`,
+        `http://localhost:8000/api/language/${languageId}/unit/${unitId}/topic/${topicId}/question/multiplechoice`,
         {
           question: question.question,
           correctAnswer: question.correctAnswer,
@@ -101,24 +110,24 @@ const createMultipleChoiceQuestion = createAsyncThunk<
   }
 );
 
-const unitsSlice = createSlice({
-  name: "units",
+const languagesSlice = createSlice({
+  name: "languages",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUnits.pending, (state, _action) => {
+    builder.addCase(getLanguages.pending, (state, _action) => {
       state.error = null;
       state.status = "loading";
     });
 
-    builder.addCase(getUnits.fulfilled, (state, action) => {
-      state.units = action.payload;
+    builder.addCase(getLanguages.fulfilled, (state, action) => {
+      state.languages = action.payload;
       state.error = null;
       state.status = "succeeded";
     });
 
-    builder.addCase(getUnits.rejected, (state, action) => {
-      state.units = null;
+    builder.addCase(getLanguages.rejected, (state, action) => {
+      state.languages = null;
       state.error = action.error.message ?? "Unknown login error";
       state.status = "failed";
     });
@@ -136,5 +145,5 @@ const unitsSlice = createSlice({
   },
 });
 
-export default unitsSlice.reducer;
-export { getUnits };
+export default languagesSlice.reducer;
+export { getLanguages };
