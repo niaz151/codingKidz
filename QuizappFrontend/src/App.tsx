@@ -57,7 +57,8 @@ const App = () => {
             <Tab.Navigator
               tabBarOptions={{
                 style:{
-                  height: 100
+                  height: 100,
+                  backgroundColor:'#595A5A'
                 },
                 labelStyle: {
                   color: 'black',
@@ -69,28 +70,28 @@ const App = () => {
                 name="HomeTab"
                 component={HomePage}
                 options={{
-                  tabBarIcon: () => <Icon name="home" size={40}  style={{marginLeft:-10}}/>,
+                  tabBarIcon: () => <Icon name="home" size={40}  style={{marginLeft:-10}} color={'white'} />,
                 }}
               />
               <Tab.Screen
                 name="UnitsTab"
                 component={UnitsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="library" size={40}  style={{marginLeft:-10}}/>,
+                  tabBarIcon: () => <Icon name="library" size={40}  style={{marginLeft:-10}} color={'white'}/>,
                 }}
               />
               <Tab.Screen
                 name="NotificationsTab"
                 component={NotificationsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="notifications" size={40}  style={{marginLeft:-10}} />,
+                  tabBarIcon: () => <Icon name="notifications" size={40}  style={{marginLeft:-10}} color={'white'} />,
                 }}
               />
               <Tab.Screen
                 name="SettingsTab"
                 component={SettingsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="settings" size={40}  style={{marginLeft:-10}} />,
+                  tabBarIcon: () => <Icon name="settings" size={40}  style={{marginLeft:-10}} color={'white'} />,
                 }}
               />
             </Tab.Navigator>
