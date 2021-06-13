@@ -66,13 +66,14 @@ const styles = StyleSheet.create({
   },
   splashLogoTitleOne: {
     fontWeight: 'bold',
+    fontFamily:'Nexa Bold',
     fontSize: 60,
     color: 'white',
   },
   splashLogoTitleTwo: {
     fontSize: 50,
-    fontFamily:'Nexa Bold',
-    marginLeft: -10,
+    fontFamily:'Nexa Light',
+    marginLeft: -25,
     color: 'white',
   },
   splashLogoImgWrap: {
@@ -102,7 +103,6 @@ const styles = StyleSheet.create({
   },
   splashCaptionWrap: {
     color: 'white',
-    fontWeight: 'bold',
     width: 250,
     marginTop: 100,
     display: 'flex',
@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
   },
   text:{
     fontSize:25,
+    fontFamily:'Nexa Bold',
     color: 'white',
     fontWeight:'600'
   },
@@ -145,13 +146,17 @@ const styles = StyleSheet.create({
   },
   yellowText: {
     color: '#F8EB30',
+    fontFamily:'Nexa Bold',
     fontSize:28,
-    fontWeight:'600'
+    fontWeight:'600',
+    marginTop:5,
   },
   orangeText: {
+    fontFamily:'Nexa Bold',
     color: '#FF671D',
     fontSize:28,
-    fontWeight:'600'
+    fontWeight:'600',
+    marginTop:5,
   },
 });
 

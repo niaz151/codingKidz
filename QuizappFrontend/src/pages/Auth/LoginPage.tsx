@@ -157,8 +157,9 @@ const styles = StyleSheet.create({
   },
   loginTitleText: {
     fontSize: 25,
-    fontWeight: '200',
     letterSpacing: 2,
+    fontWeight:'100',
+    fontFamily:'Nexa Light'
   },
   textInput: {
     overflow: 'hidden',
@@ -180,11 +181,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    paddingTop:5,
   },
   btnText: {
+    fontFamily:'Nexa Bold',
     fontSize: 28,
   },
   navOpacity: {
+    paddingTop:5,
     height: 70,
     width: wp('30%'),
     borderRadius: 18,
@@ -199,9 +203,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#3FA6D3',
   },
   forgot: {
+    fontFamily:'Nexa Bold',
     color: 'white',
     fontSize: 20,
-    fontWeight: '700',
   },
   privacy: {
     position: 'absolute',

@@ -278,6 +278,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   titleText: {
+    fontFamily:'Nexa Bold',
     color: '#FF671D',
     fontSize: 30,
     fontWeight: '500',
@@ -302,6 +303,7 @@ const styles = StyleSheet.create({
     borderColor: '#FF671D',
     backgroundColor: 'white',
     fontSize: 24,
+    fontFamily:'Nexa Bold'
   },
   dropDown: {
     width: wp('60%'),
@@ -312,6 +314,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FED500',
   },
   roleText: {
+    fontFamily:'Nexa Bold',
     color: '#FF671D',
     fontWeight: '600',
     letterSpacing: 1.5,
@@ -334,19 +337,24 @@ const styles = StyleSheet.create({
     marginLeft: wp('1%'),
   },
   signupBtnText: {
+    fontFamily:'Nexa Bold',
     fontSize: 25,
-    fontWeight: '600',
     letterSpacing: 2,
+    marginTop:5, 
   },
   forgot: {
     marginTop: 50,
     color: '#1B6A7A',
     fontSize: 22,
+    fontFamily:'Nexa Bold',
+    fontWeight:'500'
   },
   privacy: {
     marginTop: 20,
     color: '#1B6A7A',
     fontSize: 22,
+    marginLeft:-5,
+    fontFamily:'Nexa Light'
   },
   dateContainer: {
     display: 'flex',
@@ -364,8 +372,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#3FA6D3',
   },
   dropDownText: {
+    fontFamily:'Nexa Bold',
     color: 'white',
-    fontWeight: '600',
     letterSpacing: 2,
     fontSize: 24,
   },

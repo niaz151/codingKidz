@@ -68,15 +68,15 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 25,
     letterSpacing:1,
-    fontWeight:'300',
+    fontFamily:'Nexa Light',
 
   },
   subTitleText: {
     fontSize: 18,
     letterSpacing:1,
-    fontWeight:'300',
+    fontFamily:'Nexa Light',
     marginTop:5,
   },
   textInput: {
@@ -100,9 +100,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    paddingTop:5,
   },
   btnText:{
-    fontSize: 20,
+    fontFamily:'Nexa Bold',
+    fontSize: 25,
   },
   lightGuard:{
     position:'absolute',
