@@ -5,6 +5,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import SplashSvg from '../../assets/images/splash_logo.svg';
 // import {useTokenContext} from '../../context';
 
 const SplashPage = () => {
@@ -17,12 +18,7 @@ const SplashPage = () => {
         <Text style={styles.splashLogoTitleTwo}> KIDZ </Text>
       </View>
       <View style={styles.splashLogoImgWrap}>
-        <View style={styles.splashLogoCirclePortrait}>
-          <Image
-            source={require('../../assets/images/splash_logo.png')}
-            style={styles.splashImg}
-          />
-        </View>
+        <SplashSvg height={1200} width={1200} style={styles.splashImg} />
       </View>
       <View style={styles.splashCaptionWrap}>
         <Text style={styles.text}> Ready, Set, Code! </Text>
@@ -77,17 +73,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   splashLogoImgWrap: {
-    height: 270,
-    width: 270,
+    height: 500,
+    width: 500,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 3,
   },
   splashImg: {
-    height: 500,
-    width: 500,
-    marginTop:30
+    marginTop:hp("20%")
   },
   splashLogoCirclePortrait: {
     borderRadius: 200,
@@ -104,7 +97,7 @@ const styles = StyleSheet.create({
   splashCaptionWrap: {
     color: 'white',
     width: 250,
-    marginTop: 100,
+    marginTop: 50,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
