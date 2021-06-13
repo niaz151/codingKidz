@@ -1,6 +1,7 @@
 import express, { json, urlencoded } from "express";
 import helmet from "helmet";
 import compression from "compression";
+import cors from "cors";
 
 import { router } from "./src/routes";
 
@@ -10,6 +11,9 @@ import expressWinston from "express-winston";
 import { ErrorMiddleware } from "./src/middleware";
 
 const app = express();
+
+// Enable CORS requests
+app.use(cors());
 
 // Sets a lot of secure defaults
 app.use(helmet());

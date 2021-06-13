@@ -37,15 +37,11 @@ export const QuizPage = (props: Props) => {
     console.log('rendering quiz');
   }, []);
 
-  // const loseLife = setLives((l) => l - 1);
+  const loseLife = () => setLives((l) => l - 1);
 
-  // const nextQuestion = () => {
-  //   setQuestionNum((num) => num + 1);
-  // };
+  const nextQuestion = () => setQuestionNum((num) => num + 1);
 
-  // const previousQuestion = () => {
-  //   setQuestionNum((num) => num - 1);
-  // };
+  const previousQuestion = () => setQuestionNum((num) => num - 1);
 
   const selectedQuestions = shuffleArray<
     MultipleChoiceQuestion | TrueFalseQuestion

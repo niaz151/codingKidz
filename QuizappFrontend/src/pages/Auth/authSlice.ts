@@ -23,7 +23,7 @@ const login = createAsyncThunk(
   'user/login',
   async ({email, password}: {email: string; password: string}, thunkAPI) => {
     return await axios
-      .post('http://localhost/api/auth/login', {
+      .post('http://localhost:8000/api/auth/login', {
         email: email,
         password: password,
       })
@@ -65,7 +65,7 @@ const register = createAsyncThunk<
     thunkAPI,
   ) => {
     return await axios
-      .post('http://localhost/api/auth/signup', {
+      .post('http://localhost:8000/api/auth/signup', {
         email: email,
         password: password,
         role: role,
@@ -115,7 +115,7 @@ const refreshTokens = createAsyncThunk<
 >('user/refreshTokens', async ({}, {getState}) => {
   const {refreshToken} = getState().authReducer;
   return await axios
-    .get('http://localhost/api/auth/refreshToken', {
+    .get('http://localhost:8000/api/auth/refreshToken', {
       headers: {
         headers: {
           Authorization: `Bearer ${refreshToken}`,

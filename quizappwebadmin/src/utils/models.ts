@@ -1,7 +1,7 @@
 enum Role {
-  STUDENT = 'STUDENT',
-  TEACHER = 'TEACHER',
-  ADMIN = 'ADMIN',
+  STUDENT = "STUDENT",
+  TEACHER = "TEACHER",
+  ADMIN = "ADMIN",
 }
 
 export type User = {
@@ -14,11 +14,18 @@ export type User = {
 
 export type Profile = {
   avatar: Buffer;
-  userId: User['id'];
+  userId: User["id"];
+};
+
+export type Language = {
+  id: number;
+  name: string;
+  units?: Unit[];
 };
 
 export type Unit = {
   id: number;
+  languageId: Language["id"];
   name: string;
   number: number;
   topics?: Topic[];
@@ -26,7 +33,7 @@ export type Unit = {
 
 export type Topic = {
   id: number;
-  unitId: number;
+  unitId: Unit["id"];
   name: string;
   number: number;
   multipleChoiceQuestions?: MultipleChoiceQuestion[];
@@ -35,22 +42,22 @@ export type Topic = {
 
 export type MultipleChoiceQuestion = {
   id: number;
-  topicId: number;
+  topicId: Topic["id"];
   question: string;
   questionImage?: Buffer;
-  correctAnswer: String;
+  correctAnswer: string;
   correctAnswerImage?: Buffer;
-  wrongAnswer0: String;
+  wrongAnswer0: string;
   wrongAnswer0Image?: Buffer;
-  wrongAnswer1: String;
+  wrongAnswer1: string;
   wrongAnswer1Image?: Buffer;
-  wrongAnswer2: String;
+  wrongAnswer2: string;
   wrongAnswer2Image?: Buffer;
 };
 
 export type TrueFalseQuestion = {
   id: number;
-  topicId: number;
+  topicId: Topic["id"];
   question: string;
   questionImage?: Buffer;
   correctAnswer: boolean;

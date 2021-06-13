@@ -40,7 +40,7 @@ const getProfile = createAsyncThunk<
   }
 
   return await axios
-    .get(`http://localhost/api/user/${userId}/profile`, {
+    .get(`http://localhost:8000/api/user/${userId}/profile`, {
       headers: {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -79,7 +79,7 @@ const uploadAvatar = createAsyncThunk<
 
   return await axios
     .post(
-      `http://localhost/api/user/${userId}/profile/avatar`,
+      `http://localhost:8000/api/user/${userId}/profile/avatar`,
       {
         avatar: avatar,
       },

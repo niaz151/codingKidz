@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import Button from 'react-bootstrap/Button';
+
 import { useAppDispatch } from "../../ducks/hooks";
 import { Roles } from "../../utils/constants";
 import { register } from "./authSlice";
@@ -60,9 +62,9 @@ const RegisterPage = () => {
           })}
         </select>
       </form>
-      <button onClick={onSubmit}>Register</button>
+      <Button onClick={onSubmit}>Register</Button>
       <Link to="/login">
-        <button>Back to Login</button>
+        <Button>Back to Login</Button>
       </Link>
     </div>
   );

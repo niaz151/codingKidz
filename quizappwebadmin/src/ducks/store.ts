@@ -1,11 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import authReducer from "../pages/auth/authSlice";
-import unitReducer from '../pages/units/unitsSlice';
+import languagesReducer from '../pages/units/languagesSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    unit: unitReducer
+    languages: languagesReducer
   },
 });
 

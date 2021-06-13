@@ -1,4 +1,4 @@
-import { LoginPage, RegisterPage, SplashPage, UnitsPage } from "./pages";
+import { LoginPage, RegisterPage, SplashPage, LanguagesPage } from "./pages";
 import { Header } from "./components";
 import { useAppSelector } from "./ducks/hooks";
 import { Redirect, Route, Switch } from "react-router-dom";
@@ -12,9 +12,9 @@ function App() {
         {accessToken ? (
           <>
             <Route exact path="*">
-              <Redirect to="/units" />
+              <Redirect to="/languages" />
             </Route>
-            <Route exact path="/units" component={UnitsPage} />
+            <Route exact path="/languages" component={LanguagesPage} />
           </>
         ) : (
           <>

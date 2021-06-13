@@ -34,7 +34,7 @@ const getLanguages = createAsyncThunk<
   }
 
   return await axios
-    .get('http://localhost/api/language', {
+    .get('http://localhost:8000/api/language', {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
