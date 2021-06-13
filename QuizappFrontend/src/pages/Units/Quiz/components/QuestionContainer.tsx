@@ -1,23 +1,38 @@
 import React from 'react';
+import {Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, TrueFalseQuestion} from '../../../../utils';
 import MultipleChoiceQuestionContainer from './MultipleChoiceQuestionContainer';
 import TrueFalseQuestionContainer from './TrueFalseQuestionContainer';
 
 const QuestionContainer = (props: {
   question: MultipleChoiceQuestion | TrueFalseQuestion;
+  onCorrectAnswer: () => void;
+  onIncorrectAnswer: () => void;
 }) => {
-  const {question} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer} = props;
 
   const getQuestionType = (question: any) => {
     return question.wrongAnswer0 === undefined ? 'TrueFalse' : 'MultipleChoice';
   };
 
   return getQuestionType(question) === 'MultipleChoice' ? (
-    <MultipleChoiceQuestionContainer
-      question={question as MultipleChoiceQuestion}
-    />
+    <>
+      <Text>Multiple Choice</Text>
+      <MultipleChoiceQuestionContainer
+        onCorrectAnswer={onCorrectAnswer}
+        onIncorrectAnswer={onIncorrectAnswer}
+        question={question as MultipleChoiceQuestion}
+      />
+    </>
   ) : (
-    <TrueFalseQuestionContainer question={question as TrueFalseQuestion} />
+    <>
+      <Text>True False</Text>
+      <TrueFalseQuestionContainer
+        onCorrectAnswer={onCorrectAnswer}
+        onIncorrectAnswer={onIncorrectAnswer}
+        question={question as TrueFalseQuestion}
+      />
+    </>
   );
 };
 

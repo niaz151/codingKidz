@@ -1,17 +1,23 @@
 import React from 'react';
-import { View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import {View} from 'react-native';
+import {Button, Text} from 'react-native-paper';
 import {TrueFalseQuestion, shuffleArray} from '../../../../utils';
 
 type Props = {
   question: TrueFalseQuestion;
+  onCorrectAnswer: () => void;
+  onIncorrectAnswer: () => void;
 };
 
 const TrueFalseQuestionContainer = (props: Props) => {
-  const {question} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer} = props;
 
   const checkAnswer = (answer: TrueFalseQuestion['correctAnswer']) => {
-    return answer === question.correctAnswer;
+    if (answer === question.correctAnswer) {
+      return onCorrectAnswer();
+    } else {
+      return onIncorrectAnswer();
+    }
   };
 
   const selectedTrue = () => {
