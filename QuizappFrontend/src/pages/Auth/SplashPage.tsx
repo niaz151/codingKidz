@@ -71,6 +71,7 @@ const styles = StyleSheet.create({
   },
   splashLogoTitleTwo: {
     fontSize: 50,
+    fontFamily:'Nexa Bold',
     marginLeft: -10,
     color: 'white',
   },
