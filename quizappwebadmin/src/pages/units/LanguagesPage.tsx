@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../ducks/hooks";
 import { getLanguages } from "./languagesSlice";
-import { LanguageContainer, UnitContainer } from "./components";
-import Container from "react-bootstrap/Container";
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { LanguageContainer } from "./components";
+import { Container, Col, Row, Accordion, Card } from "react-bootstrap";
 
 const UnitsPage = () => {
   const dispatch = useAppDispatch();
@@ -25,15 +23,13 @@ const UnitsPage = () => {
         {languagesStatus === "loading" && <p>Languages are loading...</p>}
         {languagesStatus === "failed" && <p>Error fetching units</p>}
         {languagesStatus === "succeeded" && (
-          <div>
+          <Accordion>
             {languages?.map((language) => {
               return (
-                <Row>
-                  <LanguageContainer language={language} key={language.id} />
-                </Row>
+                <LanguageContainer language={language} key={language.id} />
               );
             })}
-          </div>
+          </Accordion>
         )}
       </Col>
     </Container>

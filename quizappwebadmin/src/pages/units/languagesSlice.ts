@@ -61,7 +61,14 @@ const createMultipleChoiceQuestion = createAsyncThunk<
     languageId: Language["id"];
     unitId: Unit["id"];
     topicId: Topic["id"];
-    question: MultipleChoiceQuestion;
+    question: Pick<
+      MultipleChoiceQuestion,
+      | "question"
+      | "correctAnswer"
+      | "wrongAnswer0"
+      | "wrongAnswer1"
+      | "wrongAnswer2"
+    >;
   },
   {
     state: RootState;
@@ -146,4 +153,4 @@ const languagesSlice = createSlice({
 });
 
 export default languagesSlice.reducer;
-export { getLanguages };
+export { getLanguages, createMultipleChoiceQuestion };

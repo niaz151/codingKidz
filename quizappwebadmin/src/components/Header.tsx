@@ -1,6 +1,9 @@
 import { useAppDispatch, useAppSelector } from "../ducks/hooks";
 import { Link, NavLink } from "react-router-dom";
 import { logout } from "../pages/auth/authSlice";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
+import Button from "react-bootstrap/Button";
 
 const Header = () => {
   const dispatch = useAppDispatch();
@@ -9,30 +12,34 @@ const Header = () => {
   const handleSignOut = () => {
     dispatch(logout());
   };
+
   return (
-    <nav>
-      <Link to="/">codingKIDZ</Link>
-      <ul>
+    <Navbar>
+      <Navbar.Brand>
+        <Link to="/">codingKIDZ</Link>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse>
         {accessToken ? (
           <>
-            <li>
+            <Nav.Link>
               <NavLink exact activeClassName="active" to="/units">
                 Units
               </NavLink>
-            </li>
-            <li>
-              <button onClick={handleSignOut}>LOGOUT</button>
-            </li>
+            </Nav.Link>
+            <Nav.Link>
+              <Button onClick={handleSignOut}>LOGOUT</Button>
+            </Nav.Link>
           </>
         ) : (
-          <li>
+          <Nav.Link>
             <NavLink exact activeClassName="active" to="/login">
               Login
             </NavLink>
-          </li>
+          </Nav.Link>
         )}
-      </ul>
-    </nav>
+      </Navbar.Collapse>
+    </Navbar>
   );
 };
 

@@ -45,13 +45,13 @@ export type MultipleChoiceQuestion = {
   topicId: Topic["id"];
   question: string;
   questionImage?: Buffer;
-  correctAnswer: String;
+  correctAnswer: string;
   correctAnswerImage?: Buffer;
-  wrongAnswer0: String;
+  wrongAnswer0: string;
   wrongAnswer0Image?: Buffer;
-  wrongAnswer1: String;
+  wrongAnswer1: string;
   wrongAnswer1Image?: Buffer;
-  wrongAnswer2: String;
+  wrongAnswer2: string;
   wrongAnswer2Image?: Buffer;
 };
 

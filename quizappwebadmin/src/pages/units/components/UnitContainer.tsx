@@ -1,11 +1,11 @@
-import Col from "react-bootstrap/Col";
-import Row from "react-bootstrap/Row";
+import { Container, Col, Row, Accordion, Card, Button } from "react-bootstrap";
 
 import { TopicContainer } from ".";
 import { useAppSelector } from "../../../ducks/hooks";
-import { Unit } from "../../../utils/models";
+import { Language, Unit } from "../../../utils/models";
 
 interface Props {
+  languageId: Language["id"];
   unit: Unit;
 }
 
@@ -13,28 +13,24 @@ const UnitContainer = (props: Props) => {
   const { unit } = props;
 
   return (
-    <div>
-      <Col>
-        <Row>
-          <p>{unit.name}</p>
-          <button>Edit</button>
-          <button>Delete</button>
-        </Row>
-        <div>
-          {unit.topics === undefined ? (
-            <p>Create some topics!</p>
-          ) : (
-            <div>
-              <h3>Topics for {unit.name}</h3>
-              {unit.topics.map((topic) => {
-                return <TopicContainer topic={topic} key={topic.id} />;
-              })}
-              <button>Add topic</button>
-            </div>
-          )}
-        </div>
-      </Col>
-    </div>
+    <Card>
+      <Card.Header>
+        <Accordion.Toggle eventKey={String(unit.id)}>
+          {unit.name}
+        </Accordion.Toggle>
+        <Button>Edit</Button>
+        <Button>Delete</Button>
+      </Card.Header>
+      <Accordion.Collapse eventKey={String(unit.id)}>
+        <Card.Body>
+          <Accordion>
+            {unit.topics?.map((topic) => {
+              return <TopicContainer languageId={props.languageId} unitId={unit.id} topic={topic} key={topic.id} />;
+            })}
+          </Accordion>
+        </Card.Body>
+      </Accordion.Collapse>
+    </Card>
   );
 };
 

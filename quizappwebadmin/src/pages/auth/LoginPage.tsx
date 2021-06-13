@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../ducks/hooks";
 import { login } from "./authSlice";
 
+import Button from 'react-bootstrap/Button';
+
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState<string>();
@@ -33,9 +35,9 @@ const LoginPage = () => {
           }}
         />
       </form>
-      <button onClick={onSubmit}>Login</button>
+      <Button onClick={onSubmit}>Login</Button>
       <Link to="/register">
-        <button>Go to Register</button>
+        <Button>Go to Register</Button>
       </Link>
     </div>
   );
