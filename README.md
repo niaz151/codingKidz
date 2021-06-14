@@ -19,7 +19,7 @@ docker-compose up
 yarn prisma migrate dev --preview-feature 
 ```
 
-Go to `localhost` in your browser to see the admin panel
+Go to `localhost:3000` in your browser to see the admin panel
 
 To make API calls use `localhost:8000/api/...`
 
@@ -44,9 +44,6 @@ yarn [ios|android]
   - [Prisma](prisma.io/): Used to manage DB schema (`src/prisma/schema.prisma`), connection, and operations. Generates typescript definitions to be used throughout app for easy, safe DB communication
 - Database
   - PostgreSQL
-- Webserver: Nginx
-  - Reverse proxies connections to the backend server and web admin panel
-
 
 ## Mobile Frontend
 Libraries
@@ -117,7 +114,4 @@ yarn prisma generate
 yarn prisma db seed --preview-feature
 ```
 
-If backend is stuck at `[4/4] Building fresh packages...`, run `docker ps -a` to find the container ID, then `docker stop [containerID]` (pro-tip you can just type in the first few characters of the ID), then from the project root `docker compose up -d` to start up the backend service again (assuming you already have another window dedicated to running `docker compose up`, it will show the backend starting up again in that window)
-
-<!-- # License
-[MIT](https://choosealicense.com/licenses/mit/) -->
+If backend is stuck at `[4/4] Building fresh packages...`, run `docker ps` to get a list of running containers, then `docker stop [containerID]` where `containerID` is the ID of the backend container (pro-tip you can just type in the first few characters of the ID), then from the project root `docker compose up -d` to start up the backend service again (assuming you already have another window dedicated to running `docker compose up`, it will show the backend starting up again in that window)
