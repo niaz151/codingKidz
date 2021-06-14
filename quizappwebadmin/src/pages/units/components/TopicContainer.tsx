@@ -6,12 +6,11 @@ import {
   Accordion,
   Card,
   Button,
-  Modal
+  Modal,
 } from "react-bootstrap";
 
-import { MCQuestionContainer, TFQuestionContainer } from ".";
+import { MCQuestionContainer, TFQuestionContainer, MCForm, TFForm } from ".";
 import { Language, Topic, Unit } from "../../../utils/models";
-import MCForm from "./MCForm";
 
 interface Props {
   languageId: Language["id"];
@@ -22,7 +21,6 @@ interface Props {
 const TopicContainer = (props: Props) => {
   const { topic } = props;
 
-  const [showModal, setShowModal] = useState(false);
   const [modalSettings, setModalSettings] = useState<{
     open: boolean;
     type: "MC" | "TF";
@@ -35,23 +33,34 @@ const TopicContainer = (props: Props) => {
     setModalSettings({ ...modalSettings, open: false });
   };
 
+  const renderFormInModal = () => {
+    switch (modalSettings.type) {
+      case "MC":
+        return (
+          <MCForm
+            languageId={props.languageId}
+            unitId={props.unitId}
+            topicId={topic.id}
+          />
+        );
+      case "TF":
+        return (
+          <TFForm
+            languageId={props.languageId}
+            unitId={props.unitId}
+            topicId={topic.id}
+          />
+        );
+    }
+  };
+
   return (
     <>
       <Modal show={modalSettings.open} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Create Question</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
-          {modalSettings.type === "MC" ? (
-            <MCForm
-              languageId={props.languageId}
-              unitId={props.unitId}
-              topicId={topic.id}
-            />
-          ) : (
-            <Text>True False</Text>
-          )}
-        </Modal.Body>
+        <Modal.Body>{renderFormInModal()}</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={closeModal}>
             Cancel
@@ -85,7 +94,11 @@ const TopicContainer = (props: Props) => {
                         />
                       );
                     })}
-                    <Button onClick={() => setShowModal(true)}>
+                    <Button
+                      onClick={() =>
+                        setModalSettings({ type: "MC", open: true })
+                      }
+                    >
                       Create Multiple Choice Question
                     </Button>
                   </div>
@@ -109,6 +122,13 @@ const TopicContainer = (props: Props) => {
                         />
                       );
                     })}
+                    <Button
+                      onClick={() =>
+                        setModalSettings({ type: "TF", open: true })
+                      }
+                    >
+                      Create True False Question
+                    </Button>
                   </>
                 </Accordion.Collapse>
               </Card>

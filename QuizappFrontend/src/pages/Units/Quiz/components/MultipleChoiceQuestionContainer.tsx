@@ -32,7 +32,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       <Text>{question.question}</Text>
       {shuffledAnswers.map((answer) => {
         return (
-          <Button onPress={() => checkAnswer(answer)}>
+          <Button onPress={() => checkAnswer(answer)} key={answer}>
             <Text>{answer}</Text>
           </Button>
         );

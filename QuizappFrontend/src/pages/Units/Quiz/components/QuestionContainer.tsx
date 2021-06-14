@@ -16,23 +16,17 @@ const QuestionContainer = (props: {
   };
 
   return getQuestionType(question) === 'MultipleChoice' ? (
-    <>
-      <Text>Multiple Choice</Text>
-      <MultipleChoiceQuestionContainer
-        onCorrectAnswer={onCorrectAnswer}
-        onIncorrectAnswer={onIncorrectAnswer}
-        question={question as MultipleChoiceQuestion}
-      />
-    </>
+    <MultipleChoiceQuestionContainer
+      onCorrectAnswer={onCorrectAnswer}
+      onIncorrectAnswer={onIncorrectAnswer}
+      question={question as MultipleChoiceQuestion}
+    />
   ) : (
-    <>
-      <Text>True False</Text>
-      <TrueFalseQuestionContainer
-        onCorrectAnswer={onCorrectAnswer}
-        onIncorrectAnswer={onIncorrectAnswer}
-        question={question as TrueFalseQuestion}
-      />
-    </>
+    <TrueFalseQuestionContainer
+      onCorrectAnswer={onCorrectAnswer}
+      onIncorrectAnswer={onIncorrectAnswer}
+      question={question as TrueFalseQuestion}
+    />
   );
 };
 
