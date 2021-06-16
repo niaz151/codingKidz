@@ -72,6 +72,7 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingBottom:hp("5%")
   },
   topicTileContainer: {
     height: hp('20%'),

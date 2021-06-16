@@ -29,6 +29,10 @@ import {
   restoreRefreshToken,
 } from './pages/Auth/authSlice';
 import {Unit, Language} from './utils';
+import MenuHome from './assets/images/menu_home.svg';
+import MenuCheats from './assets/images/menu_cheats.svg';
+import MenuLeaderboard from './assets/images/menu_leaderboard.svg';
+import MenuProfile from './assets/images/menu_profile.svg';
 
 Ionicon.loadFont();
 
@@ -58,7 +62,7 @@ const App = () => {
               tabBarOptions={{
                 style:{
                   height: 100,
-                  backgroundColor:'#595A5A'
+                  //backgroundColor:'#595A5A'
                 },
                 labelStyle: {
                   color: 'black',
@@ -70,28 +74,28 @@ const App = () => {
                 name="HomeTab"
                 component={HomePage}
                 options={{
-                  tabBarIcon: () => <Icon name="home" size={40}  style={{marginLeft:-10}} color={'white'} />,
+                  tabBarIcon: () => <MenuHome style={styles.iconStyles} />,
                 }}
               />
               <Tab.Screen
                 name="UnitsTab"
                 component={UnitsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="library" size={40}  style={{marginLeft:-10}} color={'white'}/>,
+                  tabBarIcon: () => <MenuCheats style={styles.iconStyles} />,
                 }}
               />
               <Tab.Screen
                 name="NotificationsTab"
                 component={NotificationsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="notifications" size={40}  style={{marginLeft:-10}} color={'white'} />,
+                  tabBarIcon: () => <MenuLeaderboard style={styles.iconStyles} />,
                 }}
               />
               <Tab.Screen
                 name="SettingsTab"
                 component={SettingsStack}
                 options={{
-                  tabBarIcon: () => <Icon name="settings" size={40}  style={{marginLeft:-10}} color={'white'} />,
+                  tabBarIcon: () => <MenuProfile style={styles.iconStyles} />,
                 }}
               />
             </Tab.Navigator>
@@ -108,6 +112,12 @@ const styles = StyleSheet.create({
   viewStyles: {
     flex: 1,
   },
+  iconStyles:{
+    marginTop: hp("-3%"),
+    marginLeft: -10,
+    height: 100,
+    width: 100
+  }
 });
 
 const AppWithProvider = () => (
