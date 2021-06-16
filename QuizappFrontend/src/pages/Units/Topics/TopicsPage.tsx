@@ -36,7 +36,7 @@ const TopicsPage = (props: Props) => {
             })
           }>
           <MouseFlower style={styles.imgStyle} />
-          <Text style={styles.captionText}> Lesson Name </Text>
+          <Text style={styles.captionText}> {topic.name} </Text>
           <Text style={styles.lessonText}> Lesson Title </Text>
         </TouchableOpacity>
       </View>
@@ -94,12 +94,8 @@ const styles = {
     justifyContent:'center',
     width: '100%',
     height:'100%',
-    borderColor:'red',
-    borderWidth:1,
   },  
   imgStyle:{
-    borderWidth:1,
-    borderColor:'black',
     height:'90%',
     width:'100%',
   },

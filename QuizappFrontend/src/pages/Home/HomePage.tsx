@@ -91,13 +91,14 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   welcomeText: {
+    fontFamily:'Nexa Bold',
     fontSize: hp('3%'),
     color: '#FF671D',
   },
   emailText: {
+    fontFamily:'Nexa Light',
     fontSize: hp('2.8%'),
     color: 'black',
-    fontWeight: '200',
   },
   languageWrap: {
     height: hp('80%'),
@@ -119,7 +120,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   promptText: {
-    fontWeight: '500',
+    fontFamily:'Nexa Bold',
     fontSize: 30,
     color: '#3FA6D3',
     marginTop: hp('-10%'),
@@ -171,9 +172,10 @@ const styles = StyleSheet.create({
     marginTop: 50,
   },
   btnText: {
+    fontFamily:'Nexa Bold',
     fontSize: 18,
     color: 'white',
-    fontWeight: '600',
+    marginTop:hp("0.5%")
   },
   whiskers: {
     position: 'absolute',
