@@ -11,6 +11,7 @@ import {getLanguages} from '../Units/languagesSlice';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {RootTabParamList} from '../../App';
 import MouseWhiskers from '../../assets/images/mouse_whiskers.svg';
+import MouseTail from '../../assets/images/mouse_tail.svg';
 
 type Props = {
   navigation: BottomTabNavigationProp<RootTabParamList, 'HomeTab'>;
@@ -49,6 +50,7 @@ const HomePage = (props: Props) => {
             <TouchableOpacity style={styles.semiView} onPress={() => {}} />
             <TouchableOpacity style={styles.semiView} onPress={() => {}} />
           </View>
+          <MouseTail style={styles.tailStyle} />
 
           {languages?.map((language) => {
             return (
@@ -126,6 +128,8 @@ const styles = StyleSheet.create({
     marginTop: hp('-10%'),
   },
   languageList: {
+    borderWidth:1,
+    borderColor:'black',
     flex: 1,
     width: '100%',
     marginTop: hp('-10%'),
@@ -184,6 +188,13 @@ const styles = StyleSheet.create({
     top: 30,
     left: wp('13%'),
   },
+  tailStyle:{
+    position: 'absolute',
+    top: hp('-33%'),
+    left:wp("20%"),
+    height: 400,
+    width: 400,
+  }
 });
 
 export default HomePage;
