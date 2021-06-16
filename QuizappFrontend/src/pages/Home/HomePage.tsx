@@ -10,6 +10,7 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import {getLanguages} from '../Units/languagesSlice';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {RootTabParamList} from '../../App';
+import MouseWhiskers from '../../assets/images/mouse_whiskers.svg';
 
 type Props = {
   navigation: BottomTabNavigationProp<RootTabParamList, 'HomeTab'>;
@@ -65,8 +66,7 @@ const HomePage = (props: Props) => {
             );
           })}
 
-          <Image
-            source={require('../../assets/images/Screen_E_Whiskers.png')}
+          <MouseWhiskers
             style={styles.whiskers}
           />
         </View>
@@ -179,10 +179,10 @@ const styles = StyleSheet.create({
   },
   whiskers: {
     position: 'absolute',
-    height: 400,
-    width: 400,
+    height: 600,
+    width: 600,
     top: 30,
-    left: wp('28%'),
+    left: wp('13%'),
   },
 });
 
