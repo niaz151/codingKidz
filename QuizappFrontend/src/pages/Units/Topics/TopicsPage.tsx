@@ -16,6 +16,7 @@ import {useAppSelector} from '../../../ducks/store';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
 import {UnitsPage} from '../UnitsPage';
+import MouseFlower from '../../../assets/images/mouse_flower.svg';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
@@ -28,12 +29,15 @@ const TopicsPage = (props: Props) => {
     return (
       <View style={styles.topicTileContainer}>
         <TouchableOpacity
+        style={styles.opacityStyle}
           onPress={() =>
             navigation.navigate('Quiz', {
               topic: topic,
             })
           }>
-          <Text style={styles.topicTileText}>{topic.name}</Text>
+          <MouseFlower style={styles.imgStyle} />
+          <Text style={styles.captionText}> Lesson Name </Text>
+          <Text style={styles.lessonText}> Lesson Title </Text>
         </TouchableOpacity>
       </View>
     );
@@ -59,12 +63,9 @@ const styles = {
     backgroundColor: '#FFF7DD',
   },
   topicListContainer:{
-    borderColor:'red',
-    borderWidth:1,
     width: wp('90%'),
-    marginTop:hp("20%"),
+    marginTop:hp("15%"),
     marginLeft:wp("5%"),
-    height: 400,
     overflow:'scroll',
     flexWrap: 'wrap',
     flexDirection: 'row',
@@ -73,11 +74,7 @@ const styles = {
     alignItems: 'center',
   },
   topicTileContainer: {
-    borderWidth: 1.5,
-    borderColor: 'black',
-    borderRadius: 5,
-    height: hp('15%'),
-    maxHeight: 60,
+    height: hp('20%'),
     width: wp('40%'),
     maxWidth: 200,
     flexBasis: '40%',
@@ -90,4 +87,28 @@ const styles = {
     fontSize: 40,
     color: 'black',
   },
+  opacityStyle:{
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
+    width: '100%',
+    height:'100%',
+    borderColor:'red',
+    borderWidth:1,
+  },  
+  imgStyle:{
+    borderWidth:1,
+    borderColor:'black',
+    height:'90%',
+    width:'100%',
+  },
+  captionText:{
+    fontFamily:'Nexa Bold',
+    fontSize: 24,
+  },
+  lessonText:{
+    fontFamily:'Nexa Bold',
+    fontSize: 18,
+    marginTop:5
+  }
 };

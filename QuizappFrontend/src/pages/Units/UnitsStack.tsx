@@ -30,8 +30,8 @@ const UnitsStack = () => {
           headerTitle: 'SCRATCH',
           headerTitleStyle: {
             fontSize: 36,
+            fontFamily:'Nexa Bold',
             color: '#FF671D',
-            fontWeight: '600',
           },
           headerStyle: {
             backgroundColor: '#FDD400',
@@ -61,15 +61,12 @@ const UnitsStack = () => {
           title: 'Test',
           headerTitleStyle: {
             fontSize: 36,
-            fontWeight: '500',
+            fontFamily:'Nexa Bold',
+            color: '#FF671D',
           },
           headerStyle: {
             backgroundColor: '#FED500',
             height: 100,
-          },
-          headerTitleContainerStyle: {
-            borderWidth: 1,
-            borderColor: 'black',
           },
         }}
       />

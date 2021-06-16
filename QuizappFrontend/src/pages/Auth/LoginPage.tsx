@@ -9,7 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {login} from './authSlice';
 import {useAppDispatch} from '../../ducks/store';
-import '../../assets/images/Screen_D_Line.jpg';
+import MouseLine from '../../assets/images/mouse_line.svg';
 
 const LoginPage = () => {
   const navigation = useNavigation();
@@ -33,10 +33,7 @@ const LoginPage = () => {
   const CommonComponents = (
     <>
       <View style={styles.titleGraphic}>
-        <Image
-          source={require('../../assets/images/Screen_D_Line.jpg')}
-          style={styles.splashImg}
-        />
+        <MouseLine height={800} width={800} />
       </View>
       <View style={styles.loginTitleWrap}>
         <Text style={styles.loginTitleText}> LOGIN INFO </Text>
@@ -129,14 +126,19 @@ const LoginPage = () => {
 
 const styles = StyleSheet.create({
   titleGraphic:{
+    borderColor:'black',
+    borderWidth:1,
     width: wp("100%"),
     height:80,
-    backgroundColor:'#FED500'
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
   },
-  splashImg:{
-    marginTop:hp("-5%"),
-    height: 900,
-    width: 850,
+  lineImg:{
+    borderColor:'black',
+    borderWidth:1,
+    height: 80,
+    width: 300
   },
   loginContainer: {
     height: hp('100%'),

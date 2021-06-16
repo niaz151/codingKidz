@@ -116,7 +116,7 @@ const styles = {
   titleText: {
     color: '#FF671D',
     fontSize: 72,
-    fontWeight: 'bold',
+    fontFamily:'Nexa Bold',
     letterSpacing: 1,
   },
   unitsList: {
@@ -130,7 +130,7 @@ const styles = {
     alignItems: 'center',
   },
   unitTileContainer: {
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: 'black',
     borderRadius: 20,
     height: 90,
@@ -143,11 +143,13 @@ const styles = {
   unitTileText: {
     fontSize: 40,
     color: 'white',
+    fontFamily:'Nexa Bold',
     width: '70%',
     //borderColor:'black',
     //borderWidth:1,
     textAlign: 'center',
-    paddingLeft: '10%',
+    paddingLeft: '20%',
+    paddingTop:'2%'
   },
   unitTileIcon: {
     width: '30%',
