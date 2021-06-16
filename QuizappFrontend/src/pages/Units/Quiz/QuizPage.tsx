@@ -54,11 +54,29 @@ export const QuizPage = (props: Props) => {
     navigation.goBack();
   };
 
+  const onCorrectAnswer = () => {
+    nextQuestion();
+  };
+
+  const onIncorrectAnswer = () => {
+    loseLife();
+    nextQuestion();
+  };
+
   return (
     <View>
       {lives > 0 ? (
         questionNum < selectedQuestions.length ? (
-          <QuestionContainer question={selectedQuestions[questionNum]} />
+          <>
+            {[...Array(lives).keys()].map((k) => {
+              return <Text key={k}>L</Text>;
+            })}
+            <QuestionContainer
+              onCorrectAnswer={onCorrectAnswer}
+              onIncorrectAnswer={onIncorrectAnswer}
+              question={selectedQuestions[questionNum]}
+            />
+          </>
         ) : (
           <View>
             <Text>You Passed</Text>

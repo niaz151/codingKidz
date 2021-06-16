@@ -61,3 +61,6 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# Include gradle wrapper jar
+!/android/gradle/wrapper/gradle-wrapper.jar

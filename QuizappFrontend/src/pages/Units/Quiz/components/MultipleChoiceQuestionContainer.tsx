@@ -5,10 +5,12 @@ import {MultipleChoiceQuestion, shuffleArray} from '../../../../utils';
 
 type Props = {
   question: MultipleChoiceQuestion;
+  onCorrectAnswer: () => void;
+  onIncorrectAnswer: () => void;
 };
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
-  const {question} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer} = props;
 
   const shuffledAnswers = shuffleArray([
     question.correctAnswer,
@@ -18,14 +20,22 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
   ]);
 
   const checkAnswer = (answer: MultipleChoiceQuestion['correctAnswer']) => {
-    return answer === question.correctAnswer;
+    if (answer === question.correctAnswer) {
+      return onCorrectAnswer();
+    } else {
+      return onIncorrectAnswer();
+    }
   };
 
   return (
     <View>
       <Text>{question.question}</Text>
       {shuffledAnswers.map((answer) => {
-        <Button onPress={() => checkAnswer(answer)}>{answer}</Button>;
+        return (
+          <Button onPress={() => checkAnswer(answer)} key={answer}>
+            <Text>{answer}</Text>
+          </Button>
+        );
       })}
     </View>
   );

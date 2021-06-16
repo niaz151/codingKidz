@@ -7,6 +7,7 @@ import {
   Topic,
   MultipleChoiceQuestion,
   Language,
+  TrueFalseQuestion,
 } from "../../utils/models";
 
 interface StateType {
@@ -117,6 +118,58 @@ const createMultipleChoiceQuestion = createAsyncThunk<
   }
 );
 
+const createTrueFalseQuestion = createAsyncThunk<
+  Topic,
+  {
+    languageId: Language["id"];
+    unitId: Unit["id"];
+    topicId: Topic["id"];
+    question: Pick<TrueFalseQuestion, "question" | "correctAnswer">;
+  },
+  {
+    state: RootState;
+  }
+>(
+  "units/createTrueFalseQuestion",
+  async (
+    { languageId, unitId, topicId, question },
+    { getState, rejectWithValue }
+  ) => {
+    const { accessToken } = getState().auth;
+    const userId = accessToken
+      ? TokenService.readToken(accessToken).id
+      : undefined;
+
+    if (!userId) {
+      return rejectWithValue("Undefined user id");
+    }
+
+    return await axios
+      .post(
+        `http://localhost:8000/api/language/${languageId}/unit/${unitId}/topic/${topicId}/question/truefalse`,
+        {
+          question: question.question,
+          correctAnswer: question.correctAnswer,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(
+        async (response) => {
+          const updatedTopic = response.data.updatedTopic;
+
+          return updatedTopic;
+        },
+        (error: AxiosError) => {
+          return rejectWithValue(error);
+        }
+      );
+  }
+);
+
 const languagesSlice = createSlice({
   name: "languages",
   initialState,
@@ -135,7 +188,7 @@ const languagesSlice = createSlice({
 
     builder.addCase(getLanguages.rejected, (state, action) => {
       state.languages = null;
-      state.error = action.error.message ?? "Unknown login error";
+      state.error = action.error.message ?? "Unknown language get error";
       state.status = "failed";
     });
 
@@ -149,8 +202,31 @@ const languagesSlice = createSlice({
       // trigger refresh of questions
       state.status = "idle";
     });
+
+    builder.addCase(createMultipleChoiceQuestion.rejected, (state, action) => {
+      state.error =
+        action.error.message ?? "Unknown multiple choice creation error error";
+      state.status = "failed";
+    });
+
+    builder.addCase(createTrueFalseQuestion.pending, (state, _action) => {
+      state.error = null;
+      state.status = "loading";
+    });
+
+    builder.addCase(createTrueFalseQuestion.fulfilled, (state, action) => {
+      state.error = null;
+      // trigger refresh of questions
+      state.status = "idle";
+    });
+
+    builder.addCase(createTrueFalseQuestion.rejected, (state, action) => {
+      state.error =
+        action.error.message ?? "Unknown multiple choice creation error error";
+      state.status = "failed";
+    });
   },
 });
 
 export default languagesSlice.reducer;
-export { getLanguages, createMultipleChoiceQuestion };
+export { getLanguages, createMultipleChoiceQuestion, createTrueFalseQuestion };
