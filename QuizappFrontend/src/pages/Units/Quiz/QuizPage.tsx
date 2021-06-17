@@ -1,25 +1,18 @@
-import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, ScrollView} from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import axios from 'axios';
-import {useRoute} from '@react-navigation/native';
-import {useAppDispatch, useAppSelector} from '../../../ducks/store';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {
-  MultipleChoiceQuestion,
-  Question,
-  shuffleArray,
-  TrueFalseQuestion,
-} from '../../../utils';
+import {StackScreenProps} from '@react-navigation/stack';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {StackScreenProps} from '@react-navigation/stack';
-import {UnitsStackParamList} from '../UnitsStack';
+import React, {useEffect, useLayoutEffect, useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import {Button} from 'react-native-paper';
-import MultipleChoiceQuestionContainer from './components/MultipleChoiceQuestionContainer';
-import TrueFalseQuestionContainer from './components/TrueFalseQuestionContainer';
+import Icon from 'react-native-vector-icons/Ionicons';
+import {
+  MultipleChoiceQuestion,
+  shuffleArray,
+  TrueFalseQuestion,
+} from '../../../utils';
+import {UnitsStackParamList} from '../UnitsStack';
 import QuestionContainer from './components/QuestionContainer';
 
 const QUESTIONS_PER_QUIZ = 10;
@@ -63,6 +56,23 @@ export const QuizPage = (props: Props) => {
     nextQuestion();
   };
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: (_props) => (
+        <View style={styles.livesContainer}>
+          <View style={styles.emojiContainer}>
+            <Text>{lives} </Text>
+            <Icon name="happy-outline" />
+          </View>
+          <View style={styles.emojiContainer}>
+            <Text>{3 - lives}</Text>
+            <Icon name="sad-outline" />
+          </View>
+        </View>
+      ),
+    });
+  }, [lives, navigation]);
+
   return (
     <View style={styles.container}>
       {lives > 0 ? (
@@ -81,17 +91,15 @@ export const QuizPage = (props: Props) => {
               question={selectedQuestions[questionNum]}
             />
           </>
-        )
-        // IF YOU PASS THE QUIZ 
-        :(
+        ) : (
+          // IF YOU PASS THE QUIZ
           <View>
             <Text>You Passed</Text>
             <Button onPress={returnToLessons}>Return to Lessons</Button>
           </View>
         )
-      ) 
-      // IF NO LIVES LEFT
-      :(
+      ) : (
+        // IF NO LIVES LEFT
         <View>
           <Text>You Failed</Text>
           <Button onPress={returnToLessons}>Return to Lessons</Button>
@@ -102,9 +110,26 @@ export const QuizPage = (props: Props) => {
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     backgroundColor: '#FDF9DF',
-    height: hp("100%"),
-    width: wp("100%")
-  }
-})
+    height: hp('100%'),
+    width: wp('100%'),
+  },
+  livesContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    height: '100%',
+    width: 300,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 30,
+  },
+  emojiContainer: {
+    borderColor: 'black',
+    borderWidth: 1,
+    height: '100%',
+    width: '50%',
+  },
+});

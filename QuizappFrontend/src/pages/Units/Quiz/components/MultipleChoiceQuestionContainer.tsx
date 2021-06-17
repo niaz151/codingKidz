@@ -34,117 +34,85 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.questionContainer}>
-
+        <Text>{question.question}</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.optionsContainer} horizontal={false} directionalLockEnabled={true} >
-          <View style={styles.multipleChoiceContainer}>
-            <View style={styles.choiceWrap}>
-              <View style={styles.letter}>
-                <Text> A </Text>
-              </View>
-              <View style={styles.answer}> 
-                <Text> Other </Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.multipleChoiceContainer}>
-            <View style={styles.choiceWrap}>
-              <View style={styles.letter}>
-                <Text> B </Text>
-              </View>
-              <View style={styles.answer}> 
-                <Text> Other </Text>
-              </View>
-            </View>
-          </View> 
-          <View style={styles.multipleChoiceContainer}>
-            <View style={styles.choiceWrap}>
-              <View style={styles.letter}>
-                <Text> C </Text>
-              </View>
-              <View style={styles.answer}> 
-                <Text> Other </Text>
+      <ScrollView
+        contentContainerStyle={styles.optionsContainer}
+        horizontal={false}
+        directionalLockEnabled={true}>
+        {['A', 'B', 'C', 'D'].map((letter, idx) => {
+          const currentAnswer = shuffledAnswers[idx];
+          const handleAnswer = () => checkAnswer(currentAnswer);
+          return (
+            <View style={styles.multipleChoiceContainer}>
+              <View style={styles.choiceWrap}>
+                <View style={styles.letter}>
+                  <Text> {letter} </Text>
+                </View>
+                <View style={styles.answer}>
+                  <Button onPress={handleAnswer}>
+                    <Text> {currentAnswer} </Text>
+                  </Button>
+                </View>
               </View>
             </View>
-          </View>
-          <View style={styles.multipleChoiceContainer}>
-            <View style={styles.choiceWrap}>
-              <View style={styles.letter}>
-                <Text> D </Text>
-              </View>
-              <View style={styles.answer}> 
-                <Text> Other </Text>
-              </View>
-            </View>
-          </View>
+          );
+        })}
       </ScrollView>
-
-
-
-      {/*
-      <Text>{question.question}</Text>
-      {shuffledAnswers.map((answer) => {
-        return (
-          <Button onPress={() => checkAnswer(answer)} key={answer}>
-            <Text>{answer}</Text>
-          </Button>
-        );
-      })}
-      */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    borderColor:'black',
-    borderWidth:1,
-    height: hp("100%"),
-    width: wp("100%"),
+  container: {
+    borderColor: 'black',
+    borderWidth: 1,
+    height: hp('100%'),
+    width: wp('100%'),
   },
-  questionContainer:{
-    height: hp("30%"),
-    width:wp("100%")
+  questionContainer: {
+    height: hp('30%'),
+    width: wp('100%'),
   },
-  optionsContainer:{
-    flex:1,
-    width:wp("100%"),
-    overflow:'scroll',
-    display:'flex',
-    flexDirection:'column',
+  optionsContainer: {
+    flex: 1,
+    width: wp('100%'),
+    overflow: 'scroll',
+    display: 'flex',
+    flexDirection: 'column',
   },
-  multipleChoiceContainer:{
-    flex:1,
-    width:wp("100%"),
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center'
+  multipleChoiceContainer: {
+    flex: 1,
+    width: wp('100%'),
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  choiceWrap:{
-    borderColor:'black',
-    borderTopWidth:1,
+  choiceWrap: {
+    borderColor: 'black',
+    borderTopWidth: 1,
     height: '100%',
     width: '100%',
-    display:'flex',
-    flexDirection:'row'
+    display: 'flex',
+    flexDirection: 'row',
   },
-  letter:{
-    borderTopWidth:1,
-    borderColor:'black',
+  letter: {
+    borderTopWidth: 1,
+    borderColor: 'black',
     height: '100%',
     width: '10%',
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center'
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  answer:{
-    borderTopWidth:1,
-    borderColor:'black',
+  answer: {
+    borderTopWidth: 1,
+    borderColor: 'black',
     height: '100%',
     width: '90%',
-    display:'flex',
-    justifyContent:'center'
-  }
-})
+    display: 'flex',
+    justifyContent: 'center',
+  },
+});
 
 export default MultipleChoiceQuestionContainer;
