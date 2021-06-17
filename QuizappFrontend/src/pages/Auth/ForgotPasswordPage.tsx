@@ -13,6 +13,7 @@ import Svg, {
   Path,
   Defs,
 } from 'react-native-svg';
+import MouseHouse from '../../assets/images/mouse_house.svg';
 
 const ForgotPasswordPage = () => {
   const navigation = useNavigation();
@@ -22,6 +23,7 @@ const ForgotPasswordPage = () => {
     <View style={styles.container}>
       <View style={styles.lightGuard}>
         <View style={styles.deepGuard}>
+          <MouseHouse height={800} width={800} style={styles.img} />
         </View>
       </View>
       <View style={styles.wrapper}>
@@ -119,6 +121,11 @@ const styles = StyleSheet.create({
     backgroundColor:'#FDD503',
     height: hp("15%"),
     width: wp("100%")
+  },
+  img:{
+    position:'absolute',
+    bottom:hp("-15%"),
+    left:wp("35%"),
   }
 });
 

@@ -33,7 +33,7 @@ const LoginPage = () => {
   const CommonComponents = (
     <>
       <View style={styles.titleGraphic}>
-        <MouseLine height={800} width={800} />
+        <MouseLine style={styles.lineImg} />
       </View>
       <View style={styles.loginTitleWrap}>
         <Text style={styles.loginTitleText}> LOGIN INFO </Text>
@@ -137,8 +137,8 @@ const styles = StyleSheet.create({
   lineImg:{
     borderColor:'black',
     borderWidth:1,
-    height: 80,
-    width: 300
+    height: '100%',
+    width: 400,
   },
   loginContainer: {
     height: hp('100%'),

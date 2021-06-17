@@ -1,7 +1,11 @@
 import React from 'react';
-import {View} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, shuffleArray} from '../../../../utils';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 
 type Props = {
   question: MultipleChoiceQuestion;
@@ -28,7 +32,28 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
+      <View style={styles.questionContainer}>
+
+      </View>
+      <ScrollView contentContainerStyle={styles.optionsContainer} horizontal={false} directionalLockEnabled={true} >
+          <View style={styles.multipleChoiceContainer}>
+            <Text>A</Text>
+          </View>
+          <View style={styles.multipleChoiceContainer}>
+            <Text>A</Text>
+          </View>
+          <View style={styles.multipleChoiceContainer}>
+            <Text>A</Text>
+          </View>
+          <View style={styles.multipleChoiceContainer}>
+            <Text>A</Text>
+          </View>
+      </ScrollView>
+
+
+
+      {/*
       <Text>{question.question}</Text>
       {shuffledAnswers.map((answer) => {
         return (
@@ -37,8 +62,40 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
           </Button>
         );
       })}
+      */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container:{
+    borderColor:'black',
+    borderWidth:1,
+    height: hp("100%"),
+    width: wp("100%"),
+  },
+  questionContainer:{
+    borderColor:'black',
+    borderWidth:1,
+    height: hp("30%"),
+    width:wp("100%")
+  },
+  optionsContainer:{
+    flex:1,
+    borderColor:'black',
+    borderWidth:1,
+    width:wp("100%"),
+    overflow:'scroll',
+    display:'flex',
+    flexDirection:'column',
+  },
+  multipleChoiceContainer:{
+    borderWidth:1,
+    borderColor:'black',
+    flex:1,
+    width:wp("100%")
+  },
+
+})
 
 export default MultipleChoiceQuestionContainer;

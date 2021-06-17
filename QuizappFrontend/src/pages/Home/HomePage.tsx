@@ -128,8 +128,6 @@ const styles = StyleSheet.create({
     marginTop: hp('-10%'),
   },
   languageList: {
-    borderWidth:1,
-    borderColor:'black',
     flex: 1,
     width: '100%',
     marginTop: hp('-10%'),

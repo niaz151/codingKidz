@@ -64,26 +64,34 @@ export const QuizPage = (props: Props) => {
   };
 
   return (
-    <View>
+    <View style={styles.container}>
       {lives > 0 ? (
         questionNum < selectedQuestions.length ? (
           <>
+            {/* LIFE MANAGEMENT */}
+            {/*
             {[...Array(lives).keys()].map((k) => {
               return <Text key={k}>L</Text>;
             })}
+          */}
+            {/* QUESTION RENDER */}
             <QuestionContainer
               onCorrectAnswer={onCorrectAnswer}
               onIncorrectAnswer={onIncorrectAnswer}
               question={selectedQuestions[questionNum]}
             />
           </>
-        ) : (
+        )
+        // IF YOU PASS THE QUIZ 
+        :(
           <View>
             <Text>You Passed</Text>
             <Button onPress={returnToLessons}>Return to Lessons</Button>
           </View>
         )
-      ) : (
+      ) 
+      // IF NO LIVES LEFT
+      :(
         <View>
           <Text>You Failed</Text>
           <Button onPress={returnToLessons}>Return to Lessons</Button>
@@ -92,3 +100,11 @@ export const QuizPage = (props: Props) => {
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container:{
+    backgroundColor: '#FDF9DF',
+    height: hp("100%"),
+    width: wp("100%")
+  }
+})

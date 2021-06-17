@@ -1,4 +1,5 @@
 import React from 'react';
+import {View, StyleSheet} from 'react-native';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
 import TopicsPage from './Topics/TopicsPage';
@@ -18,16 +19,18 @@ export type UnitsStackParamList = {
 
 const Stack = createStackNavigator<UnitsStackParamList>();
 
-const UnitsStack = () => {
-  const navigation = useNavigation();
+const UnitsStack = (props: any) => {
 
+
+  const navigation = useNavigation();
+  
   return (
     <Stack.Navigator initialRouteName="Units">
       <Stack.Screen
         name="Units"
         component={UnitsPage}
         options={{
-          headerTitle: 'SCRATCH',
+          headerTitle: "test",
           headerTitleStyle: {
             fontSize: 36,
             fontFamily:'Nexa Bold',
@@ -74,15 +77,52 @@ const UnitsStack = () => {
         name="Quiz"
         component={QuizPage}
         options={{
-          title: '',
+          title: 'Quiz',
+          headerTitleStyle: {
+            fontSize: 36,
+            fontFamily:'Nexa Bold',
+            color: '#FF671D',
+          },
           headerStyle: {
-            backgroundColor: '#FF671D',
+            backgroundColor: '#FED500',
             height: 100,
           },
+          headerRight: (props) => (
+            <View style={styles.livesContainer}>
+              <View style={styles.emojiContainer}>
+
+              </View>
+              <View style={styles.emojiContainer}>
+
+              </View>
+            </View>
+          ),
         }}
       />
     </Stack.Navigator>
   );
 };
 
+const styles = StyleSheet.create({
+  livesContainer:{
+    borderColor:'black',
+    borderWidth:1,
+    height: '100%',
+    width: 300,
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center',
+    justifyContent:'center',
+    marginRight:30,
+  },
+  emojiContainer:{
+    borderColor:'black',
+    borderWidth:1,
+    height: '100%',
+    width:'50%'
+  }
+
+})
+
 export default UnitsStack;
+
