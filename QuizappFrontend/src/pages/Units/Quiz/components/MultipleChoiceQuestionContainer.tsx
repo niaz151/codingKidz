@@ -38,16 +38,44 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       </View>
       <ScrollView contentContainerStyle={styles.optionsContainer} horizontal={false} directionalLockEnabled={true} >
           <View style={styles.multipleChoiceContainer}>
-            <Text>A</Text>
+            <View style={styles.choiceWrap}>
+              <View style={styles.letter}>
+                <Text> A </Text>
+              </View>
+              <View style={styles.answer}> 
+                <Text> Other </Text>
+              </View>
+            </View>
           </View>
           <View style={styles.multipleChoiceContainer}>
-            <Text>A</Text>
+            <View style={styles.choiceWrap}>
+              <View style={styles.letter}>
+                <Text> B </Text>
+              </View>
+              <View style={styles.answer}> 
+                <Text> Other </Text>
+              </View>
+            </View>
+          </View> 
+          <View style={styles.multipleChoiceContainer}>
+            <View style={styles.choiceWrap}>
+              <View style={styles.letter}>
+                <Text> C </Text>
+              </View>
+              <View style={styles.answer}> 
+                <Text> Other </Text>
+              </View>
+            </View>
           </View>
           <View style={styles.multipleChoiceContainer}>
-            <Text>A</Text>
-          </View>
-          <View style={styles.multipleChoiceContainer}>
-            <Text>A</Text>
+            <View style={styles.choiceWrap}>
+              <View style={styles.letter}>
+                <Text> D </Text>
+              </View>
+              <View style={styles.answer}> 
+                <Text> Other </Text>
+              </View>
+            </View>
           </View>
       </ScrollView>
 
@@ -75,27 +103,48 @@ const styles = StyleSheet.create({
     width: wp("100%"),
   },
   questionContainer:{
-    borderColor:'black',
-    borderWidth:1,
     height: hp("30%"),
     width:wp("100%")
   },
   optionsContainer:{
     flex:1,
-    borderColor:'black',
-    borderWidth:1,
     width:wp("100%"),
     overflow:'scroll',
     display:'flex',
     flexDirection:'column',
   },
   multipleChoiceContainer:{
-    borderWidth:1,
-    borderColor:'black',
     flex:1,
-    width:wp("100%")
+    width:wp("100%"),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
   },
-
+  choiceWrap:{
+    borderColor:'black',
+    borderTopWidth:1,
+    height: '100%',
+    width: '100%',
+    display:'flex',
+    flexDirection:'row'
+  },
+  letter:{
+    borderTopWidth:1,
+    borderColor:'black',
+    height: '100%',
+    width: '10%',
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
+  },
+  answer:{
+    borderTopWidth:1,
+    borderColor:'black',
+    height: '100%',
+    width: '90%',
+    display:'flex',
+    justifyContent:'center'
+  }
 })
 
 export default MultipleChoiceQuestionContainer;
