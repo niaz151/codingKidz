@@ -94,6 +94,25 @@ const createMultipleChoiceQuestion = async (
   });
 };
 
+const editQuestion = async (
+  question: TrueFalseQuestion | MultipleChoiceQuestion
+) => {
+
+  if (getQuestionType(question) === "MultipleChoice") {
+    return await db.multipleChoiceQuestion.update({
+      where: { id: question.id },
+      data: { ...(question as MultipleChoiceQuestion) },
+    });
+  } else {
+    return await db.trueFalseQuestion.update({
+      where: { id: question.id },
+      data: {
+        ...(question as TrueFalseQuestion),
+      },
+    });
+  }
+};
+
 const deleteQuestion = async (
   topicId: Topic["id"],
   questionId: MultipleChoiceQuestion["id"] | TrueFalseQuestion["id"]
@@ -117,9 +136,16 @@ const deleteQuestion = async (
   });
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getQuestionType = (question: any) => {
+  return question.wrongAnswer0 === undefined ? "TrueFalse" : "MultipleChoice";
+};
+
 export default {
   getQuestionsByTopicID,
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
+  editQuestion,
   deleteQuestion,
+  getQuestionType
 };

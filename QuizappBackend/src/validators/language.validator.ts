@@ -1,4 +1,10 @@
-import { Language, Topic, Unit } from "@prisma/client";
+import {
+  Language,
+  MultipleChoiceQuestion,
+  Topic,
+  TrueFalseQuestion,
+  Unit,
+} from "@prisma/client";
 import { db } from "../prisma";
 
 const isValidLanguageID = async (languageId: Language["id"]) => {
@@ -32,4 +38,20 @@ const isValidTopicID = async (topicId: Topic["id"]) => {
   return true;
 };
 
-export default { isValidLanguageID, isValidUnitID, isValidTopicID };
+const isValidQuestionID = async (
+  questionId: TrueFalseQuestion["id"] | MultipleChoiceQuestion["id"]
+) => {
+  const trueFalseQuestion = await db.trueFalseQuestion.findUnique({
+    where: { id: questionId },
+  });
+  if (trueFalseQuestion) return true;
+  
+  const multipleChoiceQuestion = await db.multipleChoiceQuestion.findUnique({
+    where: { id: questionId },
+  });
+  if (multipleChoiceQuestion) return true;
+
+  throw new Error("Question does not exist");
+};
+
+export default { isValidLanguageID, isValidUnitID, isValidTopicID, isValidQuestionID };

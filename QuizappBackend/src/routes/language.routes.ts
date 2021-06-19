@@ -9,7 +9,7 @@ import {
   UnitController,
 } from "../controllers";
 
-import { UnitValidator } from "../validators";
+import { LanguageValidator } from "../validators";
 
 const languageRouter = Router();
 
@@ -42,7 +42,7 @@ languageRouter
 languageRouter
   .route("/:languageId")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
     ErrorMiddleware.checkForValidationErrors
   )
   .post(
@@ -55,7 +55,7 @@ languageRouter
 languageRouter
   .route("/:languageId/unit")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
     ErrorMiddleware.checkForValidationErrors
   )
   // Get all units
@@ -71,8 +71,8 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
     ErrorMiddleware.checkForValidationErrors
   )
   // Get unit from id
@@ -91,8 +91,8 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId/topic/")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
     ErrorMiddleware.checkForValidationErrors
   )
   .get(TopicController.listTopicsByUnitID)
@@ -106,9 +106,9 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId/topic/:topicId")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
-    param("topicId").custom(UnitValidator.isValidTopicID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
+    param("topicId").custom(LanguageValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
   )
   // Get topic info by id
@@ -119,9 +119,9 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId/topic/:topicId/question")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
-    param("topicId").custom(UnitValidator.isValidTopicID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
+    param("topicId").custom(LanguageValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
   )
   // Get questions for a specific topic
@@ -130,9 +130,9 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId/topic/:topicId/question/multiplechoice")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
-    param("topicId").custom(UnitValidator.isValidTopicID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
+    param("topicId").custom(LanguageValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
   )
   .post(
@@ -154,9 +154,9 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId/topic/:topicId/question/truefalse")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
-    param("topicId").custom(UnitValidator.isValidTopicID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
+    param("topicId").custom(LanguageValidator.isValidTopicID),
     ErrorMiddleware.checkForValidationErrors
   )
   .post(
@@ -171,11 +171,25 @@ languageRouter
 languageRouter
   .route("/:languageId/unit/:unitId/topic/:topicId/question/:questionId")
   .all(
-    param("languageId").custom(UnitValidator.isValidLanguageID),
-    param("unitId").custom(UnitValidator.isValidUnitID),
-    param("topicId").custom(UnitValidator.isValidTopicID),
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    param("unitId").custom(LanguageValidator.isValidUnitID),
+    param("topicId").custom(LanguageValidator.isValidTopicID),
     param("questionId").isInt(),
     ErrorMiddleware.checkForValidationErrors
+  )
+  .post(
+    body("id").custom(LanguageValidator.isValidQuestionID),
+    body("question"),
+    body("questionImage").optional(),
+    body("correctAnswer"),
+    body("correctAnswerImage").optional(),
+    body("wrongAnswer0"),
+    body("wrongAnswer0Image").optional(),
+    body("wrongAnswer1"),
+    body("wrongAnswer1Image").optional(),
+    body("wrongAnswer2"),
+    body("wrongAnswer2Image").optional(),
+    QuestionController.editQuestion
   )
   // Delete question
   .delete(QuestionController.deleteQuestion);

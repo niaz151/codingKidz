@@ -1,4 +1,4 @@
-import { Container, Col, Row, Accordion, Card, Button } from "react-bootstrap";
+import { Accordion, Card, Button } from "react-bootstrap";
 
 import { Language } from "../../../utils/models";
 
@@ -21,14 +21,20 @@ const LanguageContainer = (props: Props) => {
         <Button>Delete</Button>
       </Card.Header>
       <Accordion.Collapse eventKey={String(language.id)}>
-          <Card.Body>
-            <Accordion>
-              {language.units?.map((unit) => {
-                return <UnitContainer languageId={language.id} unit={unit} key={unit.id} />;
-              })}
-            </Accordion>
-          </Card.Body>
-        </Accordion.Collapse>
+        <Card.Body>
+          <Accordion>
+            {language.units?.map((unit) => {
+              return (
+                <UnitContainer
+                  languageId={language.id}
+                  unit={unit}
+                  key={unit.id}
+                />
+              );
+            })}
+          </Accordion>
+        </Card.Body>
+      </Accordion.Collapse>
     </Card>
   );
 };
