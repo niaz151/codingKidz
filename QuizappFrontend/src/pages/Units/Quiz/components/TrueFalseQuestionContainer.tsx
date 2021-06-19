@@ -39,10 +39,10 @@ const TrueFalseQuestionContainer = (props: Props) => {
         <Text>{question.question}</Text>
       </View>
       <View style={styles.optionsContainer}>
-        <Button style={styles.optionButton}>
+        <Button style={styles.optionButton} onPress={selectedTrue}>
           <Text style={styles.optionText}> True </Text>
         </Button>
-        <Button style={styles.optionButton}>
+        <Button style={styles.optionButton} onPress={selectedFalse}>
           <Text style={styles.optionText}> False </Text>
         </Button>
       </View>
