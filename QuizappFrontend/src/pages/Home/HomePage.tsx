@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     height: 600,
     width: 600,
-    top: 30,
-    left: wp('13%'),
+    top: 0,
+    left: wp('15%'),
   },
   tailStyle:{
     position: 'absolute',
