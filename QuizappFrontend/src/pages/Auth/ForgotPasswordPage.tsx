@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   titleText: {
-    fontSize: 25,
+    fontSize: 28,
     letterSpacing:1,
     fontFamily:'Nexa Light',
 
@@ -95,13 +95,13 @@ const styles = StyleSheet.create({
   },
   btn: {
     height: 60,
-    width: wp('35%'),
+    width: wp('50%'),
     backgroundColor: '#FF671D',
     display: 'flex',
     marginTop:-10,
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
     paddingTop:5,
   },
   btnText:{
@@ -111,14 +111,14 @@ const styles = StyleSheet.create({
   lightGuard:{
     position:'absolute',
     bottom:0,
-    backgroundColor:'#FEDD45',
+    backgroundColor:'#FDDD44',
     height: hp("35%"),
     width: wp("100%")
   },
   deepGuard:{
     position:'absolute',
     bottom:0,
-    backgroundColor:'#FDD503',
+    backgroundColor:'#FDD400',
     height: hp("15%"),
     width: wp("100%")
   },
