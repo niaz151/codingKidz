@@ -65,12 +65,13 @@ const styles = StyleSheet.create({
     width: wp('100%'),
   },
   optionsContainer:{
-    height: hp("25%"),
+    height: hp("30%"),
     width: wp("100%"),
     display:'flex',
     flexDirection:'column',
     alignItems:'center',
-    justifyContent:'space-around'
+    justifyContent:'space-around',
+    paddingTop:hp('5%')
   },
   optionButton:{
     height: hp("7%"),

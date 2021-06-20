@@ -61,12 +61,12 @@ export const QuizPage = (props: Props) => {
       headerRight: (_props) => (
         <View style={styles.livesContainer}>
           <View style={styles.emojiContainer}>
-            <Text>{lives} </Text>
-            <Icon name="happy-outline" />
+            <Icon name="happy-outline" size={40} /> 
+            <Text style={styles.livesText}>{lives} </Text>
           </View>
           <View style={styles.emojiContainer}>
-            <Text>{3 - lives}</Text>
-            <Icon name="sad-outline" />
+            <Icon name="sad-outline" size={40} />
+            <Text style={styles.livesText}>{3 - lives}</Text>
           </View>
         </View>
       ),
@@ -116,10 +116,8 @@ const styles = StyleSheet.create({
     width: wp('100%'),
   },
   livesContainer: {
-    borderColor: 'black',
-    borderWidth: 1,
     height: '100%',
-    width: 300,
+    width: 200,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -127,9 +125,14 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
   emojiContainer: {
-    borderColor: 'black',
-    borderWidth: 1,
     height: '100%',
     width: '50%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-around'
   },
+  livesText:{
+    fontSize: 20,
+  }
 });
