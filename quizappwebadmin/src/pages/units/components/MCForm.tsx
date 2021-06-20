@@ -8,7 +8,7 @@ import {
 
 import { Button, Col, Row } from "react-bootstrap";
 import { useAppDispatch } from "../../../ducks/hooks";
-import { createMultipleChoiceQuestion } from "../languagesSlice";
+import { createMultipleChoiceQuestion, editQuestion } from "../languagesSlice";
 
 type Props = {
   languageId: Language["id"];
@@ -48,7 +48,22 @@ const MCForm = (props: Props) => {
     ) {
       alert("fill out the form!");
     } else if (initialQuestion) {
-      // TODO Edit question
+      dispatch(
+        editQuestion({
+          languageId: props.languageId,
+          unitId: props.unitId,
+          topicId: props.topicId,
+          question: {
+            id: initialQuestion.id,
+            topicId: props.topicId,
+            question,
+            correctAnswer,
+            wrongAnswer0,
+            wrongAnswer1,
+            wrongAnswer2,
+          },
+        })
+      );
     } else {
       dispatch(
         createMultipleChoiceQuestion({
@@ -104,7 +119,7 @@ const MCForm = (props: Props) => {
           onChange={(event) => setWrongAnswer2(event.target.value)}
         />
       </Row>
-      <Button onClick={onSubmit}>Create Question</Button>
+      <Button onClick={onSubmit}>{initialQuestion ? "Edit" : "Create"} Question</Button>
     </Col>
   );
 };

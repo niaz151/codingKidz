@@ -1,7 +1,6 @@
-import { Container, Col, Row, Accordion, Card, Button } from "react-bootstrap";
+import { Accordion, Card, Button } from "react-bootstrap";
 
 import { TopicContainer } from ".";
-import { useAppSelector } from "../../../ducks/hooks";
 import { Language, Unit } from "../../../utils/models";
 
 interface Props {
@@ -25,7 +24,14 @@ const UnitContainer = (props: Props) => {
         <Card.Body>
           <Accordion>
             {unit.topics?.map((topic) => {
-              return <TopicContainer languageId={props.languageId} unitId={unit.id} topic={topic} key={topic.id} />;
+              return (
+                <TopicContainer
+                  languageId={props.languageId}
+                  unitId={unit.id}
+                  topic={topic}
+                  key={topic.id}
+                />
+              );
             })}
           </Accordion>
         </Card.Body>

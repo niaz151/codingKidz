@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../ducks/hooks";
 import { getLanguages } from "./languagesSlice";
 import { LanguageContainer } from "./components";
-import { Container, Col, Row, Accordion, Card } from "react-bootstrap";
+import { Container, Col, Accordion } from "react-bootstrap";
 
 const UnitsPage = () => {
   const dispatch = useAppDispatch();

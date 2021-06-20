@@ -8,10 +8,7 @@ import {
 
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { useAppDispatch } from "../../../ducks/hooks";
-import {
-  createMultipleChoiceQuestion,
-  createTrueFalseQuestion,
-} from "../languagesSlice";
+import { createTrueFalseQuestion, editQuestion } from "../languagesSlice";
 
 type Props = {
   languageId: Language["id"];
@@ -36,7 +33,19 @@ const TFForm = (props: Props) => {
     if (!question || !correctAnswer) {
       alert("fill out the form!");
     } else if (initialQuestion) {
-      // TODO Edit question
+      dispatch(
+        editQuestion({
+          languageId: props.languageId,
+          unitId: props.unitId,
+          topicId: props.topicId,
+          question: {
+            id: initialQuestion.id,
+            topicId: props.topicId,
+            question,
+            correctAnswer,
+          },
+        })
+      );
     } else {
       dispatch(
         createTrueFalseQuestion({
@@ -85,7 +94,7 @@ const TFForm = (props: Props) => {
           </div>
         </Form>
       </Row>
-      <Button onClick={onSubmit}>Create Question</Button>
+      <Button onClick={onSubmit}>{initialQuestion ? "Edit" : "Create"} Question</Button>
     </Col>
   );
 };

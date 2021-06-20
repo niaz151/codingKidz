@@ -96,6 +96,23 @@ const createMultipleChoiceQuestion = async (
   }
 };
 
+const editQuestion = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const updatedQuestion = await QuestionService.editQuestion({ ...req.body });
+
+    return res.status(200).json({
+      message: "Successfully updated question",
+      updatedQuestion: updatedQuestion,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 const deleteQuestion = async (
   req: Request,
   res: Response,
@@ -121,5 +138,6 @@ export default {
   getQuestionsByTopicID,
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
+  editQuestion,
   deleteQuestion,
 };

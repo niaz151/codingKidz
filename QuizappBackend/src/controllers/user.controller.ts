@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from "express";
-import { ExceptionHandler } from "winston";
 import { UserService } from "../services";
 
 const uploadAvatar = async (
@@ -19,6 +18,7 @@ const uploadAvatar = async (
       Number(userId),
       avatar
     );
+
     return res.status(200).json({
       message: "avatar upload success!",
       user: updatedProfile,

@@ -31,7 +31,7 @@ yarn
 
 # migrate database (will pass if no changes made)
 echo "Migrating database..."
-yarn prisma migrate deploy --preview-feature
+yarn prisma migrate dev
 
 # Generate prisma definitions
 echo "Generating prisma types..."

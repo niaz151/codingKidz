@@ -1,13 +1,5 @@
 import React, { useState } from "react";
-import {
-  Container,
-  Col,
-  Row,
-  Accordion,
-  Card,
-  Button,
-  Modal,
-} from "react-bootstrap";
+import { Accordion, Card, Button, Modal } from "react-bootstrap";
 
 import { MCQuestionContainer, TFQuestionContainer, MCForm, TFForm } from ".";
 import { Language, Topic, Unit } from "../../../utils/models";
@@ -89,6 +81,8 @@ const TopicContainer = (props: Props) => {
                     {topic.multipleChoiceQuestions?.map((question) => {
                       return (
                         <MCQuestionContainer
+                          languageId={props.languageId}
+                          unitId={props.unitId}
                           question={question}
                           key={question.id}
                         />

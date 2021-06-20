@@ -170,6 +170,105 @@ const createTrueFalseQuestion = createAsyncThunk<
   }
 );
 
+const editQuestion = createAsyncThunk<
+  Topic,
+  {
+    languageId: Language["id"];
+    unitId: Unit["id"];
+    topicId: Topic["id"];
+    question: TrueFalseQuestion | MultipleChoiceQuestion;
+  },
+  {
+    state: RootState;
+  }
+>(
+  "units/editQuestion",
+  async (
+    { languageId, unitId, topicId, question },
+    { getState, rejectWithValue }
+  ) => {
+    const { accessToken } = getState().auth;
+    const userId = accessToken
+      ? TokenService.readToken(accessToken).id
+      : undefined;
+
+    if (!userId) {
+      return rejectWithValue("Undefined user id");
+    }
+
+    return await axios
+      .post(
+        `http://localhost:8000/api/language/${languageId}/unit/${unitId}/topic/${topicId}/question/${question.id}`,
+        {
+          ...question,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(
+        async (response) => {
+          const updatedQuestion = response.data.updatedQuestion;
+
+          return updatedQuestion;
+        },
+        (error: AxiosError) => {
+          return rejectWithValue(error);
+        }
+      );
+  }
+);
+
+const deleteQuestion = createAsyncThunk<
+  Topic,
+  {
+    languageId: Language["id"];
+    unitId: Unit["id"];
+    topicId: Topic["id"];
+    questionId: TrueFalseQuestion["id"] | MultipleChoiceQuestion["id"];
+  },
+  {
+    state: RootState;
+  }
+>(
+  "units/deleteQuestion",
+  async (
+    { languageId, unitId, topicId, questionId },
+    { getState, rejectWithValue }
+  ) => {
+    const { accessToken } = getState().auth;
+    const userId = accessToken
+      ? TokenService.readToken(accessToken).id
+      : undefined;
+
+    if (!userId) {
+      return rejectWithValue("Undefined user id");
+    }
+
+    return await axios
+      .delete(
+        `http://localhost:8000/api/language/${languageId}/unit/${unitId}/topic/${topicId}/question/${questionId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(
+        async (response) => {
+          const updatedQuestion = response.data.updatedQuestion;
+
+          return updatedQuestion;
+        },
+        (error: AxiosError) => {
+          return rejectWithValue(error);
+        }
+      );
+  }
+);
+
 const languagesSlice = createSlice({
   name: "languages",
   initialState,
@@ -205,7 +304,7 @@ const languagesSlice = createSlice({
 
     builder.addCase(createMultipleChoiceQuestion.rejected, (state, action) => {
       state.error =
-        action.error.message ?? "Unknown multiple choice creation error error";
+        action.error.message ?? "Unknown multiple choice creation error";
       state.status = "failed";
     });
 
@@ -221,12 +320,50 @@ const languagesSlice = createSlice({
     });
 
     builder.addCase(createTrueFalseQuestion.rejected, (state, action) => {
+      state.error = action.error.message ?? "Unknown true false creation error";
+      state.status = "failed";
+    });
+
+    builder.addCase(editQuestion.pending, (state, _action) => {
+      state.error = null;
+      state.status = "loading";
+    });
+
+    builder.addCase(editQuestion.fulfilled, (state, action) => {
+      state.error = null;
+      // trigger refresh of questions
+      state.status = "idle";
+    });
+
+    builder.addCase(editQuestion.rejected, (state, action) => {
+      state.error = action.error.message ?? "Unknown edit question error";
+      state.status = "failed";
+    });
+
+    builder.addCase(deleteQuestion.pending, (state, _action) => {
+      state.error = null;
+      state.status = "loading";
+    });
+
+    builder.addCase(deleteQuestion.fulfilled, (state, action) => {
+      state.error = null;
+      // trigger refresh of questions
+      state.status = "idle";
+    });
+
+    builder.addCase(deleteQuestion.rejected, (state, action) => {
       state.error =
-        action.error.message ?? "Unknown multiple choice creation error error";
+        action.error.message ?? "Unknown question deletion error";
       state.status = "failed";
     });
   },
 });
 
 export default languagesSlice.reducer;
-export { getLanguages, createMultipleChoiceQuestion, createTrueFalseQuestion };
+export {
+  getLanguages,
+  createMultipleChoiceQuestion,
+  createTrueFalseQuestion,
+  editQuestion,
+  deleteQuestion
+};
