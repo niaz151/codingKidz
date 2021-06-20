@@ -42,7 +42,7 @@ const HomePage = (props: Props) => {
       <View style={styles.languageWrap}>
         <View style={styles.languagePrompt}>
           <Text style={styles.promptText}>
-            Let's test your knowledge of ...
+            LET'S TEST YOUR KNOWLEDGE OF ... 
           </Text>
         </View>
         <View style={styles.languageList}>
@@ -94,12 +94,12 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontFamily:'Nexa Bold',
-    fontSize: hp('3%'),
+    fontSize: 36,
     color: '#FF671D',
   },
   emailText: {
     fontFamily:'Nexa Light',
-    fontSize: hp('2.8%'),
+    fontSize: 33,
     color: 'black',
   },
   languageWrap: {
@@ -123,9 +123,10 @@ const styles = StyleSheet.create({
   },
   promptText: {
     fontFamily:'Nexa Bold',
-    fontSize: 30,
+    fontSize: 60,
     color: '#3FA6D3',
     marginTop: hp('-10%'),
+    letterSpacing: 5
   },
   languageList: {
     flex: 1,
@@ -163,19 +164,19 @@ const styles = StyleSheet.create({
   },
   langugeTile: {
     height: 75,
-    width: 190,
+    width: 210,
     backgroundColor: '#FF671D',
     borderColor: 'white',
     borderWidth: 2,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
     marginTop: 50,
   },
   btnText: {
     fontFamily:'Nexa Bold',
-    fontSize: 18,
+    fontSize: 30,
     color: 'white',
     marginTop:hp("0.5%")
   },
