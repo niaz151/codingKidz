@@ -84,10 +84,6 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  topicTileText: {
-    fontSize: 40,
-    color: 'black',
-  },
   opacityStyle:{
     display:'flex',
     alignItems:'center',
