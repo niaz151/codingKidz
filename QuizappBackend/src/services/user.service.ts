@@ -43,7 +43,7 @@ const createUser = async (
       email: email,
       password: hashedPassword,
       roles: role,
-    },
+    }
   });
 
   if (!newUser) throw new HttpException(500, "Error creating new user");

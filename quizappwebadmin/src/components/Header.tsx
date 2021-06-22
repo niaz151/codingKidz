@@ -22,21 +22,21 @@ const Header = () => {
       <Navbar.Collapse>
         {accessToken ? (
           <>
-            <Nav.Link>
+            <Nav.Item>
               <NavLink exact activeClassName="active" to="/units">
                 Units
               </NavLink>
-            </Nav.Link>
-            <Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
               <Button onClick={handleSignOut}>LOGOUT</Button>
-            </Nav.Link>
+            </Nav.Item>
           </>
         ) : (
-          <Nav.Link>
+          <Nav.Item>
             <NavLink exact activeClassName="active" to="/login">
               Login
             </NavLink>
-          </Nav.Link>
+          </Nav.Item>
         )}
       </Navbar.Collapse>
     </Navbar>

@@ -3,15 +3,17 @@ import { Link } from "react-router-dom";
 import { useAppDispatch } from "../../ducks/hooks";
 import { login } from "./authSlice";
 
-import Button from 'react-bootstrap/Button';
+import Button from "react-bootstrap/Button";
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
   const onSubmit = () => {
-    if (email && password) {
+    if (!email || !password) {
+      alert("Please fill out form!")
+    } else {
       dispatch(login({ email: email, password: password }));
     }
   };
