@@ -6,12 +6,14 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Slider from "react-native-sliders";
 
 
 type Props = {
   question: TrueFalseQuestion;
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
+  numQuestions: number;
 };
 
 const TrueFalseQuestionContainer = (props: Props) => {
@@ -35,6 +37,16 @@ const TrueFalseQuestionContainer = (props: Props) => {
 
   return (
     <View style={styles.container}>
+      <Slider
+        minimumValue={0}
+        maximumValue={props.numQuestions}
+        value={1}
+        step={1}
+        style={styles.sliderStyle}
+        trackStyle={styles.trackStyle}
+        thumbStyle={styles.thumbStyle}
+        onValueChange={console.log('hi')}
+      />
       <View style={styles.questionContainer}>
         <Text>{question.question}</Text>
       </View>
@@ -58,11 +70,20 @@ const TrueFalseQuestionContainer = (props: Props) => {
 const styles = StyleSheet.create({
   container:{
     height: hp("100%"),
-    width:wp("100%")
+    width:wp("100%"),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'flex-start',
+    paddingTop:20,
   },
   questionContainer: {
+    borderWidth:1,
+    borderColor:'black',
     height: hp('30%'),
     width: wp('100%'),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center'
   },
   optionsContainer:{
     height: hp("30%"),
@@ -87,6 +108,22 @@ const styles = StyleSheet.create({
     fontFamily:'Nexa Bold',
     fontSize: 30,
     color:'white'
+  },
+  sliderStyle:{
+    width: 500,
+    height: 50,
+    borderWidth:1,
+    borderColor:'black',
+    borderRadius:20,
+    backgroundColor:'white',
+  },
+  trackStyle:{
+    height: 10,
+    borderRadius: 25,
+    backgroundColor:"#FF6A00",
+  },
+  thumbStyle:{
+    
   }
 })
 

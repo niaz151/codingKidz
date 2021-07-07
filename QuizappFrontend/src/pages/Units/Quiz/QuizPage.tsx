@@ -61,11 +61,11 @@ export const QuizPage = (props: Props) => {
       headerRight: (_props) => (
         <View style={styles.livesContainer}>
           <View style={styles.emojiContainer}>
-            <Icon name="happy-outline" size={40} /> 
+            <Icon name="happy-outline" size={40} style={{backgroundColor:"#00B2DB"}} /> 
             <Text style={styles.livesText}>{lives} </Text>
           </View>
           <View style={styles.emojiContainer}>
-            <Icon name="sad-outline" size={40} />
+            <Icon name="sad-outline" size={40} style={{backgroundColor:"#C3C5C7"}} />
             <Text style={styles.livesText}>{3 - lives}</Text>
           </View>
         </View>
@@ -89,6 +89,7 @@ export const QuizPage = (props: Props) => {
               onCorrectAnswer={onCorrectAnswer}
               onIncorrectAnswer={onIncorrectAnswer}
               question={selectedQuestions[questionNum]}
+              numQuestions={QUESTIONS_PER_QUIZ}
             />
           </>
         ) : (

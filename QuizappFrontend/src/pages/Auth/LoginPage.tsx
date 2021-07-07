@@ -126,8 +126,6 @@ const LoginPage = () => {
 
 const styles = StyleSheet.create({
   titleGraphic:{
-    borderColor:'black',
-    borderWidth:1,
     width: wp("100%"),
     height:80,
     display:'flex',
@@ -135,10 +133,9 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   lineImg:{
-    borderColor:'black',
-    borderWidth:1,
-    height: '100%',
-    width: 400,
+    height: '600',
+    width: 600,
+    marginTop:hp("30%"),
   },
   loginContainer: {
     height: hp('100%'),

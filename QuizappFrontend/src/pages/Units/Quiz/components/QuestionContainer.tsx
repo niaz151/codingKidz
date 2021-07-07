@@ -8,6 +8,7 @@ const QuestionContainer = (props: {
   question: MultipleChoiceQuestion | TrueFalseQuestion;
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
+  numQuestions: number;
 }) => {
   const {question, onCorrectAnswer, onIncorrectAnswer} = props;
 
@@ -20,12 +21,14 @@ const QuestionContainer = (props: {
       onCorrectAnswer={onCorrectAnswer}
       onIncorrectAnswer={onIncorrectAnswer}
       question={question as MultipleChoiceQuestion}
+      numQuestions={props.numQuestions}
     />
   ) : (
     <TrueFalseQuestionContainer
       onCorrectAnswer={onCorrectAnswer}
       onIncorrectAnswer={onIncorrectAnswer}
       question={question as TrueFalseQuestion}
+      numQuestions={props.numQuestions}
     />
   );
 };

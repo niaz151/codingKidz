@@ -30,12 +30,12 @@ cd /app
 yarn
 
 # migrate database (will pass if no changes made)
-echo "Migrating database..."
-yarn prisma migrate dev
+echo "Database deployment..."
+yarn prisma migrate deploy
 
 # Generate prisma definitions
-echo "Generating prisma types..."
-yarn prisma generate
+# echo "Generating prisma types..."
+# yarn prisma generate
 
 # start 
 echo "Starting application!"

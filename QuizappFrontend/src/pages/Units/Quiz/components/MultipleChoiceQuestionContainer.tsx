@@ -6,11 +6,13 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Slider from "react-native-sliders";
 
 type Props = {
   question: MultipleChoiceQuestion;
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
+  numQuestions: number;
 };
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
@@ -33,6 +35,16 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
 
   return (
     <View style={styles.container}>
+      <Slider
+        minimumValue={0}
+        maximumValue={props.numQuestions}
+        value={10}
+        step={1}
+        style={styles.sliderStyle}
+        trackStyle={styles.trackStyle}
+        thumbStyle={styles.thumbStyle}
+        onValueChange={console.log('hi')}
+      />
       <View style={styles.questionContainer}>
         <Text>{question.question}</Text>
       </View>
@@ -69,10 +81,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     height: hp('100%'),
     width: wp('100%'),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'flex-start',
+    paddingTop:20,
   },
   questionContainer: {
     height: hp('30%'),
     width: wp('100%'),
+    display:'flex',
+    alignItems:'center',
+    justifyContent:'center',
   },
   optionsContainer: {
     flex: 1,
@@ -113,6 +132,22 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
   },
+  sliderStyle:{
+    width: 500,
+    height: 50,
+    borderWidth:1,
+    borderColor:'black',
+    borderRadius:20,
+    backgroundColor:'white',
+  },
+  trackStyle:{
+    height: 10,
+    borderRadius: 25,
+    backgroundColor:"#FF6A00",
+  },
+  thumbStyle:{
+    
+  }
 });
 
 export default MultipleChoiceQuestionContainer;
