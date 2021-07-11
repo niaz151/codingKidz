@@ -33,6 +33,7 @@ import MenuHome from './assets/images/menu_home.svg';
 import MenuCheats from './assets/images/menu_cheats.svg';
 import MenuLeaderboard from './assets/images/menu_leaderboard.svg';
 import MenuProfile from './assets/images/menu_profile.svg';
+import PassedQuiz from './pages/Units/Quiz/PassedQuiz';
 
 Ionicon.loadFont();
 
@@ -56,6 +57,9 @@ const App = () => {
       <SafeAreaView style={{flex: 0}} />
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
+          <PassedQuiz/>
+          {/*
+          
           {accessToken ? (
 
             <Tab.Navigator
@@ -102,6 +106,7 @@ const App = () => {
           ) : (
             <AuthStack />
           )}
+          */}
         </NavigationContainer>
       </SafeAreaView>
     </>
