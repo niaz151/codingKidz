@@ -4,10 +4,12 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import Rocket from "../../../assets/images/rocket.svg";
 
 const PassedQuiz = () => {
   return(
     <View style={styles.container}>
+              <Rocket style={styles.rocket} />
       <View style={styles.topContainer}>
         <View style={styles.topTextContainer}>
           <Text style={styles.largerText}> CONGRATS! </Text>
@@ -16,7 +18,7 @@ const PassedQuiz = () => {
             <Text style={styles.smallerText}> CORRECT ANSWERS </Text>  
           </View>     
         </View>
-      </View>
+      </View>    
       <View style={styles.bottomContainer}>
           <View style={styles.backContainer}>
             <Text style={styles.bottomText}> BACK TO LESSONS </Text>
@@ -75,7 +77,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF8DD",
     display: "flex",
     alignItems: "center",
-    position: "relative"
+    position: "relative",
+    zIndex:0,
   },
   backContainer:{
     height: 80,
@@ -94,6 +97,12 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: "#4DB74D",
     marginTop: 5
+  },
+  rocket:{
+    height: 1000,
+    width: 1000,
+    position: 'absolute',
+    zIndex: 10,
   }
 })
 
