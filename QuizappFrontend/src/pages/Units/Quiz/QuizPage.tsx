@@ -4,9 +4,8 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import {Button} from 'react-native-paper';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {
   MultipleChoiceQuestion,
   shuffleArray,
@@ -14,6 +13,8 @@ import {
 } from '../../../utils';
 import {UnitsStackParamList} from '../UnitsStack';
 import QuestionContainer from './components/QuestionContainer';
+import HappyFace from '../../../assets/images/happy_face.png';
+import SadFace from '../../../assets/images/sad_face.png';
 
 const QUESTIONS_PER_QUIZ = 10;
 
@@ -61,11 +62,11 @@ export const QuizPage = (props: Props) => {
       headerRight: (_props) => (
         <View style={styles.livesContainer}>
           <View style={styles.emojiContainer}>
-            <Icon name="happy-outline" size={40} style={{backgroundColor:"#00B2DB"}} /> 
+            <Image source={HappyFace} style={styles.happyFace} /> 
             <Text style={styles.livesText}>{lives} </Text>
           </View>
           <View style={styles.emojiContainer}>
-            <Icon name="sad-outline" size={40} style={{backgroundColor:"#C3C5C7"}} />
+            <Image source={SadFace} style={styles.sadFace} />
             <Text style={styles.livesText}>{3 - lives}</Text>
           </View>
         </View>
@@ -135,5 +136,13 @@ const styles = StyleSheet.create({
   },
   livesText:{
     fontSize: 20,
+  },
+  happyFace:{
+    height: 50,
+    width: 50,
+  },
+  sadFace:{
+    height: 50,
+    width: 50
   }
 });

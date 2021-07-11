@@ -63,9 +63,9 @@ const styles = {
     backgroundColor: '#FFF7DD',
   },
   topicListContainer:{
-    width: wp('90%'),
+    width: wp('80%'),
     marginTop:hp("15%"),
-    marginLeft:wp("5%"),
+    marginLeft:wp("10%"),
     overflow:'scroll',
     flexWrap: 'wrap',
     flexDirection: 'row',

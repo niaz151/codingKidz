@@ -115,15 +115,17 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderColor:'black',
     borderRadius:20,
+    paddingLeft:20,
     backgroundColor:'white',
   },
   trackStyle:{
+    width: 100,
     height: 10,
     borderRadius: 25,
     backgroundColor:"#FF6A00",
   },
   thumbStyle:{
-    
+
   }
 })
 

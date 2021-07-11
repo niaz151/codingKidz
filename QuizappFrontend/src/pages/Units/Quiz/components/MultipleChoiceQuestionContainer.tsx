@@ -141,6 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor:'white',
   },
   trackStyle:{
+    width: 20,
     height: 10,
     borderRadius: 25,
     backgroundColor:"#FF6A00",
