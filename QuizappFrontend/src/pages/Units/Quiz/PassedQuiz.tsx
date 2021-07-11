@@ -18,7 +18,9 @@ const PassedQuiz = () => {
         </View>
       </View>
       <View style={styles.bottomContainer}>
-
+          <View style={styles.backContainer}>
+            <Text style={styles.bottomText}> BACK TO LESSONS </Text>
+          </View>
       </View>
     </View>
   )
@@ -70,7 +72,28 @@ const styles = StyleSheet.create({
   bottomContainer:{
     height: "45%",
     width: "100%",
-    backgroundColor: "#FFF8DD"
+    backgroundColor: "#FFF8DD",
+    display: "flex",
+    alignItems: "center",
+    position: "relative"
+  },
+  backContainer:{
+    height: 80,
+    width: wp("50%"),
+    borderRadius: 25,
+    borderColor: "#4DB74D",
+    borderWidth: 4,
+    position: "absolute",
+    bottom: hp("10%"),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  bottomText:{
+    fontFamily: "Nexa Bold",
+    fontSize: 35,
+    color: "#4DB74D",
+    marginTop: 5
   }
 })
 
