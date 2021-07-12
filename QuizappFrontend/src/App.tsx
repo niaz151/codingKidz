@@ -34,6 +34,7 @@ import MenuCheats from './assets/images/menu_cheats.svg';
 import MenuLeaderboard from './assets/images/menu_leaderboard.svg';
 import MenuProfile from './assets/images/menu_profile.svg';
 import PassedQuiz from './pages/Units/Quiz/PassedQuiz';
+import FailedQuiz from './pages/Units/Quiz/FailedQuiz';
 
 Ionicon.loadFont();
 
@@ -57,7 +58,7 @@ const App = () => {
       <SafeAreaView style={{flex: 0}} />
       <SafeAreaView style={styles.viewStyles}>
         <NavigationContainer>
-          <PassedQuiz/>
+          <FailedQuiz/>
           {/*
           
           {accessToken ? (
