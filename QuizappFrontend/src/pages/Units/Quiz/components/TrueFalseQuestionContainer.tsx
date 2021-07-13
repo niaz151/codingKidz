@@ -14,6 +14,7 @@ type Props = {
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
   numQuestions: number;
+  score: number | null;
 };
 
 const TrueFalseQuestionContainer = (props: Props) => {

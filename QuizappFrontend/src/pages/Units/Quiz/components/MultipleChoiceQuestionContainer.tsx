@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet, ScrollView, SafeAreaView} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, shuffleArray} from '../../../../utils';
 import {
@@ -13,10 +13,11 @@ type Props = {
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
   numQuestions: number;
+  score: number | null;
 };
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
-  const {question, onCorrectAnswer, onIncorrectAnswer} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer, score} = props;
 
   const shuffledAnswers = shuffleArray([
     question.correctAnswer,
@@ -50,7 +51,6 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       </View>
       <ScrollView
         contentContainerStyle={styles.optionsContainer}
-        horizontal={false}
         directionalLockEnabled={true}>
         {['A', 'B', 'C', 'D'].map((letter, idx) => {
           const currentAnswer = shuffledAnswers[idx];
@@ -79,12 +79,14 @@ const styles = StyleSheet.create({
   container: {
     borderColor: 'black',
     borderWidth: 1,
-    height: hp('100%'),
+    height: hp("100%"),
     width: wp('100%'),
     display:'flex',
     alignItems:'center',
     justifyContent:'flex-start',
     paddingTop:20,
+    position: 'relative',
+    flex:1,
   },
   questionContainer: {
     height: hp('30%'),
@@ -94,9 +96,8 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   optionsContainer: {
-    flex: 1,
+    height: 550,
     width: wp('100%'),
-    overflow: 'scroll',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -104,7 +105,8 @@ const styles = StyleSheet.create({
     flex: 1,
     width: wp('100%'),
     display: 'flex',
-    alignItems: 'center',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
     justifyContent: 'center',
   },
   choiceWrap: {

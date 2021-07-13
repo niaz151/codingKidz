@@ -26,6 +26,7 @@ export const QuizPage = (props: Props) => {
   const {multipleChoiceQuestions, trueFalseQuestions} = topic;
   const [lives, setLives] = useState(3);
   const [questionNum, setQuestionNum] = useState(0);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     console.log('rendering quiz');
@@ -49,6 +50,8 @@ export const QuizPage = (props: Props) => {
   };
 
   const onCorrectAnswer = () => {
+    var new_score = score + 1;
+    setScore(new_score);
     nextQuestion();
   };
 
@@ -74,6 +77,18 @@ export const QuizPage = (props: Props) => {
     });
   }, [lives, navigation]);
 
+  if(lives > 0 && questionNum >= selectedQuestions.length){
+    navigation.navigate('PassedQuiz', {
+        numberQuestions: questionNum,
+        numberCorrect: score
+    })
+  }
+
+  if(lives <= 0){
+    navigation. navigate('FailedQuiz',{});
+  }
+
+
   return (
     <View style={styles.container}>
       {lives > 0 ? (
@@ -91,6 +106,7 @@ export const QuizPage = (props: Props) => {
               onIncorrectAnswer={onIncorrectAnswer}
               question={selectedQuestions[questionNum]}
               numQuestions={QUESTIONS_PER_QUIZ}
+              score={score}
             />
           </>
         ) : (

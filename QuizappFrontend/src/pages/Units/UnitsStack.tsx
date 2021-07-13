@@ -4,6 +4,8 @@ import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
 import TopicsPage from './Topics/TopicsPage';
 import {QuizPage} from './Quiz/QuizPage';
+import {PassedQuiz} from './Quiz/PassedQuiz';
+import {FailedQuiz} from './Quiz/FailedQuiz';
 import {useNavigation} from '@react-navigation/native';
 import {Language, Topic, Unit} from '../../utils';
 
@@ -11,6 +13,8 @@ export type UnitsStackParamList = {
   Units: {language: Language};
   Topics: {unit: Unit};
   Quiz: {topic: Topic};
+  PassedQuiz: {numberQuestions: number, numberCorrect: number},
+  FailedQuiz: {}
 };
 
 const Stack = createStackNavigator<UnitsStackParamList>();
@@ -72,6 +76,38 @@ const UnitsStack = (props: any) => {
         component={QuizPage}
         options={{
           title: 'Quiz',
+          headerTitleStyle: {
+            fontSize: 36,
+            fontFamily: 'Nexa Bold',
+            color: '#FF671D',
+          },
+          headerStyle: {
+            backgroundColor: '#FED500',
+            height: 100,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="PassedQuiz"
+        component={PassedQuiz}
+        options={{
+          title: 'You Passed',
+          headerTitleStyle: {
+            fontSize: 36,
+            fontFamily: 'Nexa Bold',
+            color: '#FF671D',
+          },
+          headerStyle: {
+            backgroundColor: '#FED500',
+            height: 100,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="FailedQuiz"
+        component={FailedQuiz}
+        options={{
+          title: 'You Failed',
           headerTitleStyle: {
             fontSize: 36,
             fontFamily: 'Nexa Bold',

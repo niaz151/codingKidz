@@ -1,27 +1,31 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FailedQuizHouse from "../../../assets/images/FailedQuizHouse.svg";
+import {RootTabParamList} from '../../../App';
+import { StackScreenProps } from '@react-navigation/stack';
+import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 
-const FailedQuiz = () => {
+export const FailedQuiz = (props: {
+  numberCorrect: number | null
+}) => {
+  const {numberCorrect} = props;
   return(
     <View style={styles.container}>
       <FailedQuizHouse style={styles.house}/>
       <View style={styles.topContainer}>
         <View style={styles.topTextContainer}>
-          <Text style={styles.largerText}> OOPS, SORRY!</Text>  
+          <Text style={styles.largerText}> OOPS SORRY!</Text>  
         </View>
       </View>    
       <View style={styles.bottomContainer}>
-          <View style={styles.backContainer}>
-            <Text style={styles.bottomText}> START AGAIN </Text>
-          </View>
+          <TouchableOpacity style={styles.backContainer}></TouchableOpacity>
       </View>
     </View>
-  )
+  ) 
 }
 
 const styles = StyleSheet.create({
@@ -34,11 +38,12 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   topContainer:{
-    height: "55%",
+    height: "45%",
     width: "100%",
     backgroundColor: "#F1ECD7",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop:hp("-20%")
   },
   topTextContainer: {
     height: 200,
@@ -68,7 +73,7 @@ const styles = StyleSheet.create({
     color: "#EC1B24"
   },
   bottomContainer:{
-    height: "45%",
+    height: "35%",
     width: "100%",
     backgroundColor: "#FFF7DD",
     display: "flex",
@@ -83,23 +88,24 @@ const styles = StyleSheet.create({
     borderColor: "#4DB74D",
     borderWidth: 4,
     position: "absolute",
-    bottom: hp("10%"),
+    bottom: hp("5%"),
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    paddingTop: 8
   },
   bottomText:{
+    borderWidth:1,
+    borderColor:'black',
     fontFamily: "Nexa Bold",
     fontSize: 35,
     color: "#4DB74D",
-    marginTop: 5
   },
   house:{
     height: 1000,
     width: 1000,
     position: 'absolute',
     zIndex: 10,
+    top:100 
   }
 })
-
-export default FailedQuiz;

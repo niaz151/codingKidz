@@ -5,16 +5,25 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Rocket from "../../../assets/images/rocket.svg";
+import {StackScreenProps} from '@react-navigation/stack';
+import {UnitsStackParamList} from './../UnitsStack';
 
-const PassedQuiz = () => {
+type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
+
+export const PassedQuiz = (props: Props) => {
+  const {navigation, route} = props;
+  const {numberQuestions, numberCorrect} = route.params;
+
+  console.log("Number Questions: ", numberQuestions)
+  console.log("Number Correct: ", numberCorrect)
   return(
     <View style={styles.container}>
-              <Rocket style={styles.rocket} />
+      <Rocket style={styles.rocket} />
       <View style={styles.topContainer}>
         <View style={styles.topTextContainer}>
           <Text style={styles.largerText}> CONGRATS! </Text>
           <View style={styles.smallerTextWrap}>
-            <Text style={styles.smallerText}> SCORE:  </Text>
+            <Text style={styles.smallerText}> SCORE: {numberCorrect} / {numberQuestions} </Text>
             <Text style={styles.smallerText}> CORRECT ANSWERS </Text>  
           </View>     
         </View>
@@ -38,11 +47,12 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   topContainer:{
-    height: "55%",
+    height: "45%",
     width: "100%",
     backgroundColor: "#646565",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
+    marginTop:hp("-20%")
   },
   topTextContainer: {
     height: 200,
@@ -72,7 +82,7 @@ const styles = StyleSheet.create({
     color: "#FFF7DD"
   },
   bottomContainer:{
-    height: "45%",
+    height: "35%",
     width: "100%",
     backgroundColor: "#FFF8DD",
     display: "flex",
@@ -87,10 +97,10 @@ const styles = StyleSheet.create({
     borderColor: "#4DB74D",
     borderWidth: 4,
     position: "absolute",
-    bottom: hp("10%"),
+    bottom: hp("5%"),
     display: "flex",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
   },
   bottomText:{
     fontFamily: "Nexa Bold",
@@ -99,11 +109,10 @@ const styles = StyleSheet.create({
     marginTop: 5
   },
   rocket:{
-    height: 1000,
-    width: 1000,
+    height: 800,
+    width: 800,
     position: 'absolute',
     zIndex: 10,
+    top:150
   }
 })
-
-export default PassedQuiz;

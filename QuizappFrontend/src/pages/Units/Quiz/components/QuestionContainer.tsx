@@ -9,8 +9,9 @@ const QuestionContainer = (props: {
   onCorrectAnswer: () => void;
   onIncorrectAnswer: () => void;
   numQuestions: number;
+  score: number | null;
 }) => {
-  const {question, onCorrectAnswer, onIncorrectAnswer} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer, score} = props;
 
   const getQuestionType = (question: any) => {
     return question.wrongAnswer0 === undefined ? 'TrueFalse' : 'MultipleChoice';
@@ -22,6 +23,7 @@ const QuestionContainer = (props: {
       onIncorrectAnswer={onIncorrectAnswer}
       question={question as MultipleChoiceQuestion}
       numQuestions={props.numQuestions}
+      score={score}
     />
   ) : (
     <TrueFalseQuestionContainer
@@ -29,6 +31,7 @@ const QuestionContainer = (props: {
       onIncorrectAnswer={onIncorrectAnswer}
       question={question as TrueFalseQuestion}
       numQuestions={props.numQuestions}
+      score={score}
     />
   );
 };
