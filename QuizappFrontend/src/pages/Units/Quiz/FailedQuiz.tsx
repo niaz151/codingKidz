@@ -22,7 +22,9 @@ export const FailedQuiz = (props: {
         </View>
       </View>    
       <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.backContainer}></TouchableOpacity>
+          <TouchableOpacity style={styles.backContainer}>
+            <Text style={styles.bottomText}> BACK TO LESSONS </Text>
+          </TouchableOpacity>
       </View>
     </View>
   ) 
@@ -95,8 +97,6 @@ const styles = StyleSheet.create({
     paddingTop: 8
   },
   bottomText:{
-    borderWidth:1,
-    borderColor:'black',
     fontFamily: "Nexa Bold",
     fontSize: 35,
     color: "#4DB74D",
@@ -106,6 +106,6 @@ const styles = StyleSheet.create({
     width: 1000,
     position: 'absolute',
     zIndex: 10,
-    top:100 
+    top: 0
   }
 })

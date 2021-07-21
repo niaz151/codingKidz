@@ -1,5 +1,5 @@
 import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, TouchableOpacity, Animated} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -29,9 +29,13 @@ export const PassedQuiz = (props: Props) => {
         </View>
       </View>    
       <View style={styles.bottomContainer}>
-          <View style={styles.backContainer}>
+          <TouchableOpacity style={styles.backContainer} onPress={() =>
+            navigation.navigate('Topics', {
+              unit: unit,
+            })
+          }>
             <Text style={styles.bottomText}> BACK TO LESSONS </Text>
-          </View>
+          </TouchableOpacity>
       </View>
     </View>
   )

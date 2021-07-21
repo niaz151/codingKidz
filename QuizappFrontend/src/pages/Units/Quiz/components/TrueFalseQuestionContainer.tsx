@@ -2,12 +2,11 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {TrueFalseQuestion, shuffleArray} from '../../../../utils';
+import { Slider } from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import Slider from "react-native-sliders";
-
 
 type Props = {
   question: TrueFalseQuestion;
@@ -41,12 +40,14 @@ const TrueFalseQuestionContainer = (props: Props) => {
       <Slider
         minimumValue={0}
         maximumValue={props.numQuestions}
-        value={1}
+        value={0}
         step={1}
+        maximumTrackTintColor="#F9D2C0"
+        minimumTrackTintColor="#FF6A00"
         style={styles.sliderStyle}
         trackStyle={styles.trackStyle}
         thumbStyle={styles.thumbStyle}
-        onValueChange={console.log('hi')}
+        thumbTintColor="#FED500"
       />
       <View style={styles.questionContainer}>
         <Text>{question.question}</Text>
@@ -114,19 +115,23 @@ const styles = StyleSheet.create({
     width: 500,
     height: 50,
     borderWidth:1,
-    borderColor:'black',
+    borderColor:'#DEDEDE',
     borderRadius:20,
     paddingLeft:20,
     backgroundColor:'white',
   },
   trackStyle:{
-    width: 100,
+    width: "90%",
+    marginLeft: "5%",
     height: 10,
     borderRadius: 25,
     backgroundColor:"#FF6A00",
   },
   thumbStyle:{
-
+    marginLeft:"5.1%",
+    height: 40,
+    borderRadius:200,
+    width:20,
   }
 })
 
