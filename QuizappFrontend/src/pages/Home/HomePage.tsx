@@ -36,7 +36,7 @@ const HomePage = (props: Props) => {
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
-        <Text style={[styles.welcomeText, styles.bold]}> WELCOME </Text>
+        <Text style={[styles.welcomeText]}> WELCOME </Text>
         <Text style={styles.emailText}> {email}</Text>
       </View>
       <View style={styles.languageWrap}>

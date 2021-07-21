@@ -28,6 +28,12 @@ export const QuizPage = (props: Props) => {
   const [questionNum, setQuestionNum] = useState(0);
   const [score, setScore] = useState(0);
 
+  var topic_quoted = JSON.stringify(topic.name);
+  var topic_unquoted = JSON.parse(topic_quoted);
+
+  navigation.setOptions({headerTitle: topic_unquoted})
+
+
   useEffect(() => {
     console.log('rendering quiz');
   }, []);

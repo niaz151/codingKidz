@@ -28,7 +28,6 @@ const UnitsStack = (props: any) => {
         name="Units"
         component={UnitsPage}
         options={{
-          headerTitle: 'test',
           headerTitleStyle: {
             fontSize: 36,
             fontFamily: 'Nexa Bold',
@@ -59,7 +58,6 @@ const UnitsStack = (props: any) => {
         name="Topics"
         component={TopicsPage}
         options={{
-          title: 'Test',
           headerTitleStyle: {
             fontSize: 36,
             fontFamily: 'Nexa Bold',
@@ -101,6 +99,7 @@ const UnitsStack = (props: any) => {
             backgroundColor: '#FED500',
             height: 100,
           },
+          headerLeft: ()=> null,
         }}
       />
       <Stack.Screen
@@ -117,6 +116,7 @@ const UnitsStack = (props: any) => {
             backgroundColor: '#FED500',
             height: 100,
           },
+          headerLeft: ()=> null,
         }}
       />
     </Stack.Navigator>

@@ -14,8 +14,6 @@ export const PassedQuiz = (props: Props) => {
   const {navigation, route} = props;
   const {numberQuestions, numberCorrect} = route.params;
 
-  console.log("Number Questions: ", numberQuestions)
-  console.log("Number Correct: ", numberCorrect)
   return(
     <View style={styles.container}>
       <Rocket style={styles.rocket} />

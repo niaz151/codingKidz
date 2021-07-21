@@ -1,18 +1,18 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import FailedQuizHouse from "../../../assets/images/FailedQuizHouse.svg";
-import {RootTabParamList} from '../../../App';
-import { StackScreenProps } from '@react-navigation/stack';
-import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
+import {StackScreenProps} from '@react-navigation/stack';
+import {UnitsStackParamList} from '../UnitsStack';
 
-export const FailedQuiz = (props: {
-  numberCorrect: number | null
-}) => {
-  const {numberCorrect} = props;
+type Props = StackScreenProps<UnitsStackParamList, 'FailedQuiz'>;
+export const FailedQuiz = (props: Props) => {
+
+  const {navigation, route} = props;
+  
   return(
     <View style={styles.container}>
       <FailedQuizHouse style={styles.house}/>
@@ -22,7 +22,7 @@ export const FailedQuiz = (props: {
         </View>
       </View>    
       <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.backContainer}>
+          <TouchableOpacity style={styles.backContainer} onPress={() => navigation.navigate()}>
             <Text style={styles.bottomText}> BACK TO LESSONS </Text>
           </TouchableOpacity>
       </View>

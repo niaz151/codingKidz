@@ -1,24 +1,24 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {Text, View, ScrollView, Alert} from 'react-native';
-import axios from 'axios';
-import {Button} from 'react-native-paper';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Unit} from '../../utils';
-import {useAppDispatch, useAppSelector} from '../../ducks/store';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
-import {Icon} from 'react-native-elements';
-import {NumberProp} from 'react-native-svg';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
 export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
+
+  var title_quoted = JSON.stringify(language.name);
+  var title = JSON.parse(title_quoted);
+
+  navigation.setOptions({headerTitle: title})
 
   var colors = [
     '#3FA6D3',

@@ -1,21 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Button, TouchableOpacity, ScrollView} from 'react-native';
-import {useRoute} from '@react-navigation/native';
-import axios from 'axios';
-import {
-  Topic,
-  MultipleChoiceQuestion,
-  TrueFalseQuestion,
-  Question,
-} from '../../../utils';
+import React from 'react';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {Topic} from '../../../utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {useAppSelector} from '../../../ducks/store';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
-import {UnitsPage} from '../UnitsPage';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
@@ -23,6 +14,12 @@ type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 const TopicsPage = (props: Props) => {
   const {route, navigation} = props;
   const {unit} = route.params;
+
+  var unit_quoted = JSON.stringify(unit.name);
+  var unit_unquoted = JSON.parse(unit_quoted);
+
+  navigation.setOptions({headerTitle: unit_unquoted})
+
 
   const TopicTile = (_props: {topic: Topic}) => {
     const {topic} = _props;
