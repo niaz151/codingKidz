@@ -1,5 +1,4 @@
 import React from 'react';
-import {View, StyleSheet} from 'react-native';
 import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
 import {UnitsPage} from './UnitsPage';
 import TopicsPage from './Topics/TopicsPage';

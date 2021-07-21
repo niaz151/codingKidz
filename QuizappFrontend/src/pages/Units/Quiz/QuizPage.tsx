@@ -1,9 +1,9 @@
+import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import React, {useEffect, useLayoutEffect, useState} from 'react';
 import {StyleSheet, Text, View, Image} from 'react-native';
 import {Button} from 'react-native-paper';
 import {
@@ -100,12 +100,6 @@ export const QuizPage = (props: Props) => {
       {lives > 0 ? (
         questionNum < selectedQuestions.length ? (
           <>
-            {/* LIFE MANAGEMENT */}
-            {/*
-            {[...Array(lives).keys()].map((k) => {
-              return <Text key={k}>L</Text>;
-            })}
-          */}
             {/* QUESTION RENDER */}
             <QuestionContainer
               onCorrectAnswer={onCorrectAnswer}

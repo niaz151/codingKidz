@@ -1,12 +1,11 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
+import {useNavigation} from '@react-navigation/native';
 import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import SplashSvg from '../../assets/images/splash_logo.svg';
-// import {useTokenContext} from '../../context';
 
 const SplashPage = () => {
   const navigation = useNavigation();

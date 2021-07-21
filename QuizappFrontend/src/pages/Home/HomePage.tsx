@@ -68,9 +68,7 @@ const HomePage = (props: Props) => {
             );
           })}
 
-          <MouseWhiskers
-            style={styles.whiskers}
-          />
+          <MouseWhiskers style={styles.whiskers} />
         </View>
       </View>
     </View>

@@ -6,13 +6,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {useNavigation} from '@react-navigation/native';
-import PeekabooMouse from '../../assets/images/Screen_A_peekaboo_mouse-01.svg';
-import Svg, {
-  Circle,
-  Ellipse,
-  Path,
-  Defs,
-} from 'react-native-svg';
 import MouseHouse from '../../assets/images/mouse_house.svg';
 
 const ForgotPasswordPage = () => {

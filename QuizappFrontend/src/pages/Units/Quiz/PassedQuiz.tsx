@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity, Animated} from 'react-native';
 import {
   widthPercentageToDP as wp,

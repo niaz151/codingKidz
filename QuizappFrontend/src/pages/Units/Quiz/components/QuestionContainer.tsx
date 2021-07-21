@@ -1,5 +1,4 @@
 import React from 'react';
-import {Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, TrueFalseQuestion} from '../../../../utils';
 import MultipleChoiceQuestionContainer from './MultipleChoiceQuestionContainer';
 import TrueFalseQuestionContainer from './TrueFalseQuestionContainer';
