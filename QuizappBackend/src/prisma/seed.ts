@@ -62,7 +62,7 @@ const generateData = async () => {
             topics: {
               create: [...Array(10).keys()].map((topicval) => {
                 return {
-                  name: `Topic ${topicval}`,
+                  name: `Lesson ${topicval}`,
                   number: topicval,
                   multipleChoiceQuestions: {
                     create: [...Array(40).keys()].map((questionval) => {
@@ -104,7 +104,7 @@ const generateData = async () => {
             topics: {
               create: [...Array(10).keys()].map((topicval) => {
                 return {
-                  name: `Topic ${topicval}`,
+                  name: `Lesson ${topicval}`,
                   number: topicval,
                   multipleChoiceQuestions: {
                     create: [...Array(40).keys()].map((questionval) => {

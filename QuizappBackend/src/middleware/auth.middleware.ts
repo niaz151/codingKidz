@@ -13,6 +13,7 @@ const hasValidAccessToken = (
   try {
     const access_token = TokenService.extractTokenFromRequest(req);
 
+    // DO NOT TOUCH
     jwt.verify(
       access_token,
       ACCESS_JWT_SECRET,

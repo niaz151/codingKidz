@@ -27,6 +27,7 @@ model User {
   password String
   roles    Role[]
   profile  Profile?
+  quizResults QuizResult[]
 }
 
 model Profile {
@@ -35,6 +36,21 @@ model Profile {
   userId   Int
   avatar   Bytes?
   birthday DateTime
+}
+
+model QuizResult {
+  id Int @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId   Int
+  topic Topic @relation(fields: [topicId], references: [id])
+  topicId Int
+  status QuizResultStatus
+}
+
+enum QuizResultStatus {
+  PASSED
+  FAILED
+  PENDING
 }
 
 model Language {
@@ -60,6 +76,7 @@ model Topic {
   unitId                  Int
   multipleChoiceQuestions MultipleChoiceQuestion[]
   trueFalseQuestions      TrueFalseQuestion[]
+  quizResults QuizResult[]
 }
 
 model MultipleChoiceQuestion {
