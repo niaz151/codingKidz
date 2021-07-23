@@ -14,10 +14,11 @@ type Props = {
   onIncorrectAnswer: () => void;
   numQuestions: number;
   score: number | null;
+  questionNumber: number;
 };
 
 const TrueFalseQuestionContainer = (props: Props) => {
-  const {question, onCorrectAnswer, onIncorrectAnswer} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer, questionNumber} = props;
 
   const checkAnswer = (answer: TrueFalseQuestion['correctAnswer']) => {
     if (answer === question.correctAnswer) {
@@ -40,7 +41,7 @@ const TrueFalseQuestionContainer = (props: Props) => {
       <Slider
         minimumValue={0}
         maximumValue={props.numQuestions}
-        value={0}
+        value={questionNumber}
         step={1}
         maximumTrackTintColor="#F9D2C0"
         minimumTrackTintColor="#FF6A00"
@@ -60,11 +61,6 @@ const TrueFalseQuestionContainer = (props: Props) => {
           <Text style={styles.optionText}> False </Text>
         </Button>
       </View>
-      {/*
-        <Text>{question.question}</Text>
-        <Button onPress={selectedTrue}>True</Button>
-        <Button onPress={selectedFalse}>False</Button>
-      */}
     </View>
   );
 };

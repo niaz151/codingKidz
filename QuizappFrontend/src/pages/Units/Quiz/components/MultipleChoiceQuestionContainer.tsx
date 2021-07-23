@@ -14,10 +14,11 @@ type Props = {
   onIncorrectAnswer: () => void;
   numQuestions: number;
   score: number | null;
+  questionNumber: number;
 };
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
-  const {question, onCorrectAnswer, onIncorrectAnswer, score} = props;
+  const {question, onCorrectAnswer, onIncorrectAnswer, score, questionNumber} = props;
 
   const shuffledAnswers = shuffleArray([
     question.correctAnswer,
@@ -33,13 +34,14 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       return onIncorrectAnswer();
     }
   };
+  console.log("Question Number: ", questionNumber)
 
   return (
     <View style={styles.container}>
       <Slider
         minimumValue={0}
         maximumValue={props.numQuestions}
-        value={0}
+        value={questionNumber}
         step={1}
         maximumTrackTintColor="#F9D2C0"
         minimumTrackTintColor="#FF6A00"
