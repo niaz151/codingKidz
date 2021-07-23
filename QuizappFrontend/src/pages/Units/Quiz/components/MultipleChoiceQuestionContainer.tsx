@@ -55,7 +55,8 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       </View>
       <ScrollView
         contentContainerStyle={styles.optionsContainer}
-        directionalLockEnabled={true}>
+        directionalLockEnabled={true}
+      >
         {['A', 'B', 'C', 'D'].map((letter, idx) => {
           const currentAnswer = shuffledAnswers[idx];
           const handleAnswer = () => checkAnswer(currentAnswer);
@@ -83,7 +84,6 @@ const styles = StyleSheet.create({
   container: {
     borderColor: 'black',
     borderWidth: 1,
-    height: hp("100%"),
     width: wp('100%'),
     display:'flex',
     alignItems:'center',
@@ -100,13 +100,15 @@ const styles = StyleSheet.create({
     justifyContent:'center',
   },
   optionsContainer: {
-    height: 550,
+    height:hp("99%"),
     width: wp('100%'),
     display: 'flex',
     flexDirection: 'column',
+    overflow:'scroll',
+    flexWrap: 'wrap',
   },
   multipleChoiceContainer: {
-    flex: 1,
+    height: hp("20%"),
     width: wp('100%'),
     display: 'flex',
     flexDirection: 'column',
