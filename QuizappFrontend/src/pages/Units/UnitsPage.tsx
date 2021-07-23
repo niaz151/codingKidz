@@ -122,7 +122,6 @@ const styles = {
   unitsList: {
     width: wp('70%'),
     marginLeft: wp('15%'),
-    flex: 1,
     flexWrap: 'wrap',
     flexDirection: 'row',
     display: 'flex',

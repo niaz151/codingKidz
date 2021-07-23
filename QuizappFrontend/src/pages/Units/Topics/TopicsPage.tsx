@@ -55,13 +55,12 @@ export default TopicsPage;
 
 const styles = {
   containerStyle: {
-    height: hp('100%'),
     width: wp('100%'),
     backgroundColor: '#FFF7DD',
+    paddingTop:hp("15%")
   },
   topicListContainer:{
     width: wp('80%'),
-    marginTop:hp("15%"),
     marginLeft:wp("10%"),
     overflow:'scroll',
     flexWrap: 'wrap',
@@ -69,7 +68,6 @@ const styles = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom:hp("5%")
   },
   topicTileContainer: {
     height: hp('20%'),
