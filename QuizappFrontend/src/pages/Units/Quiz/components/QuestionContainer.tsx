@@ -1,5 +1,5 @@
 import React from 'react';
-import {MultipleChoiceQuestion, TrueFalseQuestion} from '../../../../utils';
+import {MultipleChoiceQuestion, TrueFalseQuestion, Unit} from '../../../../utils';
 import MultipleChoiceQuestionContainer from './MultipleChoiceQuestionContainer';
 import TrueFalseQuestionContainer from './TrueFalseQuestionContainer';
 

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { TopicService } from "../services";
+import { TopicService, QuizService } from "../services";
 
 const createTopic = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -70,4 +70,19 @@ const deleteTopic = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default { listTopicsByUnitID, createTopic, getTopicByID, deleteTopic };
+const getQuizResults = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { topicId } = req.params;
+    const quizData = await QuizService.getQuizScoresByTopicId(Number(topicId));
+
+    return res.status(200).json({
+      message: "Fetched Quiz Scores Via Topic Id",
+      quizData: quizData
+    });
+
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export default { listTopicsByUnitID, createTopic, getTopicByID, deleteTopic, getQuizResults };

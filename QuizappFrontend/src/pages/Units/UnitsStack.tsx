@@ -11,9 +11,9 @@ import {Language, Topic, Unit} from '../../utils';
 export type UnitsStackParamList = {
   Units: {language: Language};
   Topics: {unit: Unit};
-  Quiz: {topic: Topic};
-  PassedQuiz: {numberQuestions: number, numberCorrect: number},
-  FailedQuiz: {}
+  Quiz: {topic: Topic,  unit: Unit};
+  PassedQuiz: {numberQuestions: number, numberCorrect: number, unit: Unit},
+  FailedQuiz: {unit: Unit}
 };
 
 const Stack = createStackNavigator<UnitsStackParamList>();

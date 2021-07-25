@@ -1,12 +1,8 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-
 import { AuthMiddleware, ErrorMiddleware, UserMiddleware } from "../middleware";
 import { UserController } from "../controllers";
-
 import { UserValidator } from "../validators";
-
-
 
 const userRouter = Router();
 
@@ -26,5 +22,12 @@ userRouter.post(
   UserMiddleware.upload.single("avatar"),
   UserController.uploadAvatar
 );
+
+userRouter.get(
+  "/:userId/quizScores",
+  param("userId").custom(UserValidator.isValidUserID),
+  ErrorMiddleware.checkForValidationErrors,
+  UserController.getQuizScores
+)
 
 export default userRouter;

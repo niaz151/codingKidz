@@ -34,7 +34,6 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       return onIncorrectAnswer();
     }
   };
-  console.log("Question Number: ", questionNumber)
 
   return (
     <View style={styles.container}>

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { UserService } from "../services";
+import { UserService, QuizService } from "../services";
 
 const uploadAvatar = async (
   req: Request,
@@ -43,4 +43,20 @@ const getProfile = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export default { uploadAvatar, getProfile };
+const getQuizScores = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId } = req.params;
+
+    const quizData = await QuizService.getQuizScoresByUserId(Number(userId));
+
+    console.log(quizData)
+    return res.status(200).json({
+      message: "Fetched Quiz Scores Via User Id",
+      quizData: quizData
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export default { uploadAvatar, getProfile, getQuizScores };

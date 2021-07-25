@@ -5,3 +5,4 @@ export { default as UnitService } from "./unit.service";
 export { default as TopicService } from "./topic.service";
 export { default as QuestionService } from "./question.service";
 export { default as LanguageService } from "./language.service";
+export { default as QuizService } from "./quiz.service";

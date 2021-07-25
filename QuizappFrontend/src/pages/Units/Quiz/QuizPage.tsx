@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
 import {
   widthPercentageToDP as wp,
@@ -22,7 +22,7 @@ type Props = StackScreenProps<UnitsStackParamList, 'Quiz'>;
 
 export const QuizPage = (props: Props) => {
   const {navigation, route} = props;
-  const {topic} = route.params;
+  const {topic, unit} = route.params;
   const {multipleChoiceQuestions, trueFalseQuestions} = topic;
   const [lives, setLives] = useState(3);
   const [questionNum, setQuestionNum] = useState(0);
@@ -79,46 +79,31 @@ export const QuizPage = (props: Props) => {
   if(lives > 0 && questionNum >= selectedQuestions.length){
     navigation.navigate('PassedQuiz', {
         numberQuestions: questionNum,
-        numberCorrect: score
+        numberCorrect: score,
+        unit: unit
     })
   }
 
   if(lives <= 0){
-    navigation. navigate('FailedQuiz',{});
+    navigation. navigate('FailedQuiz',{unit:unit});
   }
 
+  if(lives > 0 && questionNum < selectedQuestions.length){
+    return(
+      <View style={styles.container}>
+        <QuestionContainer
+          onCorrectAnswer={onCorrectAnswer}
+          onIncorrectAnswer={onIncorrectAnswer}
+          question={selectedQuestions[questionNum]}
+          numQuestions={QUESTIONS_PER_QUIZ}
+          score={score}
+          questionNum={questionNum}
+        />
+      </View>
+    )
+  }
 
-  return (
-    <View style={styles.container}>
-      {lives > 0 ? (
-        questionNum < selectedQuestions.length ? (
-          <>
-            {/* QUESTION RENDER */}
-            <QuestionContainer
-              onCorrectAnswer={onCorrectAnswer}
-              onIncorrectAnswer={onIncorrectAnswer}
-              question={selectedQuestions[questionNum]}
-              numQuestions={QUESTIONS_PER_QUIZ}
-              score={score}
-              questionNum={questionNum}
-            />
-          </>
-        ) : (
-          // IF YOU PASS THE QUIZ
-          <View>
-            <Text>You Passed</Text>
-            <Button onPress={returnToLessons}>Return to Lessons</Button>
-          </View>
-        )
-      ) : (
-        // IF NO LIVES LEFT
-        <View>
-          <Text>You Failed</Text>
-          <Button onPress={returnToLessons}>Return to Lessons</Button>
-        </View>
-      )}
-    </View>
-  );
+  return <View></View>
 };
 
 const styles = StyleSheet.create({

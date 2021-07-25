@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import {Topic} from '../../../utils';
+import {Topic, Unit} from '../../../utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -21,8 +21,8 @@ const TopicsPage = (props: Props) => {
   navigation.setOptions({headerTitle: unit_unquoted})
 
 
-  const TopicTile = (_props: {topic: Topic}) => {
-    const {topic} = _props;
+  const TopicTile = (_props: {topic: Topic, unit: Unit}) => {
+    const {topic, unit} = _props;
     return (
       <View style={styles.topicTileContainer}>
         <TouchableOpacity
@@ -30,6 +30,7 @@ const TopicsPage = (props: Props) => {
           onPress={() =>
             navigation.navigate('Quiz', {
               topic: topic,
+              unit: unit
             })
           }>
           <MouseFlower style={styles.imgStyle} />
@@ -44,7 +45,7 @@ const TopicsPage = (props: Props) => {
     <View style={styles.containerStyle}>
       <ScrollView contentContainerStyle={styles.topicListContainer}>
         {unit.topics?.map((topic) => {
-          return <TopicTile topic={topic} key={topic.id} />;
+          return <TopicTile topic={topic} key={topic.id} unit={unit} />;
         })}
       </ScrollView>
     </View>
