@@ -43,20 +43,4 @@ const getProfile = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-const getQuizScores = async (req:Request, res: Response, next: NextFunction) => {
-  try {
-    const { userId } = req.params;
-
-    const quizData = await QuizService.getQuizScoresByUserId(Number(userId));
-
-    console.log(quizData)
-    return res.status(200).json({
-      message: "Fetched Quiz Scores Via User Id",
-      quizData: quizData?.quizResults
-    })
-  } catch (error) {
-    return next(error);
-  }
-}
-
-export default { uploadAvatar, getProfile, getQuizScores };
+export default { uploadAvatar, getProfile };

@@ -2,16 +2,15 @@ import { QuizResult, User, Topic } from "@prisma/client";
 import { db } from "../prisma";
 
 
-
-const updateQuizScores = async (id: QuizResult["id"], status: QuizResult["status"]) => {
+const updateQuizScores = async (quizId: QuizResult["id"], status: QuizResult["status"]) => {
   return await db.quizResult.update({
-    where: {
-      id: id,
+    where: { 
+      id: quizId  
     },
     data: {
       status: status
     },
-  });
+  })
 }
 
 const getQuizScoresByUserId = async (userId: User["id"]) => {

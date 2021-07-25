@@ -1,8 +1,9 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { AuthMiddleware, ErrorMiddleware, UserMiddleware } from "../middleware";
-import { UserController } from "../controllers";
+import { UserController, QuizController } from "../controllers";
 import { UserValidator } from "../validators";
+import quizController from "../controllers/quiz.controller";
 
 const userRouter = Router();
 
@@ -24,10 +25,17 @@ userRouter.post(
 );
 
 userRouter.get(
-  "/:userId/quizScores",
+  "/:userId/quizScores/getAll",
   param("userId").custom(UserValidator.isValidUserID),
   ErrorMiddleware.checkForValidationErrors,
-  UserController.getQuizScores
+  QuizController.getQuizScores
+)
+
+userRouter.post(
+  "/:userId/quizScores/update/:quizId/:status",
+  param("userId").custom(UserValidator.isValidUserID),
+  ErrorMiddleware.checkForValidationErrors,
+  quizController.updateQuizScores
 )
 
 export default userRouter;
