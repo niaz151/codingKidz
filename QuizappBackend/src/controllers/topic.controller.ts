@@ -77,7 +77,7 @@ const getQuizResults = async (req: Request, res: Response, next: NextFunction) =
 
     return res.status(200).json({
       message: "Fetched Quiz Scores Via Topic Id",
-      quizData: quizData
+      quizData: quizData?.quizResults
     });
 
   } catch (error) {

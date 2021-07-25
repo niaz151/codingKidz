@@ -52,7 +52,7 @@ const getQuizScores = async (req:Request, res: Response, next: NextFunction) => 
     console.log(quizData)
     return res.status(200).json({
       message: "Fetched Quiz Scores Via User Id",
-      quizData: quizData
+      quizData: quizData?.quizResults
     })
   } catch (error) {
     return next(error);
