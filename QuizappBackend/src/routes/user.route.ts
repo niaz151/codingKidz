@@ -3,7 +3,6 @@ import { body, param } from "express-validator";
 import { AuthMiddleware, ErrorMiddleware, UserMiddleware } from "../middleware";
 import { UserController, QuizController } from "../controllers";
 import { UserValidator } from "../validators";
-import quizController from "../controllers/quiz.controller";
 
 const userRouter = Router();
 
@@ -28,14 +27,14 @@ userRouter.get(
   "/:userId/quizScores/getAll",
   param("userId").custom(UserValidator.isValidUserID),
   ErrorMiddleware.checkForValidationErrors,
-  QuizController.getQuizScores
+  QuizController.getQuizScoresByUserId
 )
 
 userRouter.post(
   "/:userId/quizScores/update/:quizId/:status",
   param("userId").custom(UserValidator.isValidUserID),
   ErrorMiddleware.checkForValidationErrors,
-  quizController.updateQuizScores
+  QuizController.updateQuizScores
 )
 
 export default userRouter;

@@ -1,12 +1,12 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
-
 import { AuthMiddleware, ErrorMiddleware } from "../middleware";
 import {
   LanguageController,
   QuestionController,
   TopicController,
   UnitController,
+  QuizController
 } from "../controllers";
 
 import { LanguageValidator } from "../validators";
@@ -194,4 +194,13 @@ languageRouter
   // Delete question
   .delete(QuestionController.deleteQuestion);
 
+
+  languageRouter.get(
+    "/:languageId/unit/:unitId/topic/:topicId/getQuizResults",
+    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    ErrorMiddleware.checkForValidationErrors,
+    QuizController.getQuizScoresByTopicId
+  )
+
 export default languageRouter;
+

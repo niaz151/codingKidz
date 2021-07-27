@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export const seed = async () => {
   try {
     await createUsers();
-  await generateData();
+    await generateData();
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -133,4 +133,13 @@ const generateData = async () => {
       },
     },
   });
+
+  console.log("Generating Initial Quiz Results Data"),
+  await prisma.quizResult.create({
+    data:{
+      status: "PENDING",
+      userId: 2,
+      topicId: 1,
+    }
+  })
 };

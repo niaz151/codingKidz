@@ -1,7 +1,23 @@
 import { NextFunction, Request, Response } from "express";
 import { QuizService } from "../services";
 
-const getQuizScores = async (req:Request, res: Response, next: NextFunction) => {
+
+const getQuizScoresByTopicId = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { topicId } = req.params;
+
+    const quizData = await QuizService.getQuizScoresByTopicId(Number(topicId));
+
+    return res.status(200).json({
+      message: "Fetched Quiz Scores Via Topic Id",
+      quizData: quizData?.quizResults
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+const getQuizScoresByUserId = async (req:Request, res: Response, next: NextFunction) => {
   try {
     const { userId } = req.params;
 
@@ -46,4 +62,4 @@ const updateQuizScores = async (req:Request, res: Response, next: NextFunction) 
   }
 }
 
-export default { getQuizScores, updateQuizScores };
+export default { getQuizScoresByUserId, getQuizScoresByTopicId, updateQuizScores };
