@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import { create } from "domain";
 
 const prisma = new PrismaClient();
 
@@ -24,6 +25,14 @@ const createUsers = async () => {
       email: "student@test.com",
       password: await bcrypt.hash("student", 10),
       roles: ["STUDENT"],
+      quizResults: {
+        create: [
+          {
+            topicId: 1,
+            status: 'PENDING'
+          }
+        ]
+      }
     },
   });
 
@@ -138,7 +147,7 @@ const generateData = async () => {
   await prisma.quizResult.create({
     data:{
       status: "PENDING",
-      userId: 2,
+      userId: 1,
       topicId: 1,
     }
   })

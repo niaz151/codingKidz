@@ -15,22 +15,22 @@ const TopicsPage = (props: Props) => {
   const {route, navigation} = props;
   const {unit} = route.params;
 
+  var unit_id = unit.id;
   var unit_quoted = JSON.stringify(unit.name);
   var unit_unquoted = JSON.parse(unit_quoted);
 
-  navigation.setOptions({headerTitle: unit_unquoted})
+  navigation.setOptions({headerTitle: unit_unquoted});
 
-
-  const TopicTile = (_props: {topic: Topic, unit: Unit}) => {
+  const TopicTile = (_props: {topic: Topic; unit: Unit}) => {
     const {topic, unit} = _props;
     return (
       <View style={styles.topicTileContainer}>
         <TouchableOpacity
-        style={styles.opacityStyle}
+          style={styles.opacityStyle}
           onPress={() =>
             navigation.navigate('Quiz', {
               topic: topic,
-              unit: unit
+              unit: unit,
             })
           }>
           <MouseFlower style={styles.imgStyle} />
@@ -58,12 +58,12 @@ const styles = {
   containerStyle: {
     width: wp('100%'),
     backgroundColor: '#FFF7DD',
-    paddingTop:hp("15%")
+    paddingTop: hp('15%'),
   },
-  topicListContainer:{
+  topicListContainer: {
     width: wp('80%'),
-    marginLeft:wp("10%"),
-    overflow:'scroll',
+    marginLeft: wp('10%'),
+    overflow: 'scroll',
     flexWrap: 'wrap',
     display: 'flex',
     flexDirection: 'row',
@@ -80,24 +80,24 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  opacityStyle:{
-    display:'flex',
-    alignItems:'center',
-    justifyContent:'center',
+  opacityStyle: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
-    height:'100%',
-  },  
-  imgStyle:{
-    height:'90%',
-    width:'100%',
+    height: '100%',
   },
-  captionText:{
-    fontFamily:'Nexa Bold',
+  imgStyle: {
+    height: '90%',
+    width: '100%',
+  },
+  captionText: {
+    fontFamily: 'Nexa Bold',
     fontSize: 24,
   },
-  lessonText:{
-    fontFamily:'Nexa Bold',
+  lessonText: {
+    fontFamily: 'Nexa Bold',
     fontSize: 18,
-    marginTop:5
-  }
+    marginTop: 5,
+  },
 };
