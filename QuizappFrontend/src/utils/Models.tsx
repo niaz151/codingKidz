@@ -4,6 +4,12 @@ export enum Role {
   ADMIN = 'ADMIN',
 }
 
+export enum QuizResultStatus {
+  LOCKED = 'LOCKED',
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+}
+
 export type User = {
   id: number;
   email: string;
@@ -16,6 +22,15 @@ export type Profile = {
   avatar: Buffer;
   userId: User['id'];
 };
+
+export type QuizResult = {
+  id: number,
+  user?: User
+  userId: number,
+  topic: Topic,
+  topicId: number, 
+  status: QuizResultStatus
+}
 
 export type Language = {
   id: number;

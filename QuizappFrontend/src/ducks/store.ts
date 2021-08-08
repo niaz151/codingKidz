@@ -7,11 +7,13 @@ import {combineReducers} from '@reduxjs/toolkit';
 import authReducer from '../pages/Auth/authSlice';
 import settingsReducer from '../pages/Settings/settingsSlice';
 import languagesReducer from '../pages/Units/languagesSlice';
+import quizReducer from '../pages/Units/Quiz/quizSlice';
 
 const rootReducer = combineReducers({
   authReducer: authReducer,
   settingsReducer: settingsReducer,
   languagesReducer: languagesReducer,
+  quizReducer: quizReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

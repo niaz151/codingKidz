@@ -1,29 +1,28 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios, {AxiosError} from 'axios';
-import {RootState} from '../../ducks/store';
-
-import {TokenService} from '../../services';
-import {Language} from '../../utils';
+import {RootState} from '../../../ducks/store';
+import {TokenService} from '../../../services';
+import {QuizResult, User} from '../../../utils';
 
 interface StateType {
-  score: number | null,
+  quizzes: QuizResult[] | null,
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: StateType = {
-  score: null,
+  quizzes: null,
   status: 'idle',
   error: null,
 };
 
-const getLanguages = createAsyncThunk<
-  Language[],
+const getQuizzes = createAsyncThunk<
+  QuizResult[],
   {},
   {
     state: RootState;
   }
->('languages/getLanguages', async (_foo, {getState, rejectWithValue}) => {
+>('quizResults/getAll', async (_foo, {getState, rejectWithValue}) => {
   const {accessToken} = getState().authReducer;
   const userId = accessToken
     ? TokenService.readToken(accessToken).id
@@ -34,16 +33,15 @@ const getLanguages = createAsyncThunk<
   }
 
   return await axios
-    .get('http://localhost:8000/api/language', {
+    .get(`http://localhost:8000/api/user/${userId}/quizScores/getAll`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
     .then(
       async (response) => {
-        const languages: Language[] = response.data.languages;
-
-        return languages;
+        const quizData: QuizResult[] = response.data.quizData
+        return quizData;
       },
       (error: AxiosError) => {
         return rejectWithValue(error);
@@ -51,29 +49,29 @@ const getLanguages = createAsyncThunk<
     );
 });
 
-const unitsSlice = createSlice({
-  name: 'languages',
+const quizSlice = createSlice({
+  name: 'quizData',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getLanguages.pending, (state, _action) => {
+    builder.addCase(getQuizzes.pending, (state, _action) => {
       state.error = null;
       state.status = 'loading';
     });
 
-    builder.addCase(getLanguages.fulfilled, (state, action) => {
-      state.languages = action.payload;
+    builder.addCase(getQuizzes.fulfilled, (state, action) => {
+      state.quizzes = action.payload;
       state.error = null;
       state.status = 'succeeded';
     });
 
-    builder.addCase(getLanguages.rejected, (state, action) => {
-      state.languages = null;
+    builder.addCase(getQuizzes.rejected, (state, action) => {
+      state.quizzes = null;
       state.error = action.error.message ?? 'Unknown login error';
       state.status = 'failed';
     });
   },
 });
 
-export default unitsSlice.reducer;
-export {getLanguages};
+export default quizSlice.reducer;
+export {getQuizzes};

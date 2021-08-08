@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {Topic, Unit} from '../../../utils';
 import {
@@ -8,12 +8,18 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
+import {getQuizzes} from '../../Units/Quiz/quizSlice';
+import {useAppDispatch, useAppSelector} from '../../../ducks/store';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
 const TopicsPage = (props: Props) => {
   const {route, navigation} = props;
   const {unit} = route.params;
+  const dispatch = useAppDispatch();
+  const quizData = useAppSelector((state:any) => state.quizReducer.quizzes);
+  const quizDataStatus = useAppSelector((state:any) => state.quizReducer.status,);
+
 
   var unit_id = unit.id;
   var unit_quoted = JSON.stringify(unit.name);
@@ -40,6 +46,14 @@ const TopicsPage = (props: Props) => {
       </View>
     );
   };
+
+  useEffect(() => {
+    if (quizDataStatus === 'idle') {
+      dispatch(getQuizzes({}));
+    }
+  }, [dispatch, quizDataStatus]);
+
+  console.log("Quiz Data: ", quizData)
 
   return (
     <View style={styles.containerStyle}>
