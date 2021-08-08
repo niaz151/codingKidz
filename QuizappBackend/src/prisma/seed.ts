@@ -8,6 +8,7 @@ export const seed = async () => {
   try {
     await createUsers();
     await generateData();
+    await createQuizzes();
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -134,14 +135,17 @@ const generateData = async () => {
       },
     },
   });
+};
 
+const createQuizzes = async () => {
+  
   const topics = await prisma.topic.findMany();
   const num_topics = topics.length;
-  console.log("Num Topics: ", num_topics)
+  console.log(num_topics, " Topics Generated.")
 
   for(var i = 1; i < num_topics; i ++){
     // THE FIRST TOPIC AND EVERY 10TH TOPIC ARE UNLOCKED
-    if(i == 0 || i % 10 == 0 ){
+    if(i == 1 || i % 10 == 1 ){
       await prisma.quizResult.create({
         data:{
           userId: 1,
@@ -151,14 +155,15 @@ const generateData = async () => {
         }
       })
     }
-    await prisma.quizResult.create({
-      data:{
-        userId: 1,
-        topicId: i,
-        status: 'LOCKED',
-        grade: 0
-      }
-    })
+    else{
+      await prisma.quizResult.create({
+        data:{
+          userId: 1,
+          topicId: i,
+          status: 'LOCKED',
+          grade: 0
+        }
+      })
+    }
   }
-
-};
+}
