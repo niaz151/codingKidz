@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "QuizResultStatus" AS ENUM ('PASSED', 'FAILED', 'PENDING');
+CREATE TYPE "QuizResultStatus" AS ENUM ('LOCKED', 'COMPLETED', 'PENDING');
 
 -- CreateTable
 CREATE TABLE "QuizResult" (

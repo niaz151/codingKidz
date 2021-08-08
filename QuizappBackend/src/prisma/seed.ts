@@ -1,6 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { create } from "domain";
+import { Console } from "console";
 
 const prisma = new PrismaClient();
 
@@ -25,14 +25,6 @@ const createUsers = async () => {
       email: "student@test.com",
       password: await bcrypt.hash("student", 10),
       roles: ["STUDENT"],
-      quizResults: {
-        create: [
-          {
-            topicId: 1,
-            status: 'PENDING'
-          }
-        ]
-      }
     },
   });
 
@@ -143,12 +135,28 @@ const generateData = async () => {
     },
   });
 
-  console.log("Generating Initial Quiz Results Data"),
-  await prisma.quizResult.create({
-    data:{
-      status: "PENDING",
-      userId: 1,
-      topicId: 1,
+  const topics = await prisma.topic.findMany();
+  const num_topics = topics.length;
+  console.log("Num Topics: ", num_topics)
+
+  for(var i = 1; i < num_topics; i ++){
+    // THE FIRST TOPIC AND EVERY 10TH TOPIC ARE UNLOCKED
+    if(i == 0 || i % 10 == 0 ){
+      await prisma.quizResult.create({
+        data:{
+          userId: 1,
+          topicId: i,
+          status: 'PENDING'
+        }
+      })
     }
-  })
+    await prisma.quizResult.create({
+      data:{
+        userId: 1,
+        topicId: i,
+        status: 'LOCKED'
+      }
+    })
+  }
+
 };

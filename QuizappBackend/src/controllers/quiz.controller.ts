@@ -34,16 +34,16 @@ const getQuizScoresByUserId = async (req:Request, res: Response, next: NextFunct
 
 const convertToEnum = (status:string) => {
   if (status === "passed"){
-    return "PASSED";
+    return "COMPLETED";
   }
   if (status === "failed"){
-    return "FAILED";
+    return "PENDING";
   }
   if (status === "pending"){
     return "PENDING";
   }
   else{
-    return "FAILED"
+    return "LOCKED"
   }
 }
 

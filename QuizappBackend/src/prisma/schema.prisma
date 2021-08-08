@@ -48,9 +48,9 @@ model QuizResult {
 }
 
 enum QuizResultStatus {
-  PASSED
-  FAILED
+  LOCKED
   PENDING
+  COMPLETED
 }
 
 model Language {
