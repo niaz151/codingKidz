@@ -45,6 +45,7 @@ model QuizResult {
   topic Topic @relation(fields: [topicId], references: [id])
   topicId Int
   status QuizResultStatus
+  grade Int
 }
 
 enum QuizResultStatus {

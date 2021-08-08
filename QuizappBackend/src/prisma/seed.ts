@@ -146,7 +146,8 @@ const generateData = async () => {
         data:{
           userId: 1,
           topicId: i,
-          status: 'PENDING'
+          status: 'PENDING',
+          grade: 0,
         }
       })
     }
@@ -154,7 +155,8 @@ const generateData = async () => {
       data:{
         userId: 1,
         topicId: i,
-        status: 'LOCKED'
+        status: 'LOCKED',
+        grade: 0
       }
     })
   }
