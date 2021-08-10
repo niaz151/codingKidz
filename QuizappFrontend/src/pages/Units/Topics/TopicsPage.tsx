@@ -8,51 +8,83 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
-import {useAppDispatch, useAppSelector} from '../../../ducks/store';
+import MouseFlowerLocked from '../../../assets/images/mouse_flower_locked.svg';
+//ADD A MOUSE FLOWER COMPLETED IMAGE
 import axios from 'axios';
+import { QuizResultStatus } from '../../../utils/Models';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
 const TopicsPage = (props: Props) => {
   const {route, navigation} = props;
   const {unit} = route.params;
-  const quizData: QuizResult[] = [];
-  const [quizDataState, setQuizDataState] = useState<QuizResult[] | null>(null);
   var unit_quoted = JSON.stringify(unit.name);
   var unit_unquoted = JSON.parse(unit_quoted);
-
   navigation.setOptions({headerTitle: unit_unquoted});
 
-  const TopicTile = (_props: {topic: Topic; unit: Unit}) => {
+  const TopicTile = (_props: {topic: Topic; unit: Unit,}) => {
     const {topic, unit} = _props;
-
-    if (quizDataState != null){
-      unit.topics?.map( (topic) => {
-        console.log(quizDataState)
-      })
-      console.log(' = = = =')
-    }
-
-    return (
-      <View style={styles.topicTileContainer}>
-        <TouchableOpacity
-          style={styles.opacityStyle}
-          onPress={() =>
-            navigation.navigate('Quiz', {
-              topic: topic,
-              unit: unit,
-            })
-          }>
-          <MouseFlower style={styles.imgStyle} />
-          <Text style={styles.captionText}> {topic.name} </Text>
-          <Text style={styles.lessonText}> Lesson Title </Text>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-
-  useEffect(() => {
-    unit.topics?.map(async (topic) => {
+    var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
+    var output: any = <View></View>;
+  
+    const LockedMouse = () => {
+      return (
+        <View style={styles.topicTileContainer}>
+          <TouchableOpacity
+            style={styles.opacityStyle}
+            onPress={() =>
+              navigation.navigate('Quiz', {
+                topic: topic,
+                unit: unit,
+              })
+            }>
+            <MouseFlowerLocked style={styles.imgStyle} />
+            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.lessonText}> Lesson Title </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    };
+  
+    const PendingMouse = () => {
+      return (
+        <View style={styles.topicTileContainer}>
+          <TouchableOpacity
+            style={styles.opacityStyle}
+            onPress={() =>
+              navigation.navigate('Quiz', {
+                topic: topic,
+                unit: unit,
+              })
+            }>
+            <MouseFlower style={styles.imgStyle} />
+            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.lessonText}> Lesson Title </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    };
+  
+    const CompletedMouse = () => {
+      return (
+        <View style={styles.topicTileContainer}>
+          <TouchableOpacity
+            style={styles.opacityStyle}
+            onPress={() =>
+              navigation.navigate('Quiz', {
+                topic: topic,
+                unit: unit,
+              })
+            }>
+            <MouseFlower style={styles.imgStyle} />
+            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.lessonText}> Lesson Title </Text>
+          </TouchableOpacity>
+        </View>
+      );
+    };
+  
+    useEffect(() => {
       axios
         .get<QuizResult[]>(
           `http://localhost:8000/api/language/topic/${topic.id}/getQuizResults`,
@@ -60,24 +92,36 @@ const TopicsPage = (props: Props) => {
         .then((response) => {
           // @ts-expect-error:
           var data = response.data.quizData;
-          quizData.push(data);
+          setQuizStatus(data[0].status);
+          console.log("Setting Quiz Status: ", data[0].status)
         })
-        .then((res) => {
-          setQuizDataState(quizData);
-        });
-    });
-  }, []);
+    },[]);
+  
+    console.log("render")
+    
+    switch(quizStatus){
+      case QuizResultStatus.PENDING:
+        return <PendingMouse/>
+      case QuizResultStatus.LOCKED:
+        return <LockedMouse/>
+      case QuizResultStatus.COMPLETED:
+        return <CompletedMouse/>
+      default:
+        return <View></View>
+    }
+  };
 
   return (
     <View style={styles.containerStyle}>
       <ScrollView contentContainerStyle={styles.topicListContainer}>
         {unit.topics?.map((topic) => {
-          return <TopicTile topic={topic} key={topic.id} unit={unit} />;
+          return <TopicTile topic={topic} key={topic.id} unit={unit}/>;
         })}
       </ScrollView>
     </View>
   );
 };
+
 
 export default TopicsPage;
 
@@ -128,3 +172,22 @@ const styles = {
     marginTop: 5,
   },
 };
+
+/*
+        return (
+          <View style={styles.topicTileContainer}>
+            <TouchableOpacity
+              style={styles.opacityStyle}
+              onPress={() =>
+                navigation.navigate('Quiz', {
+                  topic: topic,
+                  unit: unit,
+                })
+              }>
+              <MouseFlower style={styles.imgStyle} />
+              <Text style={styles.captionText}> {topic.name} </Text>
+              <Text style={styles.lessonText}> Lesson Title </Text>
+            </TouchableOpacity>
+          </View>
+        );
+        */
