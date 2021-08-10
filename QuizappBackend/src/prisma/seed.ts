@@ -143,8 +143,8 @@ const createQuizzes = async () => {
   const num_topics = topics.length;
 
   for(var i = 1; i < num_topics; i ++){
-    // THE FIRST TOPIC AND EVERY 10TH TOPIC ARE UNLOCKED
-    if(i == 1 || i % 10 == 1 ){
+    // THE FIRST TOPIC IS UNLOCKED
+    if(i == 1){
       await prisma.quizResult.create({
         data:{
           userId: 1,
@@ -165,4 +165,6 @@ const createQuizzes = async () => {
       })
     }
   }
+
+  console.log("Created quizzes");
 }
