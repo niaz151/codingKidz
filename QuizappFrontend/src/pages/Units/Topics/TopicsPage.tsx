@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import {Topic, Unit} from '../../../utils';
+import {QuizResult, Topic, Unit} from '../../../utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -8,20 +8,16 @@ import {
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
-import {getQuizzes} from '../../Units/Quiz/quizSlice';
 import {useAppDispatch, useAppSelector} from '../../../ducks/store';
+import axios from 'axios';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
 const TopicsPage = (props: Props) => {
   const {route, navigation} = props;
   const {unit} = route.params;
-  const dispatch = useAppDispatch();
-  const quizData = useAppSelector((state:any) => state.quizReducer.quizzes);
-  const quizDataStatus = useAppSelector((state:any) => state.quizReducer.status,);
-
-
-  var unit_id = unit.id;
+  const quizData: QuizResult[] = [];
+  const [quizDataState, setQuizDataState] = useState<QuizResult[] | null>(null);
   var unit_quoted = JSON.stringify(unit.name);
   var unit_unquoted = JSON.parse(unit_quoted);
 
@@ -29,6 +25,14 @@ const TopicsPage = (props: Props) => {
 
   const TopicTile = (_props: {topic: Topic; unit: Unit}) => {
     const {topic, unit} = _props;
+
+    if (quizDataState != null){
+      unit.topics?.map( (topic) => {
+        console.log(quizDataState)
+      })
+      console.log(' = = = =')
+    }
+
     return (
       <View style={styles.topicTileContainer}>
         <TouchableOpacity
@@ -48,12 +52,21 @@ const TopicsPage = (props: Props) => {
   };
 
   useEffect(() => {
-    if (quizDataStatus === 'idle') {
-      dispatch(getQuizzes({}));
-    }
-  }, [dispatch, quizDataStatus]);
-
-  console.log("Quiz Data: ", quizData)
+    unit.topics?.map(async (topic) => {
+      axios
+        .get<QuizResult[]>(
+          `http://localhost:8000/api/language/topic/${topic.id}/getQuizResults`,
+        )
+        .then((response) => {
+          // @ts-expect-error:
+          var data = response.data.quizData;
+          quizData.push(data);
+        })
+        .then((res) => {
+          setQuizDataState(quizData);
+        });
+    });
+  }, []);
 
   return (
     <View style={styles.containerStyle}>

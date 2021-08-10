@@ -141,7 +141,6 @@ const createQuizzes = async () => {
   
   const topics = await prisma.topic.findMany();
   const num_topics = topics.length;
-  console.log(num_topics, " Topics Generated.")
 
   for(var i = 1; i < num_topics; i ++){
     // THE FIRST TOPIC AND EVERY 10TH TOPIC ARE UNLOCKED

@@ -196,8 +196,7 @@ languageRouter
 
 
   languageRouter.get(
-    "/:languageId/unit/:unitId/topic/:topicId/getQuizResults",
-    param("languageId").custom(LanguageValidator.isValidLanguageID),
+    "/topic/:topicId/getQuizResults",
     ErrorMiddleware.checkForValidationErrors,
     QuizController.getQuizScoresByTopicId
   )

@@ -1,20 +1,22 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {Text, View, ScrollView, Alert} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Unit} from '../../utils';
+import {Unit, Topic} from '../../utils';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
+import {useAppDispatch, useAppSelector} from '../../ducks/store';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
 export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
-
+  const dispatch = useAppDispatch();
+  
   var title_quoted = JSON.stringify(language.name);
   var title = JSON.parse(title_quoted);
 

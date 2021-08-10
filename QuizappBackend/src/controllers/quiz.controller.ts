@@ -22,7 +22,6 @@ const getQuizScoresByUserId = async (req:Request, res: Response, next: NextFunct
     const { userId } = req.params;
 
     const quizData = await QuizService.getQuizScoresByUserId(Number(userId));
-    console.log(quizData)
     return res.status(200).json({
       message: "Fetched Quiz Scores Via User Id",
       quizData: quizData?.quizResults
