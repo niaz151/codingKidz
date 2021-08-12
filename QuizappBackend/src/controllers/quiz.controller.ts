@@ -48,7 +48,7 @@ const convertToEnum = (status:string) => {
 
 const updateQuizScores = async (req:Request, res: Response, next: NextFunction) => {
   try {
-    const { quizId, status, grade } = req.params;
+    const { quizId, grade, status } = req.params;
     const typedStatus = convertToEnum(status)
     const quizData = await QuizService.updateQuizScores(Number(quizId), typedStatus, Number(grade))
     

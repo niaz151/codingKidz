@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity, Animated} from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -7,12 +7,29 @@ import {
 import Rocket from "../../../assets/images/rocket.svg";
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './../UnitsStack';
+import axios from 'axios';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
 export const PassedQuiz = (props: Props) => {
   const {navigation, route} = props;
-  const {numberQuestions, numberCorrect, unit} = route.params;
+  const {numberQuestions, numberCorrect, unit, topic} = route.params;
+
+  console.log("Topic Quiz Data: " , topic)
+  
+/*  useEffect(() => {
+    axios
+      .post(
+        `http://localhost:8000/api/quiz/${quizId}/updateQuiz/${grade}/${status}`,
+        {
+          
+        }
+      )
+      .then((response) => {
+        
+      })
+  },[]);
+*/  
 
   return(
     <View style={styles.container}>

@@ -200,6 +200,12 @@ languageRouter
     ErrorMiddleware.checkForValidationErrors,
     QuizController.getQuizScoresByTopicId
   )
+  
+  languageRouter.post(
+    "/quiz/:quizId/updateQuiz/:grade/:status",
+    ErrorMiddleware.checkForValidationErrors,
+    QuizController.updateQuizScores
+  )
 
 export default languageRouter;
 

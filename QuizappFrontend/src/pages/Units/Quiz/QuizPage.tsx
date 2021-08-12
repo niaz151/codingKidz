@@ -5,7 +5,6 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {StyleSheet, Text, View, Image} from 'react-native';
-import {Button} from 'react-native-paper';
 import {
   MultipleChoiceQuestion,
   shuffleArray,
@@ -80,7 +79,8 @@ export const QuizPage = (props: Props) => {
     navigation.navigate('PassedQuiz', {
         numberQuestions: questionNum,
         numberCorrect: score,
-        unit: unit
+        unit: unit,
+        topic: topic
     })
   }
 

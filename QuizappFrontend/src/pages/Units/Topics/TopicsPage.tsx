@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import {QuizResult, Topic, Unit} from '../../../utils';
+import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
+import {Topic, Unit} from '../../../utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -9,9 +9,8 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from '../UnitsStack';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
 import MouseFlowerLocked from '../../../assets/images/mouse_flower_locked.svg';
-//ADD A MOUSE FLOWER COMPLETED IMAGE
-import axios from 'axios';
-import { QuizResultStatus } from '../../../utils/Models';
+import MouseFlowerCompleted from '../../../assets/images/mouse_flower_completed.svg';
+import {QuizResultStatus} from '../../../utils/Models';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
@@ -22,22 +21,17 @@ const TopicsPage = (props: Props) => {
   var unit_unquoted = JSON.parse(unit_quoted);
   navigation.setOptions({headerTitle: unit_unquoted});
 
-  const TopicTile = (_props: {topic: Topic; unit: Unit,}) => {
+  const TopicTile = (_props: {topic: Topic; unit: Unit}) => {
     const {topic, unit} = _props;
     var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
     var output: any = <View></View>;
-  
+
     const LockedMouse = () => {
       return (
         <View style={styles.topicTileContainer}>
           <TouchableOpacity
             style={styles.opacityStyle}
-            onPress={() =>
-              navigation.navigate('Quiz', {
-                topic: topic,
-                unit: unit,
-              })
-            }>
+            onPress={() => Alert.alert('Topic is Locked')}>
             <MouseFlowerLocked style={styles.imgStyle} />
             <Text style={styles.captionText}> {topic.name} </Text>
             <Text style={styles.lessonText}> Lesson Title </Text>
@@ -45,7 +39,7 @@ const TopicsPage = (props: Props) => {
         </View>
       );
     };
-  
+
     const PendingMouse = () => {
       return (
         <View style={styles.topicTileContainer}>
@@ -64,7 +58,7 @@ const TopicsPage = (props: Props) => {
         </View>
       );
     };
-  
+
     const CompletedMouse = () => {
       return (
         <View style={styles.topicTileContainer}>
@@ -76,38 +70,28 @@ const TopicsPage = (props: Props) => {
                 unit: unit,
               })
             }>
-            <MouseFlower style={styles.imgStyle} />
+            <MouseFlowerCompleted style={styles.imgStyle} />
             <Text style={styles.captionText}> {topic.name} </Text>
             <Text style={styles.lessonText}> Lesson Title </Text>
           </TouchableOpacity>
         </View>
       );
     };
-  
+
     useEffect(() => {
-      axios
-        .get<QuizResult[]>(
-          `http://localhost:8000/api/language/topic/${topic.id}/getQuizResults`,
-        )
-        .then((response) => {
-          // @ts-expect-error:
-          var data = response.data.quizData;
-          setQuizStatus(data[0].status);
-          console.log("Setting Quiz Status: ", data[0].status)
-        })
-    },[]);
-  
-    console.log("render")
-    
-    switch(quizStatus){
+      // @ts-expect-error
+      setQuizStatus(topic.quizResults[0].status);
+    }, []);
+
+    switch (quizStatus) {
       case QuizResultStatus.PENDING:
-        return <PendingMouse/>
+        return <PendingMouse />;
       case QuizResultStatus.LOCKED:
-        return <LockedMouse/>
+        return <LockedMouse />;
       case QuizResultStatus.COMPLETED:
-        return <CompletedMouse/>
+        return <CompletedMouse />;
       default:
-        return <View></View>
+        return <View></View>;
     }
   };
 
@@ -115,13 +99,12 @@ const TopicsPage = (props: Props) => {
     <View style={styles.containerStyle}>
       <ScrollView contentContainerStyle={styles.topicListContainer}>
         {unit.topics?.map((topic) => {
-          return <TopicTile topic={topic} key={topic.id} unit={unit}/>;
+          return <TopicTile topic={topic} key={topic.id} unit={unit} />;
         })}
       </ScrollView>
     </View>
   );
 };
-
 
 export default TopicsPage;
 

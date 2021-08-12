@@ -12,7 +12,7 @@ export type UnitsStackParamList = {
   Units: {language: Language};
   Topics: {unit: Unit};
   Quiz: {topic: Topic,  unit: Unit};
-  PassedQuiz: {numberQuestions: number, numberCorrect: number, unit: Unit},
+  PassedQuiz: {numberQuestions: number, numberCorrect: number, unit: Unit, topic: Topic},
   FailedQuiz: {unit: Unit}
 };
 

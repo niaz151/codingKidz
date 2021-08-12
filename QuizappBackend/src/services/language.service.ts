@@ -18,6 +18,7 @@ const getLanguages = async () => {
             include: {
               multipleChoiceQuestions: true,
               trueFalseQuestions: true,
+              quizResults: true
             },
           },
         },

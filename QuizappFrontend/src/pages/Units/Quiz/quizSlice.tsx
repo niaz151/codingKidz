@@ -49,6 +49,7 @@ const getQuizzes = createAsyncThunk<
     );
 });
 
+
 const quizSlice = createSlice({
   name: 'quizData',
   initialState,

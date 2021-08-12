@@ -16,7 +16,7 @@ export type User = {
   password: string;
   roles: Role[];
   profile?: Profile;
-  quizResults: QuizResult[]
+  quizResults?: QuizResult[]
 };
 
 export type Profile = {
@@ -54,7 +54,7 @@ export type Topic = {
   number: number;
   multipleChoiceQuestions?: MultipleChoiceQuestion[];
   trueFalseQuestions?: TrueFalseQuestion[];
-  quizResults: QuizResult[]
+  quizResults?: QuizResult[]
 };
 
 type Question = {
