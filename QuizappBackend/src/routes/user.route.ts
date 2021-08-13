@@ -31,7 +31,7 @@ userRouter.get(
 )
 
 userRouter.post(
-  "/:userId/quizScores/update/:quizId/:status/:grade",
+  "/:userId/quizScores/topic/:topicId/update/quiz/:quizId/:grade/:status",
   param("userId").custom(UserValidator.isValidUserID),
   ErrorMiddleware.checkForValidationErrors,
   QuizController.updateQuizScores

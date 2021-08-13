@@ -32,14 +32,14 @@ const getQuizScoresByUserId = async (req:Request, res: Response, next: NextFunct
 }
 
 const convertToEnum = (status:string) => {
-  if (status === "passed"){
+  if (status === 'COMPLETED'){
     return "COMPLETED";
   }
-  if (status === "failed"){
+  if (status === 'PENDING'){
     return "PENDING";
   }
-  if (status === "pending"){
-    return "PENDING";
+  if (status === 'LOCKED'){
+    return "LOCKED";
   }
   else{
     return "LOCKED"
@@ -48,9 +48,9 @@ const convertToEnum = (status:string) => {
 
 const updateQuizScores = async (req:Request, res: Response, next: NextFunction) => {
   try {
-    const { quizId, grade, status } = req.params;
+    const { userId, topicId, quizId, grade, status } = req.params;
     const typedStatus = convertToEnum(status)
-    const quizData = await QuizService.updateQuizScores(Number(quizId), typedStatus, Number(grade))
+    const quizData = await QuizService.updateQuizScores(Number(userId), Number(topicId), Number(quizId), typedStatus, Number(grade))
     
     return res.status(200).json({
       message: "Updated Quiz Scores",

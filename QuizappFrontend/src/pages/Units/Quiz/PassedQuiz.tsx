@@ -7,29 +7,28 @@ import {
 import Rocket from "../../../assets/images/rocket.svg";
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './../UnitsStack';
-import axios from 'axios';
+import {udpateQuizData} from './quizSlice';
+import {useAppDispatch, useAppSelector} from '../../../ducks/store';
+import {TokenService} from '../../../services';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
 export const PassedQuiz = (props: Props) => {
   const {navigation, route} = props;
   const {numberQuestions, numberCorrect, unit, topic} = route.params;
-
-  console.log("Topic Quiz Data: " , topic)
-  
-/*  useEffect(() => {
-    axios
-      .post(
-        `http://localhost:8000/api/quiz/${quizId}/updateQuiz/${grade}/${status}`,
-        {
-          
-        }
-      )
-      .then((response) => {
-        
-      })
-  },[]);
-*/  
+  const score = Math.round(((numberCorrect / numberQuestions) * 100));
+  const dispatch = useAppDispatch();
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  const {id} = TokenService.readToken(accessToken);
+ 
+  var user_id = id;
+  var topic_id = topic.id;
+  // @ts-expect-error
+  var quiz_id = topic.quizResults[0].id;
+  // @ts-expect-error
+  var status = topic.quizResults[0].status;
+  // @ts-expect-error
+  var grade = topic.quizResults[0].grade;
 
   return(
     <View style={styles.container}>
@@ -38,11 +37,11 @@ export const PassedQuiz = (props: Props) => {
         <View style={styles.topTextContainer}>
           <Text style={styles.largerText}> CONGRATS! </Text>
           <View style={styles.smallerTextWrap}>
-            <Text style={styles.smallerText}> SCORE: {numberCorrect} / {numberQuestions} </Text>
+            <Text style={styles.smallerText}> SCORE: {score}% </Text>
             <Text style={styles.smallerText}> CORRECT ANSWERS </Text>  
           </View>     
         </View>
-      </View>    
+      </View>     
       <View style={styles.bottomContainer}>
           <TouchableOpacity style={styles.backContainer} onPress={() =>
             navigation.navigate("Topics",{unit: unit})
