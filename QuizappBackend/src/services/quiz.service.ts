@@ -3,12 +3,14 @@ import { db } from "../prisma";
 
 
 const updateQuizScores = async (userId:QuizResult["userId"], topicId:QuizResult["topicId"], quizId: QuizResult["id"], status: QuizResult["status"], grade: QuizResult["grade"]) => {
-  return await db.quizResult.update({
+  return await db.quizResult.updateMany({
     where: { 
       id: quizId,
+      userId: userId,
+      topicId: topicId
       //topicId: topicId  ADD FILTERING BY TOPIC ID AND USER ID 
     },
-    data: {
+    data: { 
       status: status,
       grade: grade
     },

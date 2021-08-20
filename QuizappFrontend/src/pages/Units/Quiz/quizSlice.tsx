@@ -68,8 +68,9 @@ const udpateQuizData = createAsyncThunk(
   'quizzes/updateQuiz',
   async ({user_id, topic_id, quiz_id, grade, status}: {user_id: number; topic_id: number; quiz_id:number; grade: number, status: QuizResultStatus}, thunkAPI) => {
     var string_status = convertToString(status);
+    console.log(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${grade}/${string_status}`)
     return await axios
-      .post(`http://localhost:8000/api/user/${user_id}/topic/${topic_id}/update/quiz/${quiz_id}/${grade}/${string_status}`, {
+      .post(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${grade}/${string_status}`, {
         user_id: user_id,
         topic_id: topic_id,
         quiz_id: quiz_id,
@@ -84,7 +85,7 @@ const udpateQuizData = createAsyncThunk(
           return {
             data: String(response.data),
           };
-        },
+        },             
         (error: AxiosError) => {
           console.log('REJECTING UPDATE QUIZ', error);
           // TODO: THE BELOW LINE CREATES A NON-SERIALIZABLE ERROR

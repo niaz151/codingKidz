@@ -51,7 +51,7 @@ const updateQuizScores = async (req:Request, res: Response, next: NextFunction) 
     const { userId, topicId, quizId, grade, status } = req.params;
     const typedStatus = convertToEnum(status)
     const quizData = await QuizService.updateQuizScores(Number(userId), Number(topicId), Number(quizId), typedStatus, Number(grade))
-    
+    console.log("Quiz Data: ", quizData)
     return res.status(200).json({
       message: "Updated Quiz Scores",
       quizData: quizData  

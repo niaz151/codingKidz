@@ -7,7 +7,7 @@ import {
 import Rocket from "../../../assets/images/rocket.svg";
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './../UnitsStack';
-import {udpateQuizData} from './quizSlice';
+import {getQuizzes, udpateQuizData} from './quizSlice';
 import {useAppDispatch, useAppSelector} from '../../../ducks/store';
 import {TokenService} from '../../../services';
 
@@ -20,7 +20,11 @@ export const PassedQuiz = (props: Props) => {
   const dispatch = useAppDispatch();
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   const {id} = TokenService.readToken(accessToken);
- 
+  const quizDataStatus = useAppSelector(
+    (state) => state.quizReducer.status,
+  );
+
+ console.log("Status :", quizDataStatus)
   var user_id = id;
   var topic_id = topic.id;
   // @ts-expect-error
@@ -29,6 +33,13 @@ export const PassedQuiz = (props: Props) => {
   var status = topic.quizResults[0].status;
   // @ts-expect-error
   var grade = topic.quizResults[0].grade;
+
+  useEffect(() => {
+    if (quizDataStatus === 'idle') {
+      console.log("Console Log Effect", topic.quizResults)
+      dispatch(udpateQuizData({user_id, topic_id, quiz_id, status, grade}));
+    }
+  }, [dispatch, quizDataStatus]);
 
   return(
     <View style={styles.container}>

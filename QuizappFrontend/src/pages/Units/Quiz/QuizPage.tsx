@@ -23,7 +23,7 @@ export const QuizPage = (props: Props) => {
   const {navigation, route} = props;
   const {topic, unit} = route.params;
   const {multipleChoiceQuestions, trueFalseQuestions} = topic;
-  const [lives, setLives] = useState(3);
+  const [lives, setLives] = useState(5);
   const [questionNum, setQuestionNum] = useState(0);
   const [score, setScore] = useState(0);
 
