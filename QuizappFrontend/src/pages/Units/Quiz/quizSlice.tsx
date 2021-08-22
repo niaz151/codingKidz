@@ -68,6 +68,7 @@ const udpateQuizData = createAsyncThunk(
   'quizzes/updateQuiz',
   async ({user_id, topic_id, quiz_id, grade, status}: {user_id: number; topic_id: number; quiz_id:number; grade: number, status: QuizResultStatus}, thunkAPI) => {
     var string_status = convertToString(status);
+    console.log("String Status :", string_status)
     console.log(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${grade}/${string_status}`)
     return await axios
       .post(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${grade}/${string_status}`, {
@@ -79,9 +80,6 @@ const udpateQuizData = createAsyncThunk(
       })
       .then(
         async (response) => {
-          await TokenService.storeRefreshTokenInStorage(
-            response.data.refreshToken,
-          );
           return {
             data: String(response.data),
           };
@@ -128,6 +126,7 @@ const quizSlice = createSlice({
     });
     builder.addCase(udpateQuizData.rejected, (state, _action) => {
       state.error = null;
+      state.error = _action.error.message ?? 'Unknown login error';
       state.status = 'failed';
     })
   },

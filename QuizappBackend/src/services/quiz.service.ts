@@ -23,6 +23,7 @@ const getQuizScoresByUserId = async (userId: User["id"]) => {
       id: userId,
     }, 
     include: {
+      // doesn't return all quiz results
       quizResults: true,
     }
   })

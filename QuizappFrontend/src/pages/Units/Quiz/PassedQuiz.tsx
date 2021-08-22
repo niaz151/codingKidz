@@ -10,6 +10,7 @@ import {UnitsStackParamList} from './../UnitsStack';
 import {getQuizzes, udpateQuizData} from './quizSlice';
 import {useAppDispatch, useAppSelector} from '../../../ducks/store';
 import {TokenService} from '../../../services';
+import { QuizResultStatus } from '../../../utils/Models';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
@@ -25,16 +26,17 @@ export const PassedQuiz = (props: Props) => {
   );
 
  console.log("Status :", quizDataStatus)
+ console.log("Results :", topic.quizResults)
   var user_id = id;
   var topic_id = topic.id;
   // @ts-expect-error
   var quiz_id = topic.quizResults[0].id;
-  // @ts-expect-error
-  var status = topic.quizResults[0].status;
+  var status = QuizResultStatus.COMPLETED;
   // @ts-expect-error
   var grade = topic.quizResults[0].grade;
 
   useEffect(() => {
+    console.log("==================================================")
     if (quizDataStatus === 'idle') {
       console.log("Console Log Effect", topic.quizResults)
       dispatch(udpateQuizData({user_id, topic_id, quiz_id, status, grade}));
