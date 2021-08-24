@@ -16,10 +16,9 @@ type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
 const TopicsPage = (props: Props) => {
   const {route, navigation} = props;
-  const {unit} = route.params;
-  var unit_quoted = JSON.stringify(unit.name);
-  var unit_unquoted = JSON.parse(unit_quoted);
-  navigation.setOptions({headerTitle: unit_unquoted});
+  const {unitId, unitName} = route.params;
+  var unit_quoted = unitName;
+  navigation.setOptions({headerTitle: unit_quoted});
 
   const TopicTile = (_props: {topic: Topic; unit: Unit}) => {
     const {topic, unit} = _props;

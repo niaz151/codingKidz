@@ -6,15 +6,21 @@ import {QuizPage} from './Quiz/QuizPage';
 import {PassedQuiz} from './Quiz/PassedQuiz';
 import {FailedQuiz} from './Quiz/FailedQuiz';
 import {useNavigation} from '@react-navigation/native';
-import {Language, Topic, Unit} from '../../utils';
+import {Language, Topic, Unit, User} from '../../utils';
 
 export type UnitsStackParamList = {
   Units: {language: Language};
-  Topics: {unit: Unit};
-  Quiz: {topic: Topic,  unit: Unit};
-  PassedQuiz: {numberQuestions: number, numberCorrect: number, unit: Unit, topic: Topic},
-  FailedQuiz: {unit: Unit}
+  Topics: {unitId: number, unitName: string, userId: number};
+  Quiz: {topicId: number,  unitId: number, userId: number};
+  PassedQuiz: {numberQuestions: number, numberCorrect: number, unitId: number, topicId: number, userId: number},
+  FailedQuiz: {unitId: number, userId: number}
 };
+
+// home -> languages
+// languages id -> unit
+// unit id -> topics ..... pull in topic idea data instead of using the one passed in from props
+// quiz
+//
 
 const Stack = createStackNavigator<UnitsStackParamList>();
 
