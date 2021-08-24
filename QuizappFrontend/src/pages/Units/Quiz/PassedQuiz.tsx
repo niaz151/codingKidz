@@ -7,10 +7,11 @@ import {
 import Rocket from "../../../assets/images/rocket.svg";
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './../UnitsStack';
-import {getQuizzes, udpateQuizData} from './quizSlice';
+import {udpateQuizData} from './quizSlice';
 import {useAppDispatch, useAppSelector} from '../../../ducks/store';
 import {TokenService} from '../../../services';
 import { QuizResultStatus } from '../../../utils/Models';
+import {forceReload, getLanguages} from '../languagesSlice';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
@@ -43,6 +44,11 @@ export const PassedQuiz = (props: Props) => {
     }
   }, [dispatch, quizDataStatus]);
 
+  const handlePress = () => {
+    dispatch(getLanguages({}));
+    navigation.navigate("Topics",{unit: unit})
+  }
+
   return(
     <View style={styles.container}>
       <Rocket style={styles.rocket} />
@@ -56,9 +62,7 @@ export const PassedQuiz = (props: Props) => {
         </View>
       </View>     
       <View style={styles.bottomContainer}>
-          <TouchableOpacity style={styles.backContainer} onPress={() =>
-            navigation.navigate("Topics",{unit: unit})
-          }>
+          <TouchableOpacity style={styles.backContainer} onPress={handlePress}>
             <Text style={styles.bottomText}> BACK TO LESSONS </Text>
           </TouchableOpacity>
       </View>

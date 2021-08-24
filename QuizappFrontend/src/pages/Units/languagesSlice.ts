@@ -54,7 +54,8 @@ const getLanguages = createAsyncThunk<
 const unitsSlice = createSlice({
   name: 'languages',
   initialState,
-  reducers: {},
+  reducers: {
+  },
   extraReducers: (builder) => {
     builder.addCase(getLanguages.pending, (state, _action) => {
       state.error = null;
@@ -76,4 +77,4 @@ const unitsSlice = createSlice({
 });
 
 export default unitsSlice.reducer;
-export {getLanguages};
+export {getLanguages };
