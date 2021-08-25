@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { body, param } from "express-validator";
 import { AuthMiddleware, ErrorMiddleware, UserMiddleware } from "../middleware";
-import { UserController, QuizController } from "../controllers";
+import { UserController, QuizController, TopicController } from "../controllers";
 import { UserValidator } from "../validators";
 
 const userRouter = Router();
@@ -14,7 +14,7 @@ userRouter.get(
   ErrorMiddleware.checkForValidationErrors,
   UserController.getProfile
 );
-
+ 
 userRouter.post(
   "/:userId/profile/avatar",
   param("userId").custom(UserValidator.isValidUserID),

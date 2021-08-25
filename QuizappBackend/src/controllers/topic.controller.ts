@@ -28,8 +28,11 @@ const listTopicsByUnitID = async (
 ) => {
   try {
     const { unitId } = req.params;
-
-    return await TopicService.listTopicsByUnitID(Number(unitId));
+    const data = await TopicService.listTopicsByUnitID(Number(unitId));
+    return res.status(200).json({
+      message: "Fetched profile",
+      topics: data
+    });
   } catch (error) {
     return next(error);
   }

@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import { body, param } from "express-validator";
 import { AuthMiddleware, ErrorMiddleware } from "../middleware";
 import {
@@ -6,10 +6,12 @@ import {
   QuestionController,
   TopicController,
   UnitController,
-  QuizController
+  QuizController,
 } from "../controllers";
 
 import { LanguageValidator } from "../validators";
+import { TopicService } from "../services";
+import { db } from "../prisma";
 
 const languageRouter = Router();
 
@@ -87,21 +89,6 @@ languageRouter
   )
   // Delete unit and related topics and questions
   .delete(UnitController.deleteUnit);
-
-languageRouter
-  .route("/:languageId/unit/:unitId/topic/")
-  .all(
-    param("languageId").custom(LanguageValidator.isValidLanguageID),
-    param("unitId").custom(LanguageValidator.isValidUnitID),
-    ErrorMiddleware.checkForValidationErrors
-  )
-  .get(TopicController.listTopicsByUnitID)
-  .post(
-    body("name").isAlphanumeric(),
-    body("number").isNumeric(),
-    ErrorMiddleware.checkForValidationErrors,
-    TopicController.createTopic
-  );
 
 languageRouter
   .route("/:languageId/unit/:unitId/topic/:topicId")
@@ -194,18 +181,22 @@ languageRouter
   // Delete question
   .delete(QuestionController.deleteQuestion);
 
+languageRouter.get(
+  "/topic/:topicId/getQuizResults",
+  ErrorMiddleware.checkForValidationErrors,
+  QuizController.getQuizScoresByTopicId
+);
 
-  languageRouter.get(
-    "/topic/:topicId/getQuizResults",
-    ErrorMiddleware.checkForValidationErrors,
-    QuizController.getQuizScoresByTopicId
-  )
-  
-  languageRouter.post(
-    "/quiz/:quizId/updateQuiz/:grade/:status",
-    ErrorMiddleware.checkForValidationErrors,
-    QuizController.updateQuizScores
-  )
+languageRouter.post(
+  "/quiz/:quizId/updateQuiz/:grade/:status",
+  ErrorMiddleware.checkForValidationErrors,
+  QuizController.updateQuizScores
+);
+
+languageRouter.get(
+  "/unit/:unitId/topic", 
+  ErrorMiddleware.checkForValidationErrors,
+  TopicController.listTopicsByUnitID
+);
 
 export default languageRouter;
-
