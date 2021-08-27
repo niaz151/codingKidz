@@ -21,7 +21,6 @@ export const UnitsPage = (props: Props) => {
   var title_quoted = JSON.stringify(language.name);
   var title = JSON.parse(title_quoted);
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  const {id} = TokenService.readToken(accessToken);
 
   navigation.setOptions({headerTitle: title})
 
@@ -89,7 +88,6 @@ export const UnitsPage = (props: Props) => {
             navigation.navigate('Topics', {
               unitId: unitId,
               unitName: unitName,
-              userId: id
             })
           }
           style={styles.touchableStyles}>

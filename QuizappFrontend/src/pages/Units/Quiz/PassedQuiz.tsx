@@ -11,42 +11,45 @@ import {udpateQuizData} from './quizSlice';
 import {useAppDispatch, useAppSelector} from '../../../ducks/store';
 import {TokenService} from '../../../services';
 import { QuizResultStatus } from '../../../utils/Models';
-import {forceReload, getLanguages} from '../languagesSlice';
+import {getLanguages} from '../languagesSlice';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
 export const PassedQuiz = (props: Props) => {
   const {navigation, route} = props;
-  const {numberQuestions, numberCorrect, unit, topic} = route.params;
+  const {numberQuestions, numberCorrect, unitId, topicId, unitName, topic} = route.params;
   const score = Math.round(((numberCorrect / numberQuestions) * 100));
   const dispatch = useAppDispatch();
-  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  const {id} = TokenService.readToken(accessToken);
   const quizDataStatus = useAppSelector(
     (state) => state.quizReducer.status,
   );
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  // @ts-ignore
+  const {id} = TokenService.readToken(accessToken);
 
- console.log("Status :", quizDataStatus)
- console.log("Results :", topic.quizResults)
+
+
+  var topic_id = topicId;
   var user_id = id;
-  var topic_id = topic.id;
-  // @ts-expect-error
+ 
+  //@ts-expect-error
   var quiz_id = topic.quizResults[0].id;
   var status = QuizResultStatus.COMPLETED;
   // @ts-expect-error
   var grade = topic.quizResults[0].grade;
 
   useEffect(() => {
-    console.log("==================================================")
     if (quizDataStatus === 'idle') {
-      console.log("Console Log Effect", topic.quizResults)
       dispatch(udpateQuizData({user_id, topic_id, quiz_id, status, grade}));
     }
   }, [dispatch, quizDataStatus]);
 
   const handlePress = () => {
     dispatch(getLanguages({}));
-    navigation.navigate("Topics",{unit: unit})
+    navigation.navigate("Topics",{
+      unitId: unitId,
+      unitName: unitName
+    })
   }
 
   return(

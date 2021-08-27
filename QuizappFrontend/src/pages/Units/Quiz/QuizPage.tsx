@@ -21,9 +21,8 @@ type Props = StackScreenProps<UnitsStackParamList, 'Quiz'>;
 
 export const QuizPage = (props: Props) => {
   const {navigation, route} = props;
-  const {topic, unitId, topicId} = route.params;
+  const {topic, unitId, topicId, unitName} = route.params;
   const {multipleChoiceQuestions, trueFalseQuestions} = topic;
-  console.log("Topic: ", topic)
   const [lives, setLives] = useState(3);
   const [questionNum, setQuestionNum] = useState(0);
   const [score, setScore] = useState(0);
@@ -82,12 +81,17 @@ export const QuizPage = (props: Props) => {
         numberQuestions: questionNum,
         numberCorrect: score,
         unitId: unitId,
-        topicId: topicId
+        topicId: topicId,
+        unitName: unitName,
+        topic: topic
     })
   }
 
   if(lives <= 0){
-    navigation. navigate('FailedQuiz',{unitId:unitId});
+    navigation. navigate('FailedQuiz',{
+      unitId:unitId, 
+      unitName: unitName
+    });
   }
 
   if(lives > 0 && questionNum < selectedQuestions.length){

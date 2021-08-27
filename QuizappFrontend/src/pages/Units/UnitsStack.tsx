@@ -10,10 +10,10 @@ import {Language, Topic, Unit, User} from '../../utils';
 
 export type UnitsStackParamList = {
   Units: {language: Language};
-  Topics: {unitId: number, unitName: string, userId: number};
-  Quiz: {topicId: number,  unitId: number, topic: Topic};
-  PassedQuiz: {numberQuestions: number, numberCorrect: number, unitId: number, topicId: number},
-  FailedQuiz: {unitId: number}
+  Topics: {unitId: number, unitName: string};
+  Quiz: {topicId: number,  unitId: number, topic: Topic, unitName: string};
+  PassedQuiz: {numberQuestions: number, numberCorrect: number, unitId: number, topicId: number, topic: Topic, unitName: string},
+  FailedQuiz: {unitId: number, unitName: string}
 };
 
 // home -> languages

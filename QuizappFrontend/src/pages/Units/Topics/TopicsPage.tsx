@@ -42,15 +42,15 @@ const TopicsPage = (props: Props) => {
     var topic_data_parsed = JSON.parse(topicData!)
     for(var i = 0; i < topic_data_parsed.length; i ++){
       output.push(
-        <TopicTile unitId={unitId} topic={topic_data_parsed[i]} key={i} />
+        <TopicTile unitId={unitId} unitName={unitName} topic={topic_data_parsed[i]} key={i} />
       )
     }
     return output;
   }
 
 
-  const TopicTile = (_props: {topic: Topic; unitId: number, topicId: number}) => {
-    const {topic, unitId} = _props;
+  const TopicTile = (_props: {topic: Topic; unitId: number, unitName: string}) => {
+    const {topic, unitId, unitName} = _props;
     var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
     var output: any = <View></View>;
 
@@ -78,6 +78,7 @@ const TopicsPage = (props: Props) => {
                 topicId: topic.id,
                 unitId: unitId,
                 topic: topic,
+                unitName: unitName
               })
             }>
             <MouseFlower style={styles.imgStyle} />
@@ -98,6 +99,7 @@ const TopicsPage = (props: Props) => {
                 topicId: topic.id,
                 unitId: unitId,
                 topic: topic,
+                unitName: unitName
               })
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />
