@@ -32,6 +32,8 @@ const listTopicsByUnitID = async (unitId: Unit["id"]) => {
     include:{
       unit: true,
       quizResults: true,
+      multipleChoiceQuestions: true,
+      trueFalseQuestions: true
     }
   });
 };

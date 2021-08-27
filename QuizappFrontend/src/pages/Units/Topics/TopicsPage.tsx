@@ -49,7 +49,7 @@ const TopicsPage = (props: Props) => {
   }
 
 
-  const TopicTile = (_props: {topic: Topic; unitId: number}) => {
+  const TopicTile = (_props: {topic: Topic; unitId: number, topicId: number}) => {
     const {topic, unitId} = _props;
     var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
     var output: any = <View></View>;
@@ -77,6 +77,7 @@ const TopicsPage = (props: Props) => {
               navigation.navigate('Quiz', {
                 topicId: topic.id,
                 unitId: unitId,
+                topic: topic,
               })
             }>
             <MouseFlower style={styles.imgStyle} />
@@ -96,6 +97,7 @@ const TopicsPage = (props: Props) => {
               navigation.navigate('Quiz', {
                 topicId: topic.id,
                 unitId: unitId,
+                topic: topic,
               })
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />

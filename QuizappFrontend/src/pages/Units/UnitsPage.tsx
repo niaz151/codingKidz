@@ -67,7 +67,6 @@ export const UnitsPage = (props: Props) => {
 
   function renderTiles(){
     var output = []
-    console.log("Unit Data: ", unitData)
     var unit_data_parsed = JSON.parse(unitData!)
     for(var i = 0; i < unit_data_parsed.length; i ++){
       output.push(
