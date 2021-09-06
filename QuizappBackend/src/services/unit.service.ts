@@ -26,14 +26,6 @@ const getUnitByID = async (id: Unit["id"]) => {
 const listUnits = async (languageId: Language["id"]) => {
   return await db.unit.findMany({
     where: { languageId: languageId },
-    include: {
-      topics: {
-        include: {
-          multipleChoiceQuestions: true,
-          trueFalseQuestions: true,
-        },
-      },
-    },
   });
 };
 

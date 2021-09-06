@@ -11,18 +11,46 @@ import MouseFlower from '../../../assets/images/mouse_flower.svg';
 import MouseFlowerLocked from '../../../assets/images/mouse_flower_locked.svg';
 import MouseFlowerCompleted from '../../../assets/images/mouse_flower_completed.svg';
 import {QuizResultStatus} from '../../../utils/Models';
+import axios from 'axios';
+import { useAppSelector } from '../../../ducks/store';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
 const TopicsPage = (props: Props) => {
+  const [topicData, setTopicData] = useState<string | null>();
   const {route, navigation} = props;
-  const {unit} = route.params;
-  var unit_quoted = JSON.stringify(unit.name);
-  var unit_unquoted = JSON.parse(unit_quoted);
-  navigation.setOptions({headerTitle: unit_unquoted});
+  const {unitId, unitName} = route.params;
+  var unit_quoted = unitName;
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+  navigation.setOptions({headerTitle: unit_quoted});
 
-  const TopicTile = (_props: {topic: Topic; unit: Unit}) => {
-    const {topic, unit} = _props;
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/language/unit/${unitId + 1}/topic/`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then( (res) => {
+      const res_topics = res.data.topics
+      setTopicData(JSON.stringify(res_topics));
+    });
+  });
+
+
+  function renderTiles(){
+    var output = []
+    var topic_data_parsed = JSON.parse(topicData!)
+    for(var i = 0; i < topic_data_parsed.length; i ++){
+      output.push(
+        <TopicTile unitId={unitId} unitName={unitName} topic={topic_data_parsed[i]} key={i} />
+      )
+    }
+    return output;
+  }
+
+
+  const TopicTile = (_props: {topic: Topic; unitId: number, unitName: string}) => {
+    const {topic, unitId, unitName} = _props;
     var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
     var output: any = <View></View>;
 
@@ -47,8 +75,10 @@ const TopicsPage = (props: Props) => {
             style={styles.opacityStyle}
             onPress={() =>
               navigation.navigate('Quiz', {
+                topicId: topic.id,
+                unitId: unitId,
                 topic: topic,
-                unit: unit,
+                unitName: unitName
               })
             }>
             <MouseFlower style={styles.imgStyle} />
@@ -66,8 +96,10 @@ const TopicsPage = (props: Props) => {
             style={styles.opacityStyle}
             onPress={() =>
               navigation.navigate('Quiz', {
+                topicId: topic.id,
+                unitId: unitId,
                 topic: topic,
-                unit: unit,
+                unitName: unitName
               })
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />
@@ -95,13 +127,14 @@ const TopicsPage = (props: Props) => {
     }
   };
 
+  // === 
   return (
     <View style={styles.containerStyle}>
-      <ScrollView contentContainerStyle={styles.topicListContainer}>
-        {unit.topics?.map((topic) => {
-          return <TopicTile topic={topic} key={topic.id} unit={unit} />;
-        })}
-      </ScrollView>
+      {topicData? 
+        <ScrollView contentContainerStyle={styles.topicListContainer}>
+          {renderTiles()}
+        </ScrollView>
+        : null}
     </View>
   );
 };

@@ -1,29 +1,28 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios, {AxiosError} from 'axios';
 import {RootState} from '../../ducks/store';
-
 import {TokenService} from '../../services';
-import {Language} from '../../utils';
+import {Language, Unit} from '../../utils';
 
 interface StateType {
-  languages: Language[] | null;
+  units: Unit[] | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: StateType = {
-  languages: null,
+  units: null,
   status: 'idle',
   error: null,
 };
 
-const getLanguages = createAsyncThunk<
-  Language[],
+const getUnits = createAsyncThunk<
+  Unit[],
   {},
   {
     state: RootState;
   }
->('languages/getLanguages', async (_foo, {getState, rejectWithValue}) => {
+>('units/getUnits', async (_foo, {getState, rejectWithValue}) => {
   const {accessToken} = getState().authReducer;
   const userId = accessToken
     ? TokenService.readToken(accessToken).id
@@ -33,6 +32,7 @@ const getLanguages = createAsyncThunk<
     return rejectWithValue('Undefined user id');
   }
 
+  // change the endpoint here
   return await axios
     .get('http://localhost:8000/api/language', {
       headers: {
@@ -41,9 +41,9 @@ const getLanguages = createAsyncThunk<
     })
     .then(
       async (response) => {
-        const languages: Language[] = response.data.languages;
+        const units: Unit[] = response.data.languages;
 
-        return languages;
+        return units;
       },
       (error: AxiosError) => {
         return rejectWithValue(error);
@@ -51,30 +51,30 @@ const getLanguages = createAsyncThunk<
     );
 });
 
-const languageSlice = createSlice({
-  name: 'languages',
+const unitSlice = createSlice({
+  name: 'units',
   initialState,
   reducers: {
   },
   extraReducers: (builder) => {
-    builder.addCase(getLanguages.pending, (state, _action) => {
+    builder.addCase(getUnits.pending, (state, _action) => {
       state.error = null;
       state.status = 'loading';
     });
 
-    builder.addCase(getLanguages.fulfilled, (state, action) => {
-      state.languages = action.payload;
+    builder.addCase(getUnits.fulfilled, (state, action) => {
+      state.units = action.payload;
       state.error = null;
       state.status = 'succeeded';
     });
 
-    builder.addCase(getLanguages.rejected, (state, action) => {
-      state.languages = null;
+    builder.addCase(getUnits.rejected, (state, action) => {
+      state.units = null;
       state.error = action.error.message ?? 'Unknown login error';
       state.status = 'failed';
     });
   },
 });
 
-export default languageSlice.reducer;
-export {getLanguages };
+export default unitSlice.reducer;
+export {getUnits };

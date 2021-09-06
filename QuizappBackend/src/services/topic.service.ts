@@ -29,6 +29,12 @@ const listTopicsByUnitID = async (unitId: Unit["id"]) => {
     where: {
       unitId: unitId,
     },
+    include:{
+      unit: true,
+      quizResults: true,
+      multipleChoiceQuestions: true,
+      trueFalseQuestions: true
+    }
   });
 };
 
@@ -77,7 +83,7 @@ const deleteTopic = async (unitId: Unit["id"], topicId: Topic["id"]) => {
   return completed;
 };
 
-export default {
+ export default {
   createTopic,
   listTopicsByUnitID,
   getTopicByID,

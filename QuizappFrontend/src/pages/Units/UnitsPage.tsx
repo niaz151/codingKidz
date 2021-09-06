@@ -1,24 +1,26 @@
-import React,{useEffect} from 'react';
+import React,{useEffect, useReducer, useState} from 'react';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import {Text, View, ScrollView, Alert} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {Unit, Topic} from '../../utils';
+import {Unit} from '../../utils';
 import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
-import {useAppDispatch, useAppSelector} from '../../ducks/store';
+import {useAppSelector} from '../../ducks/store';
+import axios from 'axios';
+import {TokenService} from '../../services';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
 
 export const UnitsPage = (props: Props) => {
   const {navigation, route} = props;
   const {language} = route.params;
-  const dispatch = useAppDispatch();
-  
+  const [unitData, setUnitData] = useState<string | null>();
   var title_quoted = JSON.stringify(language.name);
   var title = JSON.parse(title_quoted);
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
 
   navigation.setOptions({headerTitle: title})
 
@@ -35,6 +37,18 @@ export const UnitsPage = (props: Props) => {
     '#FF671D',
   ];
 
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/language/${language.id}/unit`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    .then( (res) => {
+      const res_units = res.data.units
+      setUnitData(JSON.stringify(res_units));
+    });
+  });
+
   function getRandomColor(){
     let temp_colors = colors;
     var random_int = getRandomInt(0, temp_colors.length);
@@ -50,8 +64,19 @@ export const UnitsPage = (props: Props) => {
     return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
   }
 
-  const UnitTile = (_props: {unit: Unit}) => {
-    const {unit} = _props;
+  function renderTiles(){
+    var output = []
+    var unit_data_parsed = JSON.parse(unitData!)
+    for(var i = 0; i < unit_data_parsed.length; i ++){
+      output.push(
+        <UnitTile unitId={i} key={i} unitName={'Sample'} />
+      )
+    }
+    return output;
+  }
+
+  const UnitTile = (_props: {unitId: number, unitName: string}) => {
+    const {unitId, unitName} = _props;
     return (
       <View
         style={[
@@ -61,11 +86,12 @@ export const UnitsPage = (props: Props) => {
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Topics', {
-              unit: unit,
+              unitId: unitId,
+              unitName: unitName,
             })
           }
           style={styles.touchableStyles}>
-          <Text style={styles.unitTileText}>{unit.name}</Text>
+          <Text style={styles.unitTileText}>{unitName}</Text>
           <Text style={styles.unitTileIcon}> &#9660; </Text>
         </TouchableOpacity>
       </View>
@@ -79,11 +105,9 @@ export const UnitsPage = (props: Props) => {
           LET'S LEARN {language.name.toUpperCase()}!
         </Text>
       </View>
-      {language ? (
+      {unitData ? (
         <ScrollView contentContainerStyle={styles.unitsList}>
-          {language.units?.map((unit) => {
-            return <UnitTile unit={unit} key={unit.id} />;
-          })}
+          {renderTiles()}
         </ScrollView>
       ) : (
         <View>
