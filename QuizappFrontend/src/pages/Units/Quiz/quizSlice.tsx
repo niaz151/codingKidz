@@ -62,8 +62,6 @@ const convertToString = (status: QuizResultStatus) => {
   }
 }
 
-
-
 const udpateQuizData = createAsyncThunk(
   'quizzes/updateQuiz',
   async ({user_id, topic_id, quiz_id, grade, status}: {user_id: number; topic_id: number; quiz_id:number; grade: number, status: QuizResultStatus}, thunkAPI) => {
@@ -91,6 +89,35 @@ const udpateQuizData = createAsyncThunk(
   },
 );
 
+const updateQuizStatus = createAsyncThunk(
+  'quizzes/updateQuizStatus',
+  async ({user_id, topic_id, quiz_id, status}: {user_id: number; topic_id: number; quiz_id:number; status: QuizResultStatus}, thunkAPI) => {
+    var string_status = convertToString(status);
+    console.log(" ========================================== ")
+    console.log("Running Update Quiz Status")
+    console.log(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${string_status}`)
+    return await axios
+      .post(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${string_status}`, {
+        user_id: user_id,
+        topic_id: topic_id,
+        quiz_id: quiz_id,
+        status: string_status
+      })
+      .then(
+        async (response) => {
+          console.log("Data: ", String(response.data))
+          return {
+            data: String(response.data),
+          };
+        },             
+        (error: AxiosError) => {
+          console.log('REJECTING UPDATE QUIZ', error);
+          // TODO: THE BELOW LINE CREATES A NON-SERIALIZABLE ERROR
+          return thunkAPI.rejectWithValue(error);
+        },
+      );
+  },
+);
 
 
 const quizSlice = createSlice({
@@ -106,7 +133,6 @@ const quizSlice = createSlice({
       state.error = null;
       state.status = 'loading';
     })
-
     builder.addCase(getQuizzes.fulfilled, (state, action) => {
       state.quizzes = action.payload;
       state.error = null;
@@ -116,7 +142,6 @@ const quizSlice = createSlice({
       state.error = null;
       state.status = 'succeeded';
     })
-
     builder.addCase(getQuizzes.rejected, (state, action) => {
       state.quizzes = null;
       state.error = action.error.message ?? 'Unknown login error';
@@ -131,4 +156,4 @@ const quizSlice = createSlice({
 });
 
 export default quizSlice.reducer;
-export {getQuizzes, udpateQuizData};
+export {getQuizzes, udpateQuizData, updateQuizStatus};
