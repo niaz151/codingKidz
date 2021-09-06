@@ -93,9 +93,6 @@ const updateQuizStatus = createAsyncThunk(
   'quizzes/updateQuizStatus',
   async ({user_id, topic_id, quiz_id, status}: {user_id: number; topic_id: number; quiz_id:number; status: QuizResultStatus}, thunkAPI) => {
     var string_status = convertToString(status);
-    console.log(" ========================================== ")
-    console.log("Running Update Quiz Status")
-    console.log(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${string_status}`)
     return await axios
       .post(`http://localhost:8000/api/user/${user_id}/quizScores/topic/${topic_id}/update/quiz/${quiz_id}/${string_status}`, {
         user_id: user_id,
@@ -105,7 +102,6 @@ const updateQuizStatus = createAsyncThunk(
       })
       .then(
         async (response) => {
-          console.log("Data: ", String(response.data))
           return {
             data: String(response.data),
           };
