@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, ScrollView, SafeAreaView, Animated} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, shuffleArray} from '../../../../utils';
-import { Slider } from 'react-native-elements';
+import { Image, Slider } from 'react-native-elements';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -50,7 +50,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
         thumbTintColor="#FED500"
       />
       <View style={styles.questionContainer}>
-        <Text>{question.question}</Text>
+        <Text style={styles.questionText}>{question.question}</Text>
       </View>
       <ScrollView
         contentContainerStyle={styles.optionsContainer}
@@ -63,11 +63,11 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
             <View style={styles.multipleChoiceContainer}>
               <View style={styles.choiceWrap}>
                 <View style={styles.letter}>
-                  <Text> {letter} </Text>
+                  <Text style={styles.letterText}> {letter} . </Text>
                 </View>
                 <View style={styles.answer}>
-                  <Button onPress={handleAnswer}>
-                    <Text> {currentAnswer} </Text>
+                <Button onPress={handleAnswer}>
+                    <Text style={styles.answerText}> {currentAnswer} </Text>
                   </Button>
                 </View>
               </View>
@@ -92,14 +92,23 @@ const styles = StyleSheet.create({
     flex:1,
   },
   questionContainer: {
-    height: hp('30%'),
-    width: wp('100%'),
+    height: hp('20%'),
+    width: wp('80%'),
+    //borderColor: 'black',
+    //borderWidth: 1,
     display:'flex',
     alignItems:'center',
     justifyContent:'center',
   },
+  questionText:{
+    fontSize: 30,
+    textAlign: 'center',
+    fontFamily:'Nexa Bold',
+    lineHeight: 50,
+    letterSpacing: 1,
+  },
   optionsContainer: {
-    height:hp("99%"),
+    height:hp("100%"),
     width: wp('100%'),
     display: 'flex',
     flexDirection: 'column',
@@ -115,29 +124,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   choiceWrap: {
-    borderColor: 'black',
-    borderTopWidth: 1,
+    //borderColor: 'black',
+    //borderTopWidth: 1,
     height: '100%',
     width: '100%',
     display: 'flex',
     flexDirection: 'row',
   },
   letter: {
-    borderTopWidth: 1,
-    borderColor: 'black',
     height: '100%',
     width: '10%',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    marginLeft: 25,
+  },
+  letterText:{
+    fontSize: 30,
+    fontFamily: 'Nexa Bold'
   },
   answer: {
-    borderTopWidth: 1,
-    borderColor: 'black',
+    //borderWidth: 1,
+    //borderColor: 'black',
     height: '100%',
     width: '90%',
     display: 'flex',
+    alignItems:'flex-start',
     justifyContent: 'center',
+  },
+  answerText:{
+    fontSize: 20,
+    fontFamily:'Nexa Bold',
   },
   sliderStyle:{
     width: 500,
@@ -147,6 +164,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     paddingLeft:20,
     backgroundColor:'white',
+    marginTop: 30,
   },
   trackStyle:{
     width: "90%",

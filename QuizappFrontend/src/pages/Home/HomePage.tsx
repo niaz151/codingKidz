@@ -60,7 +60,7 @@ const HomePage = (props: Props) => {
                 onPress={() => {
                   navigation.navigate('UnitsTab', {
                     screen: 'Units',
-                    params: {language: language, language},
+                    params: {language: language},
                   });
                 }}>
                 <Text style={styles.btnText}> {language.name} </Text>
