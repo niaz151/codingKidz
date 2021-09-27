@@ -13,7 +13,6 @@ const QuestionContainer = (props: {
 }) => {
   const {question, onCorrectAnswer, onIncorrectAnswer, score, questionNum} = props;
 
-
   const getQuestionType = (question: any) => {
     return question.wrongAnswer0 === undefined ? 'TrueFalse' : 'MultipleChoice';
   };

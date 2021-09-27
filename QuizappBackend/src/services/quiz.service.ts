@@ -8,7 +8,6 @@ const updateQuizScores = async (userId:QuizResult["userId"], topicId:QuizResult[
       id: quizId,
       userId: userId,
       topicId: topicId
-      //topicId: topicId  ADD FILTERING BY TOPIC ID AND USER ID 
     },
     data: { 
       status: status,
@@ -16,6 +15,21 @@ const updateQuizScores = async (userId:QuizResult["userId"], topicId:QuizResult[
     },
   })
 }
+
+
+const updateQuizStatus = async (userId:QuizResult["userId"], topicId:QuizResult["topicId"], quizId: QuizResult["id"], status: QuizResult["status"]) => {
+  return await db.quizResult.updateMany({
+    where: { 
+      id: quizId,
+      userId: userId,
+      topicId: topicId
+    },
+    data: { 
+      status: status,
+    },
+  })
+}
+
 
 const getQuizScoresByUserId = async (userId: User["id"]) => {
   return await db.user.findUnique({
@@ -50,7 +64,8 @@ const getQuizScoresByQuizId = async (quizId: QuizResult["id"]) => {
 
 export default {
   updateQuizScores,
+  updateQuizStatus,
   getQuizScoresByUserId,
   getQuizScoresByTopicId,
-  getQuizScoresByQuizId
+  getQuizScoresByQuizId,
 }

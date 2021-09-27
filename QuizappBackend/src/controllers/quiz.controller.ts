@@ -61,4 +61,20 @@ const updateQuizScores = async (req:Request, res: Response, next: NextFunction) 
   }
 }
 
-export default { getQuizScoresByUserId, getQuizScoresByTopicId, updateQuizScores };
+
+const updateQuizStatus = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { userId, topicId, quizId, status } = req.params;
+    const typedStatus = convertToEnum(status)
+    const quizData = await QuizService.updateQuizStatus(Number(userId), Number(topicId), Number(quizId), typedStatus);
+    console.log("Quiz Data: ", quizData)
+    return res.status(200).json({
+      message: "Updated Quiz Status",
+      quizData: quizData  
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+export default { getQuizScoresByUserId, getQuizScoresByTopicId, updateQuizScores, updateQuizStatus };

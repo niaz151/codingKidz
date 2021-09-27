@@ -37,4 +37,11 @@ userRouter.post(
   QuizController.updateQuizScores
 )
 
+userRouter.post(
+  "/:userId/quizScores/topic/:topicId/update/quiz/:quizId/:status",
+  param("userId").custom(UserValidator.isValidUserID),
+  ErrorMiddleware.checkForValidationErrors,
+  QuizController.updateQuizStatus
+)
+
 export default userRouter;

@@ -51,7 +51,7 @@ const TrueFalseQuestionContainer = (props: Props) => {
         thumbTintColor="#FED500"
       />
       <View style={styles.questionContainer}>
-        <Text>{question.question}</Text>
+        <Text style={styles.questionText}>{question.question}</Text>
       </View>
       <View style={styles.optionsContainer}>
         <Button style={styles.optionButton} onPress={selectedTrue}>
@@ -75,13 +75,20 @@ const styles = StyleSheet.create({
     paddingTop:20,
   },
   questionContainer: {
-    borderWidth:1,
-    borderColor:'black',
-    height: hp('30%'),
-    width: wp('100%'),
+    height: hp('20%'),
+    width: wp('70%'),
+    //borderColor: 'black',
+    //borderWidth: 1,
     display:'flex',
     alignItems:'center',
-    justifyContent:'center'
+    justifyContent:'center',
+  },
+  questionText:{
+    fontSize: 30,
+    textAlign: 'center',
+    fontFamily:'Nexa Bold',
+    lineHeight: 50,
+    letterSpacing: 1,
   },
   optionsContainer:{
     height: hp("30%"),
@@ -115,6 +122,7 @@ const styles = StyleSheet.create({
     borderRadius:20,
     paddingLeft:20,
     backgroundColor:'white',
+    marginTop: 30,
   },
   trackStyle:{
     width: "90%",
