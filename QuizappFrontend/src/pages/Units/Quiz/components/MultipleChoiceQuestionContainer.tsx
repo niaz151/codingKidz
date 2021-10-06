@@ -58,21 +58,52 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       >
         {['A', 'B', 'C', 'D'].map((letter, idx) => {
           const currentAnswer = shuffledAnswers[idx];
-          const handleAnswer = () => checkAnswer(currentAnswer);
-          return (
-            <View style={styles.multipleChoiceContainer}>
+          const handleAnswer = () => {
+            console.log("Current Answer: ", currentAnswer)
+            checkAnswer(currentAnswer);
+          }
+          const imgNum = Math.floor(Math.random() * 3);
+          
+          var imgRef:any = "";
+
+          if(imgNum === 0){ imgRef =  <Image source={require('../../../../res/greenflag.png')} style={styles.mc_image} />};
+          if(imgNum === 1){ imgRef = <Image source={require('../../../../res/space_pressed.png')} style={styles.mc_image} />};
+          if(imgNum === 2){ imgRef = <Image source={require('../../../../res/backdrop_switches.png')} style={styles.mc_image} />};
+
+          if(letter === 'A'){
+            return(
+              <View style={styles.multipleChoiceContainer}>
               <View style={styles.choiceWrap}>
                 <View style={styles.letter}>
                   <Text style={styles.letterText}> {letter} . </Text>
                 </View>
                 <View style={styles.answer}>
                 <Button onPress={handleAnswer}>
-                    <Text style={styles.answerText}> {currentAnswer} </Text>
+                    <Image source={require('../../../../res/sprite_clicked.png')} style={styles.mc_image} />
+                    {/* <Text style={styles.answerText}> {currentAnswer} </Text> */}
                   </Button>
                 </View>
               </View>
             </View>
-          );
+            )
+          }
+          else{
+            return (
+              <View style={styles.multipleChoiceContainer}>
+                <View style={styles.choiceWrap}>
+                  <View style={styles.letter}>
+                    <Text style={styles.letterText}> {letter} . </Text>
+                  </View>
+                  <View style={styles.answer}>
+                  <Button onPress={handleAnswer}>   
+                      {imgRef}
+                      {/* <Text style={styles.answerText}> {currentAnswer} </Text> */}
+                    </Button>
+                  </View>
+                </View>
+              </View>
+            );
+          }
         })}
       </ScrollView>
     </View>
@@ -178,6 +209,13 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius:200,
     width:20,
+  },
+  mc_image:{
+    height: 150,
+    width: 320,
+    marginTop: 50,
+    //borderColor:'black',
+    //borderWidth: 1
   }
 });
 

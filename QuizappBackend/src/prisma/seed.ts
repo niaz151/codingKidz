@@ -49,33 +49,103 @@ var mc_questions = [
     wrongAnswer1: "When Green Flag Clicked and When Space Key Pressed",
     wrongAnswer2: "When Backdrop Switches and When this Sprite Clicked",
   },
+  {
+    id: 5, 
+    type: "MC",
+    correctAnswer: "Runs when space key is pressed",
+    question: "Which of these describes the (Show Green Flag Image’) block? ",
+    wrongAnswer0: "Runs when the green flag is pressed",
+    wrongAnswer1: "Runs when the Sprite is pressed",
+    wrongAnswer2: "Runs when the stop sign is pressed",
+  },
+  {
+    id: 6, 
+    type: "MC",
+    correctAnswer: "Runs when the sprite is clicked on",
+    question: "Which of these describes the (Show the image When This Sprite Clicked) block?",
+    wrongAnswer0: "Runs when the green flag is pressed",
+    wrongAnswer1: "Runs when the sprite is touched by another sprite",
+    wrongAnswer2: "Runs when the backdrop switches",
+  },
+  {
+    id: 7, 
+    type: "MC",
+    correctAnswer: "Runs when the sprite is clicked",
+    question: "Which of these describes the (Show the image Space Key Pressed)?",
+    wrongAnswer0: "Runs when any key is pressed",
+    wrongAnswer1: "Runs when the backdrop switches",
+    wrongAnswer2: "Runs when the space key is pressed",
+  },
+  {
+    id: 8, 
+    type: "MC",
+    correctAnswer: "Runs when the sprite is pressed",
+    question: "Which of these describes the (Show the image When Backdrop Switches)?",
+    wrongAnswer0: "Runs when the green flag is pressed",
+    wrongAnswer1: "Runs when the backdrop switches",
+    wrongAnswer2: "Runs when the space key is pressed",
+  },
+  {
+    id: 9, 
+    type: "MC",
+    correctAnswer: "Runs when the sprite is pressed",
+    question: "Which of these describes the (Show the image When Backdrop Switches)?",
+    wrongAnswer0: "Runs when the green flag is pressed",
+    wrongAnswer1: "Runs when the backdrop switches",
+    wrongAnswer2: "Runs when the space key is pressed",
+  },
 ];
 var tf_questions = [
   {
-    id:5,
+    id:10,
     question: "When I clicked the Green Flag, the Sprite moved. That means I used the ‘When Space Key Pressed’ block.",
     correctAnswer: true,
   },
   {
-    id:6,
+    id:11,
     question: "When the Backdrop Switched, the Sprite changed colors. That means I used the ‘When Backdrop Switches’ block.",
     correctAnswer: true,
   },
   {
-    id:7,
+    id:12,
     question: "When the Green Flag was clicked, the Sprite started to change colors. When I clicked on the Sprite, the Sprite began to spin. That means I used the ‘When this Sprite Clicked’ block to make the Sprite spin.",
     correctAnswer: true,
   },
   {
-    id:8,
+    id:13,
     question: "When I pressed the space key, the Sprite moved. That means I used the ‘When Green Flag Clicked’ block.",
     correctAnswer: true,
   },
   {
-    id:9,
+    id:14,
     question: "When I pressed the green flag, the Sprite began to spin around. That means I used the ‘When Green Flag Clicked’ block.",
     correctAnswer: true,
-  }
+  },
+  {
+    id:15,
+    question: "(Show the image: ‘Starts_With_Green_Flag’) This code will run when the space key is pressed.",
+    correctAnswer: true,
+  },
+  {
+    id:16,
+    question: "(Show the image: ‘Starts_With_Sprite_Clicked’) This code will run when the Sprite is clicked by the mouse",
+    correctAnswer: true,
+  },
+  {
+    id:17,
+    question: "(Show the image: ‘Starts_With_Space_Key_Pressed’) This code will run when the backdrop switches",
+    correctAnswer: true,
+  },
+  {
+    id:18,
+    question: "(Show the image: ‘Starts_With_Green_Flag’) This code will run when the Green Flag is pressed.",
+    correctAnswer: true,
+  },
+  {
+    id:19,
+    question: "(Show the image: ‘Starts_With_Backdrop_Switches’) This code will run when the Sprite changes colors.",
+    correctAnswer: true,
+  },
 ]
 
 export const seed = async () => {
