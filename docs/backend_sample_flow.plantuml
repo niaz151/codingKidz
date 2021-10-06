@@ -1,0 +1,12 @@
+@startuml
+title Backend Sample Flow Diagram 
+
+[/getTopic/:topicId(1)] as Comp1 
+[{topicId:1}] as Comp2
+[UPDATE where TOPIC_ID = 1] as Comp3
+
+
+Comp1 --> Comp2 
+Comp2 --> Comp3
+
+@enduml

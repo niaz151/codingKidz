@@ -73,7 +73,7 @@ const uploadAvatar = createAsyncThunk<
   const userId = accessToken
     ? TokenService.readToken(accessToken).id
     : undefined;
-
+// note
   const data = new FormData();
   data.append('avatar', avatar);
 

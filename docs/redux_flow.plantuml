@@ -1,0 +1,29 @@
+@startuml
+title Redux Flow Diagram
+
+Redux_Store --> Quiz_Slice
+Redux_Store --> Topic_Slice
+Redux_Store : [Grid_Data]
+Redux_Store : [Event_Data]
+
+Quiz_Slice: [Quiz_Data]
+Quiz_Slice --> QuizPage_Internal_Component_State: UseSelector
+
+Topic_Slice: [Topic_Data]
+Topic_Slice --> TopicPage_Internal_Component_State: UseSelector
+
+state QuizPage{
+  state QuizPage_Internal_Component_State{
+  }
+}
+
+state TopicPage{
+ state TopicPage_Internal_Component_State{
+ }
+}
+
+QuizPage_Internal_Component_State --> Quiz_Slice: UseDispatch
+TopicPage_Internal_Component_State --> Topic_Slice: UseDispatch
+
+@enduml
+

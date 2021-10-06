@@ -17,10 +17,15 @@ type Props = {
   initialQuestion?: MultipleChoiceQuestion;
 };
 
+// store as byte
+
 const MCForm = (props: Props) => {
+
+  const [imageLink, setImageLink] = useState<String>();
+  const { initialQuestion } = props;
+  const [images, setImages] = useState([]);
   const dispatch = useAppDispatch();
 
-  const { initialQuestion } = props;
   const [question, setQuestion] = useState<string>(
     initialQuestion?.question ?? ""
   );
@@ -36,6 +41,36 @@ const MCForm = (props: Props) => {
   const [wrongAnswer2, setWrongAnswer2] = useState(
     initialQuestion?.wrongAnswer2 ?? ""
   );
+
+  const uploadedImage = (e: any) => {
+    let reader = new FileReader();
+    let file = e.target.files[0];
+    console.log(file); //I can see the file's info
+    reader.onload= () => {
+      //@ts-ignore
+        var array = new Uint32Array(reader.result); // read the actual file contents
+        console.log("_+_array:",array); // the array is empty!
+        //@ts-ignore
+        var binaryString = String.fromCharCode.apply(null,array) ;
+        console.log("__binaryString:",binaryString);
+        //@ts-ignore
+      this.setState({
+        file: binaryString
+      },()=>{
+        //@ts-ignore 
+        console.log(this.state.file);//ergo file is set to an empty image
+    });
+    }
+    reader.readAsArrayBuffer(file)
+  }
+
+  const onImageChange = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      let img = event.target.files[0];
+      setImageLink(URL.createObjectURL(img));
+    }
+    console.log("Image Link: ", imageLink);
+  }
 
   const onSubmit = () => {
     // Ensure all fields are filled before submitting
@@ -99,11 +134,19 @@ const MCForm = (props: Props) => {
         />
       </Row>
       <Row>
+        <label>Correct Answer Image</label>
+        <input type="file" name="myImage" onChange={onImageChange} />
+      </Row>
+      <Row>
         <label>First Wrong Answer</label>
         <input
           value={wrongAnswer0}
           onChange={(event) => setWrongAnswer0(event.target.value)}
         />
+      </Row>
+      <Row>
+        <label>First Wrong Question Image</label>
+        <input type="file" name="myImage" onChange={onImageChange} />
       </Row>
       <Row>
         <label>Second Wrong Answer</label>
@@ -113,11 +156,19 @@ const MCForm = (props: Props) => {
         />
       </Row>
       <Row>
+        <label>Second Wrong Question Image</label>
+        <input type="file" name="myImage" onChange={onImageChange} />
+      </Row>
+      <Row>
         <label>Third Wrong Answer</label>
         <input
           value={wrongAnswer2}
           onChange={(event) => setWrongAnswer2(event.target.value)}
         />
+      </Row> 
+      <Row>
+        <label>Third Wrong Answer Image</label>
+        <input type="file" name="myImage" onChange={onImageChange} />
       </Row>
       <Button onClick={onSubmit}>{initialQuestion ? "Edit" : "Create"} Question</Button>
     </Col>
