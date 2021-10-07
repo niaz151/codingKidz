@@ -7,6 +7,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
+import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 type Props = {
   question: MultipleChoiceQuestion;
@@ -16,6 +17,37 @@ type Props = {
   score: number | null;
   questionNumber: number;
 };
+
+const mapImageRefToLink = (input: number) => {
+  var imgLink: string = '';
+  switch(input){
+    case 0:
+      imgLink = "../../../../res/greenflag.png";
+      break;
+    case 1:
+      imgLink = "../../../../res/starts_with_backdrop.png";
+      break;
+    case 2:
+      imgLink = "../../../../res/starts_with_greenflag.png";
+      break;
+    case 3:
+      imgLink = "../../../../res/starts_with_with_sprite_clicked.png";
+      break;
+    case 4:
+      imgLink = "../../../../res/when_backdrop_switches.png";
+      break;
+    case 5:
+      imgLink = "../../../../res/when_space_key_pressed.png";
+      break;
+    case 6:
+      imgLink = "../../../../res/when_this_key_pressed.png";
+      break;
+    case 7:
+      imgLink = "../../../../res/starts_with_space_key.png";
+      break;
+  }
+  return imgLink;
+}
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
   const {question, onCorrectAnswer, onIncorrectAnswer, score, questionNumber} = props;
@@ -35,6 +67,25 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
     }
   };
 
+
+  const checkForQuestionImg = () => {
+    if(question.question.includes('Show the image')){
+      return (
+        <View style={styles.questionContainer}>
+        <Text style={styles.questionText}>{question.question}</Text>
+        <Image source={require('../../../../res/greenflag.png')} style={styles.q_image} />
+      </View>
+      )
+    }
+    else{
+      return(
+        <View style={styles.questionContainer}>
+          <Text style={styles.questionText}>{question.question}</Text>
+        </View>
+      )
+    }
+  }
+
   return (
     <View style={styles.container}>
       <Slider
@@ -50,16 +101,16 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
         thumbTintColor="#FED500"
       />
       <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>{question.question}</Text>
+        <Text style={styles.questionText}>{checkForQuestionImg()}</Text>
       </View>
       <ScrollView
         contentContainerStyle={styles.optionsContainer}
         directionalLockEnabled={true}
       >
         {['A', 'B', 'C', 'D'].map((letter, idx) => {
+ 
           const currentAnswer = shuffledAnswers[idx];
           const handleAnswer = () => {
-            console.log("Current Answer: ", currentAnswer)
             checkAnswer(currentAnswer);
           }
           const imgNum = Math.floor(Math.random() * 3);
@@ -67,10 +118,10 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
           var imgRef:any = "";
 
           if(imgNum === 0){ imgRef =  <Image source={require('../../../../res/greenflag.png')} style={styles.mc_image} />};
-          if(imgNum === 1){ imgRef = <Image source={require('../../../../res/space_pressed.png')} style={styles.mc_image} />};
-          if(imgNum === 2){ imgRef = <Image source={require('../../../../res/backdrop_switches.png')} style={styles.mc_image} />};
+          if(imgNum === 1){ imgRef = <Image source={require('../../../../res/when_space_key_pressed.png')} style={styles.mc_image} />};
+          if(imgNum === 2){ imgRef = <Image source={require('../../../../res/when_backdrop_switches.png')} style={styles.mc_image} />};
 
-          if(letter === 'A'){
+          if(currentAnswer === "When this Sprite Clicked"){
             return(
               <View style={styles.multipleChoiceContainer}>
               <View style={styles.choiceWrap}>
@@ -79,7 +130,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
                 </View>
                 <View style={styles.answer}>
                 <Button onPress={handleAnswer}>
-                    <Image source={require('../../../../res/sprite_clicked.png')} style={styles.mc_image} />
+                    <Image source={require('../../../../res/starts_with_when_sprite_clicked.png')} style={styles.mc_image} />
                     {/* <Text style={styles.answerText}> {currentAnswer} </Text> */}
                   </Button>
                 </View>
@@ -97,7 +148,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
                   <View style={styles.answer}>
                   <Button onPress={handleAnswer}>   
                       {imgRef}
-                      {/* <Text style={styles.answerText}> {currentAnswer} </Text> */}
+                      {/* <Text style={styles.answerText}> {currentAnswer} </Text>  */}
                     </Button>
                   </View>
                 </View>
@@ -123,7 +174,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   questionContainer: {
-    height: hp('20%'),
+    height: hp('40%'),
     width: wp('80%'),
     //borderColor: 'black',
     //borderWidth: 1,
@@ -211,11 +262,18 @@ const styles = StyleSheet.create({
     width:20,
   },
   mc_image:{
-    height: 150,
-    width: 320,
+    height: 300,
+    width: 380,
     marginTop: 50,
     //borderColor:'black',
     //borderWidth: 1
+  },
+  q_image:{
+    height: 250,
+    width: 380,
+    borderWidth: 1,
+    marginTop:30,
+    borderColor: "black"
   }
 });
 

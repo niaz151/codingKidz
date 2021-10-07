@@ -54,16 +54,18 @@ export const PassedQuiz = (props: Props) => {
   }, [dispatch, quizDataStatus]);
 
   const handlePress = () => {
-    dispatch(getLanguages({}));
+    dispatch(udpateQuizData({user_id, topic_id, quiz_id, status, grade})) ;
+    
+    status = QuizResultStatus.PENDING;
+    topic_id += 1;
+    quiz_id += 1;
+
+    dispatch(updateQuizStatus({user_id, topic_id, quiz_id, status}))
     navigation.navigate('Topics', {
       unitId: unitId,
       unitName: unitName,
     });
   };
-
-  // add logic to change the status of the following quiz.. if the following quiz wasn't already passed
-  // find a way to read the next status
-  //
 
   return (
     <View style={styles.container}>
