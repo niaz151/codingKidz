@@ -18,6 +18,7 @@ const updateQuizScores = async (userId:QuizResult["userId"], topicId:QuizResult[
 
 
 const updateQuizStatus = async (userId:QuizResult["userId"], topicId:QuizResult["topicId"], quizId: QuizResult["id"], status: QuizResult["status"]) => {
+  console.log("Updating Quiz Scores =================");
   return await db.quizResult.updateMany({
     where: { 
       id: quizId,

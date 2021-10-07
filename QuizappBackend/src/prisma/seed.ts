@@ -55,13 +55,13 @@ var mc_questions = [
     correctAnswer: "Runs when space key is pressed",
     question: "Which of these describes the (Show Green Flag Image’) block? ",
     wrongAnswer0: "Runs when the green flag is pressed",
-    wrongAnswer1: "Runs when the Sprite is pressed",
+    wrongAnswer1: "When this Sprite Clicked",
     wrongAnswer2: "Runs when the stop sign is pressed",
   },
   {
     id: 6, 
     type: "MC",
-    correctAnswer: "Runs when the sprite is clicked on",
+    correctAnswer: "When this Sprite Clicked",
     question: "Which of these describes the (Show the image When This Sprite Clicked) block?",
     wrongAnswer0: "Runs when the green flag is pressed",
     wrongAnswer1: "Runs when the sprite is touched by another sprite",
@@ -70,7 +70,7 @@ var mc_questions = [
   {
     id: 7, 
     type: "MC",
-    correctAnswer: "Runs when the sprite is clicked",
+    correctAnswer: "When this Sprite Clicked",
     question: "Which of these describes the (Show the image Space Key Pressed)?",
     wrongAnswer0: "Runs when any key is pressed",
     wrongAnswer1: "Runs when the backdrop switches",
@@ -79,7 +79,7 @@ var mc_questions = [
   {
     id: 8, 
     type: "MC",
-    correctAnswer: "Runs when the sprite is pressed",
+    correctAnswer: "When this Sprite Clicked",
     question: "Which of these describes the (Show the image When Backdrop Switches)?",
     wrongAnswer0: "Runs when the green flag is pressed",
     wrongAnswer1: "Runs when the backdrop switches",
@@ -88,7 +88,7 @@ var mc_questions = [
   {
     id: 9, 
     type: "MC",
-    correctAnswer: "Runs when the sprite is pressed",
+    correctAnswer: "When this Sprite Clicked",
     question: "Which of these describes the (Show the image When Backdrop Switches)?",
     wrongAnswer0: "Runs when the green flag is pressed",
     wrongAnswer1: "Runs when the backdrop switches",
