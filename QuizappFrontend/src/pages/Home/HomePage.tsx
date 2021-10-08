@@ -183,11 +183,11 @@ const styles = StyleSheet.create({
     height: 600,
     width: 600,
     top: 0,
-    left: wp('15%'),
+    left: wp('22%'),
   },
   tailStyle:{
     position: 'absolute',
-    top: hp('-33%'),
+    top: hp('-29%'),
     left:wp("20%"),
     height: 400,
     width: 400,
