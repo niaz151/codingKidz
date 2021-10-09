@@ -69,7 +69,7 @@ export const UnitsPage = (props: Props) => {
     var unit_data_parsed = JSON.parse(unitData!)
     for(var i = 0; i < unit_data_parsed.length; i ++){
       output.push(
-        <UnitTile unitId={i} key={i} unitName={'Sample'} />
+        <UnitTile unitId={i} key={i} unitName={unit_data_parsed[i].name} />
       )
     }
     return output;

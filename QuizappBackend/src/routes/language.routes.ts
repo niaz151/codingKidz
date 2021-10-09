@@ -193,6 +193,12 @@ languageRouter.post(
   QuizController.updateQuizScores
 );
 
+languageRouter.post(
+  "/:languageId/unit/:unitId/updateTitle/:title",
+  ErrorMiddleware.checkForValidationErrors,
+  UnitController.updateUnitTitle
+);
+
 languageRouter.get(
   "/unit/:unitId/topic", 
   ErrorMiddleware.checkForValidationErrors,

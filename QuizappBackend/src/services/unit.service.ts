@@ -38,6 +38,19 @@ const updateUnit = async (updatedUnit: Unit) => {
   });
 };
 
+const updateUnitTitle = async (languageId: Language["id"], unitId: Unit["id"], title: string) => {
+  return await db.unit.updateMany({
+    where: { 
+      languageId: languageId,
+      id: unitId,
+    },
+    data: { 
+      name: title
+    },
+  })
+};
+
+
 const deleteUnit = async (languageId: Language["id"], unitId: Unit["id"]) => {
   // TODO add deleteQuestions
   const deleteTopics = db.topic.deleteMany({ where: { unitId: unitId } });
@@ -63,4 +76,5 @@ export default {
   getUnitByID,
   updateUnit,
   deleteUnit,
+  updateUnitTitle
 };

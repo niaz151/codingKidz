@@ -85,10 +85,25 @@ const deleteUnit = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const updateUnitTitle = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { languageId, unitId, title } = req.params;
+    const unitData = await UnitService.updateUnitTitle(Number(languageId), Number(unitId), title);
+    return res.status(200).json({
+      message: "Updated Unit Title",
+      unitData: unitData
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
 export default {
   createUnit,
   listUnits,
   updateUnit,
   getUnitByID,
   deleteUnit,
+  updateUnitTitle
 };

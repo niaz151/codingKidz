@@ -221,6 +221,8 @@ const editQuestion = createAsyncThunk<
   }
 );
 
+
+
 const deleteQuestion = createAsyncThunk<
   Topic,
   {
@@ -261,6 +263,52 @@ const deleteQuestion = createAsyncThunk<
           const updatedQuestion = response.data.updatedQuestion;
 
           return updatedQuestion;
+        },
+        (error: AxiosError) => {
+          return rejectWithValue(error);
+        }
+      );
+  }
+);
+
+const editUnit = createAsyncThunk<
+  Unit,
+  {
+    languageId: Language["id"];
+    unitId: Unit["id"];
+    title: String,
+  },
+  {
+    state: RootState;
+  }
+>(
+  "units/editUnit",
+  async (
+    { languageId, unitId, title },
+    { getState, rejectWithValue }
+  ) => {
+    const { accessToken } = getState().auth;
+    const userId = accessToken
+      ? TokenService.readToken(accessToken).id
+      : undefined;
+
+    if (!userId) {
+      return rejectWithValue("Undefined user id");
+    }
+
+    return await axios
+      .post(
+        `http://localhost:8000/api/language/${languageId}/unit/${unitId}/updateTitle/${title}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(
+        async (response) => {
+          const updatedUnit = response.data.updatedUnit;
+          return updatedUnit;
         },
         (error: AxiosError) => {
           return rejectWithValue(error);
@@ -356,6 +404,22 @@ const languagesSlice = createSlice({
         action.error.message ?? "Unknown question deletion error";
       state.status = "failed";
     });
+
+    builder.addCase(editUnit.pending, (state, action) => {
+      state.error = null;
+      state.status = "loading";
+    });
+
+    builder.addCase(editUnit.fulfilled, (state, action) => {
+      state.error = null;
+      state.status = "idle";
+    });
+
+    builder.addCase(editUnit.rejected, (state, action) => {
+      state.error =
+        action.error.message ?? "Unknown unit edit error";
+      state.status = "failed";
+    });
   },
 });
 
@@ -365,5 +429,6 @@ export {
   createMultipleChoiceQuestion,
   createTrueFalseQuestion,
   editQuestion,
-  deleteQuestion
+  deleteQuestion,
+  editUnit
 };

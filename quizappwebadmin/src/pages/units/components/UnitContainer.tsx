@@ -1,7 +1,8 @@
-import { Accordion, Card, Button } from "react-bootstrap";
-
+import React, {useState} from 'react';
+import { Accordion, Card, Button, Modal } from "react-bootstrap";
 import { TopicContainer } from ".";
 import { Language, Unit } from "../../../utils/models";
+import UnitForm from "./UnitForm";
 
 interface Props {
   languageId: Language["id"];
@@ -9,15 +10,45 @@ interface Props {
 }
 
 const UnitContainer = (props: Props) => {
-  const { unit } = props;
+  const { unit, languageId } = props;
+  
+  const [modalSettings, setModalSettings] = useState<{open: boolean;}>({open: false});
+
+  const renderFormInModal = () => {
+      return (
+        <UnitForm
+          languageId={props.languageId}
+          unitId={props.unit.id}
+        />
+      );
+  };
+
+  const closeModal = () => {
+    setModalSettings({ ...modalSettings, open: false });
+  };
+
 
   return (
+  <>
+    <Modal show={modalSettings.open} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create Question</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{renderFormInModal()}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={closeModal}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
     <Card>
       <Card.Header>
         <Accordion.Toggle eventKey={String(unit.id)}>
           {unit.name}
         </Accordion.Toggle>
-        <Button>Edit</Button>
+        <Button onClick={() => setModalSettings({open: true })}>
+          Edit
+        </Button>
         <Button>Delete</Button>
       </Card.Header>
       <Accordion.Collapse eventKey={String(unit.id)}>
@@ -37,6 +68,7 @@ const UnitContainer = (props: Props) => {
         </Card.Body>
       </Accordion.Collapse>
     </Card>
+  </>
   );
 };
 

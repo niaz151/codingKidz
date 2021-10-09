@@ -42,7 +42,7 @@ const TopicsPage = (props: Props) => {
     var topic_data_parsed = JSON.parse(topicData!)
     for(var i = 0; i < topic_data_parsed.length; i ++){
       output.push(
-        <TopicTile unitId={unitId} unitName={unitName} topic={topic_data_parsed[i]} key={i} />
+        <TopicTile unitId={unitId} unitName={unitName} topicName={topic_data_parsed[i].name} topic={topic_data_parsed[i]} key={i} />
       )
     }
     return output;
@@ -61,7 +61,7 @@ const TopicsPage = (props: Props) => {
             style={styles.opacityStyle}
             onPress={() => Alert.alert('Topic is Locked')}>
             <MouseFlowerLocked style={styles.imgStyle} />
-            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.captionText}> Lesson {topic.id} </Text>
             <Text style={styles.lessonText}> Lesson Title </Text>
           </TouchableOpacity>
         </View>
@@ -82,7 +82,7 @@ const TopicsPage = (props: Props) => {
               })
             }>
             <MouseFlower style={styles.imgStyle} />
-            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.captionText}> Lesson {topic.id} </Text>
             <Text style={styles.lessonText}> Lesson Title </Text>
           </TouchableOpacity>
         </View>
@@ -103,7 +103,7 @@ const TopicsPage = (props: Props) => {
               })
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />
-            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.captionText}> Lesson {topic.id} </Text>
             <Text style={styles.lessonText}> Lesson Title </Text>
           </TouchableOpacity>
         </View>
@@ -127,7 +127,6 @@ const TopicsPage = (props: Props) => {
     }
   };
 
-  // === 
   return (
     <View style={styles.containerStyle}>
       {topicData? 
