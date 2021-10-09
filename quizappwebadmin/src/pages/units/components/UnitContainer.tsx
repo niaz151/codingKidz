@@ -31,16 +31,16 @@ const UnitContainer = (props: Props) => {
   return (
   <>
     <Modal show={modalSettings.open} onHide={closeModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create Question</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>{renderFormInModal()}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="danger" onClick={closeModal}>
-            Cancel
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <Modal.Header closeButton>
+        <Modal.Title>Update Unit Title</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>{renderFormInModal()}</Modal.Body>
+      <Modal.Footer>
+        <Button variant="danger" onClick={closeModal}>
+          Cancel
+        </Button>
+      </Modal.Footer>
+    </Modal>
     <Card>
       <Card.Header>
         <Accordion.Toggle eventKey={String(unit.id)}>

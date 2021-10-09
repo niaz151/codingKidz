@@ -88,4 +88,19 @@ const getQuizResults = async (req: Request, res: Response, next: NextFunction) =
   }
 };
 
-export default { listTopicsByUnitID, createTopic, getTopicByID, deleteTopic, getQuizResults };
+
+const updateTopicTitle = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { unitId, topicId, title } = req.params;
+    const topicData = await TopicService.updateTopicTitle(Number(unitId), Number(topicId), title);
+    return res.status(200).json({
+      message: "Updated Topic Title",
+      topicData: topicData
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+export default { listTopicsByUnitID, createTopic, getTopicByID, deleteTopic, getQuizResults, updateTopicTitle };

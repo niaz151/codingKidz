@@ -13,13 +13,18 @@ interface Props {
 const TopicContainer = (props: Props) => {
   const { topic } = props;
 
-  const [modalSettings, setModalSettings] = useState<{
-    open: boolean;
-    type: "MC" | "TF";
-  }>({
+  const [titleModalSettings, setTitleModalSettings] = useState<{open: boolean}>({
+    open: false,
+  });
+
+  const [modalSettings, setModalSettings] = useState<{open: boolean;type: "MC" | "TF";}>({
     open: false,
     type: "MC",
   });
+
+  const closeTitleModal = () => {
+    setTitleModalSettings({ ...titleModalSettings, open: false });
+  };
 
   const closeModal = () => {
     setModalSettings({ ...modalSettings, open: false });
@@ -48,6 +53,17 @@ const TopicContainer = (props: Props) => {
 
   return (
     <>
+      <Modal show={titleModalSettings.open} onHide={closeTitleModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Update Topic Title</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{renderFormInModal()}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={closeTitleModal}>
+            Cancel
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal show={modalSettings.open} onHide={closeModal}>
         <Modal.Header closeButton>
           <Modal.Title>Create Question</Modal.Title>
@@ -64,7 +80,7 @@ const TopicContainer = (props: Props) => {
           <Accordion.Toggle eventKey={String(topic.id)}>
             {topic.name}
           </Accordion.Toggle>
-          <Button>Edit</Button>
+          <Button onClick={() => setTitleModalSettings({open: true })}> Edit </Button>
           <Button>Delete</Button>
         </Card.Header>
         <Accordion.Collapse eventKey={String(topic.id)}>

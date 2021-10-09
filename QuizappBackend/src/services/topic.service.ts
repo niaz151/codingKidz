@@ -83,9 +83,22 @@ const deleteTopic = async (unitId: Unit["id"], topicId: Topic["id"]) => {
   return completed;
 };
 
+const updateTopicTitle = async (unitId: Unit["id"], topicId: Topic["id"], title: string) => {
+  return await db.topic.updateMany({
+    where: { 
+      unitId: unitId,
+      id: topicId
+    },
+    data: { 
+      name: title
+    },
+  })
+};
+
  export default {
   createTopic,
   listTopicsByUnitID,
   getTopicByID,
   deleteTopic,
+  updateTopicTitle
 };

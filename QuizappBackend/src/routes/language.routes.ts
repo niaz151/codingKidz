@@ -199,6 +199,12 @@ languageRouter.post(
   UnitController.updateUnitTitle
 );
 
+languageRouter.post(
+  "/unit/:unitId/topic/:topicId/updateTitle/:title",
+  ErrorMiddleware.checkForValidationErrors,
+  TopicController.updateTopicTitle
+);
+
 languageRouter.get(
   "/unit/:unitId/topic", 
   ErrorMiddleware.checkForValidationErrors,

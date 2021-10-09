@@ -317,6 +317,54 @@ const editUnit = createAsyncThunk<
   }
 );
 
+const editTopic = createAsyncThunk<
+  Topic,
+  {
+    languageId: Language["id"];
+    unitId: Unit["id"];
+    topicId: Topic["id"]
+    title: String,
+  },
+  {
+    state: RootState;
+  }
+>(
+  "topics/editTopic",
+  async (
+    { languageId, unitId, topicId, title },
+    { getState, rejectWithValue }
+  ) => {
+    const { accessToken } = getState().auth;
+    const userId = accessToken
+      ? TokenService.readToken(accessToken).id
+      : undefined;
+
+    if (!userId) {
+      return rejectWithValue("Undefined user id");
+    }
+
+    return await axios
+      .post(
+        `http://localhost:8000/api/language/${languageId}/unit/${unitId}/topic/${topicId}/updateTitle/${title}`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then(
+        async (response) => {
+          const updatedTopic = response.data.updatedTopic;
+          return updatedTopic;
+        },
+        (error: AxiosError) => {
+          return rejectWithValue(error);
+        }
+      );
+  }
+);
+
+
 const languagesSlice = createSlice({
   name: "languages",
   initialState,
@@ -420,6 +468,22 @@ const languagesSlice = createSlice({
         action.error.message ?? "Unknown unit edit error";
       state.status = "failed";
     });
+
+    builder.addCase(editTopic.pending, (state, action) => {
+      state.error = null;
+      state.status = "loading";
+    });
+
+    builder.addCase(editTopic.fulfilled, (state, action) => {
+      state.error = null;
+      state.status = "idle";
+    });
+
+    builder.addCase(editTopic.rejected, (state, action) => {
+      state.error =
+        action.error.message ?? "Unknown topic edit error";
+      state.status = "failed";
+    });
   },
 });
 
@@ -430,5 +494,6 @@ export {
   createTrueFalseQuestion,
   editQuestion,
   deleteQuestion,
-  editUnit
+  editUnit,
+  editTopic
 };
