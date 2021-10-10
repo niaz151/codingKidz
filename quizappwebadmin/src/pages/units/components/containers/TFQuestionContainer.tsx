@@ -1,4 +1,4 @@
-import { TrueFalseQuestion } from "../../../utils/models";
+import { TrueFalseQuestion } from "../../../../utils/models";
 
 interface Props {
   question: TrueFalseQuestion

@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import { Accordion, Card, Button, Modal } from "react-bootstrap";
-
-import { MCQuestionContainer, TFQuestionContainer, MCForm, TFForm } from ".";
-import { Language, Topic, Unit } from "../../../utils/models";
+import { MCQuestionContainer, TFQuestionContainer, MCForm, TFForm } from "../index";
+import { Language, Topic, Unit } from "../../../../utils/models";
 
 interface Props {
   languageId: Language["id"];

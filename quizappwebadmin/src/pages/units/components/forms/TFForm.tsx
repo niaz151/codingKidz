@@ -4,11 +4,11 @@ import {
   Topic,
   TrueFalseQuestion,
   Unit,
-} from "../../../utils/models";
+} from "../../../../utils/models";
 
 import { Button, Col, Form, Row } from "react-bootstrap";
-import { useAppDispatch } from "../../../ducks/hooks";
-import { createTrueFalseQuestion, editQuestion } from "../languagesSlice";
+import { useAppDispatch } from "../../../../ducks/hooks";
+import { createTrueFalseQuestion, editQuestion } from "../../languagesSlice";
 
 type Props = {
   languageId: Language["id"];

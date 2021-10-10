@@ -1,7 +1,9 @@
-export { default as UnitContainer } from "./UnitContainer";
-export { default as LanguageContainer } from "./LanguageContainer";
-export { default as TopicContainer } from "./TopicContainer";
-export { default as MCQuestionContainer } from "./MCQuestionContainer";
-export { default as TFQuestionContainer } from "./TFQuestionContainer";
-export { default as MCForm } from "./MCForm";
-export { default as TFForm } from "./TFForm";
+export { default as UnitContainer } from "./containers/UnitContainer";
+export { default as LanguageContainer } from "./containers/LanguageContainer";
+export { default as TopicContainer } from "./containers/TopicContainer";
+export { default as MCQuestionContainer } from "./containers/MCQuestionContainer";
+export { default as TFQuestionContainer } from "./containers/TFQuestionContainer";
+export { default as MCForm } from "./forms/MCForm";
+export { default as TFForm } from "./forms/TFForm";
+export { default as UnitForm } from "./forms/UnitForm";
+export { default as TopicForm } from "./forms/TopicForm";

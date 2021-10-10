@@ -1,8 +1,7 @@
+import React from 'react';
 import { Accordion, Card, Button } from "react-bootstrap";
-
-import { Language } from "../../../utils/models";
-
-import { UnitContainer } from "./index";
+import { Language } from "../../../../utils/models";
+import { UnitContainer } from "../index";
 
 interface Props {
   language: Language;

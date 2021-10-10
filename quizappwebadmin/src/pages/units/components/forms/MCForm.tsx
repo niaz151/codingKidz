@@ -4,11 +4,11 @@ import {
   MultipleChoiceQuestion,
   Topic,
   Unit,
-} from "../../../utils/models";
+} from "../../../../utils/models";
 
 import { Button, Col, Row } from "react-bootstrap";
-import { useAppDispatch } from "../../../ducks/hooks";
-import { createMultipleChoiceQuestion, editQuestion } from "../languagesSlice";
+import { useAppDispatch } from "../../../../ducks/hooks";
+import { createMultipleChoiceQuestion, editQuestion } from "../../languagesSlice";
 
 type Props = {
   languageId: Language["id"];

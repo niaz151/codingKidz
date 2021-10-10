@@ -2,11 +2,11 @@ import { useState } from "react";
 import {
   Language,
   Unit,
-} from "../../../utils/models";
+} from "../../../../utils/models";
 
 import { Button, Col, Row } from "react-bootstrap";
-import { useAppDispatch } from "../../../ducks/hooks";
-import { createMultipleChoiceQuestion, editUnit } from "../languagesSlice";
+import { useAppDispatch } from "../../../../ducks/hooks";
+import { createMultipleChoiceQuestion, editUnit } from "../../languagesSlice";
 
 type Props = {
   languageId: Language["id"];

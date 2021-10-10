@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Accordion, Button, Card, Modal } from "react-bootstrap";
-import { MCForm } from ".";
-import { useAppDispatch } from "../../../ducks/hooks";
-import { Language, MultipleChoiceQuestion, Unit } from "../../../utils/models";
-import { deleteQuestion } from "../languagesSlice";
+import { MCForm } from "../index";
+import { useAppDispatch } from "../../../../ducks/hooks";
+import { Language, MultipleChoiceQuestion, Unit } from "../../../../utils/models";
+import { deleteQuestion } from "../../languagesSlice";
 
 interface Props {
   languageId: Language["id"];
