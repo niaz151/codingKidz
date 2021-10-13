@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Accordion, Card, Button, Modal } from "react-bootstrap";
-import { MCQuestionContainer, TFQuestionContainer, MCForm, TFForm } from "../index";
+import { MCQuestionContainer, TFQuestionContainer, MCForm, TFForm, TopicForm } from "../index";
 import { Language, Topic, Unit } from "../../../../utils/models";
 
 interface Props {
@@ -29,6 +29,16 @@ const TopicContainer = (props: Props) => {
     setModalSettings({ ...modalSettings, open: false });
   };
 
+  const renderTitleForm = () => {
+    return(
+      <TopicForm
+        languageId={props.languageId}
+        unitId={props.unitId}
+        topicId={topic.id}
+      />
+    )
+  }
+
   const renderFormInModal = () => {
     switch (modalSettings.type) {
       case "MC":
@@ -56,7 +66,7 @@ const TopicContainer = (props: Props) => {
         <Modal.Header closeButton>
           <Modal.Title>Update Topic Title</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{renderFormInModal()}</Modal.Body>
+        <Modal.Body>{renderTitleForm()}</Modal.Body>
         <Modal.Footer>
           <Button variant="danger" onClick={closeTitleModal}>
             Cancel

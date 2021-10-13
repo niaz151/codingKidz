@@ -62,7 +62,7 @@ const TopicsPage = (props: Props) => {
             onPress={() => Alert.alert('Topic is Locked')}>
             <MouseFlowerLocked style={styles.imgStyle} />
             <Text style={styles.captionText}> Lesson {topic.id} </Text>
-            <Text style={styles.lessonText}> Lesson Title </Text>
+            <Text style={styles.lessonText}> {topic.name} </Text>
           </TouchableOpacity>
         </View>
       );
@@ -83,7 +83,7 @@ const TopicsPage = (props: Props) => {
             }>
             <MouseFlower style={styles.imgStyle} />
             <Text style={styles.captionText}> Lesson {topic.id} </Text>
-            <Text style={styles.lessonText}> Lesson Title </Text>
+            <Text style={styles.lessonText}> {topic.name} </Text>
           </TouchableOpacity>
         </View>
       );
@@ -104,13 +104,15 @@ const TopicsPage = (props: Props) => {
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />
             <Text style={styles.captionText}> Lesson {topic.id} </Text>
-            <Text style={styles.lessonText}> Lesson Title </Text>
+            <Text style={styles.lessonText}> {topic.name} </Text>
           </TouchableOpacity>
         </View>
       );
     };
 
     useEffect(() => {
+
+      console.log("Topic Results: ", topic.quizResults);
       // @ts-expect-error
       setQuizStatus(topic.quizResults[0].status);
     }, []);
@@ -143,6 +145,7 @@ export default TopicsPage;
 const styles = {
   containerStyle: {
     width: wp('100%'),
+    height: hp('100%'),
     backgroundColor: '#FFF7DD',
     paddingTop: hp('15%'),
   },

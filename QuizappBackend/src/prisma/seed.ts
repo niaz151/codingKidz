@@ -201,12 +201,12 @@ const generateData = async () => {
     data: {
       name: "Scratch",
       units: {
-        create: [...Array(10).keys()].map((unitval) => {
+        create: [...Array(4).keys()].map((unitval) => {
           return {
             name: `Unit ${unitval}`,
             number: unitval,
             topics: {
-              create: [...Array(10).keys()].map((topicval) => {
+              create: [...Array(3).keys()].map((topicval) => {
                 return {
                   name: `Lesson ${topicval}`,
                   number: topicval,
@@ -239,6 +239,7 @@ const generateData = async () => {
     },
   });
 
+  {/*
   console.log("Generating Scratch JR outline...");
   await prisma.language.create({
     data: {
@@ -280,6 +281,7 @@ const generateData = async () => {
       },
     },
   });
+*/}
 };
 
 const createQuizzes = async () => {
