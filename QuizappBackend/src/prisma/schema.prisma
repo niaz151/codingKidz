@@ -83,15 +83,15 @@ model Topic {
 model MultipleChoiceQuestion {
   id                 Int    @id @default(autoincrement())
   question           String
-  questionImage      Bytes?
+  questionImage      Int?
   correctAnswer      String
-  correctAnswerImage Bytes?
+  correctAnswerImage Int?
   wrongAnswer0       String
-  wrongAnswer0Image  Bytes?
+  wrongAnswer0Image  Int?
   wrongAnswer1       String
-  wrongAnswer1Image  Bytes?
+  wrongAnswer1Image  Int?
   wrongAnswer2       String
-  wrongAnswer2Image  Bytes?
+  wrongAnswer2Image  Int?
   topic              Topic  @relation(fields: [topicId], references: [id])
   topicId            Int
 }
@@ -99,7 +99,7 @@ model MultipleChoiceQuestion {
 model TrueFalseQuestion {
   id            Int     @id @default(autoincrement())
   question      String
-  questionImage Bytes?
+  questionImage Int?
   correctAnswer Boolean
   topic         Topic   @relation(fields: [topicId], references: [id])
   topicId       Int

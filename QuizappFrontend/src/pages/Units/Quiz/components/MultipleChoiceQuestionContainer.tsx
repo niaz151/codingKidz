@@ -22,28 +22,28 @@ const mapImageRefToLink = (input: number) => {
   var imgLink: string = '';
   switch(input){
     case 0:
-      imgLink = "../../../../res/greenflag.png";
+      imgLink = "../../../../res/0.png";
       break;
     case 1:
-      imgLink = "../../../../res/starts_with_backdrop.png";
+      imgLink = "../../../../res/3.png";
       break;
     case 2:
-      imgLink = "../../../../res/starts_with_greenflag.png";
+      imgLink = "../../../../res/5.png";
       break;
     case 3:
-      imgLink = "../../../../res/starts_with_with_sprite_clicked.png";
+      imgLink = "../../../../res/1.png";
       break;
     case 4:
-      imgLink = "../../../../res/when_backdrop_switches.png";
+      imgLink = "../../../../res/6.png";
       break;
     case 5:
-      imgLink = "../../../../res/when_space_key_pressed.png";
+      imgLink = "../../../../res/2.png";
       break;
     case 6:
-      imgLink = "../../../../res/when_this_key_pressed.png";
+      imgLink = "../../../../res/7.png";
       break;
     case 7:
-      imgLink = "../../../../res/starts_with_space_key.png";
+      imgLink = "../../../../res/4.png";
       break;
   }
   return imgLink;
