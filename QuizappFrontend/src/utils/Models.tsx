@@ -61,19 +61,19 @@ type Question = {
   id: number;
   topicId: Topic['id'];
   question: string;
-  questionImage?: Buffer;
+  questionImage?: number;
 };
 
 export interface MultipleChoiceQuestion extends Question {
-  questionImage?: Buffer;
+  questionImage?: number;
   correctAnswer: string;
-  correctAnswerImage?: Buffer;
+  correctAnswerImage?: number;
   wrongAnswer0: string;
-  wrongAnswer0Image?: Buffer;
+  wrongAnswer0Image?: number;
   wrongAnswer1: string;
-  wrongAnswer1Image?: Buffer;
+  wrongAnswer1Image?: number;
   wrongAnswer2: string;
-  wrongAnswer2Image?: Buffer;
+  wrongAnswer2Image?: number;
 }
 
 export interface TrueFalseQuestion extends Question {
