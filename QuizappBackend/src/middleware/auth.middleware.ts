@@ -33,7 +33,7 @@ const hasValidAccessToken = (
         }
       }
     );
-  } catch (error) {
+  } catch (error: any) {
     // token can be expired or invalid. Send appropriate errors in each case:
     if (error.name === "TokenExpiredError") {
       return res
@@ -82,7 +82,7 @@ const hasValidRefreshToken = (
     );
 
     return next();
-  } catch (error) {
+  } catch (error: any) {
     // token can be expired or invalid. Send appropriate errors in each case:
     if (error.name === "TokenExpiredError") {
       return res

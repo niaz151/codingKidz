@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, StyleSheet, ScrollView, SafeAreaView, Animated} from 'react-native';
+import React, { useState } from 'react';
+import {View, StyleSheet, ScrollView, SafeAreaView, Animated, Alert} from 'react-native';
 import {Button, Text} from 'react-native-paper';
 import {MultipleChoiceQuestion, shuffleArray} from '../../../../utils';
 import { Image, Slider } from 'react-native-elements';
@@ -7,7 +7,6 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import { black } from 'react-native-paper/lib/typescript/styles/colors';
 
 type Props = {
   question: MultipleChoiceQuestion;
@@ -18,39 +17,55 @@ type Props = {
   questionNumber: number;
 };
 
-const mapImageRefToLink = (input: number) => {
-  var imgLink: string = '';
-  switch(input){
-    case 0:
-      imgLink = "../../../../res/0.png";
-      break;
-    case 1:
-      imgLink = "../../../../res/3.png";
-      break;
-    case 2:
-      imgLink = "../../../../res/5.png";
-      break;
-    case 3:
-      imgLink = "../../../../res/1.png";
-      break;
-    case 4:
-      imgLink = "../../../../res/6.png";
-      break;
-    case 5:
-      imgLink = "../../../../res/2.png";
-      break;
-    case 6:
-      imgLink = "../../../../res/7.png";
-      break;
-    case 7:
-      imgLink = "../../../../res/4.png";
-      break;
-  }
-  return imgLink;
-}
+// const mapImageRefToLink = (input: number) => {
+
+//   var imgLink: string = '';
+
+//   switch(input){
+//     case 0:
+//       imgLink = "../../../../res/0.png"
+//       break;
+//     case 1:
+//       imgLink = "../../../../res/3.png";
+//       break;
+//     case 2:
+//       imgLink = "../../../../res/5.png";
+//       break;
+//     case 3:
+//       imgLink = "../../../../res/1.png";
+//       break;
+//     case 4:
+//       imgLink = "../../../../res/6.png";
+//       break;
+//     case 5:
+//       imgLink = "../../../../res/2.png";
+//       break;
+//     case 6:
+//       imgLink = "../../../../res/7.png";
+//       break;
+//     case 7:
+//       imgLink = "../../../../res/4.png";
+//       break;
+//   }
+//   return imgLink;
+// }
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
+
   const {question, onCorrectAnswer, onIncorrectAnswer, score, questionNumber} = props;
+
+  type imgArrayType = { [key: number]: any };
+
+  const imgArray: imgArrayType = {
+    0: require("../../../../res/0.png"),
+    1: require("../../../../res/3.png"),
+    2: require("../../../../res/5.png"),
+    3: require("../../../../res/1.png"),
+    4: require("../../../../res/6.png"),
+    5: require("../../../../res/2.png"),
+    6: require("../../../../res/7.png"),
+    7: require("../../../../res/4.png"),
+  }
 
   const shuffledAnswers = shuffleArray([
     question.correctAnswer,
@@ -67,15 +82,16 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
     }
   };
 
-
   const checkForQuestionImg = () => {
-    if(question.question.includes('Show the image')){
-      return (
+    if(question.questionImage !== null){
+      //setImgLink(mapImageRefToLink(question.questionImage!));
+      const key = Object.keys(imgArray)[question.questionImage!];
+      console.log("Link: ", imgArray[0]);
+      return(
         <View style={styles.questionContainer}>
-        <Text style={styles.questionText}>{question.question}</Text>
-        <Image source={require('../../../../res/greenflag.png')} style={styles.q_image} />
-      </View>
-      )
+          <Image source={imgArray[question.questionImage!]} style={{height: 200, width: 200}} />
+        </View>
+      )    
     }
     else{
       return(

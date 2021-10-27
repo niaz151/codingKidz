@@ -106,7 +106,7 @@ const refreshRefreshToken = async (
     return res.json({
       refresh_token: newRefreshToken,
     });
-  } catch (error) {
+  } catch (error: any) {
     if (error.code === "P2025") {
       return res.status(400).json({
         error: "Token previously invalidated, please log in again",

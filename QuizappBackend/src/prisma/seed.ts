@@ -312,3 +312,5 @@ const createQuizzes = async () => {
 
   console.log("Created quizzes");
 };
+
+seed(); 
