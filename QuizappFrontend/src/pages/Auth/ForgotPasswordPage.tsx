@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 15,
   },
   btn: {
-    height: 60,
-    width: wp('50%'),
+    height: 65,
+    width: wp('30%'),
     backgroundColor: '#FF671D',
     display: 'flex',
     marginTop:-10,

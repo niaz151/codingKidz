@@ -54,10 +54,17 @@ enum QuizResultStatus {
   COMPLETED
 }
 
+enum LanguageStatus { 
+  LOCKED 
+  PENDING
+  COMPLETED
+}
+
 model Language {
   id    Int    @id @default(autoincrement())
   name  String
   units Unit[]
+  status LanguageStatus @default(PENDING)
 }
 
 model Unit {

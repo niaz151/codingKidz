@@ -347,14 +347,15 @@ const styles = StyleSheet.create({
     color: '#1B6A7A',
     fontSize: 22,
     fontFamily:'Nexa Bold',
-    fontWeight:'500'
+    fontWeight:'500',
+    marginLeft: "10%"
   },
   privacy: {
     marginTop: 20,
     color: '#1B6A7A',
     fontSize: 22,
-    marginLeft:-5,
-    fontFamily:'Nexa Light'
+    fontFamily:'Nexa Light',
+    marginLeft: "2%"
   },
   dateContainer: {
     display: 'flex',

@@ -95,14 +95,14 @@ const styles = StyleSheet.create({
   },
   splashCaptionWrap: {
     color: 'white',
-    width: 250,
+    width: 300,
     marginTop: 50,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
   },
   text:{
-    fontSize:25,
+    fontSize:35,
     fontFamily:'Nexa Bold',
     color: 'white',
     fontWeight:'600'

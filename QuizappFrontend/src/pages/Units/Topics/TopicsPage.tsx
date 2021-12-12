@@ -53,6 +53,7 @@ const TopicsPage = (props: Props) => {
     const {topic, unitId, unitName} = _props;
     var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
     var output: any = <View></View>;
+    console.log("TOPIC: ", topic.number, topic.id, topic.name)
 
     const LockedMouse = () => {
       return (
@@ -112,7 +113,7 @@ const TopicsPage = (props: Props) => {
 
     useEffect(() => {
 
-      console.log("Topic Results: ", topic.quizResults);
+      //console.log("Topic Results: ", topic.quizResults);
       // @ts-expect-error
       setQuizStatus(topic.quizResults[0].status);
     }, []);

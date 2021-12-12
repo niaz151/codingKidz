@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   langugeTile: {
     height: 75,
-    width: 210,
+    width: 300,
     backgroundColor: '#FF671D',
     borderColor: 'white',
     borderWidth: 2,
@@ -187,10 +187,10 @@ const styles = StyleSheet.create({
   },
   tailStyle:{
     position: 'absolute',
-    top: hp('-29%'),
-    left:wp("20%"),
-    height: 400,
-    width: 400,
+    top: hp('-43%'),
+    left:wp("15%"),
+    height: 600,
+    width: 600,
   }
 });
 

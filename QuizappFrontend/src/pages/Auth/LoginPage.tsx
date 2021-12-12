@@ -63,7 +63,7 @@ const LoginPage = () => {
           onPress={() => {
             navigation.navigate('Register');
           }}>
-          <Text style={styles.forgot}> REGISTER </Text>
+          <Text style={styles.forgot}> SIGN UP </Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={[styles.navOpacity, styles.navForgot]}
@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
     justifyContent:'center'
   },
   lineImg:{
-    height: '600',
-    width: 600,
+    height: '800',
+    width: 1000,
     marginTop:hp("30%"),
   },
   loginContainer: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   },
   textInput: {
     overflow: 'hidden',
-    width: wp('55%'),
+    width: wp('45%'),
     height: 70,
     borderWidth: 1,
     borderTopWidth: 1,
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   btn: {
     height: 70,
-    width: wp('55%'),
+    width: wp('45%'),
     backgroundColor: '#FF671D',
     display: 'flex',
     alignItems: 'center',
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   forgot: {
     fontFamily:'Nexa Bold',
     color: 'white',
-    fontSize: 20,
+    fontSize: 22,
   },
   privacy: {
     position: 'absolute',
