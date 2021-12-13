@@ -41,7 +41,6 @@ const updateUnit = async (updatedUnit: Unit) => {
 };
 
 const updateUnitTitle = async (languageId: Language["id"], unitId: Unit["id"], title: string) => {
-  console.log("Language ID: ", languageId);
   return await db.unit.updateMany({
     where: { 
       languageId: languageId,
@@ -67,7 +66,6 @@ const updateUnitStatus = async (languageId: Language["id"], unitId: Unit["id"], 
 
 const initFirstUnit = async (languageId: Language["id"]) => {
   const status: Unit["status"] = "PENDING";
-  console.log("Language ID: ", languageId);
   const calculated_id = ((languageId - 1) * 4) + 1;
   return await db.unit.updateMany({
     where: { 
