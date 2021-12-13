@@ -45,6 +45,7 @@ export const UnitsPage = (props: Props) => {
     })
     .then( (res) => {
       const res_units = res.data.units
+      console.log(res_units)
       setUnitData(JSON.stringify(res_units));
     });
   });
@@ -69,14 +70,14 @@ export const UnitsPage = (props: Props) => {
     var unit_data_parsed = JSON.parse(unitData!)
     for(var i = 0; i < unit_data_parsed.length; i ++){
       output.push(
-        <UnitTile unitId={i} key={i} unitName={unit_data_parsed[i].name} />
+        <UnitTile unitId={i} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i]} />
       )
     }
     return output;
   }
 
-  const UnitTile = (_props: {unitId: number, unitName: string}) => {
-    const {unitId, unitName} = _props;
+  const UnitTile = (_props: {unitId: number, unitName: string, status: string}) => {
+    const {unitId, unitName, status} = _props;
     return (
       <View
         style={[

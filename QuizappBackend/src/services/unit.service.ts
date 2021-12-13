@@ -1,10 +1,11 @@
-import { Language, Unit } from "@prisma/client";
+import { Language, Unit} from "@prisma/client";
 import { db } from "../prisma";
 
 const createUnit = async (
   languageId: Language["id"],
   name: Unit["name"],
-  number: Unit["number"]
+  number: Unit["number"],
+  status: Unit["status"],
 ) => {
   return await db.language.update({
     where: { id: languageId },
@@ -13,6 +14,7 @@ const createUnit = async (
         create: {
           name: name,
           number: number,
+          status: status,
         },
       },
     },

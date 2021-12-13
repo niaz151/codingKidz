@@ -54,7 +54,7 @@ enum QuizResultStatus {
   COMPLETED
 }
 
-enum LanguageStatus { 
+enum UnitStatus { 
   LOCKED 
   PENDING
   COMPLETED
@@ -64,7 +64,6 @@ model Language {
   id    Int    @id @default(autoincrement())
   name  String
   units Unit[]
-  status LanguageStatus @default(PENDING)
 }
 
 model Unit {
@@ -74,6 +73,7 @@ model Unit {
   language   Language @relation(fields: [languageId], references: [id])
   languageId Int
   topics     Topic[]
+  status     UnitStatus @default(LOCKED)
 }
 
 model Topic {

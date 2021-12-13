@@ -10,6 +10,12 @@ export enum QuizResultStatus {
   COMPLETED = 'COMPLETED',
 }
 
+export enum UnitStatus {
+  LOCKED = 'LOCKED',
+  PENDING = 'PENDING',
+  COMPLETED = 'COMPLETED',
+}
+
 export type User = {
   id: number;
   email: string;
@@ -45,6 +51,7 @@ export type Unit = {
   name: string;
   number: number;
   topics?: Topic[];
+  status: UnitStatus;
 };
 
 export type Topic = {

@@ -200,11 +200,11 @@ const generateData = async () => {
   await prisma.language.create({
     data: {
       name: "Scratch",
-      status: "PENDING",
       units: {
         create: [...Array(4).keys()].map((unitval) => {
           return {
             name: `Unit ${unitval}`,
+            status: "PENDING",
             number: unitval,
             topics: {
               create: [...Array(3).keys()].map((topicval) => {
@@ -245,11 +245,11 @@ const generateData = async () => {
   await prisma.language.create({
     data: {
       name: "Scratch JR",
-      status: "LOCKED",
       units: {
         create: [...Array(4).keys()].map((unitval) => {
           return {
             name: `Unit ${unitval}`,
+            status: "PENDING",
             number: unitval,
             topics: {
               create: [...Array(3).keys()].map((topicval) => {

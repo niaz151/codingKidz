@@ -5,10 +5,12 @@ const createUnit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { languageId } = req.params;
     const { name, number } = req.body;
+    const status = "LOCKED";
     const newUnit = await UnitService.createUnit(
       Number(languageId),
       name,
-      number
+      number,
+      status
     );
 
     return res.status(201).json({
@@ -50,13 +52,14 @@ const listUnits = async (req: Request, res: Response, next: NextFunction) => {
 const updateUnit = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { languageId, unitId } = req.params;
-    const { newName, newNumber, newTopics } = req.body;
+    const { newName, newNumber, newTopics, status } = req.body;
 
     const updatedUnit = await UnitService.updateUnit({
       languageId: Number(languageId),
       id: Number(unitId),
       name: newName,
       number: newNumber,
+      status: status,
     });
 
     return res.status(200).json({
