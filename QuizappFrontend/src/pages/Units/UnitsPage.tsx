@@ -10,6 +10,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {UnitsStackParamList} from './UnitsStack';
 import {useAppSelector} from '../../ducks/store';
 import axios from 'axios';
+import { UnitStatus } from '../../utils/Models';
 import {TokenService} from '../../services';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
@@ -45,10 +46,28 @@ export const UnitsPage = (props: Props) => {
     })
     .then( (res) => {
       const res_units = res.data.units
-      console.log(res_units)
-      setUnitData(JSON.stringify(res_units));
+      var sorted_arr = sortArrById(res_units)
+      setUnitData(JSON.stringify(sorted_arr));
     });
   });
+
+  const sortArrById = (inputArr: any) => {
+    let id_arr = [];
+    for(var i = 0; i < inputArr.length; i++) {
+      id_arr.push(inputArr[i].id);
+    }
+    id_arr.sort();
+    let output_arr: any = [];
+    for(let i = 0; i < id_arr.length; i++) {
+      var id = id_arr[i];
+      for(var j = 0; j < inputArr.length; j++) {
+        if(inputArr[j].id === id) {
+          output_arr.push(inputArr[j]);
+        }
+      }
+    }
+    return output_arr;
+  }
 
   function getRandomColor(){
     let temp_colors = colors;
@@ -70,7 +89,7 @@ export const UnitsPage = (props: Props) => {
     var unit_data_parsed = JSON.parse(unitData!)
     for(var i = 0; i < unit_data_parsed.length; i ++){
       output.push(
-        <UnitTile unitId={i} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i]} />
+        <UnitTile unitId={i} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i].status} />
       )
     }
     return output;
@@ -78,12 +97,24 @@ export const UnitsPage = (props: Props) => {
 
   const UnitTile = (_props: {unitId: number, unitName: string, status: string}) => {
     const {unitId, unitName, status} = _props;
+    var styleRef = {};
+    if(status === UnitStatus.COMPLETED){
+      styleRef = styles.completedStyles
+    }
+    if(status === UnitStatus.PENDING){
+      styleRef = styles.pendingStyles;
+    }
+    if(status === UnitStatus.LOCKED){
+      styleRef = styles.lockedStyles;
+    } 
     return (
       <View
         style={[
           styles.unitTileContainer,
           {backgroundColor: `${getRandomColor()}`},
-        ]}>
+          styleRef,
+        ]}
+        >
         <TouchableOpacity
           onPress={() =>
             navigation.navigate('Topics', {
@@ -91,7 +122,7 @@ export const UnitsPage = (props: Props) => {
               unitName: unitName,
             })
           }
-          style={styles.touchableStyles}>
+          style={styles.touchableStyles} >  
           <Text style={styles.unitTileText}>{unitName}</Text>
           <Text style={styles.unitTileIcon}> &#9660; </Text>
         </TouchableOpacity>
@@ -194,4 +225,15 @@ const styles = {
     borderWidth: 1,
     backgroundColor: '#e1ecf4',
   },
+  pendingStyles:{
+    opacity:1,
+    backgroundColor: 'blue',
+  },
+  lockedStyles:{
+    opacity: 0.5,
+    backgroundColor: 'red',
+  },
+  completedStyles:{
+
+  }
 };

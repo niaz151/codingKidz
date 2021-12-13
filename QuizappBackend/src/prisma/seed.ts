@@ -204,7 +204,7 @@ const generateData = async () => {
         create: [...Array(4).keys()].map((unitval) => {
           return {
             name: `Unit ${unitval}`,
-            status: "PENDING",
+            status: "LOCKED",
             number: unitval,
             topics: {
               create: [...Array(3).keys()].map((topicval) => {
@@ -249,7 +249,7 @@ const generateData = async () => {
         create: [...Array(4).keys()].map((unitval) => {
           return {
             name: `Unit ${unitval}`,
-            status: "PENDING",
+            status: "LOCKED",
             number: unitval,
             topics: {
               create: [...Array(3).keys()].map((topicval) => {

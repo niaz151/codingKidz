@@ -101,6 +101,50 @@ const updateUnitTitle = async (req:Request, res: Response, next: NextFunction) =
   }
 }
 
+const convertToEnum = (status:string) => {
+  if (status === 'COMPLETED'){
+    return "COMPLETED";
+  }
+  if (status === 'PENDING'){
+    return "PENDING";
+  }
+  if (status === 'LOCKED'){
+    return "LOCKED";
+  }
+  else{
+    return "LOCKED"
+  }
+}
+
+const updateUnitStatus = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { languageId, unitId, status } = req.params;
+    const typedStatus = convertToEnum(status)
+    const unitData = await UnitService.updateUnitStatus(Number(languageId), Number(unitId), typedStatus);
+    return res.status(200).json({
+      message: "Updated Unit Status",
+      unitData: unitData
+    })
+  } catch (error) { 
+    return next(error);
+  }
+}
+
+const initFirstUnit = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { languageId } = req.params;
+    const unitData = await UnitService.initFirstUnit(Number(languageId));
+    return res.status(200).json({
+      message: "Initialized First Unit",
+      unitData: unitData
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+
 
 export default {
   createUnit,
@@ -108,5 +152,7 @@ export default {
   updateUnit,
   getUnitByID,
   deleteUnit,
-  updateUnitTitle
+  updateUnitTitle,
+  updateUnitStatus,
+  initFirstUnit
 };

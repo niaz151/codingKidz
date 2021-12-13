@@ -200,6 +200,19 @@ languageRouter.post(
 );
 
 languageRouter.post(
+  "/:languageId/unit/:unitId/updateStatus/:status",
+  ErrorMiddleware.checkForValidationErrors,
+  UnitController.updateUnitStatus
+);
+
+languageRouter.post(
+  "/:languageId/initFirstUnit",
+  ErrorMiddleware.checkForValidationErrors,
+  UnitController.initFirstUnit
+);
+
+
+languageRouter.post(
   "/unit/:unitId/topic/:topicId/updateTitle/:title",
   ErrorMiddleware.checkForValidationErrors,
   TopicController.updateTopicTitle

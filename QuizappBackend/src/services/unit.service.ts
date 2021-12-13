@@ -52,6 +52,30 @@ const updateUnitTitle = async (languageId: Language["id"], unitId: Unit["id"], t
   })
 };
 
+const updateUnitStatus = async (languageId: Language["id"], unitId: Unit["id"], status: Unit["status"]) => {
+  return await db.unit.updateMany({
+    where: { 
+      languageId: languageId,
+      id: unitId,
+    },
+    data: { 
+      status: status
+    },
+  })
+};
+
+const initFirstUnit = async (languageId: Language["id"]) => {
+  const status: Unit["status"] = "PENDING";
+  return await db.unit.updateMany({
+    where: { 
+      languageId: languageId,
+      id: 1,
+    },
+    data: { 
+      status: status
+    },
+  })
+};
 
 const deleteUnit = async (languageId: Language["id"], unitId: Unit["id"]) => {
   // TODO add deleteQuestions
@@ -78,5 +102,7 @@ export default {
   getUnitByID,
   updateUnit,
   deleteUnit,
-  updateUnitTitle
+  updateUnitTitle,
+  updateUnitStatus,
+  initFirstUnit
 };

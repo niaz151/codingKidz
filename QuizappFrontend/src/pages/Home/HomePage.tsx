@@ -12,6 +12,7 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {RootTabParamList} from '../../App';
 import MouseWhiskers from '../../assets/images/mouse_whiskers.svg';
 import MouseTail from '../../assets/images/mouse_tail.svg';
+import axios from 'axios';
 
 type Props = {
   navigation: BottomTabNavigationProp<RootTabParamList, 'HomeTab'>;
@@ -27,11 +28,21 @@ const HomePage = (props: Props) => {
     (state) => state.languagesReducer.status,
   );
 
+  const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+
   useEffect(() => {
     if (languagesStatus === 'idle') {
       dispatch(getLanguages({}));
     }
   }, [dispatch, languagesStatus]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/language/1/initUnitData`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+  });
 
   return (
     <View style={styles.container}>
