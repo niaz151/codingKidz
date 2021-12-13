@@ -47,6 +47,7 @@ export const UnitsPage = (props: Props) => {
     .then( (res) => {
       const res_units = res.data.units
       var sorted_arr = sortArrById(res_units)
+      console.log("Sorted Arr: ", sorted_arr);
       setUnitData(JSON.stringify(sorted_arr));
     });
   });
@@ -96,8 +97,10 @@ export const UnitsPage = (props: Props) => {
   }
 
   const UnitTile = (_props: {unitId: number, unitName: string, status: string}) => {
+
     const {unitId, unitName, status} = _props;
     var styleRef = {};
+    
     if(status === UnitStatus.COMPLETED){
       styleRef = styles.completedStyles
     }
@@ -107,6 +110,18 @@ export const UnitsPage = (props: Props) => {
     if(status === UnitStatus.LOCKED){
       styleRef = styles.lockedStyles;
     } 
+
+    const unlockedNav = () => {
+      navigation.navigate('Topics', {
+        unitId: unitId,
+        unitName: unitName,
+      })
+    }
+
+    const lockedNav = () => {
+      Alert.alert("Unit Is Locked");
+    }
+
     return (
       <View
         style={[
@@ -116,12 +131,7 @@ export const UnitsPage = (props: Props) => {
         ]}
         >
         <TouchableOpacity
-          onPress={() =>
-            navigation.navigate('Topics', {
-              unitId: unitId,
-              unitName: unitName,
-            })
-          }
+          onPress={status === UnitStatus.LOCKED ? lockedNav : unlockedNav}
           style={styles.touchableStyles} >  
           <Text style={styles.unitTileText}>{unitName}</Text>
           <Text style={styles.unitTileIcon}> &#9660; </Text>
@@ -227,11 +237,10 @@ const styles = {
   },
   pendingStyles:{
     opacity:1,
-    backgroundColor: 'blue',
   },
   lockedStyles:{
     opacity: 0.5,
-    backgroundColor: 'red',
+    backgroundColor: 'gray',
   },
   completedStyles:{
 

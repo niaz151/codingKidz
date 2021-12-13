@@ -44,6 +44,14 @@ const HomePage = (props: Props) => {
     })
   });
 
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/language/2/initUnitData`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+  });
+
   return (
     <View style={styles.container}>
       <View style={styles.welcomeWrap}>
