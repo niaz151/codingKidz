@@ -37,20 +37,19 @@ const HomePage = (props: Props) => {
   }, [dispatch, languagesStatus]);
 
   useEffect(() => {
-    axios.get(`http://localhost:8000/api/language/1/initUnitData`, {
+    console.log("I RAN : ===============")
+    axios.post(`http://localhost:8000/api/language/1/initFirstUnit`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+    axios.post(`http://localhost:8000/api/language/2/initFirstUnit`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
   });
 
-  useEffect(() => {
-    axios.get(`http://localhost:8000/api/language/2/initUnitData`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-  });
 
   return (
     <View style={styles.container}>
