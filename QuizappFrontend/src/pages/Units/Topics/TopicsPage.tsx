@@ -32,7 +32,8 @@ const TopicsPage = (props: Props) => {
     })
     .then( (res) => {
       const res_topics = res.data.topics
-      setTopicData(JSON.stringify(res_topics));
+      var sorted_arr = sortArrById(res_topics);
+      setTopicData(JSON.stringify(sorted_arr));
     });
   });
 
@@ -48,6 +49,23 @@ const TopicsPage = (props: Props) => {
     return output;
   }
 
+  const sortArrById = (inputArr: any) => {
+    let id_arr = [];
+    for(var i = 0; i < inputArr.length; i++) {
+      id_arr.push(inputArr[i].id);
+    }
+    id_arr.sort();
+    let output_arr: any = [];
+    for(let i = 0; i < id_arr.length; i++) {
+      var id = id_arr[i];
+      for(var j = 0; j < inputArr.length; j++) {
+        if(inputArr[j].id === id) {
+          output_arr.push(inputArr[j]);
+        }
+      }
+    }
+    return output_arr;
+  }
 
   const TopicTile = (_props: {topic: Topic; unitId: number, unitName: string}) => {
     const {topic, unitId, unitName} = _props;

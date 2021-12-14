@@ -75,13 +75,13 @@ const styles = StyleSheet.create({
     paddingTop:20,
   },
   questionContainer: {
-    height: hp('20%'),
     width: wp('70%'),
-    //borderColor: 'black',
-    //borderWidth: 1,
+    // borderColor: 'black',
+    // borderWidth: 1,
     display:'flex',
     alignItems:'center',
     justifyContent:'center',
+    marginTop:hp("2%")
   },
   questionText:{
     fontSize: 30,

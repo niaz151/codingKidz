@@ -190,13 +190,13 @@ const styles = StyleSheet.create({
     flex:1,
   },
   questionContainer: {
-    height: hp('40%'),
     width: wp('80%'),
-    //borderColor: 'black',
-    //borderWidth: 1,
+    // borderColor: 'black',
+    // borderWidth: 1,
     display:'flex',
     alignItems:'center',
-    justifyContent:'center',
+    justifyContent:'flex-start',
+    marginTop:hp("2%")
   },
   questionText:{
     fontSize: 30,
