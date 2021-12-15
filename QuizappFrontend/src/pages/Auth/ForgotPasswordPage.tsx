@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   titleText: {
-    fontSize: 32,
+    fontSize: 34,
     letterSpacing:1,
     fontFamily:'Nexa Light',
 
   },
   subTitleText: {
-    fontSize: 18,
+    fontSize: 26,
     letterSpacing:1,
     fontFamily:'Nexa Light',
     marginTop:5,
