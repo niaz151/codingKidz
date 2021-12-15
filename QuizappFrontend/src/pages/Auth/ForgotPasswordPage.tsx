@@ -63,13 +63,13 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   titleText: {
-    fontSize: 34,
+    fontSize: 32,
     letterSpacing:1,
     fontFamily:'Nexa Light',
 
   },
   subTitleText: {
-    fontSize: 26,
+    fontSize: 24,
     letterSpacing:1,
     fontFamily:'Nexa Light',
     marginTop:5,
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+    fontSize: 22, 
   },
   btn: {
     height: 65,
