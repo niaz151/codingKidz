@@ -208,10 +208,10 @@ const styles = {
     justifyContent: 'center',
   },
   unitTileText: {
-    fontSize: 40,
+    fontSize: 34,
     color: 'white',
     fontFamily:'Nexa Bold',
-    width: '70%',
+    width: '75%',
     //borderColor:'black',
     //borderWidth:1,
     textAlign: 'center',

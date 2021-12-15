@@ -52,7 +52,9 @@ type Props = {
 
 const MultipleChoiceQuestionContainer = (props: Props) => {
 
+
   const {question, onCorrectAnswer, onIncorrectAnswer, score, questionNumber} = props;
+  let isQuestionImage: boolean = false;
 
   type imgArrayType = { [key: number]: any };
 
@@ -87,13 +89,16 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       //setImgLink(mapImageRefToLink(question.questionImage!));
       const key = Object.keys(imgArray)[question.questionImage!];
       console.log("Link: ", imgArray[0]);
+      isQuestionImage = true;
       return(
         <View style={styles.questionContainer}>
-          <Image source={imgArray[question.questionImage!]} style={{height: 200, width: 200}} />
+          <Text style={styles.questionText}>{question.question}</Text>
+          <Image source={imgArray[question.questionImage!]} style={{height: 500, width: 500}} />
         </View>
       )    
     }
     else{
+      isQuestionImage = false;
       return(
         <View style={styles.questionContainer}>
           <Text style={styles.questionText}>{question.question}</Text>
@@ -101,6 +106,22 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
       )
     }
   }
+
+  // const renderQuestionOptions = (input: any, re) => {
+  //   if(isQuestionImage){
+  //     return(
+  //       <Text style={styles.answerText}> {input} </Text>
+  //     )
+  //   }
+  //   else{
+  //     return(
+  //       <Image source={require('../../../../res/starts_with_when_sprite_clicked.png')} style={styles.mc_image} />
+  //     )
+  //   }
+
+  // }
+
+  //checkForQuestionImg()
 
   return (
     <View style={styles.container}>
@@ -147,7 +168,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
                 <View style={styles.answer}>
                 <Button onPress={handleAnswer}>
                     <Image source={require('../../../../res/starts_with_when_sprite_clicked.png')} style={styles.mc_image} />
-                    {/* <Text style={styles.answerText}> {currentAnswer} </Text> */}
+                    {/* <Text style={styles.answerText}> {currentAnswer} </Text>  */}
                   </Button>
                 </View>
               </View>

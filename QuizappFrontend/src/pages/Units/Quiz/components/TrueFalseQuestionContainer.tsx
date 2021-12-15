@@ -36,6 +36,18 @@ const TrueFalseQuestionContainer = (props: Props) => {
     return checkAnswer(false);
   };
 
+  type imgArrayType = { [key: number]: any };
+
+  const imgArray: imgArrayType = {
+    0: require("../../../../res/starts_with_backdrop.png"),
+    1: require("../../../../res/starts_with_greenflag.png"),
+    2: require("../../../../res/starts_with_space_key.png"),
+    3: require("../../../../res/starts_with_when_sprite_clicked.png"),
+    4: require("../../../../res/when_backdrop_switches.png"),
+    5: require("../../../../res/when_space_key_pressed.png"),
+    6: require("../../../../res/when_this_key_pressed.png"),
+  }
+
   return (
     <View style={styles.container}>
       <Slider

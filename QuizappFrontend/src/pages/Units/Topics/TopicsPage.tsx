@@ -80,8 +80,8 @@ const TopicsPage = (props: Props) => {
             style={styles.opacityStyle}
             onPress={() => Alert.alert('Topic is Locked')}>
             <MouseFlowerLocked style={styles.imgStyle} />
-            <Text style={styles.captionText}> Lesson {topic.id} </Text>
-            <Text style={styles.lessonText}> {topic.name} </Text>
+            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.lessonText}> Lesson {topic.id} </Text>
           </TouchableOpacity>
         </View>
       );
@@ -101,8 +101,8 @@ const TopicsPage = (props: Props) => {
               })
             }>
             <MouseFlower style={styles.imgStyle} />
-            <Text style={styles.captionText}> Lesson {topic.id} </Text>
-            <Text style={styles.lessonText}> {topic.name} </Text>
+            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.lessonText}> Lesson {topic.id} </Text>
           </TouchableOpacity>
         </View>
       );
@@ -122,8 +122,8 @@ const TopicsPage = (props: Props) => {
               })
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />
-            <Text style={styles.captionText}> Lesson {topic.id} </Text>
-            <Text style={styles.lessonText}> {topic.name} </Text>
+            <Text style={styles.captionText}> {topic.name} </Text>
+            <Text style={styles.lessonText}> Lesson {topic.id} </Text>
           </TouchableOpacity>
         </View>
       );

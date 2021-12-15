@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: '#FF671D',
     backgroundColor: 'white',
+    fontSize: 25
   },
   btn: {
     height: 70,
