@@ -134,7 +134,7 @@ export const UnitsPage = (props: Props) => {
           onPress={status === UnitStatus.LOCKED ? lockedNav : unlockedNav}
           style={styles.touchableStyles} >  
           <Text style={styles.unitTileText}>{unitName}</Text>
-          <Text style={styles.unitTileIcon}> &#9660; </Text>
+          {/* <Text style={styles.unitTileIcon}> &#9660; </Text> */}
         </TouchableOpacity>
       </View>
     );
@@ -215,8 +215,7 @@ const styles = {
     //borderColor:'black',
     //borderWidth:1,
     textAlign: 'center',
-    paddingLeft: '20%',
-    paddingTop:'2%'
+    marginTop: hp('0.5%'),
   },
   unitTileIcon: {
     width: '30%',
