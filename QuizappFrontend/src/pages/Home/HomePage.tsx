@@ -110,12 +110,13 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     fontFamily:'Nexa Bold',
-    fontSize: 36,
+    fontSize: 55,
     color: '#FF671D',
+    marginTop: hp("2%")
   },
   emailText: {
     fontFamily:'Nexa Light',
-    fontSize: 33,
+    fontSize: 40,
     color: 'black',
   },
   languageWrap: {
