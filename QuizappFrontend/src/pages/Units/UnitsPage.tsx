@@ -47,7 +47,6 @@ export const UnitsPage = (props: Props) => {
     .then( (res) => {
       const res_units = res.data.units
       var sorted_arr = sortArrById(res_units)
-      console.log("Sorted Arr: ", sorted_arr);
       setUnitData(JSON.stringify(sorted_arr));
     });
   });

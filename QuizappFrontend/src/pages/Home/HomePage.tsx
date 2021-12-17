@@ -37,7 +37,6 @@ const HomePage = (props: Props) => {
   }, [dispatch, languagesStatus]);
 
   useEffect(() => {
-    console.log("I RAN : ===============")
     axios.post(`http://localhost:8000/api/language/1/initFirstUnit`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
