@@ -126,6 +126,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
         maximumValue={props.numQuestions}
         value={questionNumber}
         step={1}
+        disabled={true}
         maximumTrackTintColor="#F9D2C0"
         minimumTrackTintColor="#FF6A00"
         style={styles.sliderStyle}
