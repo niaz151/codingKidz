@@ -2,10 +2,8 @@ import React, {useEffect} from 'react';
 import {
   View,
   Text,
-  Image,
   StyleSheet,
   TouchableOpacity,
-  Animated,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -18,7 +16,6 @@ import {udpateQuizData, updateQuizStatus} from './quizSlice';
 import {useAppDispatch, useAppSelector} from '../../../ducks/store';
 import {TokenService} from '../../../services';
 import {QuizResultStatus} from '../../../utils/Models';
-import {getLanguages} from '../languagesSlice';
 import axios from 'axios';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
@@ -29,7 +26,6 @@ export const PassedQuiz = (props: Props) => {
     route.params;
   const score = Math.round((numberCorrect / numberQuestions) * 100);
 
-  var next_quiz_status = '';
   const dispatch = useAppDispatch();
   const quizDataStatus = useAppSelector((state) => state.quizReducer.status);
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
@@ -66,6 +62,17 @@ export const PassedQuiz = (props: Props) => {
       unitName: unitName,
     });
   };
+
+  useEffect(() => {
+    console.log("running new effect")
+    axios.post(`http://localhost:8000/api/language/topic/${topicId}/passed`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+  });
+
+
 
   return (
     <View style={styles.container}>

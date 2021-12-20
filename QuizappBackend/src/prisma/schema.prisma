@@ -60,6 +60,12 @@ enum UnitStatus {
   COMPLETED
 }
 
+enum TopicStatus {
+  LOCKED
+  PENDING
+  COMPLETED
+}
+
 model Language {
   id    Int    @id @default(autoincrement())
   name  String
@@ -84,7 +90,8 @@ model Topic {
   unitId                  Int
   multipleChoiceQuestions MultipleChoiceQuestion[]
   trueFalseQuestions      TrueFalseQuestion[]
-  quizResults QuizResult[]
+  quizResults             QuizResult[]
+  status                  UnitStatus @default(LOCKED)
 }
 
 model MultipleChoiceQuestion {

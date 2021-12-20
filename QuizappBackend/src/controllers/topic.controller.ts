@@ -102,5 +102,35 @@ const updateTopicTitle = async (req:Request, res: Response, next: NextFunction) 
   }
 }
 
+const convertToEnum = (status:string) => {
+  if (status === 'COMPLETED'){
+    return "COMPLETED";
+  }
+  if (status === 'PENDING'){
+    return "PENDING";
+  }
+  if (status === 'LOCKED'){
+    return "LOCKED";
+  }
+  else{
+    return "LOCKED"
+  }
+}
 
-export default { listTopicsByUnitID, createTopic, getTopicByID, deleteTopic, getQuizResults, updateTopicTitle };
+
+const updateTopicStatus = async (req:Request, res: Response, next: NextFunction) => {
+  try {
+    const { topicId, status } = req.params;
+    const typedStatus = convertToEnum(status)
+    const topicData = await TopicService.updateTopicStatus(Number(topicId),typedStatus );
+    return res.status(200).json({
+      message: "Updated Topic Status To Passed",
+      topicData: topicData
+    })
+  } catch (error) {
+    return next(error);
+  }
+}
+
+
+export default { listTopicsByUnitID, createTopic, getTopicByID, deleteTopic, getQuizResults, updateTopicTitle, updateTopicStatus };

@@ -4,7 +4,8 @@ import { db } from "../prisma";
 const createTopic = async (
   unitId: Unit["id"],
   name: Topic["name"],
-  number: Topic["number"]
+  number: Topic["number"],
+  status: Topic["status"]
 ) => {
   return await db.unit.update({
     where: {
@@ -15,6 +16,7 @@ const createTopic = async (
         create: {
           name: name,
           number: number,
+          status: status
         },
       },
     },
@@ -95,10 +97,22 @@ const updateTopicTitle = async (unitId: Unit["id"], topicId: Topic["id"], title:
   })
 };
 
+const updateTopicStatus = async (topicId: Topic["id"], status: Topic["status"]) => {
+  return await db.topic.update({
+    where: { 
+      id: topicId
+    },
+    data: { 
+      status: status
+    },
+  })
+};
+
  export default {
   createTopic,
   listTopicsByUnitID,
   getTopicByID,
   deleteTopic,
-  updateTopicTitle
+  updateTopicTitle,
+  updateTopicStatus
 };
