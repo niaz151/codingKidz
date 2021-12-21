@@ -104,5 +104,5 @@ export default {
   deleteUnit,
   updateUnitTitle,
   updateUnitStatus,
-  initFirstUnit
+  initFirstUnit,
 };

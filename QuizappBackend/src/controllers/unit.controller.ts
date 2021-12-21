@@ -143,9 +143,6 @@ const initFirstUnit = async (req:Request, res: Response, next: NextFunction) => 
   }
 }
 
-
-
-
 export default {
   createUnit,
   listUnits,
@@ -154,5 +151,5 @@ export default {
   deleteUnit,
   updateUnitTitle,
   updateUnitStatus,
-  initFirstUnit
+  initFirstUnit,
 };

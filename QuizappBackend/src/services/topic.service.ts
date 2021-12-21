@@ -1,4 +1,4 @@
-import { Topic, Unit } from "@prisma/client";
+import { Language, Topic, Unit } from "@prisma/client";
 import { db } from "../prisma";
 
 const createTopic = async (
@@ -95,10 +95,23 @@ const updateTopicTitle = async (unitId: Unit["id"], topicId: Topic["id"], title:
   })
 };
 
+const getTopicStatuses = async (unitId: Unit["id"]) => {
+  return await db.topic.findMany({
+    where: {
+      unitId: unitId,
+    },
+    include:{
+      quizResults: true,
+    }
+  });
+};
+
+
  export default {
   createTopic,
   listTopicsByUnitID,
   getTopicByID,
   deleteTopic,
-  updateTopicTitle
+  updateTopicTitle,
+  getTopicStatuses
 };

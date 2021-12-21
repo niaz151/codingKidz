@@ -224,4 +224,11 @@ languageRouter.get(
   TopicController.listTopicsByUnitID
 );
 
+
+languageRouter.get(
+  "/unit/:unitId/getTopicStatuses",
+  ErrorMiddleware.checkForValidationErrors,
+  TopicController.getTopicStatuses 
+);
+
 export default languageRouter;
