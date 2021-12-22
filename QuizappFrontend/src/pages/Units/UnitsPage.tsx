@@ -26,6 +26,7 @@ export const UnitsPage = (props: Props) => {
   const { navigation, route } = props;
   const { language } = route.params;
   const [unitData, setUnitData] = useState<UnitData[] | null>();
+
   const isFocused = useIsFocused();
   let statusArr: any = [];
   var title_quoted = JSON.stringify(language.name);
@@ -48,10 +49,10 @@ export const UnitsPage = (props: Props) => {
   ];
 
   useEffect(() => {
-    if(isFocused){ 
+    if (isFocused) {
       getUnits();
-  }
-  },[isFocused])
+    }
+  }, [isFocused])
 
   const getUnits = () => {
     axios.get(`http://localhost:8000/api/language/${language.id}/unit`, {
@@ -96,7 +97,7 @@ export const UnitsPage = (props: Props) => {
   function getRandomInt(min: number, max: number) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min) + min); 
+    return Math.floor(Math.random() * (max - min) + min);
   }
 
   function renderTiles() {
@@ -104,7 +105,7 @@ export const UnitsPage = (props: Props) => {
     var unit_data_parsed = unitData!
     for (var i = 0; i < unit_data_parsed.length; i++) {
       output.push(
-        <UnitTile unitId={i+1} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i].status} />
+        <UnitTile unitId={i + 1} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i].status} />
       )
     }
     return output;
@@ -127,9 +128,9 @@ export const UnitsPage = (props: Props) => {
 
     const unlockedNav = () => {
       navigation.navigate('Topics', {
-        unitId: unitId-1,
+        unitId: unitId - 1,
         unitName: unitName,
-      })   
+      })
     }
 
     const lockedNav = () => {
@@ -173,80 +174,6 @@ export const UnitsPage = (props: Props) => {
     </View>
   );
 };
-
-    // const checkIfCompleted = () => {
-    //   var isCompleted : boolean = true;
-    //   for(var i = 0; i < topicData.length; i++) {
-    //     if(topicData[i] !== UnitStatus.COMPLETED){
-    //       isCompleted = false;
-    //     }
-    //   }
-    //   return isCompleted;
-    // }
-
-
-    // // if unit should be completed, update status accordingly and unlock next unit
-    // if(statusData !== []){
-    //   if(checkIfCompleted()){
-    //     completeUnit(unitId);
-    //     unlockUnit(unitId+1);
-    //   }
-    // }
-
-      // const getTopicStatuses = () => {
-  //   let unitIdArr = [];
-  //   if (unitData != null && unitData != undefined) {
-  //     for (var i = 0; i < unitData.length; i++) {
-  //       unitIdArr.push(unitData[i].id);
-  //     }
-  //     unitIdArr.map(id => {
-  //       axios.get(`http://localhost:8000/api/language/unit/${id}/getTopicStatuses`, {
-  //         headers: {
-  //           Authorization: `Bearer ${accessToken}`,
-  //         },
-  //       })
-  //         .then((res) => {
-  //           var topicData = res.data.topicData;
-  //           var output: any = [];
-  //           for (var i = 0; i < topicData.length; i++) {
-  //             output.push(topicData[i].quizResults[0].status);
-  //           }
-  //           setStatusData(statusData => [...statusData, output]);
-  //         });
-  //     })  
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   if(isFocused){
-  //     getTopicStatuses();
-  //   }
-  // }, []);
-
-  // const unlockUnit = (unitId: number) => {
-  //   console.log("unlocking")
-  //   axios.post(`http://localhost:8000/api/language/unit/${unitId}/updateStatus/${UnitStatus.PENDING}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //      var data = res.data
-  //       //console.log(res.data)
-  //     });
-  // }
-
-  // const completeUnit = (unitId: number) => {
-  //   axios.post(`http://localhost:8000/api/language/unit/${unitId}/updateStatus/${UnitStatus.COMPLETED}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //   })
-  //     .then((res) => {
-  //      var data = res.data
-  //       //console.log(res.data)
-  //     });
-  // }
 
 const styles = {
   container: {

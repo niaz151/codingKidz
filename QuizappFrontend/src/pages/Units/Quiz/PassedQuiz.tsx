@@ -5,7 +5,6 @@ import {
   Image,
   StyleSheet,
   TouchableOpacity,
-  Animated,
 } from 'react-native';
 import {
   widthPercentageToDP as wp,
@@ -24,24 +23,25 @@ type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
 export const PassedQuiz = (props: Props) => {
   const { navigation, route } = props;
-  const { numberQuestions, numberCorrect, unitId, topicId, unitName, topic } =
-    route.params;
-  const score = Math.round((numberCorrect / numberQuestions) * 100);
+  const { numberQuestions, numberCorrect, unitId, topicId, unitName, topic } = route.params;
 
-  var next_quiz_status = '';
   const dispatch = useAppDispatch();
   const [topicStatus, setTopicStatus] = useState<any[]>([]);
   const quizDataStatus = useAppSelector((state) => state.quizReducer.status);
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
+
   // @ts-expect-error
   const { id } = TokenService.readToken(accessToken);
-  var topic_id = topicId;
-  var user_id = id;
   //@ts-expect-error
   var quiz_id = topic.quizResults[0].id;
-  var status = QuizResultStatus.COMPLETED;
   // @ts-expect-error
   var grade = topic.quizResults[0].grade;
+    
+  const score = Math.round((numberCorrect / numberQuestions) * 100);
+  var next_quiz_status = '';
+  var topic_id = topicId;
+  var user_id = id;
+  var status = QuizResultStatus.COMPLETED;
 
   useEffect(() => {
     if (quizDataStatus === 'idle') {
@@ -88,9 +88,6 @@ export const PassedQuiz = (props: Props) => {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((res) => {
-        var data = res.data
-      });
   }
 
   const completeUnit = (unitId: number) => {
@@ -100,9 +97,6 @@ export const PassedQuiz = (props: Props) => {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((res) => {
-        var data = res.data
-      });
   }
 
   if (topicStatus.length != 0) {

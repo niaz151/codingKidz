@@ -29,10 +29,10 @@ const TopicsPage = (props: Props) => {
 
   useEffect(() => {
     console.log("i ran")
-    if(isFocused){ 
+    if (isFocused) {
       getTopics();
-  }
-  },[isFocused])
+    }
+  }, [isFocused])
 
 
   const getTopics = () => {

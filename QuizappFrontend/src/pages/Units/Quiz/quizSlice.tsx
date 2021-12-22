@@ -115,7 +115,6 @@ const updateQuizStatus = createAsyncThunk(
   },
 );
 
-
 const quizSlice = createSlice({
   name: 'quizData',
   initialState,
