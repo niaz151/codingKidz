@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Alert, } from 'react-native';
 import { Topic, Unit } from '../../../utils';
+import { useIsFocused } from '@react-navigation/native';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -20,11 +21,21 @@ const TopicsPage = (props: Props) => {
   const [topicData, setTopicData] = useState<string | null>();
   const { route, navigation } = props;
   const { unitId, unitName } = route.params;
+  const isFocused = useIsFocused()
   var unit_quoted = unitName;
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   navigation.setOptions({ headerTitle: unit_quoted });
 
+
   useEffect(() => {
+    console.log("i ran")
+    if(isFocused){ 
+      getTopics();
+  }
+  },[isFocused])
+
+
+  const getTopics = () => {
     axios.get(`http://localhost:8000/api/language/unit/${unitId + 1}/topic/`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -35,7 +46,7 @@ const TopicsPage = (props: Props) => {
         var sorted_arr = sortArrById(res_topics);
         setTopicData(JSON.stringify(sorted_arr));
       });
-  },[]);
+  }
 
   function renderTiles() {
     var output = []
