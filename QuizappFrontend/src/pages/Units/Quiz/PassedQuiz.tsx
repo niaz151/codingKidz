@@ -76,11 +76,13 @@ export const PassedQuiz = (props: Props) => {
       if (topicStatus[0][i] !== UnitStatus.COMPLETED) {
         isCompleted = false;
       }
+      console.log(topicStatus)
     }
     return isCompleted;
   }
 
   const unlockUnit = (unitId: number) => {
+    console.log("unlocking unit: ", unitId)
     axios.post(`http://localhost:8000/api/language/unit/${unitId}/updateStatus/${UnitStatus.PENDING}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -92,6 +94,7 @@ export const PassedQuiz = (props: Props) => {
   }
 
   const completeUnit = (unitId: number) => {
+    console.log("completing unit: ", unitId)
     axios.post(`http://localhost:8000/api/language/unit/${unitId}/updateStatus/${UnitStatus.COMPLETED}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
