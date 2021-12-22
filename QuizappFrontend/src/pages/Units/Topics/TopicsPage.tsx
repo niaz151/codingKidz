@@ -1,16 +1,16 @@
-import React, {useState, useEffect} from 'react';
-import {View, Text, TouchableOpacity, ScrollView, Alert} from 'react-native';
-import {Topic, Unit} from '../../../utils';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import { Topic, Unit } from '../../../utils';
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
-import {StackScreenProps} from '@react-navigation/stack';
-import {UnitsStackParamList} from '../UnitsStack';
+import { StackScreenProps } from '@react-navigation/stack';
+import { UnitsStackParamList } from '../UnitsStack';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
 import MouseFlowerLocked from '../../../assets/images/mouse_flower_locked.svg';
 import MouseFlowerCompleted from '../../../assets/images/mouse_flower_completed.svg';
-import {QuizResultStatus} from '../../../utils/Models';
+import { QuizResultStatus, UnitStatus } from '../../../utils/Models';
 import axios from 'axios';
 import { useAppSelector } from '../../../ducks/store';
 
@@ -18,11 +18,11 @@ type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 
 const TopicsPage = (props: Props) => {
   const [topicData, setTopicData] = useState<string | null>();
-  const {route, navigation} = props;
-  const {unitId, unitName} = route.params;
+  const { route, navigation } = props;
+  const { unitId, unitName } = route.params;
   var unit_quoted = unitName;
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
-  navigation.setOptions({headerTitle: unit_quoted});
+  navigation.setOptions({ headerTitle: unit_quoted });
 
   useEffect(() => {
     axios.get(`http://localhost:8000/api/language/unit/${unitId + 1}/topic/`, {
@@ -30,20 +30,19 @@ const TopicsPage = (props: Props) => {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-    .then( (res) => {
-      const res_topics = res.data.topics
-      var sorted_arr = sortArrById(res_topics);
-      setTopicData(JSON.stringify(sorted_arr));
-    });
-  });
+      .then((res) => {
+        const res_topics = res.data.topics
+        var sorted_arr = sortArrById(res_topics);
+        setTopicData(JSON.stringify(sorted_arr));
+      });
+  },[]);
 
-
-  function renderTiles(){
+  function renderTiles() {
     var output = []
     var topic_data_parsed = JSON.parse(topicData!)
-    for(var i = 0; i < topic_data_parsed.length; i ++){
+    for (var i = 0; i < topic_data_parsed.length; i++) {
       output.push(
-        <TopicTile unitId={unitId} unitName={unitName} topicName={topic_data_parsed[i].name} topic={topic_data_parsed[i]} key={i} />
+        <TopicTile unitId={unitId} unitName={unitName} topic={topic_data_parsed[i]} key={i} quizResult={topic_data_parsed[i].quizResults} />
       )
     }
     return output;
@@ -51,15 +50,15 @@ const TopicsPage = (props: Props) => {
 
   const sortArrById = (inputArr: any) => {
     let id_arr = [];
-    for(var i = 0; i < inputArr.length; i++) {
+    for (var i = 0; i < inputArr.length; i++) {
       id_arr.push(inputArr[i].id);
     }
     id_arr.sort();
     let output_arr: any = [];
-    for(let i = 0; i < id_arr.length; i++) {
+    for (let i = 0; i < id_arr.length; i++) {
       var id = id_arr[i];
-      for(var j = 0; j < inputArr.length; j++) {
-        if(inputArr[j].id === id) {
+      for (var j = 0; j < inputArr.length; j++) {
+        if (inputArr[j].id === id) {
           output_arr.push(inputArr[j]);
         }
       }
@@ -67,11 +66,10 @@ const TopicsPage = (props: Props) => {
     return output_arr;
   }
 
-  const TopicTile = (_props: {topic: Topic; unitId: number, unitName: string}) => {
-    const {topic, unitId, unitName} = _props;
+  const TopicTile = (_props: { topic: Topic; unitId: number, unitName: string, quizResult: any }) => {
+    const { topic, unitId, unitName, quizResult } = _props;
     var [quizStatus, setQuizStatus] = useState<QuizResultStatus | null>(null);
     var output: any = <View></View>;
-
     const LockedMouse = () => {
       return (
         <View style={styles.topicTileContainer}>
@@ -147,7 +145,7 @@ const TopicsPage = (props: Props) => {
 
   return (
     <View style={styles.containerStyle}>
-      {topicData? 
+      {topicData ?
         <ScrollView contentContainerStyle={styles.topicListContainer}>
           {renderTiles()}
         </ScrollView>
@@ -206,22 +204,3 @@ const styles = {
     marginTop: 5,
   },
 };
-
-/*
-        return (
-          <View style={styles.topicTileContainer}>
-            <TouchableOpacity
-              style={styles.opacityStyle}
-              onPress={() =>
-                navigation.navigate('Quiz', {
-                  topic: topic,
-                  unit: unit,
-                })
-              }>
-              <MouseFlower style={styles.imgStyle} />
-              <Text style={styles.captionText}> {topic.name} </Text>
-              <Text style={styles.lessonText}> Lesson Title </Text>
-            </TouchableOpacity>
-          </View>
-        );
-        */

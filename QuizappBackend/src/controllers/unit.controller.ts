@@ -118,9 +118,9 @@ const convertToEnum = (status:string) => {
 
 const updateUnitStatus = async (req:Request, res: Response, next: NextFunction) => {
   try {
-    const { languageId, unitId, status } = req.params;
+    const { unitId, status } = req.params;
     const typedStatus = convertToEnum(status)
-    const unitData = await UnitService.updateUnitStatus(Number(languageId), Number(unitId), typedStatus);
+    const unitData = await UnitService.updateUnitStatus(Number(unitId), typedStatus);
     return res.status(200).json({
       message: "Updated Unit Status",
       unitData: unitData

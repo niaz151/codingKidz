@@ -52,10 +52,9 @@ const updateUnitTitle = async (languageId: Language["id"], unitId: Unit["id"], t
   })
 };
 
-const updateUnitStatus = async (languageId: Language["id"], unitId: Unit["id"], status: Unit["status"]) => {
+const updateUnitStatus = async (unitId: Unit["id"], status: Unit["status"]) => {
   return await db.unit.updateMany({
     where: { 
-      languageId: languageId,
       id: unitId,
     },
     data: { 

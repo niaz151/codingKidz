@@ -200,7 +200,7 @@ languageRouter.post(
 );
 
 languageRouter.post(
-  "/:languageId/unit/:unitId/updateStatus/:status",
+  "/unit/:unitId/updateStatus/:status",
   ErrorMiddleware.checkForValidationErrors,
   UnitController.updateUnitStatus
 );
@@ -223,7 +223,6 @@ languageRouter.get(
   ErrorMiddleware.checkForValidationErrors,
   TopicController.listTopicsByUnitID
 );
-
 
 languageRouter.get(
   "/unit/:unitId/getTopicStatuses",

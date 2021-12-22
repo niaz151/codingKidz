@@ -103,7 +103,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
     }
   }
 
-  const renderQuestionChoices = (input: any) => {
+  const  renderQuestionChoices = (input: any) => {
     // if questions contains image, the answers do not 
     if (question.questionImage !== null) {
       return (
@@ -113,7 +113,7 @@ const MultipleChoiceQuestionContainer = (props: Props) => {
     // if question does not contain image, the answers do
     else {
       return (
-        <Image source={require('../../../../res/starts_with_when_sprite_clicked.png')} />
+        <Text style={styles.answerText}> {input} </Text>
       )
     }
 

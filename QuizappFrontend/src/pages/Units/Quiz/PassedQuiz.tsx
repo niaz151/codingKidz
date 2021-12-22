@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -12,55 +12,113 @@ import {
   heightPercentageToDP as hp,
 } from 'react-native-responsive-screen';
 import Rocket from '../../../assets/images/rocket.svg';
-import {StackScreenProps} from '@react-navigation/stack';
-import {UnitsStackParamList} from './../UnitsStack';
-import {udpateQuizData, updateQuizStatus} from './quizSlice';
-import {useAppDispatch, useAppSelector} from '../../../ducks/store';
-import {TokenService} from '../../../services';
-import {QuizResultStatus} from '../../../utils/Models';
-import {getLanguages} from '../languagesSlice';
+import { StackScreenProps } from '@react-navigation/stack';
+import { UnitsStackParamList } from './../UnitsStack';
+import { udpateQuizData, updateQuizStatus } from './quizSlice';
+import { useAppDispatch, useAppSelector } from '../../../ducks/store';
+import { TokenService } from '../../../services';
+import { QuizResultStatus, UnitStatus } from '../../../utils/Models';
 import axios from 'axios';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
 export const PassedQuiz = (props: Props) => {
-  const {navigation, route} = props;
-  const {numberQuestions, numberCorrect, unitId, topicId, unitName, topic} =
+  const { navigation, route } = props;
+  const { numberQuestions, numberCorrect, unitId, topicId, unitName, topic } =
     route.params;
   const score = Math.round((numberCorrect / numberQuestions) * 100);
 
   var next_quiz_status = '';
   const dispatch = useAppDispatch();
+  const [topicStatus, setTopicStatus] = useState<any[]>([]);
   const quizDataStatus = useAppSelector((state) => state.quizReducer.status);
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
   // @ts-expect-error
-  const {id} = TokenService.readToken(accessToken);
+  const { id } = TokenService.readToken(accessToken);
   var topic_id = topicId;
-  var user_id = id; 
+  var user_id = id;
   //@ts-expect-error
   var quiz_id = topic.quizResults[0].id;
   var status = QuizResultStatus.COMPLETED;
   // @ts-expect-error
   var grade = topic.quizResults[0].grade;
-  
+
   useEffect(() => {
     if (quizDataStatus === 'idle') {
-      dispatch(udpateQuizData({user_id, topic_id, quiz_id, status, grade})) ;
+      dispatch(udpateQuizData({ user_id, topic_id, quiz_id, status, grade }));
       status = QuizResultStatus.PENDING;
       topic_id += 1;
       quiz_id += 1;
-      dispatch(updateQuizStatus({user_id, topic_id, quiz_id, status}))
+      dispatch(updateQuizStatus({ user_id, topic_id, quiz_id, status }))
     }
   }, [dispatch, quizDataStatus]);
 
+  useEffect(() => {
+    axios.get(`http://localhost:8000/api/language/unit/${unitId + 1}/getTopicStatuses`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        var topicData = res.data.topicData;
+        var output: any = [];
+        for (var i = 0; i < topicData.length; i++) {
+          output.push(topicData[i].quizResults[0].status);
+        }
+        setTopicStatus(topicStatus => [...topicStatus, output]);
+      });
+  }, [])
+
+
+  const checkIfCompleted = () => {
+    var isCompleted: boolean = true;
+    for (var i = 0; i < topicStatus.length; i++) {
+      if (topicStatus[i] !== UnitStatus.COMPLETED) {
+        isCompleted = false;
+      }
+    }
+    return isCompleted;
+  }
+
+  const unlockUnit = (unitId: number) => {
+    console.log("unlocking unit: ", unitId)
+    axios.post(`http://localhost:8000/api/language/unit/${unitId}/updateStatus/${UnitStatus.PENDING}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        var data = res.data
+      });
+  }
+
+  const completeUnit = (unitId: number) => {
+    console.log("completing unit: ", unitId)
+    axios.post(`http://localhost:8000/api/language/unit/${unitId}/updateStatus/${UnitStatus.COMPLETED}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
+      .then((res) => {
+        var data = res.data
+      });
+  }
+
+  if (topicStatus.length != 0) {
+    if (checkIfCompleted()) {
+      completeUnit(unitId + 1);
+      unlockUnit(unitId + 2);
+    }
+  }
+
   const handlePress = () => {
-    dispatch(udpateQuizData({user_id, topic_id, quiz_id, status, grade})) ;
-    
+    dispatch(udpateQuizData({ user_id, topic_id, quiz_id, status, grade }));
+
     status = QuizResultStatus.PENDING;
     topic_id += 1;
     quiz_id += 1;
 
-    dispatch(updateQuizStatus({user_id, topic_id, quiz_id, status}))
+    dispatch(updateQuizStatus({ user_id, topic_id, quiz_id, status }))
     navigation.navigate('Topics', {
       unitId: unitId,
       unitName: unitName,

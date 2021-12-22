@@ -36,18 +36,18 @@ const HomePage = (props: Props) => {
     }
   }, [dispatch, languagesStatus]);
 
-  useEffect(() => {
-    axios.post(`http://localhost:8000/api/language/1/initFirstUnit`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-    axios.post(`http://localhost:8000/api/language/2/initFirstUnit`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
-  });
+  // useEffect(() => {
+  //   axios.post(`http://localhost:8000/api/language/1/initFirstUnit`, {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   })
+  //   axios.post(`http://localhost:8000/api/language/2/initFirstUnit`, {
+  //     headers: {
+  //       Authorization: `Bearer ${accessToken}`,
+  //     },
+  //   })
+  // });
 
 
   return (
