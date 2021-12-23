@@ -21,7 +21,7 @@ type Props = StackScreenProps<UnitsStackParamList, 'Quiz'>;
 
 export const QuizPage = (props: Props) => {
   const {navigation, route} = props;
-  const {topic, unitId, topicId, unitName} = route.params;
+  const {topic, unitId, topicId, unitName, language} = route.params;
   const {multipleChoiceQuestions, trueFalseQuestions} = topic;
   const [lives, setLives] = useState(3);
   const [questionNum, setQuestionNum] = useState(0);
@@ -76,6 +76,7 @@ export const QuizPage = (props: Props) => {
     });
   }, [lives, navigation]);
 
+
   if(lives > 0 && questionNum >= selectedQuestions.length){
     navigation.navigate('PassedQuiz', {
         numberQuestions: questionNum,
@@ -83,14 +84,16 @@ export const QuizPage = (props: Props) => {
         unitId: unitId,
         topicId: topicId,
         unitName: unitName,
-        topic: topic
+        topic: topic,
+        language: language,
     })
   }
 
   if(lives <= 0){
     navigation. navigate('FailedQuiz',{
       unitId:unitId, 
-      unitName: unitName
+      unitName: unitName,
+      language: language
     });
   }
 

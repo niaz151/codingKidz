@@ -12,7 +12,7 @@ type Props = StackScreenProps<UnitsStackParamList, 'FailedQuiz'>;
 export const FailedQuiz = (props: Props) => {
 
   const {navigation, route} = props;
-  const {unitId, unitName} = route.params;
+  const {unitId, unitName, language} = route.params;
 
   return(
     <View style={styles.container}>
@@ -24,9 +24,8 @@ export const FailedQuiz = (props: Props) => {
       </View>    
       <View style={styles.bottomContainer}>
           <TouchableOpacity style={styles.backContainer} onPress={() =>
-            navigation.navigate("Topics",{
-              unitId: unitId,
-              unitName: unitName
+            navigation.navigate("Units",{
+              language: language
             })
           }>
             <Text style={styles.bottomText}> BACK TO LESSONS </Text>

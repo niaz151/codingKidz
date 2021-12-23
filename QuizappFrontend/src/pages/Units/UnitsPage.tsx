@@ -9,7 +9,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { UnitsStackParamList } from './UnitsStack';
 import { useAppSelector } from '../../ducks/store';
 import axios from 'axios';
-import { UnitStatus } from '../../utils/Models';
+import { Language, UnitStatus } from '../../utils/Models';
 import { useIsFocused } from '@react-navigation/native';
 
 type Props = StackScreenProps<UnitsStackParamList, 'Units'>;
@@ -105,18 +105,18 @@ export const UnitsPage = (props: Props) => {
     var unit_data_parsed = unitData!
     for (var i = 0; i < unit_data_parsed.length; i++) {
       output.push(
-        <UnitTile unitId={i + 1} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i].status} />
+        <UnitTile unitId={i + 1} key={i} unitName={unit_data_parsed[i].name} status={unit_data_parsed[i].status} language={language} />
       )
     }
     return output;
   }
 
-  const UnitTile = (_props: { unitId: number, unitName: string, status: string }) => {
+  const UnitTile = (_props: { unitId: number, unitName: string, status: string, language: Language }) => {
 
     const { unitId, unitName, status } = _props;
     var styleRef = {};
 
-    if (status === UnitStatus.COMPLETED) {
+    if (status === UnitStatus.COMPLETED) { 
       styleRef = styles.completedStyles
     }
     if (status === UnitStatus.PENDING) {
@@ -130,6 +130,7 @@ export const UnitsPage = (props: Props) => {
       navigation.navigate('Topics', {
         unitId: unitId - 1,
         unitName: unitName,
+        language: language
       })
     }
 

@@ -11,7 +11,7 @@ import { UnitsStackParamList } from '../UnitsStack';
 import MouseFlower from '../../../assets/images/mouse_flower.svg';
 import MouseFlowerLocked from '../../../assets/images/mouse_flower_locked.svg';
 import MouseFlowerCompleted from '../../../assets/images/mouse_flower_completed.svg';
-import { QuizResultStatus, UnitStatus } from '../../../utils/Models';
+import { QuizResultStatus } from '../../../utils/Models';
 import axios from 'axios';
 import { useAppSelector } from '../../../ducks/store';
 
@@ -20,7 +20,7 @@ type Props = StackScreenProps<UnitsStackParamList, 'Topics'>;
 const TopicsPage = (props: Props) => {
   const [topicData, setTopicData] = useState<string | null>();
   const { route, navigation } = props;
-  const { unitId, unitName } = route.params;
+  const { unitId, unitName, language } = route.params;
   const isFocused = useIsFocused()
   var unit_quoted = unitName;
   const accessToken = useAppSelector((state) => state.authReducer.accessToken);
@@ -28,7 +28,6 @@ const TopicsPage = (props: Props) => {
 
 
   useEffect(() => {
-    console.log("i ran")
     if (isFocused) {
       getTopics();
     }
@@ -105,7 +104,8 @@ const TopicsPage = (props: Props) => {
                 topicId: topic.id,
                 unitId: unitId,
                 topic: topic,
-                unitName: unitName
+                unitName: unitName,
+                language: language
               })
             }>
             <MouseFlower style={styles.imgStyle} />
@@ -126,7 +126,8 @@ const TopicsPage = (props: Props) => {
                 topicId: topic.id,
                 unitId: unitId,
                 topic: topic,
-                unitName: unitName
+                unitName: unitName,
+                language: language
               })
             }>
             <MouseFlowerCompleted style={styles.imgStyle} />

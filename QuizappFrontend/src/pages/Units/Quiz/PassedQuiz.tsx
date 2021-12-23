@@ -18,12 +18,13 @@ import { useAppDispatch, useAppSelector } from '../../../ducks/store';
 import { TokenService } from '../../../services';
 import { QuizResultStatus, UnitStatus } from '../../../utils/Models';
 import axios from 'axios';
+import { Alert } from 'react-bootstrap';
 
 type Props = StackScreenProps<UnitsStackParamList, 'PassedQuiz'>;
 
 export const PassedQuiz = (props: Props) => {
   const { navigation, route } = props;
-  const { numberQuestions, numberCorrect, unitId, topicId, unitName, topic } = route.params;
+  const { numberQuestions, numberCorrect, unitId, topicId, unitName, topic, language } = route.params;
 
   const dispatch = useAppDispatch();
   const [topicStatus, setTopicStatus] = useState<any[]>([]);
@@ -42,7 +43,7 @@ export const PassedQuiz = (props: Props) => {
   var topic_id = topicId;
   var user_id = id;
   var status = QuizResultStatus.COMPLETED;
-
+  
   useEffect(() => {
     if (quizDataStatus === 'idle') {
       dispatch(udpateQuizData({ user_id, topic_id, quiz_id, status, grade }));
@@ -54,6 +55,7 @@ export const PassedQuiz = (props: Props) => {
   }, [dispatch, quizDataStatus]);
 
   useEffect(() => {
+    console.log("running second useEffect");
     axios.get(`http://localhost:8000/api/language/unit/${unitId + 1}/getTopicStatuses`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -76,7 +78,6 @@ export const PassedQuiz = (props: Props) => {
       if (topicStatus[0][i] !== UnitStatus.COMPLETED) {
         isCompleted = false;
       }
-      console.log(topicStatus)
     }
     return isCompleted;
   }
@@ -114,12 +115,11 @@ export const PassedQuiz = (props: Props) => {
     quiz_id += 1;
 
     dispatch(updateQuizStatus({ user_id, topic_id, quiz_id, status }))
-    navigation.navigate('Topics', {
-      unitId: unitId,
-      unitName: unitName,
+    navigation.navigate('Units', {
+      language: language,
     });
   };
-
+  
   return (
     <View style={styles.container}>
       <Rocket style={styles.rocket} />
